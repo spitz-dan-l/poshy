@@ -882,10 +882,6 @@
       gap: 0.45rem;
     }
 
-    .inspector-status {
-      justify-content: flex-end;
-    }
-
     .history-output-links {
       margin: 0.55rem 0 0.45rem;
     }
@@ -923,8 +919,15 @@
     .history-controls {
       display: flex;
       flex-wrap: wrap;
-      justify-content: flex-end;
+      justify-content: flex-start;
       gap: 0.55rem;
+    }
+
+    .compact-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.7rem;
     }
 
     .holdings-block {
@@ -1522,7 +1525,8 @@
         right: 0.5rem;
         left: 0.5rem;
         width: auto;
-        bottom: 0.5rem;
+        top: 0.5rem;
+        bottom: auto;
       }
 
       .history-controls {
@@ -4742,24 +4746,14 @@
                 <div class="workbench-side-column">
                   <div class="panel inspector-panel" data-selected-recipe="${escapeHtml(selectedRecipe?.name || "")}">
                     <div class="section-head">
-                      <div>
-                        <h2>Item Details</h2>
-                        <div class="section-meta">One shared inspector for potions and gems across the workbench, holdings, and log.</div>
-                      </div>
-                      <div class="pill-row inspector-status">
-                        <span class="pill good">${escapeHtml(selectedRecipe ? `Inspecting ${selectedRecipe.name}` : "No item selected")}</span>
-                      </div>
+                      <h2>Item Details</h2>
                     </div>
                     <div class="inspector-scroll">${renderInspectorCard(selectedRecipe)}</div>
                   </div>
                   <div class="panel action-log-panel">
                     <div class="section-head">
-                      <div>
+                      <div class="compact-head">
                         <h2>Action Log</h2>
-                        <div class="section-meta">Latest first. Use any output chip to load it into the shared inspector.</div>
-                      </div>
-                      <div class="history-controls">
-                        <div class="subtle">${state.history.length} recorded step${state.history.length === 1 ? "" : "s"}</div>
                         <button class="button-soft" data-action="reset-workbench">Reset Run</button>
                       </div>
                     </div>

@@ -59,7 +59,7 @@ def test_index_smoke() -> None:
         expect(agate_inspector).to_contain_text("golem +")
         expect(agate_inspector).to_contain_text("gain 2MP every turn you don't cast a spell")
         expect(page.locator(".inspector-panel")).to_have_attribute("data-selected-recipe", "Agate")
-        expect(page.locator(".inspector-panel")).to_contain_text("Inspecting Agate")
+        expect(page.locator(".inspector-panel")).not_to_contain_text("Inspecting")
 
         workbench_list = page.locator(".workbench-panel .grid-list")
         scrolled_top = workbench_list.evaluate(
