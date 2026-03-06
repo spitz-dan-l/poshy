@@ -817,6 +817,7 @@
 
     .inspect-button {
       box-shadow: none;
+      white-space: nowrap;
     }
 
     .inspect-button.active {
@@ -844,6 +845,7 @@
     }
 
     .inspector-panel {
+      max-height: min(24rem, 44vh);
       border-color: rgba(54, 80, 60, 0.22);
       background: linear-gradient(180deg, rgba(247, 252, 248, 0.98), rgba(255, 255, 255, 0.9));
       box-shadow: 0 18px 36px rgba(31, 46, 36, 0.08);
@@ -885,9 +887,7 @@
     }
 
     .history-output-links {
-      display: grid;
-      gap: 0.55rem;
-      margin-top: 0.8rem;
+      margin: 0.55rem 0 0.45rem;
     }
 
     .mobile-inspector {
@@ -933,20 +933,69 @@
       min-width: 0;
     }
 
-    .holdings-block .table-wrap {
-      max-height: 38rem;
+    .holdings-panel {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      min-height: 0;
+      max-height: calc(100vh - var(--action-log-sticky-top) - 1rem);
+      position: sticky;
+      top: var(--action-log-sticky-top);
+      overflow: hidden;
+    }
+
+    .holdings-scroll {
+      min-height: 0;
+      overflow: auto;
+      padding-right: 0.2rem;
+    }
+
+    .holdings-table th.count-column,
+    .holdings-table td.count-column,
+    .holdings-table th.inspect-column,
+    .holdings-table td.inspect-column {
+      white-space: nowrap;
+      width: 1%;
+    }
+
+    .workbench-panel {
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr);
+      min-height: 0;
+      max-height: calc(100vh - var(--action-log-sticky-top) - 1rem);
+      position: sticky;
+      top: var(--action-log-sticky-top);
+      overflow: hidden;
     }
 
     .workbench-panel .grid-list {
-      max-height: 64rem;
+      align-content: start;
+      grid-auto-rows: max-content;
+      min-height: 0;
       overflow: auto;
       padding-right: 0.25rem;
     }
 
+    .workbench-side-column {
+      grid-template-rows: minmax(18rem, 24rem) minmax(0, 1fr);
+      min-height: 0;
+      max-height: calc(100vh - var(--action-log-sticky-top) - 1rem);
+    }
+
+    .inspector-panel,
+    .action-log-panel {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      min-height: 0;
+      overflow: hidden;
+    }
+
     .action-log-panel .grid-list {
-      max-height: 22rem;
+      align-content: start;
+      grid-auto-rows: max-content;
+      min-height: 0;
       overflow: auto;
       padding-right: 0.2rem;
+      padding-bottom: 0.85rem;
     }
 
     details.recipe-card {
@@ -1089,15 +1138,24 @@
         display: none;
       }
 
+      .holdings-panel,
+      .workbench-panel,
+      .workbench-side-column,
       .action-log-panel {
         position: static;
+        max-height: none;
       }
 
-      .workbench-side-column {
-        position: static;
+      .holdings-panel,
+      .workbench-panel,
+      .action-log-panel {
+        display: block;
+        overflow: visible;
       }
 
+      .holdings-scroll,
       .inspector-scroll,
+      .workbench-panel .grid-list,
       .action-log-panel .grid-list {
         max-height: none;
         overflow: visible;
@@ -4397,11 +4455,11 @@
 
         return `
           <div class="table-wrap">
-            <table>
+            <table class="holdings-table">
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Count</th>
+                  <th class="count-column">Count</th>
                 </tr>
               </thead>
               <tbody>
@@ -4431,12 +4489,12 @@
 
         return `
           <div class="table-wrap">
-            <table>
+            <table class="holdings-table">
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Count</th>
-                  <th>Inspect</th>
+                  <th class="count-column">Count</th>
+                  <th class="inspect-column">Inspect</th>
                 </tr>
               </thead>
               <tbody>
@@ -4460,6 +4518,21 @@
           .map(([name]) => name);
 
         return `
+          <div class="holdings-scroll">
+          <div class="subsection">
+            <div class="subsection-head">
+              <h3>Potions</h3>
+              <div class="subtle">${potionNames.length} rows</div>
+            </div>
+            ${renderHoldingsOutputTable(potionNames, state.workbench.potions, "No matching potions.", selectedRecipe)}
+          </div>
+          <div class="subsection">
+            <div class="subsection-head">
+              <h3>Gems</h3>
+              <div class="subtle">${gemNames.length} rows</div>
+            </div>
+            ${renderHoldingsOutputTable(gemNames, state.workbench.gems, "No matching gems.", selectedRecipe)}
+          </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Herbs</h3>
@@ -4474,19 +4547,6 @@
             </div>
             ${renderReadonlyTable(groups.gems, state.workbench.ingredients, "No matching gem pieces.")}
           </div>
-          <div class="subsection">
-            <div class="subsection-head">
-              <h3>Potions</h3>
-              <div class="subtle">${potionNames.length} rows</div>
-            </div>
-            ${renderHoldingsOutputTable(potionNames, state.workbench.potions, "No matching potions.", selectedRecipe)}
-          </div>
-          <div class="subsection">
-            <div class="subsection-head">
-              <h3>Gems</h3>
-              <div class="subtle">${gemNames.length} rows</div>
-            </div>
-            ${renderHoldingsOutputTable(gemNames, state.workbench.gems, "No matching gems.", selectedRecipe)}
           </div>
         `;
       }
@@ -4613,18 +4673,13 @@
             if (!recipe) {
               return "";
             }
-            const label = item.count > 1 ? `${recipe.name} x${item.count}` : recipe.name;
+            const label = `Inspect ${recipe.name}${item.count > 1 ? ` x${item.count}` : ""}`;
             return renderInspectButton(recipe.name, selectedRecipe, label, "inspect-chip");
           })
           .filter(Boolean)
           .join("");
         return details
-          ? `
-            <div class="history-output-links">
-              <div class="label">Outputs</div>
-              <div class="chip-stack">${details}</div>
-            </div>
-          `
+          ? `<div class="chip-stack history-output-links">${details}</div>`
           : "";
       }
 
@@ -4644,8 +4699,8 @@
                 <div class="tiny">Step ${state.history.length - index}</div>
                 ${kindPills}
               </div>
-              <div class="tiny">${escapeHtml(effectSummary(entry, "forward") || "No action details saved for this step.")}</div>
               ${renderHistoryOutputDetails(entry, selectedRecipe)}
+              <div class="tiny">${escapeHtml(effectSummary(entry, "forward") || "No action details saved for this step.")}</div>
             </div>
           `;
         });
