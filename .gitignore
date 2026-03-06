@@ -6,3 +6,4 @@ __pycache__/
 *.pyc
 poshy.csv
 poshy_summary.md
+CSV_Potion_pages.csv
