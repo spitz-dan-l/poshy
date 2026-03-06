@@ -1,0 +1,2285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poshy Lab</title>
+  <style>
+    :root {
+      --ink: #1f1a16;
+      --muted: #6f655e;
+      --paper: rgba(255, 248, 232, 0.9);
+      --paper-strong: #fff7ea;
+      --edge: rgba(93, 73, 53, 0.2);
+      --shadow: 0 18px 45px rgba(41, 26, 8, 0.16);
+      --ember: #be5a2c;
+      --ember-deep: #8f3211;
+      --moss: #36503c;
+      --moss-soft: #58725e;
+      --gold: #d8a447;
+      --sky: #e7efe8;
+      --bg-a: #f8e7ca;
+      --bg-b: #d8e4d3;
+      --bg-c: #f7d2bc;
+      --danger: #a13a2f;
+      --sans: "Avenir Next", "Trebuchet MS", "Gill Sans", sans-serif;
+      --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      color-scheme: light;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.75), transparent 32rem),
+        radial-gradient(circle at 80% 12%, rgba(255, 237, 202, 0.85), transparent 28rem),
+        linear-gradient(135deg, var(--bg-a), var(--bg-b) 50%, var(--bg-c));
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.55;
+      background:
+        linear-gradient(90deg, rgba(190, 90, 44, 0.05) 0, rgba(190, 90, 44, 0.05) 1px, transparent 1px, transparent 64px),
+        linear-gradient(rgba(54, 80, 60, 0.04) 0, rgba(54, 80, 60, 0.04) 1px, transparent 1px, transparent 64px);
+      mask: linear-gradient(rgba(0, 0, 0, 0.9), transparent 95%);
+    }
+
+    .app-shell {
+      width: min(1500px, calc(100vw - 2rem));
+      margin: 1rem auto 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero,
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--edge);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero {
+      padding: 1.5rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -10% -30% auto;
+      width: 22rem;
+      height: 22rem;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(216, 164, 71, 0.28), transparent 70%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(54, 80, 60, 0.1);
+      color: var(--moss);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.05;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 5vw, 4.7rem);
+      margin-top: 0.85rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-copy p,
+    .status-note,
+    .panel p,
+    .label,
+    .subtle,
+    td,
+    th,
+    summary,
+    button,
+    input,
+    textarea {
+      font-size: 0.96rem;
+      line-height: 1.45;
+    }
+
+    .hero-copy p,
+    .subtle,
+    .status-note {
+      color: var(--muted);
+    }
+
+    .hero-copy p {
+      max-width: 58rem;
+      margin: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.2rem;
+    }
+
+    .status-stack {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .status-card {
+      padding: 1rem 1.1rem;
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(255, 250, 242, 0.9), rgba(244, 233, 215, 0.92));
+      border: 1px solid rgba(93, 73, 53, 0.14);
+    }
+
+    .status-card strong {
+      display: block;
+      font-size: 0.82rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--moss);
+      margin-bottom: 0.35rem;
+    }
+
+    .status-card span {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.8rem;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 1rem 0 1.2rem;
+    }
+
+    button,
+    .button-link,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button,
+    .button-link {
+      border: 0;
+      border-radius: 14px;
+      padding: 0.85rem 1.1rem;
+      cursor: pointer;
+      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+    }
+
+    button:hover,
+    .button-link:hover {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+      transform: none;
+    }
+
+    .button-primary {
+      background: linear-gradient(145deg, var(--ember), var(--ember-deep));
+      color: #fff8f2;
+      box-shadow: 0 16px 28px rgba(143, 50, 17, 0.22);
+    }
+
+    .button-secondary {
+      background: rgba(54, 80, 60, 0.11);
+      color: var(--moss);
+      border: 1px solid rgba(54, 80, 60, 0.18);
+    }
+
+    .button-soft {
+      background: rgba(255, 255, 255, 0.66);
+      color: var(--ink);
+      border: 1px solid rgba(93, 73, 53, 0.15);
+    }
+
+    .button-danger {
+      background: rgba(161, 58, 47, 0.12);
+      color: var(--danger);
+      border: 1px solid rgba(161, 58, 47, 0.18);
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .tab-button {
+      background: rgba(255, 255, 255, 0.54);
+      color: var(--ink);
+      border: 1px solid transparent;
+      padding-inline: 1rem;
+    }
+
+    .tab-button.active {
+      background: rgba(54, 80, 60, 0.14);
+      color: var(--moss);
+      border-color: rgba(54, 80, 60, 0.16);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .panel {
+      padding: 1.1rem;
+    }
+
+    .stack {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .stat-box {
+      padding: 1rem;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.52);
+      border: 1px solid rgba(93, 73, 53, 0.12);
+    }
+
+    .stat-box strong {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.45rem;
+    }
+
+    .stat-box span {
+      display: block;
+      font-size: 1.7rem;
+      font-family: var(--serif);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.95fr) minmax(0, 1.45fr);
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .triple {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-head h2 {
+      font-family: var(--serif);
+      font-size: 1.7rem;
+    }
+
+    .inline-fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .field {
+      display: grid;
+      gap: 0.35rem;
+      min-width: 0;
+    }
+
+    .field label,
+    .label {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid rgba(93, 73, 53, 0.17);
+      padding: 0.8rem 0.9rem;
+      background: rgba(255, 253, 248, 0.95);
+      color: var(--ink);
+    }
+
+    input[type="checkbox"] {
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: var(--ember);
+    }
+
+    textarea {
+      min-height: 25rem;
+      resize: vertical;
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border-radius: 16px;
+      border: 1px solid rgba(93, 73, 53, 0.13);
+      background: rgba(255, 255, 255, 0.56);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 420px;
+    }
+
+    th,
+    td {
+      padding: 0.8rem 0.9rem;
+      border-bottom: 1px solid rgba(93, 73, 53, 0.1);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: rgba(54, 80, 60, 0.08);
+      color: var(--moss);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .pill-row,
+    .chip-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .pill,
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      border-radius: 999px;
+      padding: 0.38rem 0.68rem;
+      font-size: 0.82rem;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(93, 73, 53, 0.13);
+    }
+
+    .pill.good,
+    .chip.good {
+      background: rgba(54, 80, 60, 0.12);
+      color: var(--moss);
+      border-color: rgba(54, 80, 60, 0.18);
+    }
+
+    .pill.warn,
+    .chip.warn {
+      background: rgba(190, 90, 44, 0.13);
+      color: var(--ember-deep);
+      border-color: rgba(190, 90, 44, 0.18);
+    }
+
+    .pill.bad,
+    .chip.bad {
+      background: rgba(161, 58, 47, 0.12);
+      color: var(--danger);
+      border-color: rgba(161, 58, 47, 0.18);
+    }
+
+    .grid-list {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .potion-card,
+    .history-card,
+    .recipe-card,
+    .note-card {
+      border-radius: 20px;
+      border: 1px solid rgba(93, 73, 53, 0.13);
+      background: rgba(255, 255, 255, 0.62);
+      padding: 1rem;
+    }
+
+    .potion-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .potion-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -4rem -4rem auto;
+      width: 10rem;
+      height: 10rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(216, 164, 71, 0.16), transparent 70%);
+      pointer-events: none;
+    }
+
+    .potion-card h3,
+    .recipe-card summary strong {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+    }
+
+    .potion-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: start;
+      gap: 0.75rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.9rem;
+    }
+
+    .tiny {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .history-card strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      font-size: 0.9rem;
+    }
+
+    .holdings-block {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .holdings-block .table-wrap {
+      max-height: 38rem;
+    }
+
+    details.recipe-card {
+      overflow: hidden;
+    }
+
+    details.recipe-card summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    details.recipe-card summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .recipe-body {
+      margin-top: 1rem;
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr auto;
+      gap: 0.75rem;
+      align-items: end;
+    }
+
+    .recipe-ingredients {
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .recipe-ingredient-row {
+      display: grid;
+      grid-template-columns: 2fr minmax(90px, 120px) auto;
+      gap: 0.6rem;
+      align-items: end;
+    }
+
+    .notice {
+      padding: 0.85rem 1rem;
+      border-radius: 16px;
+      background: rgba(54, 80, 60, 0.09);
+      color: var(--moss);
+      border: 1px solid rgba(54, 80, 60, 0.14);
+    }
+
+    .muted-box {
+      padding: 0.9rem 1rem;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.54);
+      border: 1px dashed rgba(93, 73, 53, 0.18);
+      color: var(--muted);
+    }
+
+    .footer-note {
+      margin-top: 1rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 1120px) {
+      .hero-grid,
+      .split,
+      .triple {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .app-shell {
+        width: min(100vw, calc(100vw - 1rem));
+        margin: 0.5rem auto 1.5rem;
+      }
+
+      .hero,
+      .panel {
+        border-radius: 20px;
+      }
+
+      .hero {
+        padding: 1.1rem;
+      }
+
+      .toolbar,
+      .tabs {
+        gap: 0.55rem;
+      }
+
+      .recipe-grid,
+      .recipe-ingredient-row {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Offline Alchemy Workbench</div>
+          <h1>Poshy Lab</h1>
+          <p>
+            This file is fully self-contained. Open it directly from disk, edit your inventory, shop list, and recipes,
+            then try crafting or buying potions one step at a time without running a server.
+          </p>
+          <div class="hero-actions">
+            <button class="button-primary" data-action="apply-base-to-workbench">Apply Base Inventory To Workbench</button>
+            <button class="button-secondary" data-action="undo-action">Undo Last Action</button>
+            <button class="button-soft" data-action="reset-workbench">Reset Workbench</button>
+            <button class="button-danger" data-action="reset-all-data">Reset All Data To Embedded Defaults</button>
+          </div>
+        </div>
+        <div class="status-stack">
+          <div class="status-card">
+            <strong>Persistence</strong>
+            <span>Auto-saves in your browser</span>
+            <div class="status-note">Your edited data and current workbench are stored with <code>localStorage</code> on this machine.</div>
+          </div>
+          <div class="status-card">
+            <strong>Flow</strong>
+            <span>Edit rules, then test combinations</span>
+            <div class="status-note">Recipe and shop edits affect the workbench immediately. Base inventory edits apply when you reset or re-seed the workbench.</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <button class="button-secondary" data-action="workbench-to-base">Use Current Workbench As Base Inventory</button>
+      <button class="button-soft" data-action="copy-scenario-json">Copy Scenario JSON</button>
+      <button class="button-soft" data-action="download-scenario-json">Download Scenario JSON</button>
+    </div>
+
+    <nav class="tabs" id="tab-buttons"></nav>
+    <main id="tab-panels"></main>
+    <div class="footer-note">Single-file mode: no build step, no dependencies, no server.</div>
+  </div>
+
+  <script id="seed-data" type="application/json">
+{
+  "inventory": {
+    "gold": 339,
+    "potions": {},
+    "ingredients": {
+      "Lune stone": 18,
+      "Green herb": 4,
+      "Faroh weed": 6,
+      "Nappa grass": 12,
+      "Yon nut": 8,
+      "Cactus pulp": 4,
+      "Mana mushroom": 3,
+      "Batta berry": 7,
+      "Kora root": 2,
+      "Zam shell": 9,
+      "Holy water": 0,
+      "Vunderbark": 4,
+      "Ibsidian shard": 5,
+      "Wano honey": 1,
+      "Jhi fruit": 4,
+      "Unicorn horn": 6,
+      "Dragon scale": 1,
+      "Runic bone": 4,
+      "Quetzal feather": 4,
+      "Aurora flower": 0,
+      "Peridot piece": 0,
+      "Agate piece": 0,
+      "Citrine piece": 0,
+      "Garnet piece": 9,
+      "Moonstone piece": 5,
+      "Topaz piece": 0,
+      "Onyx piece": 0,
+      "Sapphire piece": 9,
+      "Ruby piece": 6,
+      "Amethyst piece": 4,
+      "Emerald piece": 0,
+      "Alexandrite piece": 6,
+      "Lapis lazuli piece": 9,
+      "Malachite piece": 3,
+      "Aquamarine piece": 5,
+      "Pearl piece": 2,
+      "Diamond piece": 0,
+      "Tourmaline piece": 4,
+      "Beryl piece": 5,
+      "Opal piece": 4
+    }
+  },
+  "for_sale": {
+    "ingredients": {
+      "Lune stone": 10,
+      "Green herb": 10,
+      "Zam shell": 15,
+      "Holy water": 20,
+      "Ibsidian shard": 20,
+      "Dragon scale": 25,
+      "Agate piece": 20,
+      "Moonstone piece": 20,
+      "Sapphire piece": 20,
+      "Diamond piece": 20
+    }
+  },
+  "recipes": {
+    "recipes": [
+      { "name": "Soothing medicine", "price": 40, "ingredients": { "Faroh weed": 4 } },
+      { "name": "Calming medicine", "price": 40, "ingredients": { "Yon nut": 4 } },
+      { "name": "Cleansing medicine", "price": 40, "ingredients": { "Green herb": 4 } },
+      { "name": "Spiritual medicine", "price": 40, "ingredients": { "Nappa grass": 4 } },
+      { "name": "Luck potion", "price": 40, "ingredients": { "Unicorn horn": 1 } },
+      { "name": "Muscle potion", "price": 40, "ingredients": { "Lune stone": 2, "Yon nut": 2 } },
+      { "name": "Stamina potion", "price": 60, "ingredients": { "Batta berry": 3 } },
+      { "name": "Focus potion", "price": 60, "ingredients": { "Kora root": 3 } },
+      { "name": "Holy potion", "price": 60, "ingredients": { "Holy water": 2 } },
+      { "name": "Warming medicine", "price": 60, "ingredients": { "Ibsidian shard": 2 } },
+      { "name": "Cooling medicine", "price": 60, "ingredients": { "Vunderbark": 2 } },
+      { "name": "Health potion", "price": 60, "ingredients": { "Green herb": 2, "Cactus pulp": 2 } },
+      { "name": "Mana potion", "price": 60, "ingredients": { "Nappa grass": 2, "Mana mushroom": 2 } },
+      { "name": "Elixir of vision", "price": 80, "ingredients": { "Peridot piece": 3, "Faroh weed": 2 } },
+      { "name": "Light grenade", "price": 90, "ingredients": { "Lune stone": 3, "Agate piece": 3 } },
+      { "name": "Ancient medicine", "price": 60, "ingredients": { "Yon nut": 3, "Nappa grass": 3 } },
+      { "name": "Superior medicine", "price": 60, "ingredients": { "Green herb": 3, "Faroh weed": 3 } },
+      { "name": "Sight potion", "price": 70, "ingredients": { "Lune stone": 4, "Holy water": 1 } },
+      { "name": "Truth potion", "price": 80, "ingredients": { "Runic bone": 2 } },
+      { "name": "Rejuvination potion", "price": 90, "ingredients": { "Jhi fruit": 3 } },
+      { "name": "Sheen potion", "price": 90, "ingredients": { "Wano honey": 3 } },
+      { "name": "Vigor potion", "price": 100, "ingredients": { "Cactus pulp": 5 } },
+      { "name": "Magic potion", "price": 100, "ingredients": { "Mana mushroom": 5 } },
+      { "name": "Fish potion", "price": 100, "ingredients": { "Nappa grass": 2, "Zam shell": 2, "Dragon scale": 1 } },
+      { "name": "Monkey potion", "price": 100, "ingredients": { "Green herb": 2, "Batta berry": 2, "Quetzal feather": 1 } },
+      { "name": "Elixir of invisibility", "price": 110, "ingredients": { "Moonstone piece": 3, "Lune stone": 2, "Vunderbark": 1 } },
+      { "name": "Blood potion", "price": 120, "ingredients": { "Cactus pulp": 4, "Kora root": 2 } },
+      { "name": "Soul potion", "price": 120, "ingredients": { "Mana mushroom": 4, "Batta berry": 2 } },
+      { "name": "Smoke grenade", "price": 160, "ingredients": { "Zam shell": 4, "Garnet piece": 3, "Faroh weed": 2 } },
+      { "name": "Neuro toxin", "price": 170, "ingredients": { "Yon nut": 5, "Citrine piece": 3, "Wano honey": 2 } },
+      { "name": "Cursed medicine", "price": 120, "ingredients": { "Kora root": 4, "Dragon scale": 1 } },
+      { "name": "Blessed medicine", "price": 130, "ingredients": { "Holy water": 3, "Runic bone": 1 } },
+      { "name": "Hyper potion", "price": 160, "ingredients": { "Kora root": 4, "Mana mushroom": 2, "Aurora flower": 1 } },
+      { "name": "Reaver potion", "price": 160, "ingredients": { "Batta berry": 4, "Cactus pulp": 2, "Unicorn horn": 1 } },
+      { "name": "Juggernaut potion", "price": 160, "ingredients": { "Lune stone": 3, "Holy water": 3, "Dragon scale": 1 } },
+      { "name": "Sustaining medicine", "price": 140, "ingredients": { "Jhi fruit": 2, "Unicorn horn": 2 } },
+      { "name": "Super potion", "price": 170, "ingredients": { "Batta berry": 4, "Jhi fruit": 3 } },
+      { "name": "Elixir of evolution", "price": 170, "ingredients": { "Green herb": 5, "Nappa grass": 3, "Emerald piece": 3, "Wano honey": 1 } },
+      { "name": "Frost grenade", "price": 210, "ingredients": { "Zam shell": 4, "Sapphire piece": 3, "Vunderbark": 2 } },
+      { "name": "Flammable toxin", "price": 200, "ingredients": { "Faroh weed": 5, "Ruby piece": 3, "Wano honey": 2, "Ibsidian shard": 1 } },
+      { "name": "Wing potion", "price": 120, "ingredients": { "Zam shell": 3, "Yon nut": 2, "Quetzal feather": 1 } },
+      { "name": "Reversal medicine", "price": 140, "ingredients": { "Nappa grass": 5, "Vunderbark": 3 } },
+      { "name": "Deluxe medicine", "price": 130, "ingredients": { "Green herb": 3, "Yon nut": 3, "Kora root": 2, "Jhi fruit": 1 } },
+      { "name": "Elixir of storms", "price": 170, "ingredients": { "Faroh weed": 3, "Lapis lazuli piece": 3, "Zam shell": 2, "Aurora flower": 1 } },
+      { "name": "Clay solution", "price": 210, "ingredients": { "Lune stone": 5, "Topaz piece": 3, "Ibsidian shard": 2, "Runic bone": 1 } },
+      { "name": "Ultra potion", "price": 240, "ingredients": { "Kora root": 5, "Batta berry": 5, "Dragon scale": 2 } },
+      { "name": "Miracle medicine", "price": 200, "ingredients": { "Holy water": 2, "Jhi fruit": 2, "Unicorn horn": 2 } },
+      { "name": "Elixir of time", "price": 280, "ingredients": { "Green herb": 5, "Ibsidian shard": 3, "Malachite piece": 3, "Aurora flower": 2 } },
+      { "name": "Warp grenade", "price": 240, "ingredients": { "Zam shell": 5, "Onyx piece": 3, "Quetzal feather": 1, "Aurora flower": 1 } },
+      { "name": "Dark Toxin", "price": 240, "ingredients": { "Nappa grass": 5, "Wano honey": 3, "Amethyst piece": 3, "Runic bone": 1 } },
+      { "name": "Brew of the Painter", "price": 190, "ingredients": { "Yon nut": 4, "Kora root": 3, "Pearl piece": 3, "Jhi fruit": 1 } },
+      { "name": "Brew of the Smith", "price": 190, "ingredients": { "Lune stone": 4, "Cactus pulp": 3, "Beryl piece": 3, "Ibsidian shard": 1 } },
+      { "name": "Brew of the Dancer", "price": 190, "ingredients": { "Faroh weed": 4, "Batta berry": 3, "Tourmaline piece": 3, "Vunderbark": 1 } },
+      { "name": "Brew of the Scholar", "price": 190, "ingredients": { "Nappa grass": 4, "Mana mushroom": 3, "Opal piece": 3, "Holy water": 1 } },
+      { "name": "Brew of the Master", "price": 190, "ingredients": { "Green herb": 4, "Zam shell": 3, "Diamond piece": 3, "Wano honey": 1 } },
+      { "name": "Elemental solution", "price": 240, "ingredients": { "Mana mushroom": 3, "Alexandrite piece": 3, "Runic bone": 2, "Unicorn horn": 1 } },
+      { "name": "Metal medicine", "price": 230, "ingredients": { "Cactus pulp": 3, "Ibsidian shard": 3, "Dragon scale": 2 } },
+      { "name": "Heart potion", "price": 210, "ingredients": { "Yon nut": 5, "Cactus pulp": 4, "Quetzal feather": 2 } },
+      { "name": "Mind potion", "price": 210, "ingredients": { "Faroh weed": 5, "Mana mushroom": 4, "Quetzal feather": 2 } },
+      { "name": "Elixir of space", "price": 280, "ingredients": { "Lune stone": 5, "Vunderbark": 3, "Aquamarine piece": 3, "Aurora flower": 2 } },
+      { "name": "Peridot", "ingredients": { "Peridot piece": 5 } },
+      { "name": "Agate", "ingredients": { "Agate piece": 5 } },
+      { "name": "Citrine", "ingredients": { "Citrine piece": 5 } },
+      { "name": "Garnet", "ingredients": { "Garnet piece": 5 } },
+      { "name": "Topaz", "ingredients": { "Topaz piece": 5 } },
+      { "name": "Onyx", "ingredients": { "Onyx piece": 5 } },
+      { "name": "Sapphire", "ingredients": { "Sapphire piece": 5 } },
+      { "name": "Ruby", "ingredients": { "Ruby piece": 5 } },
+      { "name": "Emerald", "ingredients": { "Emerald piece": 5 } },
+      { "name": "Alexandrite", "ingredients": { "Alexandrite piece": 5 } },
+      { "name": "Lapis lazuli", "ingredients": { "Lapis lazuli piece": 5 } },
+      { "name": "Malachite", "ingredients": { "Malachite piece": 5 } },
+      { "name": "Pearl", "ingredients": { "Pearl piece": 5 } },
+      { "name": "Diamond", "ingredients": { "Diamond piece": 5 } },
+      { "name": "Tourmaline", "ingredients": { "Tourmaline piece": 5 } },
+      { "name": "Beryl", "ingredients": { "Beryl piece": 5 } }
+    ]
+  }
+}
+  </script>
+
+  <script>
+    (() => {
+      const STORAGE_KEY = "poshy.single-file.lab.v1";
+      const seedData = JSON.parse(document.getElementById("seed-data").textContent);
+
+      const tabs = [
+        { id: "workbench", label: "Workbench" },
+        { id: "inventory", label: "Inventory" },
+        { id: "shop", label: "For Sale" },
+        { id: "recipes", label: "Recipes" },
+        { id: "data", label: "Data Studio" }
+      ];
+
+      const ui = {
+        activeTab: "workbench",
+        potionFilter: "",
+        holdingsFilter: "",
+        inventoryFilter: "",
+        shopFilter: "",
+        recipeFilter: "",
+        showZeroInventory: false,
+        showZeroShop: false,
+        showZeroStartingPotions: false,
+        exportText: ""
+      };
+
+      const state = loadState();
+
+      function deepClone(value) {
+        if (typeof structuredClone === "function") {
+          return structuredClone(value);
+        }
+        return JSON.parse(JSON.stringify(value));
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll("\"", "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      function normalizeCounter(raw, keepZeros = true) {
+        const output = {};
+        for (const [name, count] of Object.entries(raw || {})) {
+          const key = String(name).trim();
+          if (!key) {
+            continue;
+          }
+          const value = Number(count) || 0;
+          if (!keepZeros && value <= 0) {
+            continue;
+          }
+          output[key] = Math.max(0, value);
+        }
+        return output;
+      }
+
+      function normalizeRecipe(raw) {
+        const name = String(raw?.name ?? "").trim() || "Untitled recipe";
+        const hasPrice = raw && Object.prototype.hasOwnProperty.call(raw, "price") && raw.price !== "" && raw.price !== null;
+        const price = hasPrice ? Math.max(0, Number(raw.price) || 0) : null;
+        return {
+          name,
+          ...(price === null ? {} : { price }),
+          ingredients: normalizeCounter(raw?.ingredients || {}, false)
+        };
+      }
+
+      function normalizeScenario(raw) {
+        return {
+          inventory: {
+            gold: Math.max(0, Number(raw?.inventory?.gold) || 0),
+            potions: normalizeCounter(raw?.inventory?.potions || {}),
+            ingredients: normalizeCounter(raw?.inventory?.ingredients || {})
+          },
+          for_sale: {
+            ingredients: normalizeCounter(raw?.for_sale?.ingredients || {})
+          },
+          recipes: {
+            recipes: (raw?.recipes?.recipes || []).map(normalizeRecipe)
+          }
+        };
+      }
+
+      function createWorkbenchFromScenario(scenario) {
+        return {
+          gold: scenario.inventory.gold,
+          potions: normalizeCounter(scenario.inventory.potions || {}),
+          ingredients: normalizeCounter(scenario.inventory.ingredients || {})
+        };
+      }
+
+      function loadState() {
+        const fallbackScenario = normalizeScenario(seedData);
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+          if (!saved) {
+            return {
+              scenario: fallbackScenario,
+              workbench: createWorkbenchFromScenario(fallbackScenario),
+              history: []
+            };
+          }
+          const scenario = normalizeScenario(saved.scenario || fallbackScenario);
+          const workbench = saved.workbench
+            ? {
+                gold: Math.max(0, Number(saved.workbench.gold) || 0),
+                potions: normalizeCounter(saved.workbench.potions || {}),
+                ingredients: normalizeCounter(saved.workbench.ingredients || {})
+              }
+            : createWorkbenchFromScenario(scenario);
+          const history = Array.isArray(saved.history)
+            ? saved.history.map((entry) => ({
+                label: String(entry.label || "Previous state"),
+                snapshot: {
+                  gold: Math.max(0, Number(entry.snapshot?.gold) || 0),
+                  potions: normalizeCounter(entry.snapshot?.potions || {}),
+                  ingredients: normalizeCounter(entry.snapshot?.ingredients || {})
+                }
+              }))
+            : [];
+          return { scenario, workbench, history };
+        } catch (error) {
+          return {
+            scenario: fallbackScenario,
+            workbench: createWorkbenchFromScenario(fallbackScenario),
+            history: []
+          };
+        }
+      }
+
+      function persistState() {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            scenario: state.scenario,
+            workbench: state.workbench,
+            history: state.history
+          })
+        );
+      }
+
+      function sortedEntries(map, options = {}) {
+        const { zeroLast = true } = options;
+        return Object.entries(map).sort((left, right) => {
+          const [nameA, valueA] = left;
+          const [nameB, valueB] = right;
+          if (zeroLast) {
+            const emptyDelta = Number(valueB > 0) - Number(valueA > 0);
+            if (emptyDelta !== 0) {
+              return emptyDelta;
+            }
+          }
+          return nameA.localeCompare(nameB, undefined, { sensitivity: "base" });
+        });
+      }
+
+      function getAllIngredientNames() {
+        const names = new Set();
+        Object.keys(state.scenario.inventory.ingredients || {}).forEach((name) => names.add(name));
+        Object.keys(state.scenario.for_sale.ingredients || {}).forEach((name) => names.add(name));
+        for (const recipe of state.scenario.recipes.recipes) {
+          Object.keys(recipe.ingredients || {}).forEach((name) => names.add(name));
+        }
+        Object.keys(state.workbench.ingredients || {}).forEach((name) => names.add(name));
+        return Array.from(names).sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" }));
+      }
+
+      function getAllPotionNames() {
+        const names = new Set();
+        Object.keys(state.scenario.inventory.potions || {}).forEach((name) => names.add(name));
+        Object.keys(state.workbench.potions || {}).forEach((name) => names.add(name));
+        for (const recipe of state.scenario.recipes.recipes) {
+          names.add(recipe.name);
+        }
+        return Array.from(names).sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" }));
+      }
+
+      function getRecipeByName(name) {
+        return state.scenario.recipes.recipes.find((recipe) => recipe.name === name) || null;
+      }
+
+      function hasRecipeNameConflict(name, skipIndex = -1) {
+        return state.scenario.recipes.recipes.some((recipe, index) => index !== skipIndex && recipe.name === name);
+      }
+
+      function priceForPotion(recipe) {
+        return Object.prototype.hasOwnProperty.call(recipe, "price") ? recipe.price : null;
+      }
+
+      function countNonZero(map) {
+        return Object.values(map || {}).filter((value) => Number(value) > 0).length;
+      }
+
+      function totalCount(map) {
+        return Object.values(map || {}).reduce((sum, value) => sum + (Number(value) || 0), 0);
+      }
+
+      function renameMapKey(map, oldKey, newKey) {
+        const next = { ...map };
+        const oldValue = Number(next[oldKey] || 0);
+        delete next[oldKey];
+        if (!newKey) {
+          return next;
+        }
+        next[newKey] = (Number(next[newKey]) || 0) + oldValue;
+        return next;
+      }
+
+      function renamePotionEverywhere(oldName, newName) {
+        if (oldName === newName) {
+          return;
+        }
+        state.scenario.inventory.potions = renameMapKey(state.scenario.inventory.potions, oldName, newName);
+        state.workbench.potions = renameMapKey(state.workbench.potions, oldName, newName);
+        state.history = state.history.map((entry) => ({
+          label: entry.label.replaceAll(oldName, newName),
+          snapshot: {
+            ...entry.snapshot,
+            potions: renameMapKey(entry.snapshot.potions || {}, oldName, newName)
+          }
+        }));
+      }
+
+      function pushHistory(label) {
+        state.history.push({
+          label,
+          snapshot: deepClone(state.workbench)
+        });
+      }
+
+      function resetWorkbench() {
+        state.workbench = createWorkbenchFromScenario(state.scenario);
+        state.history = [];
+        persistState();
+        renderApp();
+      }
+
+      function copyWorkbenchIntoBase() {
+        state.scenario.inventory.gold = state.workbench.gold;
+        state.scenario.inventory.ingredients = normalizeCounter(state.workbench.ingredients || {});
+        state.scenario.inventory.potions = normalizeCounter(state.workbench.potions || {});
+        persistState();
+        renderApp();
+      }
+
+      function assessCraft(recipe) {
+        const uses = [];
+        const buys = [];
+        const missing = [];
+        let extraCost = 0;
+
+        for (const [ingredient, needed] of sortedEntries(recipe.ingredients || {}, { zeroLast: false })) {
+          const owned = Number(state.workbench.ingredients[ingredient] || 0);
+          const used = Math.min(owned, needed);
+          const shortfall = needed - used;
+          if (used > 0) {
+            uses.push({ ingredient, count: used });
+          }
+          if (shortfall > 0) {
+            const price = state.scenario.for_sale.ingredients[ingredient];
+            if (price === undefined) {
+              missing.push({ ingredient, count: shortfall, reason: "not sold" });
+            } else {
+              extraCost += shortfall * price;
+              buys.push({ ingredient, count: shortfall, price });
+            }
+          }
+        }
+
+        if (missing.length > 0) {
+          return {
+            possible: false,
+            reason: "Missing ingredients not sold this week",
+            uses,
+            buys,
+            missing,
+            extraCost
+          };
+        }
+
+        if (extraCost > state.workbench.gold) {
+          return {
+            possible: false,
+            reason: `Need ${extraCost}g but only have ${state.workbench.gold}g`,
+            uses,
+            buys,
+            missing,
+            extraCost
+          };
+        }
+
+        return {
+          possible: true,
+          uses,
+          buys,
+          missing,
+          extraCost
+        };
+      }
+
+      function assessBuy(recipe) {
+        const price = priceForPotion(recipe);
+        if (price === null) {
+          return { possible: false, reason: "No direct buy price" };
+        }
+        if (price > state.workbench.gold) {
+          return { possible: false, reason: `Need ${price}g but only have ${state.workbench.gold}g`, price };
+        }
+        return { possible: true, price };
+      }
+
+      function craftOnce(recipeName) {
+        const recipe = getRecipeByName(recipeName);
+        if (!recipe) {
+          return;
+        }
+        const craft = assessCraft(recipe);
+        if (!craft.possible) {
+          return;
+        }
+        pushHistory(`Crafted ${recipe.name}`);
+        for (const step of craft.uses) {
+          state.workbench.ingredients[step.ingredient] = Math.max(0, Number(state.workbench.ingredients[step.ingredient] || 0) - step.count);
+        }
+        for (const step of craft.buys) {
+          state.workbench.gold -= step.count * step.price;
+        }
+        state.workbench.potions[recipe.name] = Number(state.workbench.potions[recipe.name] || 0) + 1;
+        persistState();
+        renderApp();
+      }
+
+      function buyOnce(recipeName) {
+        const recipe = getRecipeByName(recipeName);
+        if (!recipe) {
+          return;
+        }
+        const buy = assessBuy(recipe);
+        if (!buy.possible) {
+          return;
+        }
+        pushHistory(`Bought ${recipe.name}`);
+        state.workbench.gold -= buy.price;
+        state.workbench.potions[recipe.name] = Number(state.workbench.potions[recipe.name] || 0) + 1;
+        persistState();
+        renderApp();
+      }
+
+      function renderTabs() {
+        const tabButtons = document.getElementById("tab-buttons");
+        tabButtons.innerHTML = tabs
+          .map(
+            (tab) => `
+              <button
+                class="tab-button ${ui.activeTab === tab.id ? "active" : ""}"
+                data-action="switch-tab"
+                data-tab="${escapeHtml(tab.id)}"
+              >
+                ${escapeHtml(tab.label)}
+              </button>
+            `
+          )
+          .join("");
+      }
+
+      function renderStatsPanel() {
+        const craftableNow = state.scenario.recipes.recipes.filter((recipe) => assessCraft(recipe).possible).length;
+        const buyableNow = state.scenario.recipes.recipes.filter((recipe) => assessBuy(recipe).possible).length;
+        return `
+          <div class="panel stack">
+            <div class="stats-grid">
+              <div class="stat-box">
+                <strong>Workbench Gold</strong>
+                <span>${state.workbench.gold}</span>
+              </div>
+              <div class="stat-box">
+                <strong>Ingredients On Hand</strong>
+                <span>${countNonZero(state.workbench.ingredients)}</span>
+              </div>
+              <div class="stat-box">
+                <strong>Potions Held</strong>
+                <span>${totalCount(state.workbench.potions)}</span>
+              </div>
+              <div class="stat-box">
+                <strong>Craftable Right Now</strong>
+                <span>${craftableNow}</span>
+              </div>
+              <div class="stat-box">
+                <strong>Buyable Right Now</strong>
+                <span>${buyableNow}</span>
+              </div>
+              <div class="stat-box">
+                <strong>Undo Steps</strong>
+                <span>${state.history.length}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function holdingsTable(map, kind) {
+        const filter = ui.holdingsFilter.trim().toLowerCase();
+        const rows = sortedEntries(map)
+          .filter(([name, value]) => value > 0)
+          .filter(([name]) => !filter || name.toLowerCase().includes(filter))
+          .map(
+            ([name, value]) => `
+              <tr>
+                <td>${escapeHtml(name)}</td>
+                <td>${value}</td>
+                <td>${kind === "ingredient" ? "ingredient" : "potion"}</td>
+              </tr>
+            `
+          )
+          .join("");
+
+        return `
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Count</th>
+                  <th>Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows || `<tr><td colspan="3" class="subtle">No matching holdings.</td></tr>`}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      function craftStatusMarkup(recipe, craft, buy) {
+        const directPrice = priceForPotion(recipe);
+        const savings = directPrice !== null && craft.possible ? directPrice - craft.extraCost : null;
+        const badges = [];
+
+        if (craft.possible) {
+          badges.push(
+            `<span class="pill ${craft.extraCost === 0 ? "good" : "warn"}">Craft now for ${craft.extraCost}g</span>`
+          );
+        } else {
+          badges.push(`<span class="pill bad">${escapeHtml(craft.reason)}</span>`);
+        }
+
+        if (buy.possible) {
+          badges.push(`<span class="pill good">Buy now for ${buy.price}g</span>`);
+        } else if (directPrice !== null) {
+          badges.push(`<span class="pill warn">Direct buy ${directPrice}g</span>`);
+        } else {
+          badges.push(`<span class="pill">No direct buy price</span>`);
+        }
+
+        if (savings !== null && savings > 0) {
+          badges.push(`<span class="pill good">Craft saves ${savings}g</span>`);
+        }
+
+        const ingredientChips = sortedEntries(recipe.ingredients || {}, { zeroLast: false })
+          .map(([ingredient, count]) => {
+            const owned = Number(state.workbench.ingredients[ingredient] || 0);
+            const enough = owned >= count;
+            return `<span class="chip ${enough ? "good" : owned > 0 ? "warn" : "bad"}">${escapeHtml(ingredient)} x${count} <small>${owned} owned</small></span>`;
+          })
+          .join("");
+
+        const autoBuyText = craft.buys.length
+          ? `<div class="tiny">Auto-buy missing: ${craft.buys
+              .map((step) => `${escapeHtml(step.ingredient)} x${step.count} (${step.count * step.price}g)`)
+              .join(", ")}</div>`
+          : `<div class="tiny">No ingredient top-up needed.</div>`;
+
+        const blockedText = craft.missing.length
+          ? `<div class="tiny">Blocked by: ${craft.missing
+              .map((step) => `${escapeHtml(step.ingredient)} x${step.count}`)
+              .join(", ")}</div>`
+          : "";
+
+        return `
+          <div class="chip-stack">${ingredientChips}</div>
+          <div class="pill-row" style="margin-top:0.8rem;">${badges.join("")}</div>
+          <div class="tiny" style="margin-top:0.8rem;">Owned copies: ${Number(state.workbench.potions[recipe.name] || 0)}</div>
+          <div class="tiny" style="margin-top:0.35rem;">${craft.possible ? autoBuyText : blockedText || escapeHtml(craft.reason)}</div>
+        `;
+      }
+
+      function renderPotionCards() {
+        const filter = ui.potionFilter.trim().toLowerCase();
+        const cards = state.scenario.recipes.recipes
+          .filter((recipe) => {
+            if (!filter) {
+              return true;
+            }
+            return (
+              recipe.name.toLowerCase().includes(filter) ||
+              Object.keys(recipe.ingredients || {}).some((ingredient) => ingredient.toLowerCase().includes(filter))
+            );
+          })
+          .map((recipe) => {
+            const craft = assessCraft(recipe);
+            const buy = assessBuy(recipe);
+            return { recipe, craft, buy };
+          })
+          .sort((left, right) => {
+            const score = (entry) => [entry.craft.possible ? 0 : 1, entry.buy.possible ? 0 : 1, entry.recipe.name];
+            return score(left).join("|").localeCompare(score(right).join("|"), undefined, { sensitivity: "base" });
+          })
+          .map(
+            ({ recipe, craft, buy }) => `
+              <article class="potion-card">
+                <div class="potion-top">
+                  <div>
+                    <h3>${escapeHtml(recipe.name)}</h3>
+                    <div class="tiny">${priceForPotion(recipe) === null ? "Recipe only" : `Direct buy: ${priceForPotion(recipe)}g`}</div>
+                  </div>
+                  <div class="pill-row">
+                    <span class="pill ${craft.possible ? "good" : "bad"}">${craft.possible ? "Craftable" : "Blocked"}</span>
+                    <span class="pill ${buy.possible ? "good" : "warn"}">${buy.possible ? "Buyable" : "No cash / no price"}</span>
+                  </div>
+                </div>
+                ${craftStatusMarkup(recipe, craft, buy)}
+                <div class="action-row">
+                  <button class="button-primary" data-action="craft-once" data-recipe="${escapeHtml(recipe.name)}" ${craft.possible ? "" : "disabled"}>
+                    Craft Once
+                  </button>
+                  <button class="button-secondary" data-action="buy-once" data-recipe="${escapeHtml(recipe.name)}" ${buy.possible ? "" : "disabled"}>
+                    Buy Once
+                  </button>
+                </div>
+              </article>
+            `
+          )
+          .join("");
+
+        return cards || `<div class="muted-box">No recipes match the current search.</div>`;
+      }
+
+      function renderHistory() {
+        const items = [...state.history].reverse().map(
+          (entry, index) => `
+            <div class="history-card">
+              <strong>${escapeHtml(entry.label)}</strong>
+              <div class="tiny">Step ${state.history.length - index}</div>
+              <div class="tiny">Gold before action: ${entry.snapshot.gold}</div>
+              <div class="tiny">Potions before action: ${totalCount(entry.snapshot.potions)}</div>
+            </div>
+          `
+        );
+        return items.join("") || `<div class="muted-box">No actions yet. Craft or buy a potion to start a trial run.</div>`;
+      }
+
+      function renderWorkbenchTab() {
+        return `
+          <section class="tab-panel ${ui.activeTab === "workbench" ? "active" : ""}" data-tab-panel="workbench">
+            <div class="stack">
+              ${renderStatsPanel()}
+              <div class="split">
+                <div class="panel holdings-block">
+                  <div class="section-head">
+                    <h2>Current Holdings</h2>
+                    <div class="field" style="min-width:220px;">
+                      <label for="holdings-filter">Filter holdings</label>
+                      <input id="holdings-filter" type="text" value="${escapeHtml(ui.holdingsFilter)}" placeholder="Search ingredients or potions" data-action="set-holdings-filter">
+                    </div>
+                  </div>
+                  <div>
+                    <div class="label" style="margin-bottom:0.55rem;">Ingredients</div>
+                    ${holdingsTable(state.workbench.ingredients, "ingredient")}
+                  </div>
+                  <div>
+                    <div class="label" style="margin-bottom:0.55rem;">Potions</div>
+                    ${holdingsTable(state.workbench.potions, "potion")}
+                  </div>
+                </div>
+                <div class="panel">
+                  <div class="section-head">
+                    <h2>Potion Workbench</h2>
+                    <div class="field" style="min-width:220px;">
+                      <label for="potion-filter">Filter recipes</label>
+                      <input id="potion-filter" type="text" value="${escapeHtml(ui.potionFilter)}" placeholder="Search by potion or ingredient" data-action="set-potion-filter">
+                    </div>
+                  </div>
+                  <div class="grid-list">${renderPotionCards()}</div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="section-head">
+                  <h2>Action Log</h2>
+                  <div class="subtle">Undo walks this list backward one step at a time.</div>
+                </div>
+                <div class="grid-list">${renderHistory()}</div>
+              </div>
+            </div>
+          </section>
+        `;
+      }
+
+      function renderInventoryEditorRows(kind, names, sourceMap, filter, showZeros, actionPrefix) {
+        return names
+          .filter((name) => {
+            const value = Number(sourceMap[name] || 0);
+            if (!showZeros && value <= 0) {
+              return false;
+            }
+            if (!filter) {
+              return true;
+            }
+            return name.toLowerCase().includes(filter);
+          })
+          .map(
+            (name) => `
+              <tr>
+                <td>${escapeHtml(name)}</td>
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    value="${Number(sourceMap[name] || 0)}"
+                    data-action="${actionPrefix}"
+                    data-name="${escapeHtml(name)}"
+                  >
+                </td>
+                <td>${kind}</td>
+              </tr>
+            `
+          )
+          .join("");
+      }
+
+      function renderInventoryTab() {
+        const ingredientNames = getAllIngredientNames();
+        const potionNames = getAllPotionNames();
+        const filter = ui.inventoryFilter.trim().toLowerCase();
+        const ingredientRows = renderInventoryEditorRows(
+          "ingredient",
+          ingredientNames,
+          state.scenario.inventory.ingredients,
+          filter,
+          ui.showZeroInventory,
+          "set-base-ingredient"
+        );
+        const potionRows = renderInventoryEditorRows(
+          "potion",
+          potionNames,
+          state.scenario.inventory.potions,
+          filter,
+          ui.showZeroStartingPotions,
+          "set-base-potion"
+        );
+
+        return `
+          <section class="tab-panel ${ui.activeTab === "inventory" ? "active" : ""}" data-tab-panel="inventory">
+            <div class="stack">
+              <div class="panel">
+                <div class="section-head">
+                  <h2>Base Inventory</h2>
+                  <div class="inline-fields">
+                    <div class="field" style="width:120px;">
+                      <label for="base-gold">Starting gold</label>
+                      <input id="base-gold" type="number" min="0" value="${state.scenario.inventory.gold}" data-action="set-base-gold">
+                    </div>
+                    <div class="field" style="min-width:220px;">
+                      <label for="inventory-filter">Filter rows</label>
+                      <input id="inventory-filter" type="text" value="${escapeHtml(ui.inventoryFilter)}" placeholder="Search ingredients or potions" data-action="set-inventory-filter">
+                    </div>
+                    <div class="inline-fields">
+                      <label class="pill">
+                        <input type="checkbox" data-action="toggle-zero-inventory" ${ui.showZeroInventory ? "checked" : ""}>
+                        Show zero-count ingredients
+                      </label>
+                      <label class="pill">
+                        <input type="checkbox" data-action="toggle-zero-starting-potions" ${ui.showZeroStartingPotions ? "checked" : ""}>
+                        Show zero-count starting potions
+                      </label>
+                    </div>
+                    <button class="button-soft" data-action="add-custom-ingredient">Add Custom Ingredient</button>
+                    <button class="button-soft" data-action="add-starting-potion">Add Starting Potion</button>
+                  </div>
+                </div>
+                <div class="notice">Editing this tab changes the base scenario data. Use <strong>Apply Base Inventory To Workbench</strong> when you want the live workbench to restart from it.</div>
+              </div>
+              <div class="triple">
+                <div class="panel">
+                  <div class="section-head">
+                    <h2>Ingredients</h2>
+                    <div class="subtle">${countNonZero(state.scenario.inventory.ingredients)} nonzero rows</div>
+                  </div>
+                  <div class="table-wrap">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Count</th>
+                          <th>Type</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${ingredientRows || `<tr><td colspan="3" class="subtle">No matching ingredients.</td></tr>`}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="panel">
+                  <div class="section-head">
+                    <h2>Starting Potions</h2>
+                    <div class="subtle">${countNonZero(state.scenario.inventory.potions)} nonzero rows</div>
+                  </div>
+                  <div class="table-wrap">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Count</th>
+                          <th>Type</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${potionRows || `<tr><td colspan="3" class="subtle">No matching starting potions.</td></tr>`}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="panel">
+                  <div class="section-head">
+                    <h2>Current Base Snapshot</h2>
+                  </div>
+                  <div class="note-card">
+                    <strong>Gold</strong>
+                    <div class="tiny">${state.scenario.inventory.gold}</div>
+                  </div>
+                  <div class="note-card">
+                    <strong>Base ingredients</strong>
+                    <div class="tiny">${formatMapSummary(state.scenario.inventory.ingredients, 10)}</div>
+                  </div>
+                  <div class="note-card">
+                    <strong>Base potions</strong>
+                    <div class="tiny">${formatMapSummary(state.scenario.inventory.potions, 10)}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        `;
+      }
+
+      function renderShopTab() {
+        const ingredientNames = getAllIngredientNames();
+        const filter = ui.shopFilter.trim().toLowerCase();
+        const rows = ingredientNames
+          .filter((name) => {
+            const price = state.scenario.for_sale.ingredients[name];
+            if (!ui.showZeroShop && price === undefined) {
+              return false;
+            }
+            if (!filter) {
+              return true;
+            }
+            return name.toLowerCase().includes(filter);
+          })
+          .map((name) => {
+            const price = state.scenario.for_sale.ingredients[name];
+            return `
+              <tr>
+                <td>${escapeHtml(name)}</td>
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    value="${price === undefined ? "" : price}"
+                    placeholder="not sold"
+                    data-action="set-shop-price"
+                    data-name="${escapeHtml(name)}"
+                  >
+                </td>
+                <td>${price === undefined ? "No" : "Yes"}</td>
+              </tr>
+            `;
+          })
+          .join("");
+
+        return `
+          <section class="tab-panel ${ui.activeTab === "shop" ? "active" : ""}" data-tab-panel="shop">
+            <div class="stack">
+              <div class="panel">
+                <div class="section-head">
+                  <h2>For Sale This Week</h2>
+                  <div class="inline-fields">
+                    <div class="field" style="min-width:220px;">
+                      <label for="shop-filter">Filter items</label>
+                      <input id="shop-filter" type="text" value="${escapeHtml(ui.shopFilter)}" placeholder="Search ingredients" data-action="set-shop-filter">
+                    </div>
+                    <label class="pill">
+                      <input type="checkbox" data-action="toggle-zero-shop" ${ui.showZeroShop ? "checked" : ""}>
+                      Show items not currently sold
+                    </label>
+                    <button class="button-soft" data-action="add-shop-item">Add Custom Shop Item</button>
+                  </div>
+                </div>
+                <div class="notice">Set a price to make an ingredient buyable. Clear the field to mark it as not sold this week.</div>
+              </div>
+              <div class="panel">
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Ingredient</th>
+                        <th>Price</th>
+                        <th>Sold This Week</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${rows || `<tr><td colspan="3" class="subtle">No matching shop rows.</td></tr>`}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+        `;
+      }
+
+      function renderRecipeTab() {
+        const filter = ui.recipeFilter.trim().toLowerCase();
+        const cards = state.scenario.recipes.recipes
+          .map((recipe, index) => ({ recipe, index }))
+          .filter(({ recipe }) => {
+            if (!filter) {
+              return true;
+            }
+            return (
+              recipe.name.toLowerCase().includes(filter) ||
+              Object.keys(recipe.ingredients || {}).some((ingredient) => ingredient.toLowerCase().includes(filter))
+            );
+          })
+          .map(({ recipe, index }) => {
+            const ingredientRows = sortedEntries(recipe.ingredients || {}, { zeroLast: false })
+              .map(
+                ([ingredient, count]) => `
+                  <div class="recipe-ingredient-row">
+                    <div class="field">
+                      <label>Ingredient</label>
+                      <input
+                        type="text"
+                        list="ingredient-suggestions"
+                        value="${escapeHtml(ingredient)}"
+                        data-action="rename-recipe-ingredient"
+                        data-index="${index}"
+                        data-ingredient="${escapeHtml(ingredient)}"
+                      >
+                    </div>
+                    <div class="field">
+                      <label>Count</label>
+                      <input
+                        type="number"
+                        min="0"
+                        value="${count}"
+                        data-action="set-recipe-ingredient-count"
+                        data-index="${index}"
+                        data-ingredient="${escapeHtml(ingredient)}"
+                      >
+                    </div>
+                    <button class="button-danger" data-action="delete-recipe-ingredient" data-index="${index}" data-ingredient="${escapeHtml(ingredient)}">Remove</button>
+                  </div>
+                `
+              )
+              .join("");
+
+            return `
+              <details class="recipe-card" ${filter ? "open" : ""}>
+                <summary>
+                  <strong>${escapeHtml(recipe.name)}</strong>
+                  <div class="pill-row">
+                    <span class="pill">${priceForPotion(recipe) === null ? "Recipe only" : `Buy ${priceForPotion(recipe)}g`}</span>
+                    <span class="pill">${Object.keys(recipe.ingredients || {}).length} ingredients</span>
+                  </div>
+                </summary>
+                <div class="recipe-body">
+                  <div class="recipe-grid">
+                    <div class="field">
+                      <label>Name</label>
+                      <input type="text" value="${escapeHtml(recipe.name)}" data-action="set-recipe-name" data-index="${index}">
+                    </div>
+                    <div class="field">
+                      <label>Direct buy price</label>
+                      <input type="number" min="0" value="${priceForPotion(recipe) === null ? "" : priceForPotion(recipe)}" placeholder="none" data-action="set-recipe-price" data-index="${index}">
+                    </div>
+                    <button class="button-danger" data-action="delete-recipe" data-index="${index}">Delete Recipe</button>
+                  </div>
+                  <div class="recipe-ingredients">
+                    ${ingredientRows || `<div class="muted-box">This recipe has no ingredients yet.</div>`}
+                  </div>
+                  <div class="inline-fields">
+                    <button class="button-soft" data-action="add-recipe-ingredient" data-index="${index}">Add Ingredient</button>
+                  </div>
+                </div>
+              </details>
+            `;
+          })
+          .join("");
+
+        return `
+          <section class="tab-panel ${ui.activeTab === "recipes" ? "active" : ""}" data-tab-panel="recipes">
+            <div class="stack">
+              <div class="panel">
+                <div class="section-head">
+                  <h2>Recipe Editor</h2>
+                  <div class="inline-fields">
+                    <div class="field" style="min-width:240px;">
+                      <label for="recipe-filter">Filter recipes</label>
+                      <input id="recipe-filter" type="text" value="${escapeHtml(ui.recipeFilter)}" placeholder="Search by potion or ingredient" data-action="set-recipe-filter">
+                    </div>
+                    <button class="button-primary" data-action="add-recipe">Add Recipe</button>
+                  </div>
+                </div>
+                <div class="notice">Recipe edits are live. The workbench recalculates craft and buy options immediately after each change.</div>
+              </div>
+              <div class="grid-list">
+                ${cards || `<div class="muted-box">No recipes match the current filter.</div>`}
+              </div>
+            </div>
+          </section>
+        `;
+      }
+
+      function renderDataTab() {
+        const exportText = ui.exportText || JSON.stringify(state.scenario, null, 2);
+        return `
+          <section class="tab-panel ${ui.activeTab === "data" ? "active" : ""}" data-tab-panel="data">
+            <div class="stack">
+              <div class="panel">
+                <div class="section-head">
+                  <h2>Data Studio</h2>
+                  <div class="inline-fields">
+                    <button class="button-soft" data-action="refresh-export">Refresh Export</button>
+                    <button class="button-secondary" data-action="copy-scenario-json">Copy Scenario JSON</button>
+                    <button class="button-secondary" data-action="download-scenario-json">Download Scenario JSON</button>
+                  </div>
+                </div>
+                <div class="notice">Importing JSON replaces the scenario data and resets the workbench. Browser autosave is separate from the embedded defaults in this HTML file.</div>
+              </div>
+              <div class="panel">
+                <div class="field">
+                  <label for="data-json">Scenario JSON</label>
+                  <textarea id="data-json" data-action="set-export-text">${escapeHtml(exportText)}</textarea>
+                </div>
+                <div class="toolbar" style="margin-top:1rem; margin-bottom:0;">
+                  <button class="button-primary" data-action="import-scenario-json">Import JSON Into Scenario</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        `;
+      }
+
+      function formatMapSummary(map, limit) {
+        const items = sortedEntries(map)
+          .filter(([, value]) => value > 0)
+          .slice(0, limit)
+          .map(([name, value]) => `${name} x${value}`);
+        if (!items.length) {
+          return "none";
+        }
+        const total = countNonZero(map);
+        return items.join(", ") + (total > limit ? `, +${total - limit} more` : "");
+      }
+
+      function renderPanels() {
+        const panels = document.getElementById("tab-panels");
+        panels.innerHTML = `
+          ${renderWorkbenchTab()}
+          ${renderInventoryTab()}
+          ${renderShopTab()}
+          ${renderRecipeTab()}
+          ${renderDataTab()}
+          <datalist id="ingredient-suggestions">
+            ${getAllIngredientNames().map((name) => `<option value="${escapeHtml(name)}"></option>`).join("")}
+          </datalist>
+          <datalist id="potion-suggestions">
+            ${getAllPotionNames().map((name) => `<option value="${escapeHtml(name)}"></option>`).join("")}
+          </datalist>
+        `;
+      }
+
+      function getFocusSnapshot() {
+        const active = document.activeElement;
+        if (!active) {
+          return null;
+        }
+        if (!(active instanceof HTMLInputElement || active instanceof HTMLTextAreaElement)) {
+          return null;
+        }
+        const action = active.dataset.action || "";
+        const id = active.id || "";
+        if (!action && !id) {
+          return null;
+        }
+        return {
+          action,
+          id,
+          recipe: active.dataset.recipe || "",
+          index: active.dataset.index || "",
+          ingredient: active.dataset.ingredient || "",
+          name: active.dataset.name || "",
+          selectionStart: active.selectionStart,
+          selectionEnd: active.selectionEnd
+        };
+      }
+
+      function restoreFocus(snapshot) {
+        if (!snapshot) {
+          return;
+        }
+        let selector = "";
+        if (snapshot.id) {
+          selector = `#${CSS.escape(snapshot.id)}`;
+        } else if (snapshot.action) {
+          selector = `[data-action="${CSS.escape(snapshot.action)}"]`;
+          if (snapshot.recipe) {
+            selector += `[data-recipe="${CSS.escape(snapshot.recipe)}"]`;
+          }
+          if (snapshot.index) {
+            selector += `[data-index="${CSS.escape(snapshot.index)}"]`;
+          }
+          if (snapshot.ingredient) {
+            selector += `[data-ingredient="${CSS.escape(snapshot.ingredient)}"]`;
+          }
+          if (snapshot.name) {
+            selector += `[data-name="${CSS.escape(snapshot.name)}"]`;
+          }
+        }
+
+        if (!selector) {
+          return;
+        }
+
+        const target = document.querySelector(selector);
+        if (!target || !(target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement)) {
+          return;
+        }
+
+        target.focus();
+        if (typeof snapshot.selectionStart === "number" && typeof snapshot.selectionEnd === "number") {
+          target.setSelectionRange(snapshot.selectionStart, snapshot.selectionEnd);
+        }
+      }
+
+      function renderApp() {
+        const focusSnapshot = getFocusSnapshot();
+        renderTabs();
+        renderPanels();
+        restoreFocus(focusSnapshot);
+      }
+
+      function setCounterValue(map, name, value) {
+        const next = { ...map };
+        next[name] = Math.max(0, Number(value) || 0);
+        return next;
+      }
+
+      function handlePromptAdd(message, defaultName = "") {
+        const name = window.prompt(message, defaultName);
+        if (name === null) {
+          return null;
+        }
+        const trimmed = name.trim();
+        if (!trimmed) {
+          return null;
+        }
+        return trimmed;
+      }
+
+      function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text);
+        }
+        const helper = document.createElement("textarea");
+        helper.value = text;
+        helper.style.position = "fixed";
+        helper.style.opacity = "0";
+        document.body.appendChild(helper);
+        helper.select();
+        document.execCommand("copy");
+        helper.remove();
+        return Promise.resolve();
+      }
+
+      function downloadText(filename, text) {
+        const blob = new Blob([text], { type: "application/json;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function onActionClick(action, element) {
+        switch (action) {
+          case "switch-tab":
+            ui.activeTab = element.dataset.tab;
+            renderApp();
+            break;
+          case "apply-base-to-workbench":
+            resetWorkbench();
+            break;
+          case "undo-action":
+            if (state.history.length) {
+              const previous = state.history.pop();
+              state.workbench = deepClone(previous.snapshot);
+              persistState();
+              renderApp();
+            }
+            break;
+          case "reset-workbench":
+            resetWorkbench();
+            break;
+          case "workbench-to-base":
+            copyWorkbenchIntoBase();
+            break;
+          case "reset-all-data":
+            if (window.confirm("Reset scenario data and workbench to the embedded defaults in this HTML file?")) {
+              state.scenario = normalizeScenario(seedData);
+              state.workbench = createWorkbenchFromScenario(state.scenario);
+              state.history = [];
+              ui.exportText = JSON.stringify(state.scenario, null, 2);
+              persistState();
+              renderApp();
+            }
+            break;
+          case "craft-once":
+            craftOnce(element.dataset.recipe);
+            break;
+          case "buy-once":
+            buyOnce(element.dataset.recipe);
+            break;
+          case "add-custom-ingredient": {
+            const name = handlePromptAdd("New ingredient name");
+            if (!name) {
+              return;
+            }
+            if (!(name in state.scenario.inventory.ingredients)) {
+              state.scenario.inventory.ingredients[name] = 0;
+            }
+            persistState();
+            renderApp();
+            break;
+          }
+          case "add-starting-potion": {
+            const name = handlePromptAdd("New starting potion name");
+            if (!name) {
+              return;
+            }
+            if (!(name in state.scenario.inventory.potions)) {
+              state.scenario.inventory.potions[name] = 0;
+            }
+            persistState();
+            renderApp();
+            break;
+          }
+          case "add-shop-item": {
+            const name = handlePromptAdd("Ingredient name to add to the shop");
+            if (!name) {
+              return;
+            }
+            const priceInput = window.prompt("Price for this ingredient", "20");
+            if (priceInput === null) {
+              return;
+            }
+            state.scenario.for_sale.ingredients[name] = Math.max(0, Number(priceInput) || 0);
+            persistState();
+            renderApp();
+            break;
+          }
+          case "add-recipe": {
+            const name = handlePromptAdd("Potion name for the new recipe");
+            if (!name) {
+              return;
+            }
+            if (hasRecipeNameConflict(name)) {
+              window.alert(`A recipe named "${name}" already exists.`);
+              return;
+            }
+            const priceInput = window.prompt("Direct buy price (leave blank for none)", "");
+            const recipe = {
+              name,
+              ingredients: {}
+            };
+            if (priceInput !== null && String(priceInput).trim() !== "") {
+              recipe.price = Math.max(0, Number(priceInput) || 0);
+            }
+            state.scenario.recipes.recipes.push(normalizeRecipe(recipe));
+            persistState();
+            renderApp();
+            break;
+          }
+          case "delete-recipe": {
+            const index = Number(element.dataset.index);
+            const recipe = state.scenario.recipes.recipes[index];
+            if (!recipe) {
+              return;
+            }
+            if (window.confirm(`Delete recipe "${recipe.name}"?`)) {
+              state.scenario.recipes.recipes.splice(index, 1);
+              persistState();
+              renderApp();
+            }
+            break;
+          }
+          case "add-recipe-ingredient": {
+            const index = Number(element.dataset.index);
+            const recipe = state.scenario.recipes.recipes[index];
+            if (!recipe) {
+              return;
+            }
+            const name = handlePromptAdd(`Ingredient name for ${recipe.name}`);
+            if (!name) {
+              return;
+            }
+            const countInput = window.prompt("Ingredient count", "1");
+            if (countInput === null) {
+              return;
+            }
+            recipe.ingredients[name] = Math.max(0, Number(countInput) || 0);
+            persistState();
+            renderApp();
+            break;
+          }
+          case "delete-recipe-ingredient": {
+            const index = Number(element.dataset.index);
+            const ingredient = element.dataset.ingredient;
+            const recipe = state.scenario.recipes.recipes[index];
+            if (!recipe || !(ingredient in recipe.ingredients)) {
+              return;
+            }
+            delete recipe.ingredients[ingredient];
+            persistState();
+            renderApp();
+            break;
+          }
+          case "refresh-export":
+            ui.exportText = JSON.stringify(state.scenario, null, 2);
+            renderApp();
+            break;
+          case "copy-scenario-json":
+            ui.exportText = JSON.stringify(state.scenario, null, 2);
+            copyText(ui.exportText);
+            renderApp();
+            break;
+          case "download-scenario-json":
+            downloadText("poshy-scenario.json", JSON.stringify(state.scenario, null, 2));
+            break;
+          case "import-scenario-json":
+            try {
+              const imported = normalizeScenario(JSON.parse(ui.exportText));
+              state.scenario = imported;
+              state.workbench = createWorkbenchFromScenario(imported);
+              state.history = [];
+              persistState();
+              renderApp();
+            } catch (error) {
+              window.alert(`Import failed: ${error.message}`);
+            }
+            break;
+          default:
+            break;
+        }
+      }
+
+      function onInputChange(action, element) {
+        switch (action) {
+          case "set-potion-filter":
+            ui.potionFilter = element.value;
+            renderApp();
+            break;
+          case "set-holdings-filter":
+            ui.holdingsFilter = element.value;
+            renderApp();
+            break;
+          case "set-inventory-filter":
+            ui.inventoryFilter = element.value;
+            renderApp();
+            break;
+          case "set-shop-filter":
+            ui.shopFilter = element.value;
+            renderApp();
+            break;
+          case "set-recipe-filter":
+            ui.recipeFilter = element.value;
+            renderApp();
+            break;
+          case "toggle-zero-inventory":
+            ui.showZeroInventory = element.checked;
+            renderApp();
+            break;
+          case "toggle-zero-starting-potions":
+            ui.showZeroStartingPotions = element.checked;
+            renderApp();
+            break;
+          case "toggle-zero-shop":
+            ui.showZeroShop = element.checked;
+            renderApp();
+            break;
+          case "set-base-gold":
+            state.scenario.inventory.gold = Math.max(0, Number(element.value) || 0);
+            persistState();
+            renderApp();
+            break;
+          case "set-base-ingredient":
+            state.scenario.inventory.ingredients = setCounterValue(
+              state.scenario.inventory.ingredients,
+              element.dataset.name,
+              element.value
+            );
+            persistState();
+            renderApp();
+            break;
+          case "set-base-potion":
+            state.scenario.inventory.potions = setCounterValue(
+              state.scenario.inventory.potions,
+              element.dataset.name,
+              element.value
+            );
+            persistState();
+            renderApp();
+            break;
+          case "set-shop-price": {
+            const name = element.dataset.name;
+            const value = element.value.trim();
+            if (!value) {
+              delete state.scenario.for_sale.ingredients[name];
+            } else {
+              state.scenario.for_sale.ingredients[name] = Math.max(0, Number(value) || 0);
+            }
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-recipe-name": {
+            const index = Number(element.dataset.index);
+            if (state.scenario.recipes.recipes[index]) {
+              const previousName = state.scenario.recipes.recipes[index].name;
+              const nextName = element.value.trim() || "Untitled recipe";
+              if (hasRecipeNameConflict(nextName, index)) {
+                window.alert(`A recipe named "${nextName}" already exists.`);
+                renderApp();
+                return;
+              }
+              renamePotionEverywhere(previousName, nextName);
+              state.scenario.recipes.recipes[index].name = nextName;
+              persistState();
+              renderApp();
+            }
+            break;
+          }
+          case "set-recipe-price": {
+            const index = Number(element.dataset.index);
+            const recipe = state.scenario.recipes.recipes[index];
+            if (!recipe) {
+              return;
+            }
+            const value = element.value.trim();
+            if (!value) {
+              delete recipe.price;
+            } else {
+              recipe.price = Math.max(0, Number(value) || 0);
+            }
+            persistState();
+            renderApp();
+            break;
+          }
+          case "rename-recipe-ingredient": {
+            const index = Number(element.dataset.index);
+            const ingredient = element.dataset.ingredient;
+            const recipe = state.scenario.recipes.recipes[index];
+            if (!recipe) {
+              return;
+            }
+            const newName = element.value.trim();
+            if (!newName) {
+              return;
+            }
+            recipe.ingredients = renameMapKey(recipe.ingredients, ingredient, newName);
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-recipe-ingredient-count": {
+            const index = Number(element.dataset.index);
+            const ingredient = element.dataset.ingredient;
+            const recipe = state.scenario.recipes.recipes[index];
+            if (!recipe) {
+              return;
+            }
+            recipe.ingredients[ingredient] = Math.max(0, Number(element.value) || 0);
+            if (recipe.ingredients[ingredient] <= 0) {
+              delete recipe.ingredients[ingredient];
+            }
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-export-text":
+            ui.exportText = element.value;
+            break;
+          default:
+            break;
+        }
+      }
+
+      document.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-action]");
+        if (!button) {
+          return;
+        }
+        onActionClick(button.dataset.action, button);
+      });
+
+      document.addEventListener("input", (event) => {
+        const input = event.target.closest("[data-action]");
+        if (!input) {
+          return;
+        }
+        const action = input.dataset.action;
+        if ([
+          "set-potion-filter",
+          "set-holdings-filter",
+          "set-inventory-filter",
+          "set-shop-filter",
+          "set-recipe-filter",
+          "set-export-text"
+        ].includes(action)) {
+          onInputChange(action, input);
+        }
+      });
+
+      document.addEventListener("change", (event) => {
+        const input = event.target.closest("[data-action]");
+        if (!input) {
+          return;
+        }
+        onInputChange(input.dataset.action, input);
+      });
+
+      renderApp();
+    })();
+  </script>
+</body>
+</html>
