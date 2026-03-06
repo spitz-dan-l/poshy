@@ -1,9 +1,14 @@
 .venv/
 .uv-cache/
 .playwright-browsers/
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 tmp_shots/
 __pycache__/
 *.pyc
 poshy.csv
 poshy_summary.md
 CSV_Potion_pages.csv
+Awesome Heroes Items.xlsx

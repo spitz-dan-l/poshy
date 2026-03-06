@@ -1291,7 +1291,11 @@
 {
   "inventory": {
     "gold": 339,
-    "potions": {},
+    "potions": {
+      "Blessed medicine": 1,
+      "Health potion": 1,
+      "Rejuvination potion": 1
+    },
     "gems": {},
     "ingredients": {
       "Lune stone": 18,
@@ -1336,6 +1340,48 @@
       "Opal piece": 4
     }
   },
+  "ingredient_types": {
+    "Agate piece": "gem_piece",
+    "Alexandrite piece": "gem_piece",
+    "Amethyst piece": "gem_piece",
+    "Aquamarine piece": "gem_piece",
+    "Aurora flower": "herb",
+    "Batta berry": "herb",
+    "Beryl piece": "gem_piece",
+    "Cactus pulp": "herb",
+    "Citrine piece": "gem_piece",
+    "Diamond piece": "gem_piece",
+    "Dragon scale": "herb",
+    "Emerald piece": "gem_piece",
+    "Faroh weed": "herb",
+    "Garnet piece": "gem_piece",
+    "Green herb": "herb",
+    "Holy water": "herb",
+    "Ibsidian shard": "herb",
+    "Jhi fruit": "herb",
+    "Kora root": "herb",
+    "Lapis lazuli piece": "gem_piece",
+    "Lune stone": "herb",
+    "Malachite piece": "gem_piece",
+    "Mana mushroom": "herb",
+    "Moonstone piece": "gem_piece",
+    "Nappa grass": "herb",
+    "Onyx piece": "gem_piece",
+    "Opal piece": "gem_piece",
+    "Pearl piece": "gem_piece",
+    "Peridot piece": "gem_piece",
+    "Quetzal feather": "herb",
+    "Ruby piece": "gem_piece",
+    "Runic bone": "herb",
+    "Sapphire piece": "gem_piece",
+    "Topaz piece": "gem_piece",
+    "Tourmaline piece": "gem_piece",
+    "Unicorn horn": "herb",
+    "Vunderbark": "herb",
+    "Wano honey": "herb",
+    "Yon nut": "herb",
+    "Zam shell": "herb"
+  },
   "for_sale": {
     "ingredients": {
       "Lune stone": 10,
@@ -1348,70 +1394,84 @@
       "Moonstone piece": 20,
       "Sapphire piece": 20,
       "Diamond piece": 20
+    },
+    "outputs": {
+      "Warming medicine": true,
+      "Mana potion": true,
+      "Light grenade": true,
+      "Truth potion": true,
+      "Fish potion": true,
+      "Blood potion": true,
+      "Blessed medicine": true,
+      "Hyper potion": true,
+      "Super potion": true,
+      "Deluxe medicine": true,
+      "Dark Toxin": true,
+      "Brew of the Master": true
     }
   },
   "recipes": {
     "recipes": [
-      { "name": "Soothing medicine", "price": 40, "ingredients": { "Faroh weed": 4 } },
-      { "name": "Calming medicine", "price": 40, "ingredients": { "Yon nut": 4 } },
-      { "name": "Cleansing medicine", "price": 40, "ingredients": { "Green herb": 4 } },
-      { "name": "Spiritual medicine", "price": 40, "ingredients": { "Nappa grass": 4 } },
-      { "name": "Luck potion", "price": 40, "ingredients": { "Unicorn horn": 1 } },
-      { "name": "Muscle potion", "price": 40, "ingredients": { "Lune stone": 2, "Yon nut": 2 } },
-      { "name": "Stamina potion", "price": 60, "ingredients": { "Batta berry": 3 } },
-      { "name": "Focus potion", "price": 60, "ingredients": { "Kora root": 3 } },
-      { "name": "Holy potion", "price": 60, "ingredients": { "Holy water": 2 } },
-      { "name": "Warming medicine", "price": 60, "ingredients": { "Ibsidian shard": 2 } },
-      { "name": "Cooling medicine", "price": 60, "ingredients": { "Vunderbark": 2 } },
-      { "name": "Health potion", "price": 60, "ingredients": { "Green herb": 2, "Cactus pulp": 2 } },
-      { "name": "Mana potion", "price": 60, "ingredients": { "Nappa grass": 2, "Mana mushroom": 2 } },
-      { "name": "Elixir of vision", "price": 80, "ingredients": { "Peridot piece": 3, "Faroh weed": 2 } },
-      { "name": "Light grenade", "price": 90, "ingredients": { "Lune stone": 3, "Agate piece": 3 } },
-      { "name": "Ancient medicine", "price": 60, "ingredients": { "Yon nut": 3, "Nappa grass": 3 } },
-      { "name": "Superior medicine", "price": 60, "ingredients": { "Green herb": 3, "Faroh weed": 3 } },
-      { "name": "Sight potion", "price": 70, "ingredients": { "Lune stone": 4, "Holy water": 1 } },
-      { "name": "Truth potion", "price": 80, "ingredients": { "Runic bone": 2 } },
-      { "name": "Rejuvination potion", "price": 90, "ingredients": { "Jhi fruit": 3 } },
-      { "name": "Sheen potion", "price": 90, "ingredients": { "Wano honey": 3 } },
-      { "name": "Vigor potion", "price": 100, "ingredients": { "Cactus pulp": 5 } },
-      { "name": "Magic potion", "price": 100, "ingredients": { "Mana mushroom": 5 } },
-      { "name": "Fish potion", "price": 100, "ingredients": { "Nappa grass": 2, "Zam shell": 2, "Dragon scale": 1 } },
-      { "name": "Monkey potion", "price": 100, "ingredients": { "Green herb": 2, "Batta berry": 2, "Quetzal feather": 1 } },
-      { "name": "Elixir of invisibility", "price": 110, "ingredients": { "Moonstone piece": 3, "Lune stone": 2, "Vunderbark": 1 } },
-      { "name": "Blood potion", "price": 120, "ingredients": { "Cactus pulp": 4, "Kora root": 2 } },
-      { "name": "Soul potion", "price": 120, "ingredients": { "Mana mushroom": 4, "Batta berry": 2 } },
-      { "name": "Smoke grenade", "price": 160, "ingredients": { "Zam shell": 4, "Garnet piece": 3, "Faroh weed": 2 } },
-      { "name": "Neuro toxin", "price": 170, "ingredients": { "Yon nut": 5, "Citrine piece": 3, "Wano honey": 2 } },
-      { "name": "Cursed medicine", "price": 120, "ingredients": { "Kora root": 4, "Dragon scale": 1 } },
-      { "name": "Blessed medicine", "price": 130, "ingredients": { "Holy water": 3, "Runic bone": 1 } },
-      { "name": "Hyper potion", "price": 160, "ingredients": { "Kora root": 4, "Mana mushroom": 2, "Aurora flower": 1 } },
-      { "name": "Reaver potion", "price": 160, "ingredients": { "Batta berry": 4, "Cactus pulp": 2, "Unicorn horn": 1 } },
-      { "name": "Juggernaut potion", "price": 160, "ingredients": { "Lune stone": 3, "Holy water": 3, "Dragon scale": 1 } },
-      { "name": "Sustaining medicine", "price": 140, "ingredients": { "Jhi fruit": 2, "Unicorn horn": 2 } },
-      { "name": "Super potion", "price": 170, "ingredients": { "Batta berry": 4, "Jhi fruit": 3 } },
-      { "name": "Elixir of evolution", "price": 170, "ingredients": { "Green herb": 5, "Nappa grass": 3, "Emerald piece": 3, "Wano honey": 1 } },
-      { "name": "Frost grenade", "price": 210, "ingredients": { "Zam shell": 4, "Sapphire piece": 3, "Vunderbark": 2 } },
-      { "name": "Flammable toxin", "price": 200, "ingredients": { "Faroh weed": 5, "Ruby piece": 3, "Wano honey": 2, "Ibsidian shard": 1 } },
-      { "name": "Wing potion", "price": 120, "ingredients": { "Zam shell": 3, "Yon nut": 2, "Quetzal feather": 1 } },
-      { "name": "Reversal medicine", "price": 140, "ingredients": { "Nappa grass": 5, "Vunderbark": 3 } },
-      { "name": "Deluxe medicine", "price": 130, "ingredients": { "Green herb": 3, "Yon nut": 3, "Kora root": 2, "Jhi fruit": 1 } },
-      { "name": "Elixir of storms", "price": 170, "ingredients": { "Faroh weed": 3, "Lapis lazuli piece": 3, "Zam shell": 2, "Aurora flower": 1 } },
-      { "name": "Clay solution", "price": 210, "ingredients": { "Lune stone": 5, "Topaz piece": 3, "Ibsidian shard": 2, "Runic bone": 1 } },
-      { "name": "Ultra potion", "price": 240, "ingredients": { "Kora root": 5, "Batta berry": 5, "Dragon scale": 2 } },
-      { "name": "Miracle medicine", "price": 200, "ingredients": { "Holy water": 2, "Jhi fruit": 2, "Unicorn horn": 2 } },
-      { "name": "Elixir of time", "price": 280, "ingredients": { "Green herb": 5, "Ibsidian shard": 3, "Malachite piece": 3, "Aurora flower": 2 } },
-      { "name": "Warp grenade", "price": 240, "ingredients": { "Zam shell": 5, "Onyx piece": 3, "Quetzal feather": 1, "Aurora flower": 1 } },
-      { "name": "Dark Toxin", "price": 240, "ingredients": { "Nappa grass": 5, "Wano honey": 3, "Amethyst piece": 3, "Runic bone": 1 } },
-      { "name": "Brew of the Painter", "price": 190, "ingredients": { "Yon nut": 4, "Kora root": 3, "Pearl piece": 3, "Jhi fruit": 1 } },
-      { "name": "Brew of the Smith", "price": 190, "ingredients": { "Lune stone": 4, "Cactus pulp": 3, "Beryl piece": 3, "Ibsidian shard": 1 } },
-      { "name": "Brew of the Dancer", "price": 190, "ingredients": { "Faroh weed": 4, "Batta berry": 3, "Tourmaline piece": 3, "Vunderbark": 1 } },
-      { "name": "Brew of the Scholar", "price": 190, "ingredients": { "Nappa grass": 4, "Mana mushroom": 3, "Opal piece": 3, "Holy water": 1 } },
-      { "name": "Brew of the Master", "price": 190, "ingredients": { "Green herb": 4, "Zam shell": 3, "Diamond piece": 3, "Wano honey": 1 } },
-      { "name": "Elemental solution", "price": 240, "ingredients": { "Mana mushroom": 3, "Alexandrite piece": 3, "Runic bone": 2, "Unicorn horn": 1 } },
-      { "name": "Metal medicine", "price": 230, "ingredients": { "Cactus pulp": 3, "Ibsidian shard": 3, "Dragon scale": 2 } },
-      { "name": "Heart potion", "price": 210, "ingredients": { "Yon nut": 5, "Cactus pulp": 4, "Quetzal feather": 2 } },
-      { "name": "Mind potion", "price": 210, "ingredients": { "Faroh weed": 5, "Mana mushroom": 4, "Quetzal feather": 2 } },
-      { "name": "Elixir of space", "price": 280, "ingredients": { "Lune stone": 5, "Vunderbark": 3, "Aquamarine piece": 3, "Aurora flower": 2 } },
+      { "name": "Soothing medicine", "kind": "potion", "price": 40, "ingredients": { "Faroh weed": 4 } },
+      { "name": "Calming medicine", "kind": "potion", "price": 40, "ingredients": { "Yon nut": 4 } },
+      { "name": "Cleansing medicine", "kind": "potion", "price": 40, "ingredients": { "Green herb": 4 } },
+      { "name": "Spiritual medicine", "kind": "potion", "price": 40, "ingredients": { "Nappa grass": 4 } },
+      { "name": "Luck potion", "kind": "potion", "price": 40, "ingredients": { "Unicorn horn": 1 } },
+      { "name": "Muscle potion", "kind": "potion", "price": 40, "ingredients": { "Lune stone": 2, "Yon nut": 2 } },
+      { "name": "Stamina potion", "kind": "potion", "price": 60, "ingredients": { "Batta berry": 3 } },
+      { "name": "Focus potion", "kind": "potion", "price": 60, "ingredients": { "Kora root": 3 } },
+      { "name": "Holy potion", "kind": "potion", "price": 60, "ingredients": { "Holy water": 2 } },
+      { "name": "Warming medicine", "kind": "potion", "price": 60, "ingredients": { "Ibsidian shard": 2 } },
+      { "name": "Cooling medicine", "kind": "potion", "price": 60, "ingredients": { "Vunderbark": 2 } },
+      { "name": "Health potion", "kind": "potion", "price": 60, "ingredients": { "Green herb": 2, "Cactus pulp": 2 } },
+      { "name": "Mana potion", "kind": "potion", "price": 60, "ingredients": { "Nappa grass": 2, "Mana mushroom": 2 } },
+      { "name": "Elixir of vision", "kind": "potion", "price": 80, "ingredients": { "Peridot piece": 3, "Faroh weed": 2 } },
+      { "name": "Light grenade", "kind": "potion", "price": 90, "ingredients": { "Lune stone": 3, "Agate piece": 3 } },
+      { "name": "Ancient medicine", "kind": "potion", "price": 60, "ingredients": { "Yon nut": 3, "Nappa grass": 3 } },
+      { "name": "Superior medicine", "kind": "potion", "price": 60, "ingredients": { "Green herb": 3, "Faroh weed": 3 } },
+      { "name": "Sight potion", "kind": "potion", "price": 70, "ingredients": { "Lune stone": 4, "Holy water": 1 } },
+      { "name": "Truth potion", "kind": "potion", "price": 80, "ingredients": { "Runic bone": 2 } },
+      { "name": "Rejuvination potion", "kind": "potion", "price": 90, "ingredients": { "Jhi fruit": 3 } },
+      { "name": "Sheen potion", "kind": "potion", "price": 90, "ingredients": { "Wano honey": 3 } },
+      { "name": "Vigor potion", "kind": "potion", "price": 100, "ingredients": { "Cactus pulp": 5 } },
+      { "name": "Magic potion", "kind": "potion", "price": 100, "ingredients": { "Mana mushroom": 5 } },
+      { "name": "Fish potion", "kind": "potion", "price": 100, "ingredients": { "Nappa grass": 2, "Zam shell": 2, "Dragon scale": 1 } },
+      { "name": "Monkey potion", "kind": "potion", "price": 100, "ingredients": { "Green herb": 2, "Batta berry": 2, "Quetzal feather": 1 } },
+      { "name": "Elixir of invisibility", "kind": "potion", "price": 110, "ingredients": { "Moonstone piece": 3, "Lune stone": 2, "Vunderbark": 1 } },
+      { "name": "Blood potion", "kind": "potion", "price": 120, "ingredients": { "Cactus pulp": 4, "Kora root": 2 } },
+      { "name": "Soul potion", "kind": "potion", "price": 120, "ingredients": { "Mana mushroom": 4, "Batta berry": 2 } },
+      { "name": "Smoke grenade", "kind": "potion", "price": 160, "ingredients": { "Zam shell": 4, "Garnet piece": 3, "Faroh weed": 2 } },
+      { "name": "Neuro toxin", "kind": "potion", "price": 170, "ingredients": { "Yon nut": 5, "Citrine piece": 3, "Wano honey": 2 } },
+      { "name": "Cursed medicine", "kind": "potion", "price": 120, "ingredients": { "Kora root": 4, "Dragon scale": 1 } },
+      { "name": "Blessed medicine", "kind": "potion", "price": 130, "ingredients": { "Holy water": 3, "Runic bone": 1 } },
+      { "name": "Hyper potion", "kind": "potion", "price": 160, "ingredients": { "Kora root": 4, "Mana mushroom": 2, "Aurora flower": 1 } },
+      { "name": "Reaver potion", "kind": "potion", "price": 160, "ingredients": { "Batta berry": 4, "Cactus pulp": 2, "Unicorn horn": 1 } },
+      { "name": "Juggernaut potion", "kind": "potion", "price": 160, "ingredients": { "Lune stone": 3, "Holy water": 3, "Dragon scale": 1 } },
+      { "name": "Sustaining medicine", "kind": "potion", "price": 140, "ingredients": { "Jhi fruit": 2, "Unicorn horn": 2 } },
+      { "name": "Super potion", "kind": "potion", "price": 170, "ingredients": { "Batta berry": 4, "Jhi fruit": 3 } },
+      { "name": "Elixir of evolution", "kind": "potion", "price": 170, "ingredients": { "Green herb": 5, "Nappa grass": 3, "Emerald piece": 3, "Wano honey": 1 } },
+      { "name": "Frost grenade", "kind": "potion", "price": 210, "ingredients": { "Zam shell": 4, "Sapphire piece": 3, "Vunderbark": 2 } },
+      { "name": "Flammable toxin", "kind": "potion", "price": 200, "ingredients": { "Faroh weed": 5, "Ruby piece": 3, "Wano honey": 2, "Ibsidian shard": 1 } },
+      { "name": "Wing potion", "kind": "potion", "price": 120, "ingredients": { "Zam shell": 3, "Yon nut": 2, "Quetzal feather": 1 } },
+      { "name": "Reversal medicine", "kind": "potion", "price": 140, "ingredients": { "Nappa grass": 5, "Vunderbark": 3 } },
+      { "name": "Deluxe medicine", "kind": "potion", "price": 130, "ingredients": { "Green herb": 3, "Yon nut": 3, "Kora root": 2, "Jhi fruit": 1 } },
+      { "name": "Elixir of storms", "kind": "potion", "price": 170, "ingredients": { "Faroh weed": 3, "Lapis lazuli piece": 3, "Zam shell": 2, "Aurora flower": 1 } },
+      { "name": "Clay solution", "kind": "potion", "price": 210, "ingredients": { "Lune stone": 5, "Topaz piece": 3, "Ibsidian shard": 2, "Runic bone": 1 } },
+      { "name": "Ultra potion", "kind": "potion", "price": 240, "ingredients": { "Kora root": 5, "Batta berry": 5, "Dragon scale": 2 } },
+      { "name": "Miracle medicine", "kind": "potion", "price": 200, "ingredients": { "Holy water": 2, "Jhi fruit": 2, "Unicorn horn": 2 } },
+      { "name": "Elixir of time", "kind": "potion", "price": 280, "ingredients": { "Green herb": 5, "Ibsidian shard": 3, "Malachite piece": 3, "Aurora flower": 2 } },
+      { "name": "Warp grenade", "kind": "potion", "price": 240, "ingredients": { "Zam shell": 5, "Onyx piece": 3, "Quetzal feather": 1, "Aurora flower": 1 } },
+      { "name": "Dark Toxin", "kind": "potion", "price": 240, "ingredients": { "Nappa grass": 5, "Wano honey": 3, "Amethyst piece": 3, "Runic bone": 1 } },
+      { "name": "Brew of the Painter", "kind": "potion", "price": 190, "ingredients": { "Yon nut": 4, "Kora root": 3, "Pearl piece": 3, "Jhi fruit": 1 } },
+      { "name": "Brew of the Smith", "kind": "potion", "price": 190, "ingredients": { "Lune stone": 4, "Cactus pulp": 3, "Beryl piece": 3, "Ibsidian shard": 1 } },
+      { "name": "Brew of the Dancer", "kind": "potion", "price": 190, "ingredients": { "Faroh weed": 4, "Batta berry": 3, "Tourmaline piece": 3, "Vunderbark": 1 } },
+      { "name": "Brew of the Scholar", "kind": "potion", "price": 190, "ingredients": { "Nappa grass": 4, "Mana mushroom": 3, "Opal piece": 3, "Holy water": 1 } },
+      { "name": "Brew of the Master", "kind": "potion", "price": 190, "ingredients": { "Green herb": 4, "Zam shell": 3, "Diamond piece": 3, "Wano honey": 1 } },
+      { "name": "Elemental solution", "kind": "potion", "price": 240, "ingredients": { "Mana mushroom": 3, "Alexandrite piece": 3, "Runic bone": 2, "Unicorn horn": 1 } },
+      { "name": "Metal medicine", "kind": "potion", "price": 230, "ingredients": { "Cactus pulp": 3, "Ibsidian shard": 3, "Dragon scale": 2 } },
+      { "name": "Heart potion", "kind": "potion", "price": 210, "ingredients": { "Yon nut": 5, "Cactus pulp": 4, "Quetzal feather": 2 } },
+      { "name": "Mind potion", "kind": "potion", "price": 210, "ingredients": { "Faroh weed": 5, "Mana mushroom": 4, "Quetzal feather": 2 } },
+      { "name": "Elixir of space", "kind": "potion", "price": 280, "ingredients": { "Lune stone": 5, "Vunderbark": 3, "Aquamarine piece": 3, "Aurora flower": 2 } },
       { "name": "Peridot", "kind": "gem", "ingredients": { "Peridot piece": 5 } },
       { "name": "Agate", "kind": "gem", "ingredients": { "Agate piece": 5 } },
       { "name": "Citrine", "kind": "gem", "ingredients": { "Citrine piece": 5 } },
@@ -1445,6 +1505,13 @@
         { id: "recipes", label: "Recipes" },
         { id: "data", label: "Data Studio" }
       ];
+
+      const OUTPUT_NAME_ALIASES = {
+        "blessed potion": "Blessed medicine",
+        "rejuvenation potion": "Rejuvination potion",
+        "dark toxin": "Dark Toxin",
+        "brew of the master": "Brew of the Master"
+      };
 
       const ui = {
         activeTab: "workbench",
@@ -1498,29 +1565,108 @@
         return output;
       }
 
+      function normalizeIngredientType(rawType) {
+        if (rawType === "herb" || rawType === "gem_piece") {
+          return rawType;
+        }
+        return null;
+      }
+
+      function collectScenarioIngredientNames(raw) {
+        const names = new Set();
+        const inventoryIngredients = raw?.inventory?.ingredients || {};
+        const saleIngredients = raw?.for_sale?.ingredients || {};
+        const ingredientTypes = raw?.ingredient_types || {};
+
+        Object.keys(ingredientTypes).forEach((name) => names.add(name));
+        Object.keys(inventoryIngredients).forEach((name) => names.add(name));
+        Object.keys(saleIngredients).forEach((name) => names.add(name));
+        for (const recipe of raw?.recipes?.recipes || []) {
+          Object.keys(recipe?.ingredients || {}).forEach((name) => names.add(name));
+        }
+
+        return Array.from(names);
+      }
+
+      function normalizeIngredientTypeMap(rawTypes, ingredientNames) {
+        const source = rawTypes || {};
+        const output = {};
+
+        for (const rawName of ingredientNames || []) {
+          const name = String(rawName ?? "").trim();
+          if (!name) {
+            continue;
+          }
+          const explicitType = Object.prototype.hasOwnProperty.call(source, name)
+            ? normalizeIngredientType(source[name])
+            : null;
+          if (!explicitType) {
+            throw new Error(`Ingredient "${name}" is missing a valid ingredient_types entry.`);
+          }
+          output[name] = explicitType;
+        }
+
+        return output;
+      }
+
+      function canonicalOutputName(rawName, recipes = []) {
+        const name = String(rawName ?? "").trim();
+        if (!name) {
+          return "";
+        }
+        const alias = OUTPUT_NAME_ALIASES[name.toLowerCase()];
+        if (alias) {
+          return alias;
+        }
+        const recipeMatch = (recipes || []).find(
+          (recipe) => recipe.name.toLowerCase() === name.toLowerCase()
+        );
+        return recipeMatch ? recipeMatch.name : name;
+      }
+
+      function normalizeOutputCounter(raw, recipes = [], keepZeros = true) {
+        const output = {};
+        for (const [name, count] of Object.entries(raw || {})) {
+          const key = canonicalOutputName(name, recipes);
+          if (!key) {
+            continue;
+          }
+          const value = Number(count) || 0;
+          if (!keepZeros && value <= 0) {
+            continue;
+          }
+          output[key] = (Number(output[key]) || 0) + Math.max(0, value);
+        }
+        return output;
+      }
+
+      function normalizeOutputSaleMap(raw, recipes = []) {
+        const output = {};
+        for (const [name, sold] of Object.entries(raw || {})) {
+          const key = canonicalOutputName(name, recipes);
+          if (!key || !sold) {
+            continue;
+          }
+          output[key] = true;
+        }
+        return output;
+      }
+
       function normalizeOutputKind(rawKind) {
         return rawKind === "gem" ? "gem" : "potion";
       }
 
-      function isGemRecipeShape(raw) {
-        const ingredients = Object.keys(raw?.ingredients || {});
-        return ingredients.length === 1 && /(?: piece| shard)$/i.test(ingredients[0]);
-      }
-
-      function inferRecipeKind(raw) {
-        if (raw?.kind === "gem" || raw?.kind === "potion") {
-          return raw.kind;
-        }
-        return isGemRecipeShape(raw) ? "gem" : "potion";
-      }
-
       function normalizeRecipe(raw) {
         const name = String(raw?.name ?? "").trim() || "Untitled recipe";
+        const kind = normalizeOutputKind(raw?.kind);
+        if (raw?.kind !== "potion" && raw?.kind !== "gem") {
+          throw new Error(`Recipe "${name}" is missing a valid kind.`);
+        }
         const hasPrice = raw && Object.prototype.hasOwnProperty.call(raw, "price") && raw.price !== "" && raw.price !== null;
         const price = hasPrice ? Math.max(0, Number(raw.price) || 0) : null;
         return {
           name,
-          kind: normalizeOutputKind(inferRecipeKind(raw)),
+          kind,
           ...(price === null ? {} : { price }),
           ingredients: normalizeCounter(raw?.ingredients || {}, false)
         };
@@ -1556,15 +1702,21 @@
 
       function normalizeScenario(raw) {
         const recipes = (raw?.recipes?.recipes || []).map(normalizeRecipe);
+        const ingredientTypes = normalizeIngredientTypeMap(
+          raw?.ingredient_types || {},
+          collectScenarioIngredientNames(raw)
+        );
         return {
+          ingredient_types: ingredientTypes,
           inventory: rebalanceOutputs({
             gold: Math.max(0, Number(raw?.inventory?.gold) || 0),
-            potions: normalizeCounter(raw?.inventory?.potions || {}),
-            gems: normalizeCounter(raw?.inventory?.gems || {}),
+            potions: normalizeOutputCounter(raw?.inventory?.potions || {}, recipes),
+            gems: normalizeOutputCounter(raw?.inventory?.gems || {}, recipes),
             ingredients: normalizeCounter(raw?.inventory?.ingredients || {})
           }, recipes),
           for_sale: {
-            ingredients: normalizeCounter(raw?.for_sale?.ingredients || {})
+            ingredients: normalizeCounter(raw?.for_sale?.ingredients || {}),
+            outputs: normalizeOutputSaleMap(raw?.for_sale?.outputs || {}, recipes)
           },
           recipes: {
             recipes
@@ -1575,8 +1727,8 @@
       function normalizeWorkbench(raw, recipes = []) {
         return rebalanceOutputs({
           gold: Math.max(0, Number(raw?.gold) || 0),
-          potions: normalizeCounter(raw?.potions || {}),
-          gems: normalizeCounter(raw?.gems || {}),
+          potions: normalizeOutputCounter(raw?.potions || {}, recipes),
+          gems: normalizeOutputCounter(raw?.gems || {}, recipes),
           ingredients: normalizeCounter(raw?.ingredients || {})
         }, recipes);
       }
@@ -1584,12 +1736,15 @@
       function normalizeOutputEffectItems(rawItems, recipes = []) {
         const kindByName = new Map((recipes || []).map((recipe) => [recipe.name, recipe.kind]));
         return (rawItems || [])
-          .map((item) => ({
-            name: String(item?.name || "").trim(),
-            count: Math.max(0, Number(item?.count) || 0),
-            cost: Math.max(0, Number(item?.cost) || 0),
-            kind: normalizeOutputKind(item?.kind || kindByName.get(String(item?.name || "").trim()) || "potion")
-          }))
+          .map((item) => {
+            const name = canonicalOutputName(item?.name, recipes);
+            return {
+              name,
+              count: Math.max(0, Number(item?.count) || 0),
+              cost: Math.max(0, Number(item?.cost) || 0),
+              kind: normalizeOutputKind(item?.kind || kindByName.get(name) || "potion")
+            };
+          })
           .filter((item) => item.name && item.count > 0);
       }
 
@@ -1641,7 +1796,16 @@
               redo: []
             };
           }
-          const scenario = normalizeScenario(saved.scenario || fallbackScenario);
+          const rawScenario = saved.scenario || fallbackScenario;
+          const scenario = normalizeScenario({
+            ...rawScenario,
+            for_sale: {
+              ...(rawScenario.for_sale || {}),
+              outputs: rawScenario?.for_sale && Object.prototype.hasOwnProperty.call(rawScenario.for_sale, "outputs")
+                ? rawScenario.for_sale.outputs
+                : fallbackScenario.for_sale.outputs
+            }
+          });
           const recipes = scenario.recipes.recipes;
           const workbench = saved.workbench ? normalizeWorkbench(saved.workbench, recipes) : createWorkbenchFromScenario(scenario);
           const history = Array.isArray(saved.history) ? saved.history.map((entry) => normalizeHistoryEntry(entry, recipes)) : [];
@@ -1686,6 +1850,7 @@
 
       function getAllIngredientNames() {
         const names = new Set();
+        Object.keys(state.scenario.ingredient_types || {}).forEach((name) => names.add(name));
         Object.keys(state.scenario.inventory.ingredients || {}).forEach((name) => names.add(name));
         Object.keys(state.scenario.for_sale.ingredients || {}).forEach((name) => names.add(name));
         for (const recipe of state.scenario.recipes.recipes) {
@@ -1697,6 +1862,7 @@
 
       function getAllOutputNames(kind = null) {
         const names = new Set();
+        const kindByName = new Map((state.scenario.recipes.recipes || []).map((recipe) => [recipe.name, recipe.kind]));
         for (const key of ["potions", "gems"]) {
           const currentKind = key === "gems" ? "gem" : "potion";
           if (kind && currentKind !== kind) {
@@ -1705,6 +1871,12 @@
           Object.keys(state.scenario.inventory[key] || {}).forEach((name) => names.add(name));
           Object.keys(state.workbench[key] || {}).forEach((name) => names.add(name));
         }
+        Object.keys(state.scenario.for_sale.outputs || {}).forEach((name) => {
+          const currentKind = kindByName.get(name);
+          if (!kind || !currentKind || currentKind === kind) {
+            names.add(name);
+          }
+        });
         for (const recipe of state.scenario.recipes.recipes) {
           if (kind && recipe.kind !== kind) {
             continue;
@@ -1736,7 +1908,8 @@
       }
 
       function getRecipeByName(name) {
-        return state.scenario.recipes.recipes.find((recipe) => recipe.name === name) || null;
+        const canonicalName = canonicalOutputName(name, state.scenario.recipes.recipes);
+        return state.scenario.recipes.recipes.find((recipe) => recipe.name === canonicalName) || null;
       }
 
       function hasRecipeNameConflict(name, skipIndex = -1) {
@@ -1745,6 +1918,37 @@
 
       function directPriceForRecipe(recipe) {
         return Object.prototype.hasOwnProperty.call(recipe, "price") ? recipe.price : null;
+      }
+
+      function isOutputSoldOnLevel(name) {
+        const canonicalName = canonicalOutputName(name, state.scenario.recipes.recipes);
+        return Boolean(state.scenario.for_sale.outputs?.[canonicalName]);
+      }
+
+      function buyStatusLabel(buy) {
+        if (buy.possible) {
+          return "Buyable";
+        }
+        if (buy.reason === "Not sold on this level") {
+          return "Not sold here";
+        }
+        if (buy.reason === "No direct buy price") {
+          return "No shop price";
+        }
+        if (buy.price !== undefined) {
+          return "Need more gold";
+        }
+        return "Unavailable";
+      }
+
+      function buyStatusTone(buy) {
+        if (buy.possible) {
+          return "good";
+        }
+        if (buy.reason === "Not sold on this level") {
+          return "warn";
+        }
+        return "bad";
       }
 
       function countNonZero(map) {
@@ -1764,30 +1968,21 @@
         return names.join(", ") + (visible.length > limit ? `, +${visible.length - limit} more` : "");
       }
 
-      function isGemMaterial(name) {
-        if (/\spiece$/i.test(name)) {
-          return true;
-        }
-        if (!/\sshard$/i.test(name)) {
-          return false;
-        }
-        return state.scenario.recipes.recipes.some((recipe) => {
-          const ingredients = Object.entries(recipe.ingredients || {});
-          return ingredients.length === 1 && ingredients[0][0] === name;
-        });
+      function ingredientTypeForName(name) {
+        return normalizeIngredientType(state.scenario.ingredient_types?.[name]);
       }
 
       function splitIngredientNames(names) {
-        const core = [];
+        const herbs = [];
         const gems = [];
         for (const name of names) {
-          if (isGemMaterial(name)) {
+          if (ingredientTypeForName(name) === "gem_piece") {
             gems.push(name);
           } else {
-            core.push(name);
+            herbs.push(name);
           }
         }
-        return { core, gems };
+        return { herbs, gems };
       }
 
       function effectSummary(entry, mode = "forward") {
@@ -1863,12 +2058,61 @@
         return next;
       }
 
+      function renameFlagMapKey(map, oldKey, newKey) {
+        const next = { ...(map || {}) };
+        const oldValue = Boolean(next[oldKey]);
+        delete next[oldKey];
+        if (newKey && oldValue) {
+          next[newKey] = true;
+        }
+        return next;
+      }
+
+      function promptIngredientType(name, fallbackKind = "herb") {
+        const key = String(name ?? "").trim();
+        if (!key) {
+          return null;
+        }
+        const answer = window.prompt(
+          `Type for "${key}" ("herb" or "gem_piece")`,
+          fallbackKind
+        );
+        if (answer === null) {
+          return null;
+        }
+        const normalized = String(answer).trim().toLowerCase();
+        if (normalized !== "herb" && normalized !== "gem_piece") {
+          window.alert('Ingredient type must be "herb" or "gem_piece".');
+          return null;
+        }
+        return normalizeIngredientType(normalized);
+      }
+
+      function ensureIngredientType(name, explicitKind = null) {
+        const key = String(name ?? "").trim();
+        if (!key) {
+          return null;
+        }
+        if (state.scenario.ingredient_types[key]) {
+          return state.scenario.ingredient_types[key];
+        }
+        const kind = explicitKind
+          ? normalizeIngredientType(explicitKind)
+          : promptIngredientType(key, "herb");
+        if (!kind) {
+          return null;
+        }
+        state.scenario.ingredient_types[key] = kind;
+        return kind;
+      }
+
       function renameOutputEverywhere(oldName, newName, kind) {
         if (oldName === newName) {
           return;
         }
         const storeKey = outputStoreKey(kind);
         state.scenario.inventory[storeKey] = renameMapKey(state.scenario.inventory[storeKey], oldName, newName);
+        state.scenario.for_sale.outputs = renameFlagMapKey(state.scenario.for_sale.outputs, oldName, newName);
         state.workbench[storeKey] = renameMapKey(state.workbench[storeKey], oldName, newName);
         const renameEntry = (entry) => ({
           ...entry,
@@ -2054,6 +2298,9 @@
         const price = directPriceForRecipe(recipe);
         if (price === null) {
           return { possible: false, reason: "No direct buy price" };
+        }
+        if (!isOutputSoldOnLevel(recipe.name)) {
+          return { possible: false, reason: "Not sold on this level", price };
         }
         if (price > state.workbench.gold) {
           return { possible: false, reason: `Need ${price}g but only have ${state.workbench.gold}g`, price };
@@ -2371,10 +2618,10 @@
         return `
           <div class="subsection">
             <div class="subsection-head">
-              <h3>Core Ingredients</h3>
-              <div class="subtle">${groups.core.length} rows</div>
+              <h3>Herbs</h3>
+              <div class="subtle">${groups.herbs.length} rows</div>
             </div>
-            ${renderReadonlyTable(groups.core, state.workbench.ingredients, "ingredient", "No matching core ingredients.")}
+            ${renderReadonlyTable(groups.herbs, state.workbench.ingredients, "herb", "No matching herbs.")}
           </div>
           <div class="subsection">
             <div class="subsection-head">
@@ -2415,8 +2662,10 @@
 
         if (buy.possible) {
           badges.push(`<span class="pill good">Buy now for ${buy.price}g</span>`);
-        } else if (directPrice !== null) {
-          badges.push(`<span class="pill warn">Direct buy ${directPrice}g</span>`);
+        } else if (buy.reason === "Not sold on this level") {
+          badges.push(`<span class="pill warn">Not sold on this level</span>`);
+        } else if (buy.price !== undefined) {
+          badges.push(`<span class="pill bad">Need ${buy.price}g</span>`);
         } else {
           badges.push(`<span class="pill">No direct buy price</span>`);
         }
@@ -2494,17 +2743,19 @@
       function renderPotionCards(entries) {
         const cards = entries
           .map(
-            ({ recipe, craft, buy, owned }) => `
-              <article class="potion-card ${recipe.kind === "gem" ? "gem-card" : ""}">
+            ({ recipe, craft, buy, owned }) => {
+              const directPrice = directPriceForRecipe(recipe);
+              return `
+              <article class="potion-card ${recipe.kind === "gem" ? "gem-card" : ""}" data-recipe-card="${escapeHtml(recipe.name)}">
                 <div class="potion-top">
                   <div>
                     <h3>${escapeHtml(recipe.name)}</h3>
-                    <div class="tiny">${directPriceForRecipe(recipe) === null ? "Recipe only" : `Direct buy: ${directPriceForRecipe(recipe)}g`}</div>
+                    <div class="tiny">${directPrice === null ? "Recipe only" : `Shop price: ${directPrice}g`}</div>
                   </div>
                   <div class="pill-row">
                     <span class="pill">${recipe.kind === "gem" ? "Gem" : "Potion"}</span>
                     <span class="pill ${craft.possible ? "good" : "bad"}">${craft.possible ? "Craftable" : "Blocked"}</span>
-                    <span class="pill ${buy.possible ? "good" : "warn"}">${buy.possible ? "Buyable" : "No cash / no price"}</span>
+                    <span class="pill ${buyStatusTone(buy)}">${buyStatusLabel(buy)}</span>
                     <span class="pill">${owned} owned</span>
                   </div>
                 </div>
@@ -2518,7 +2769,8 @@
                   </button>
                 </div>
               </article>
-            `
+            `;
+            }
           )
           .join("");
 
@@ -2633,9 +2885,9 @@
         const gemNames = getAllOutputNames("gem");
         const filter = ui.inventoryFilter.trim().toLowerCase();
         const ingredientGroups = splitIngredientNames(ingredientNames);
-        const ingredientRows = renderInventoryEditorRows(
-          "ingredient",
-          ingredientGroups.core,
+        const herbRows = renderInventoryEditorRows(
+          "herb",
+          ingredientGroups.herbs,
           state.scenario.inventory.ingredients,
           filter,
           ui.showZeroInventory,
@@ -2691,7 +2943,8 @@
                         Show zero-count starting outputs
                       </label>
                     </div>
-                    <button class="button-soft" data-action="add-custom-ingredient">Add Custom Ingredient</button>
+                    <button class="button-soft" data-action="add-herb">Add Herb</button>
+                    <button class="button-soft" data-action="add-gem-piece">Add Gem Piece</button>
                     <button class="button-soft" data-action="add-starting-potion">Add Starting Potion</button>
                     <button class="button-soft" data-action="add-starting-gem">Add Starting Gem</button>
                   </div>
@@ -2707,8 +2960,8 @@
                   <div class="stack">
                     <div class="subsection">
                       <div class="subsection-head">
-                        <h3>Core Ingredients</h3>
-                        <div class="subtle">${ingredientGroups.core.length} names</div>
+                        <h3>Herbs</h3>
+                        <div class="subtle">${ingredientGroups.herbs.length} names</div>
                       </div>
                       <div class="table-wrap">
                         <table>
@@ -2720,7 +2973,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            ${ingredientRows || `<tr><td colspan="3" class="subtle">No matching core ingredients.</td></tr>`}
+                            ${herbRows || `<tr><td colspan="3" class="subtle">No matching herbs.</td></tr>`}
                           </tbody>
                         </table>
                       </div>
@@ -2824,6 +3077,8 @@
 
       function renderShopTab() {
         const ingredientNames = getAllIngredientNames();
+        const potionNames = getAllOutputNames("potion");
+        const gemNames = getAllOutputNames("gem");
         const filter = ui.shopFilter.trim().toLowerCase();
         const ingredientGroups = splitIngredientNames(ingredientNames);
         const renderShopRows = (names, emptyText) => {
@@ -2879,6 +3134,63 @@
           `;
         };
 
+        const renderOutputSaleRows = (names, kind, emptyText) => {
+          const rows = names
+            .map((name) => ({ name, recipe: getRecipeByName(name) }))
+            .filter(({ recipe }) => recipe)
+            .filter(({ name }) => {
+              const sold = isOutputSoldOnLevel(name);
+              if (!ui.showZeroShop && !sold) {
+                return false;
+              }
+              if (!filter) {
+                return true;
+              }
+              return name.toLowerCase().includes(filter);
+            })
+            .map(({ name, recipe }) => {
+              const price = directPriceForRecipe(recipe);
+              const sold = isOutputSoldOnLevel(name);
+              return `
+                <tr>
+                  <td>${escapeHtml(name)}</td>
+                  <td>${price === null ? "No price" : `${price}g`}</td>
+                  <td>${escapeHtml(kind)}</td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      aria-label="Sold on this level for ${escapeHtml(name)}"
+                      data-action="set-output-sale"
+                      data-name="${escapeHtml(name)}"
+                      ${sold ? "checked" : ""}
+                    >
+                  </td>
+                </tr>
+              `;
+            })
+            .join("");
+
+          return `
+            <div class="subsection">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Output</th>
+                      <th>Direct Price</th>
+                      <th>Type</th>
+                      <th>Sold Here</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${rows || `<tr><td colspan="4" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `;
+        };
+
         return `
           <section class="tab-panel ${ui.activeTab === "shop" ? "active" : ""}" data-tab-panel="shop">
             <div class="stack">
@@ -2888,25 +3200,26 @@
                   <div class="inline-fields">
                     <div class="field" style="min-width:220px;">
                       <label for="shop-filter">Filter items</label>
-                      <input id="shop-filter" type="text" value="${escapeHtml(ui.shopFilter)}" placeholder="Search ingredients" data-action="set-shop-filter">
+                      <input id="shop-filter" type="text" value="${escapeHtml(ui.shopFilter)}" placeholder="Search ingredients or outputs" data-action="set-shop-filter">
                     </div>
                     <label class="pill">
                       <input type="checkbox" data-action="toggle-zero-shop" ${ui.showZeroShop ? "checked" : ""}>
                       Show items not currently sold
                     </label>
-                    <button class="button-soft" data-action="add-shop-item">Add Custom Shop Item</button>
+                    <button class="button-soft" data-action="add-ingredient-sale">Add Herb Sale</button>
+                    <button class="button-soft" data-action="add-gem-piece-sale">Add Gem Piece Sale</button>
                   </div>
                 </div>
-                <div class="notice">Set a price to make an ingredient buyable. Clear the field to mark it as not sold this week.</div>
+                <div class="notice">Ingredient sales are priced here. Direct output sales use each recipe’s price, and the checkboxes below control whether that output is actually sold on this level.</div>
               </div>
               <div class="panel">
                 <div class="stack">
                   <div class="subsection">
                     <div class="subsection-head">
-                      <h3>Core Ingredients</h3>
-                      <div class="subtle">${ingredientGroups.core.length} names</div>
+                      <h3>Herbs</h3>
+                      <div class="subtle">${ingredientGroups.herbs.length} names</div>
                     </div>
-                    ${renderShopRows(ingredientGroups.core, "No matching core shop rows.")}
+                    ${renderShopRows(ingredientGroups.herbs, "No matching herb shop rows.")}
                   </div>
                   <div class="subsection">
                     <div class="subsection-head">
@@ -2914,6 +3227,20 @@
                       <div class="subtle">${ingredientGroups.gems.length} names</div>
                     </div>
                     ${renderShopRows(ingredientGroups.gems, "No matching gem-piece shop rows.")}
+                  </div>
+                  <div class="subsection">
+                    <div class="subsection-head">
+                      <h3>Direct Buy Potions</h3>
+                      <div class="subtle">${potionNames.length} names</div>
+                    </div>
+                    ${renderOutputSaleRows(potionNames, "potion", "No matching direct-buy potion rows.")}
+                  </div>
+                  <div class="subsection">
+                    <div class="subsection-head">
+                      <h3>Direct Buy Gems</h3>
+                      <div class="subtle">${gemNames.length} names</div>
+                    </div>
+                    ${renderOutputSaleRows(gemNames, "gem", "No matching direct-buy gem rows.")}
                   </div>
                 </div>
               </div>
@@ -2975,7 +3302,7 @@
                   <strong>${escapeHtml(recipe.name)}</strong>
                   <div class="pill-row">
                     <span class="pill">${recipe.kind === "gem" ? "Gem" : "Potion"}</span>
-                    <span class="pill">${directPriceForRecipe(recipe) === null ? "Recipe only" : `Buy ${directPriceForRecipe(recipe)}g`}</span>
+                    <span class="pill">${directPriceForRecipe(recipe) === null ? "Recipe only" : `Price ${directPriceForRecipe(recipe)}g`}</span>
                     <span class="pill">${Object.keys(recipe.ingredients || {}).length} ingredients</span>
                   </div>
                 </summary>
@@ -3260,11 +3587,25 @@
           case "buy-once":
             buyOnce(element.dataset.recipe);
             break;
-          case "add-custom-ingredient": {
-            const name = handlePromptAdd("New ingredient name");
+          case "add-herb": {
+            const name = handlePromptAdd("New herb name");
             if (!name) {
               return;
             }
+            ensureIngredientType(name, "herb");
+            if (!(name in state.scenario.inventory.ingredients)) {
+              state.scenario.inventory.ingredients[name] = 0;
+            }
+            persistState();
+            renderApp();
+            break;
+          }
+          case "add-gem-piece": {
+            const name = handlePromptAdd("New gem piece name");
+            if (!name) {
+              return;
+            }
+            ensureIngredientType(name, "gem_piece");
             if (!(name in state.scenario.inventory.ingredients)) {
               state.scenario.inventory.ingredients[name] = 0;
             }
@@ -3273,7 +3614,10 @@
             break;
           }
           case "add-starting-potion": {
-            const name = handlePromptAdd("New starting potion name");
+            const name = canonicalOutputName(
+              handlePromptAdd("New starting potion name"),
+              state.scenario.recipes.recipes
+            );
             if (!name) {
               return;
             }
@@ -3285,7 +3629,10 @@
             break;
           }
           case "add-starting-gem": {
-            const name = handlePromptAdd("New starting gem name");
+            const name = canonicalOutputName(
+              handlePromptAdd("New starting gem name"),
+              state.scenario.recipes.recipes
+            );
             if (!name) {
               return;
             }
@@ -3296,8 +3643,8 @@
             renderApp();
             break;
           }
-          case "add-shop-item": {
-            const name = handlePromptAdd("Ingredient name to add to the shop");
+          case "add-ingredient-sale": {
+            const name = handlePromptAdd("Herb name to add to the shop");
             if (!name) {
               return;
             }
@@ -3305,6 +3652,22 @@
             if (priceInput === null) {
               return;
             }
+            ensureIngredientType(name, "herb");
+            state.scenario.for_sale.ingredients[name] = Math.max(0, Number(priceInput) || 0);
+            persistState();
+            renderApp();
+            break;
+          }
+          case "add-gem-piece-sale": {
+            const name = handlePromptAdd("Gem piece name to add to the shop");
+            if (!name) {
+              return;
+            }
+            const priceInput = window.prompt("Price for this gem piece", "20");
+            if (priceInput === null) {
+              return;
+            }
+            ensureIngredientType(name, "gem_piece");
             state.scenario.for_sale.ingredients[name] = Math.max(0, Number(priceInput) || 0);
             persistState();
             renderApp();
@@ -3322,6 +3685,7 @@
             const priceInput = window.prompt("Direct buy price (leave blank for none)", "");
             const recipe = {
               name,
+              kind: "potion",
               ingredients: {}
             };
             if (priceInput !== null && String(priceInput).trim() !== "") {
@@ -3339,6 +3703,7 @@
               return;
             }
             if (window.confirm(`Delete recipe "${recipe.name}"?`)) {
+              delete state.scenario.for_sale.outputs[recipe.name];
               state.scenario.recipes.recipes.splice(index, 1);
               persistState();
               renderApp();
@@ -3359,6 +3724,12 @@
             if (countInput === null) {
               return;
             }
+            const ingredientType = ingredientTypeForName(name) || promptIngredientType(name, "herb");
+            if (!ingredientType) {
+              renderApp();
+              return;
+            }
+            ensureIngredientType(name, ingredientType);
             recipe.ingredients[name] = Math.max(0, Number(countInput) || 0);
             persistState();
             renderApp();
@@ -3444,7 +3815,13 @@
             persistState();
             renderApp();
             break;
-          case "set-base-ingredient":
+          case "set-base-ingredient": {
+            const ingredientType = ingredientTypeForName(element.dataset.name) || promptIngredientType(element.dataset.name, "herb");
+            if (!ingredientType) {
+              renderApp();
+              return;
+            }
+            ensureIngredientType(element.dataset.name, ingredientType);
             state.scenario.inventory.ingredients = setCounterValue(
               state.scenario.inventory.ingredients,
               element.dataset.name,
@@ -3453,6 +3830,7 @@
             persistState();
             renderApp();
             break;
+          }
           case "set-base-potion":
             state.scenario.inventory.potions = setCounterValue(
               state.scenario.inventory.potions,
@@ -3474,10 +3852,30 @@
           case "set-shop-price": {
             const name = element.dataset.name;
             const value = element.value.trim();
+            const ingredientType = ingredientTypeForName(name) || promptIngredientType(name, "herb");
+            if (!ingredientType) {
+              renderApp();
+              return;
+            }
+            ensureIngredientType(name, ingredientType);
             if (!value) {
               delete state.scenario.for_sale.ingredients[name];
             } else {
               state.scenario.for_sale.ingredients[name] = Math.max(0, Number(value) || 0);
+            }
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-output-sale": {
+            const name = canonicalOutputName(element.dataset.name, state.scenario.recipes.recipes);
+            if (!name) {
+              return;
+            }
+            if (element.checked) {
+              state.scenario.for_sale.outputs[name] = true;
+            } else {
+              delete state.scenario.for_sale.outputs[name];
             }
             persistState();
             renderApp();
@@ -3543,7 +3941,14 @@
             if (!newName) {
               return;
             }
+            const previousKind = ingredientTypeForName(ingredient) || "herb";
+            const nextKind = ingredientTypeForName(newName) || promptIngredientType(newName, previousKind);
+            if (!nextKind) {
+              renderApp();
+              return;
+            }
             recipe.ingredients = renameMapKey(recipe.ingredients, ingredient, newName);
+            ensureIngredientType(newName, nextKind);
             persistState();
             renderApp();
             break;
@@ -3555,6 +3960,12 @@
             if (!recipe) {
               return;
             }
+            const ingredientType = ingredientTypeForName(ingredient) || promptIngredientType(ingredient, "herb");
+            if (!ingredientType) {
+              renderApp();
+              return;
+            }
+            ensureIngredientType(ingredient, ingredientType);
             recipe.ingredients[ingredient] = Math.max(0, Number(element.value) || 0);
             if (recipe.ingredients[ingredient] <= 0) {
               delete recipe.ingredients[ingredient];

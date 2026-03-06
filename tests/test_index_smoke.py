@@ -30,6 +30,7 @@ def test_index_smoke() -> None:
         expect(page.get_by_role("heading", name="Action Log")).to_be_visible()
         expect(page.locator(".holdings-panel").get_by_role("heading", name="Potions")).to_be_visible()
         expect(page.locator(".holdings-panel").get_by_role("heading", name="Gems")).to_be_visible()
+        expect(page.locator(".holdings-panel")).to_contain_text("Health potion")
         assert stat_value(page, "Gems") == "0"
 
         agate_card = page.locator(".workbench-panel .potion-card").filter(
@@ -37,6 +38,28 @@ def test_index_smoke() -> None:
         ).first
         expect(agate_card).to_be_visible()
         expect(agate_card.locator(".pill").first).to_contain_text("Gem")
+
+        warming_card = page.locator('[data-recipe-card="Warming medicine"]')
+        expect(warming_card).to_be_visible()
+        expect(warming_card.locator(".pill").first).to_contain_text("Potion")
+
+        core_holdings = page.locator(".holdings-panel .subsection").filter(
+            has=page.get_by_role("heading", name="Herbs")
+        ).first
+        gem_piece_holdings = page.locator(".holdings-panel .subsection").filter(
+            has=page.get_by_role("heading", name="Gem Pieces")
+        ).first
+        expect(core_holdings).to_contain_text("Ibsidian shard")
+        expect(gem_piece_holdings).not_to_contain_text("Ibsidian shard")
+
+        ancient_card = page.locator('[data-recipe-card="Ancient medicine"]')
+        expect(ancient_card).to_be_visible()
+        expect(ancient_card).to_contain_text("Not sold here")
+        expect(ancient_card.locator('button[data-action="buy-once"]')).to_be_disabled()
+
+        mana_card = page.locator('[data-recipe-card="Mana potion"]')
+        expect(mana_card).to_be_visible()
+        expect(mana_card.locator('button[data-action="buy-once"]')).to_be_enabled()
 
         initial_gold = stat_value(page, "Gold")
 
@@ -73,6 +96,13 @@ def test_index_smoke() -> None:
         expect(page.locator('[data-role="toast"]')).to_contain_text("Bought")
         expect(page.locator(".history-card strong").first).to_contain_text("Bought")
         assert stat_value(page, "Steps") == "2"
+
+        page.locator('button[data-action="switch-tab"][data-tab="shop"]').click()
+        expect(page.get_by_role("heading", name="Direct Buy Potions")).to_be_visible()
+        expect(page.locator('input[data-action="set-output-sale"][data-name="Mana potion"]')).to_be_checked()
+        expect(page.locator('input[data-action="set-output-sale"][data-name="Ancient medicine"]')).to_have_count(0)
+        page.locator('input[data-action="toggle-zero-shop"]').check()
+        expect(page.locator('input[data-action="set-output-sale"][data-name="Ancient medicine"]')).not_to_be_checked()
 
         page.locator('button[data-action="switch-tab"][data-tab="inventory"]').click()
         base_gold_input = page.locator("#base-gold")
