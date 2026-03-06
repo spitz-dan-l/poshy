@@ -2568,7 +2568,7 @@
         `;
       }
 
-      function renderReadonlyTable(names, map, kind, emptyText) {
+      function renderReadonlyTable(names, map, emptyText) {
         const filter = ui.holdingsFilter.trim().toLowerCase();
         const rows = names
           .map((name) => [name, Number(map[name] || 0)])
@@ -2579,7 +2579,6 @@
               <tr>
                 <td>${escapeHtml(name)}</td>
                 <td>${value}</td>
-                <td>${escapeHtml(kind)}</td>
               </tr>
             `
           )
@@ -2592,11 +2591,10 @@
                 <tr>
                   <th>Name</th>
                   <th>Count</th>
-                  <th>Type</th>
                 </tr>
               </thead>
               <tbody>
-                ${rows || `<tr><td colspan="3" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+                ${rows || `<tr><td colspan="2" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
               </tbody>
             </table>
           </div>
@@ -2621,28 +2619,28 @@
               <h3>Herbs</h3>
               <div class="subtle">${groups.herbs.length} rows</div>
             </div>
-            ${renderReadonlyTable(groups.herbs, state.workbench.ingredients, "herb", "No matching herbs.")}
+            ${renderReadonlyTable(groups.herbs, state.workbench.ingredients, "No matching herbs.")}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Gem Pieces</h3>
               <div class="subtle">${groups.gems.length} rows</div>
             </div>
-            ${renderReadonlyTable(groups.gems, state.workbench.ingredients, "gem piece", "No matching gem pieces.")}
+            ${renderReadonlyTable(groups.gems, state.workbench.ingredients, "No matching gem pieces.")}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Potions</h3>
               <div class="subtle">${potionNames.length} rows</div>
             </div>
-            ${renderReadonlyTable(potionNames, state.workbench.potions, "potion", "No matching potions.")}
+            ${renderReadonlyTable(potionNames, state.workbench.potions, "No matching potions.")}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Gems</h3>
               <div class="subtle">${gemNames.length} rows</div>
             </div>
-            ${renderReadonlyTable(gemNames, state.workbench.gems, "gem", "No matching gems.")}
+            ${renderReadonlyTable(gemNames, state.workbench.gems, "No matching gems.")}
           </div>
         `;
       }
@@ -2847,7 +2845,7 @@
         `;
       }
 
-      function renderInventoryEditorRows(kind, names, sourceMap, filter, showZeros, actionPrefix) {
+      function renderInventoryEditorRows(names, sourceMap, filter, showZeros, actionPrefix) {
         return names
           .filter((name) => {
             const value = Number(sourceMap[name] || 0);
@@ -2872,7 +2870,6 @@
                     data-name="${escapeHtml(name)}"
                   >
                 </td>
-                <td>${kind}</td>
               </tr>
             `
           )
@@ -2886,7 +2883,6 @@
         const filter = ui.inventoryFilter.trim().toLowerCase();
         const ingredientGroups = splitIngredientNames(ingredientNames);
         const herbRows = renderInventoryEditorRows(
-          "herb",
           ingredientGroups.herbs,
           state.scenario.inventory.ingredients,
           filter,
@@ -2894,7 +2890,6 @@
           "set-base-ingredient"
         );
         const gemRows = renderInventoryEditorRows(
-          "gem piece",
           ingredientGroups.gems,
           state.scenario.inventory.ingredients,
           filter,
@@ -2902,7 +2897,6 @@
           "set-base-ingredient"
         );
         const potionRows = renderInventoryEditorRows(
-          "potion",
           potionNames,
           state.scenario.inventory.potions,
           filter,
@@ -2910,7 +2904,6 @@
           "set-base-potion"
         );
         const gemOutputRows = renderInventoryEditorRows(
-          "gem",
           gemNames,
           state.scenario.inventory.gems,
           filter,
@@ -2969,11 +2962,10 @@
                             <tr>
                               <th>Name</th>
                               <th>Count</th>
-                              <th>Type</th>
                             </tr>
                           </thead>
                           <tbody>
-                            ${herbRows || `<tr><td colspan="3" class="subtle">No matching herbs.</td></tr>`}
+                            ${herbRows || `<tr><td colspan="2" class="subtle">No matching herbs.</td></tr>`}
                           </tbody>
                         </table>
                       </div>
@@ -2989,11 +2981,10 @@
                             <tr>
                               <th>Name</th>
                               <th>Count</th>
-                              <th>Type</th>
                             </tr>
                           </thead>
                           <tbody>
-                            ${gemRows || `<tr><td colspan="3" class="subtle">No matching gem pieces.</td></tr>`}
+                            ${gemRows || `<tr><td colspan="2" class="subtle">No matching gem pieces.</td></tr>`}
                           </tbody>
                         </table>
                       </div>
@@ -3017,11 +3008,10 @@
                             <tr>
                               <th>Name</th>
                               <th>Count</th>
-                              <th>Type</th>
                             </tr>
                           </thead>
                           <tbody>
-                            ${potionRows || `<tr><td colspan="3" class="subtle">No matching starting potions.</td></tr>`}
+                            ${potionRows || `<tr><td colspan="2" class="subtle">No matching starting potions.</td></tr>`}
                           </tbody>
                         </table>
                       </div>
@@ -3037,11 +3027,10 @@
                             <tr>
                               <th>Name</th>
                               <th>Count</th>
-                              <th>Type</th>
                             </tr>
                           </thead>
                           <tbody>
-                            ${gemOutputRows || `<tr><td colspan="3" class="subtle">No matching starting gems.</td></tr>`}
+                            ${gemOutputRows || `<tr><td colspan="2" class="subtle">No matching starting gems.</td></tr>`}
                           </tbody>
                         </table>
                       </div>
@@ -3134,7 +3123,7 @@
           `;
         };
 
-        const renderOutputSaleRows = (names, kind, emptyText) => {
+        const renderOutputSaleRows = (names, emptyText) => {
           const rows = names
             .map((name) => ({ name, recipe: getRecipeByName(name) }))
             .filter(({ recipe }) => recipe)
@@ -3155,7 +3144,6 @@
                 <tr>
                   <td>${escapeHtml(name)}</td>
                   <td>${price === null ? "No price" : `${price}g`}</td>
-                  <td>${escapeHtml(kind)}</td>
                   <td>
                     <input
                       type="checkbox"
@@ -3178,12 +3166,11 @@
                     <tr>
                       <th>Output</th>
                       <th>Direct Price</th>
-                      <th>Type</th>
                       <th>Sold Here</th>
                     </tr>
                   </thead>
                   <tbody>
-                    ${rows || `<tr><td colspan="4" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+                    ${rows || `<tr><td colspan="3" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
                   </tbody>
                 </table>
               </div>
@@ -3233,14 +3220,14 @@
                       <h3>Direct Buy Potions</h3>
                       <div class="subtle">${potionNames.length} names</div>
                     </div>
-                    ${renderOutputSaleRows(potionNames, "potion", "No matching direct-buy potion rows.")}
+                    ${renderOutputSaleRows(potionNames, "No matching direct-buy potion rows.")}
                   </div>
                   <div class="subsection">
                     <div class="subsection-head">
                       <h3>Direct Buy Gems</h3>
                       <div class="subtle">${gemNames.length} names</div>
                     </div>
-                    ${renderOutputSaleRows(gemNames, "gem", "No matching direct-buy gem rows.")}
+                    ${renderOutputSaleRows(gemNames, "No matching direct-buy gem rows.")}
                   </div>
                 </div>
               </div>
