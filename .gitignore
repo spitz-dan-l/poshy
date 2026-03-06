@@ -1,4 +1,6 @@
 .venv/
+.uv-cache/
+.playwright-browsers/
 __pycache__/
 *.pyc
 poshy.csv

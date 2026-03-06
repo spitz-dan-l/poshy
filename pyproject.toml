@@ -1,0 +1,18 @@
+[project]
+name = "poshy"
+version = "0.1.0"
+description = "Offline potion lab and analysis tools"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "playwright>=1.53,<2",
+  "pytest>=8.4,<9",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.uv]
+package = false
