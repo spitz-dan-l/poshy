@@ -22,6 +22,8 @@
       --bg-b: #d8e4d3;
       --bg-c: #f7d2bc;
       --danger: #a13a2f;
+      --run-bar-sticky-top: 0.75rem;
+      --action-log-sticky-top: 8.5rem;
       --sans: "Avenir Next", "Trebuchet MS", "Gill Sans", sans-serif;
       --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
       --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
@@ -263,7 +265,7 @@
 
     .run-bar {
       position: sticky;
-      top: 0.75rem;
+      top: var(--run-bar-sticky-top);
       z-index: 6;
     }
 
@@ -795,7 +797,7 @@
 
     .action-log-panel {
       position: sticky;
-      top: 6.75rem;
+      top: var(--action-log-sticky-top);
     }
 
     details.recipe-card {
@@ -936,6 +938,10 @@
     }
 
     @media (max-width: 720px) {
+      :root {
+        --run-bar-sticky-top: 0.4rem;
+      }
+
       .app-shell {
         width: min(100vw, calc(100vw - 1rem));
         margin: 0.5rem auto 1.5rem;
@@ -971,10 +977,6 @@
         margin-top: 0.75rem;
         padding: 0.7rem;
         border-radius: 18px;
-      }
-
-      .run-bar {
-        top: 0.4rem;
       }
 
       .toolbar,
