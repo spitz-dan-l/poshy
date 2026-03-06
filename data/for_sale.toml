@@ -1,0 +1,14 @@
+# Current ingredient shop inventory from the GM paste in paste.txt.
+# Potion buy prices still live in recipes.toml.
+
+[ingredients]
+"Lune stone" = 10
+"Green herb" = 10
+"Zam shell" = 15
+"Holy water" = 20
+"Ibsidian shard" = 20
+"Dragon scale" = 25
+"Agate piece" = 20
+"Moonstone piece" = 20
+"Sapphire piece" = 20
+"Diamond piece" = 20
