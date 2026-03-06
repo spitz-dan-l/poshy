@@ -208,16 +208,15 @@ def test_index_smoke() -> None:
         mobile_log_button = mobile.locator(
             'button[data-action="set-workbench-mobile-section"][data-section="log"]'
         )
-        mobile_details_button = mobile.locator(
-            'button[data-action="set-workbench-mobile-section"][data-section="details"]'
-        )
         expect(mobile_holdings_button).to_be_visible()
         expect(mobile_log_button).to_be_visible()
-        expect(mobile_details_button).to_be_visible()
+        expect(
+            mobile.locator('button[data-action="set-workbench-mobile-section"][data-section="details"]')
+        ).to_have_count(0)
         expect(mobile.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
         expect(mobile.get_by_role("heading", name="Current Holdings")).not_to_be_visible()
         expect(mobile.get_by_role("heading", name="Action Log")).not_to_be_visible()
-        expect(mobile.get_by_role("heading", name="Item Details")).not_to_be_visible()
+        expect(mobile.locator('[data-role="mobile-inspector"]')).to_have_count(0)
 
         mobile_holdings_button.click()
         expect(mobile.get_by_role("heading", name="Current Holdings")).to_be_visible()
@@ -229,11 +228,15 @@ def test_index_smoke() -> None:
 
         mobile_workbench_button.click()
         mobile.locator('[data-recipe-card="Warming medicine"]').get_by_role("button", name="Inspect").click()
-        expect(mobile.get_by_role("heading", name="Item Details")).to_be_visible()
-        expect(mobile.get_by_role("heading", name="Alchemy Workbench")).not_to_be_visible()
-        expect(mobile.locator('[data-inspector-recipe="Warming medicine"]')).to_contain_text(
+        mobile_sheet = mobile.locator('[data-role="mobile-inspector"]')
+        expect(mobile_sheet).to_be_visible()
+        expect(mobile.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
+        expect(mobile_sheet).to_contain_text("Warming medicine")
+        expect(mobile_sheet.locator('[data-inspector-recipe="Warming medicine"]')).to_contain_text(
             "Resets Temp to 0 from a negative number"
         )
+        mobile_sheet.get_by_role("button", name="Close", exact=True).click()
+        expect(mobile.locator('[data-role="mobile-inspector"]')).to_have_count(0)
 
         hero_toggle.click()
         expect(hero_toggle).to_have_text("Hide Intro")
