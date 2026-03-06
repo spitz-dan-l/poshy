@@ -90,5 +90,43 @@ def test_index_smoke() -> None:
         recipe_names = page.locator("details.recipe-card summary strong").all_inner_texts()
         assert recipe_names == sorted(recipe_names, key=str.casefold)
 
+        mobile_context = browser.new_context(
+            viewport={"width": 430, "height": 932},
+            is_mobile=True,
+            device_scale_factor=2,
+        )
+        mobile = mobile_context.new_page()
+        mobile.goto(index_url, wait_until="domcontentloaded")
+
+        hero_toggle = mobile.locator("#hero-mobile-toggle")
+        expect(hero_toggle).to_be_visible()
+        expect(hero_toggle).to_have_text("Show Intro")
+        expect(mobile.locator(".status-stack")).not_to_be_visible()
+
+        mobile_holdings_button = mobile.locator(
+            'button[data-action="set-workbench-mobile-section"][data-section="holdings"]'
+        )
+        mobile_log_button = mobile.locator(
+            'button[data-action="set-workbench-mobile-section"][data-section="log"]'
+        )
+        expect(mobile_holdings_button).to_be_visible()
+        expect(mobile_log_button).to_be_visible()
+        expect(mobile.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
+        expect(mobile.get_by_role("heading", name="Current Holdings")).not_to_be_visible()
+        expect(mobile.get_by_role("heading", name="Action Log")).not_to_be_visible()
+
+        mobile_holdings_button.click()
+        expect(mobile.get_by_role("heading", name="Current Holdings")).to_be_visible()
+        expect(mobile.get_by_role("heading", name="Alchemy Workbench")).not_to_be_visible()
+
+        mobile_log_button.click()
+        expect(mobile.get_by_role("heading", name="Action Log")).to_be_visible()
+        expect(mobile.get_by_role("heading", name="Current Holdings")).not_to_be_visible()
+
+        hero_toggle.click()
+        expect(hero_toggle).to_have_text("Hide Intro")
+        expect(mobile.locator(".status-stack")).to_be_visible()
+
+        mobile_context.close()
         context.close()
         browser.close()

@@ -154,9 +154,18 @@
       gap: 0.85rem;
     }
 
+    .hero-detail-copy {
+      display: contents;
+    }
+
     .status-stack {
       display: grid;
       gap: 0.9rem;
+    }
+
+    .hero-mobile-toggle {
+      display: none;
+      justify-self: start;
     }
 
     .status-card {
@@ -315,6 +324,48 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0.6rem;
       align-items: stretch;
+    }
+
+    .mobile-workbench-nav {
+      display: none;
+      grid-column: 1 / -1;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.55rem;
+    }
+
+    .mobile-section-button {
+      padding: 0.65rem 0.75rem;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid rgba(93, 73, 53, 0.12);
+      box-shadow: none;
+      display: grid;
+      justify-items: start;
+      gap: 0.14rem;
+      text-align: left;
+      white-space: normal;
+    }
+
+    .mobile-section-button strong {
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .mobile-section-button span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.25;
+    }
+
+    .mobile-section-button.active {
+      background: rgba(54, 80, 60, 0.14);
+      border-color: rgba(54, 80, 60, 0.18);
+      color: var(--moss);
+    }
+
+    .mobile-section-button.active span {
+      color: var(--moss-soft);
     }
 
     .run-action-card {
@@ -920,20 +971,21 @@
         grid-template-columns: 1fr;
       }
 
+      .mobile-workbench-nav {
+        display: grid;
+      }
+
       .action-log-panel {
         position: static;
       }
 
-      .workbench-layout > .workbench-panel {
-        order: 1;
-      }
-
-      .workbench-layout > .holdings-panel {
-        order: 2;
-      }
-
-      .workbench-layout > .action-log-panel {
-        order: 3;
+      .workbench-layout[data-mobile-section="workbench"] > .holdings-panel,
+      .workbench-layout[data-mobile-section="workbench"] > .action-log-panel,
+      .workbench-layout[data-mobile-section="holdings"] > .workbench-panel,
+      .workbench-layout[data-mobile-section="holdings"] > .action-log-panel,
+      .workbench-layout[data-mobile-section="log"] > .workbench-panel,
+      .workbench-layout[data-mobile-section="log"] > .holdings-panel {
+        display: none;
       }
     }
 
@@ -956,8 +1008,22 @@
         padding: 1.1rem;
       }
 
+      .hero::after {
+        width: 14rem;
+        height: 14rem;
+      }
+
       .hero-copy {
-        gap: 0.7rem;
+        gap: 0.55rem;
+      }
+
+      .hero-mobile-toggle {
+        display: inline-flex;
+      }
+
+      .hero[data-mobile-expanded="false"] .hero-detail-copy,
+      .hero[data-mobile-expanded="false"] .status-stack {
+        display: none;
       }
 
       .status-stack {
@@ -1012,6 +1078,23 @@
       .run-bar-panel {
         gap: 0.55rem;
         padding: 0.65rem;
+      }
+
+      .mobile-workbench-nav {
+        gap: 0.45rem;
+      }
+
+      .mobile-section-button {
+        min-height: 3.35rem;
+        padding: 0.58rem 0.65rem;
+      }
+
+      .mobile-section-button strong {
+        font-size: 0.74rem;
+      }
+
+      .mobile-section-button span {
+        font-size: 0.76rem;
       }
 
       .run-summary-grid {
@@ -1087,9 +1170,14 @@
           <p>
             Edit inventory, shop prices, and recipes in one file, then test craft-and-buy decisions one step at a time without running a server.
           </p>
-          <div class="hero-mini-list">
-            <div class="hero-mini">Use the workbench for quick what-if runs</div>
-            <div class="hero-mini">Switch to Inventory, For Sale, or Recipes to change the rules</div>
+          <button class="button-soft hero-mobile-toggle" type="button" id="hero-mobile-toggle" data-action="toggle-mobile-hero" aria-expanded="false">
+            Show Intro
+          </button>
+          <div class="hero-detail-copy">
+            <div class="hero-mini-list">
+              <div class="hero-mini">Use the workbench for quick what-if runs</div>
+              <div class="hero-mini">Switch to Inventory, For Sale, or Recipes to change the rules</div>
+            </div>
           </div>
         </div>
         <div class="status-stack">
@@ -1280,10 +1368,12 @@
         activeTab: "workbench",
         potionFilter: "",
         workbenchScope: "actionable",
+        workbenchMobileSection: "workbench",
         holdingsFilter: "",
         inventoryFilter: "",
         shopFilter: "",
         recipeFilter: "",
+        mobileHeroExpanded: false,
         showZeroInventory: false,
         showZeroShop: false,
         showZeroStartingOutputs: false,
@@ -2029,6 +2119,20 @@
         return effectSummary(entry, mode) || fallback;
       }
 
+      function renderHeroChrome() {
+        const hero = document.querySelector(".hero");
+        if (!hero) {
+          return;
+        }
+        hero.dataset.mobileExpanded = ui.mobileHeroExpanded ? "true" : "false";
+        const toggle = document.getElementById("hero-mobile-toggle");
+        if (!toggle) {
+          return;
+        }
+        toggle.textContent = ui.mobileHeroExpanded ? "Hide Intro" : "Show Intro";
+        toggle.setAttribute("aria-expanded", ui.mobileHeroExpanded ? "true" : "false");
+      }
+
       function renderScenarioTools() {
         document.getElementById("scenario-tools").innerHTML = `
           <details class="tools-drawer">
@@ -2050,6 +2154,7 @@
       }
 
       function renderChrome() {
+        renderHeroChrome();
         renderScenarioTools();
 
         document.getElementById("toast-zone").innerHTML = ui.toast
@@ -2062,7 +2167,43 @@
           : "";
       }
 
-      function renderRunBar() {
+      function renderMobileWorkbenchNav(workbenchEntries) {
+        const sections = [
+          {
+            id: "workbench",
+            label: "Workbench",
+            meta: `${workbenchEntries.length} shown`
+          },
+          {
+            id: "holdings",
+            label: "Holdings",
+            meta: `${countNonZero(state.workbench.ingredients) + countNonZero(state.workbench.potions) + countNonZero(state.workbench.gems)} rows`
+          },
+          {
+            id: "log",
+            label: "Action Log",
+            meta: `${state.history.length} steps`
+          }
+        ];
+
+        return `
+          <div class="mobile-workbench-nav" aria-label="Workbench sections">
+            ${sections.map((section) => `
+              <button
+                class="mobile-section-button ${ui.workbenchMobileSection === section.id ? "active" : ""}"
+                data-action="set-workbench-mobile-section"
+                data-section="${escapeHtml(section.id)}"
+                aria-pressed="${ui.workbenchMobileSection === section.id ? "true" : "false"}"
+              >
+                <strong>${escapeHtml(section.label)}</strong>
+                <span>${escapeHtml(section.meta)}</span>
+              </button>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function renderRunBar(workbenchEntries) {
         const undoEntry = state.history[state.history.length - 1] || null;
         const redoEntry = state.redo[state.redo.length - 1] || null;
         return `
@@ -2092,6 +2233,7 @@
                   <small>${escapeHtml(previewDetail(redoEntry, "forward", "Undo an action first if you want a redo step."))}</small>
                 </button>
               </div>
+              ${renderMobileWorkbenchNav(workbenchEntries)}
             </div>
           </div>
         `;
@@ -2326,8 +2468,8 @@
         return `
           <section class="tab-panel ${ui.activeTab === "workbench" ? "active" : ""}" data-tab-panel="workbench">
             <div class="stack">
-              ${renderRunBar()}
-              <div class="workbench-layout">
+              ${renderRunBar(workbenchEntries)}
+              <div class="workbench-layout" data-mobile-section="${escapeHtml(ui.workbenchMobileSection)}">
                 <div class="panel holdings-block holdings-panel">
                   <div class="section-head">
                     <h2>Current Holdings</h2>
@@ -2995,6 +3137,14 @@
             break;
           case "set-workbench-scope":
             ui.workbenchScope = element.dataset.scope || "actionable";
+            renderApp();
+            break;
+          case "set-workbench-mobile-section":
+            ui.workbenchMobileSection = element.dataset.section || "workbench";
+            renderApp();
+            break;
+          case "toggle-mobile-hero":
+            ui.mobileHeroExpanded = !ui.mobileHeroExpanded;
             renderApp();
             break;
           case "apply-base-to-workbench":
