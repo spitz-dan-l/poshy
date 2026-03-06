@@ -1,0 +1,76 @@
+gold = 339
+
+[inventory.ingredients]
+"Lune stone" = 18
+"Green herb" = 4
+"Faroh weed" = 6
+"Nappa grass" = 12
+"Yon nut" = 8
+"Cactus pulp" = 4
+"Mana mushroom" = 3
+"Batta berry" = 7
+"Kora root" = 2
+"Zam shell" = 9
+"Holy water" = 0
+"Vunderbark" = 4
+"Ibsidian shard" = 5
+"Wano honey" = 1
+"Jhi fruit" = 4
+"Unicorn horn" = 6
+"Dragon scale" = 1
+"Runic bone" = 4
+"Quetzal feather" = 4
+"Aurora flower" = 0
+"Peridot" = 0
+"Agate" = 0
+"Citrine" = 0
+"Garnet" = 9
+"Moonstone" = 5
+"Topaz" = 0
+"Onyx" = 0
+"Sapphire" = 9
+"Ruby" = 6
+"Amethyst" = 4
+"Emerald" = 0
+"Alexandrite" = 6
+"Lapis Lazuli" = 9
+"Malachite" = 3
+"Aquamarine" = 5
+"Pearl" = 2
+"Diamond" = 0
+"Tourmaline" = 4
+"Beryl" = 5
+"Opal" = 4
+
+[inventory.potions]
+"Blessed medicine" = 1
+"Health potion" = 1
+"Rejuvination potion" = 1
+
+[inventory.gems]
+
+[for_sale.ingredients]
+"Lune stone" = true
+"Batta berry" = true
+"Zam shell" = true
+"Holy water" = true
+"Vunderbark" = true
+"Dragon scale" = true
+"Agate" = true
+"Moonstone" = true
+"Sapphire" = true
+"Diamond" = true
+
+[for_sale.outputs]
+"Warming medicine" = true
+"Mana potion" = true
+"Light grenade" = true
+"Truth potion" = true
+"Fish potion" = true
+"Blood potion" = true
+"Blessed medicine" = true
+"Hyper potion" = true
+"Super potion" = true
+"Deluxe medicine" = true
+"Dark Toxin" = true
+"Brew of the Master" = true

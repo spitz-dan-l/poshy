@@ -42,6 +42,15 @@ def test_index_smoke() -> None:
         warming_card = page.locator('[data-recipe-card="Warming medicine"]')
         expect(warming_card).to_be_visible()
         expect(warming_card.locator(".pill").first).to_contain_text("Potion")
+        expect(warming_card.locator(".potion-meta-line")).to_contain_text("Tier D")
+        expect(warming_card.locator(".potion-meta-line")).to_contain_text("Medicine")
+        effect_drawer = warming_card.locator("details.effect-drawer")
+        expect(effect_drawer).to_have_count(1)
+        expect(effect_drawer.locator("summary")).to_contain_text("Effect & Use")
+        effect_drawer.locator("summary").click()
+        expect(effect_drawer).to_contain_text("Reactive")
+        expect(effect_drawer).to_contain_text("Resets Temp to 0 from a negative number")
+        expect(agate_card.locator("details.effect-drawer")).to_have_count(0)
 
         core_holdings = page.locator(".holdings-panel .subsection").filter(
             has=page.get_by_role("heading", name="Herbs")

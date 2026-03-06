@@ -1,0 +1,1139 @@
+{
+  "inventory": {
+    "gold": 339,
+    "ingredients": {
+      "Agate piece": 0,
+      "Alexandrite piece": 6,
+      "Amethyst piece": 4,
+      "Aquamarine piece": 5,
+      "Aurora flower": 0,
+      "Batta berry": 7,
+      "Beryl piece": 5,
+      "Cactus pulp": 4,
+      "Citrine piece": 0,
+      "Diamond piece": 0,
+      "Dragon scale": 1,
+      "Emerald piece": 0,
+      "Faroh weed": 6,
+      "Garnet piece": 9,
+      "Green herb": 4,
+      "Holy water": 0,
+      "Ibsidian shard": 5,
+      "Jhi fruit": 4,
+      "Kora root": 2,
+      "Lapis lazuli piece": 9,
+      "Lune stone": 18,
+      "Malachite piece": 3,
+      "Mana mushroom": 3,
+      "Moonstone piece": 5,
+      "Nappa grass": 12,
+      "Onyx piece": 0,
+      "Opal piece": 4,
+      "Pearl piece": 2,
+      "Peridot piece": 0,
+      "Quetzal feather": 4,
+      "Ruby piece": 6,
+      "Runic bone": 4,
+      "Sapphire piece": 9,
+      "Topaz piece": 0,
+      "Tourmaline piece": 4,
+      "Unicorn horn": 6,
+      "Vunderbark": 4,
+      "Wano honey": 1,
+      "Yon nut": 8,
+      "Zam shell": 9
+    },
+    "potions": {
+      "Blessed medicine": 1,
+      "Health potion": 1,
+      "Rejuvination potion": 1
+    },
+    "gems": {}
+  },
+  "ingredient_types": {
+    "Agate piece": "gem_piece",
+    "Alexandrite piece": "gem_piece",
+    "Amethyst piece": "gem_piece",
+    "Aquamarine piece": "gem_piece",
+    "Aurora flower": "herb",
+    "Batta berry": "herb",
+    "Beryl piece": "gem_piece",
+    "Cactus pulp": "herb",
+    "Citrine piece": "gem_piece",
+    "Diamond piece": "gem_piece",
+    "Dragon scale": "herb",
+    "Emerald piece": "gem_piece",
+    "Faroh weed": "herb",
+    "Garnet piece": "gem_piece",
+    "Green herb": "herb",
+    "Holy water": "herb",
+    "Ibsidian shard": "herb",
+    "Jhi fruit": "herb",
+    "Kora root": "herb",
+    "Lapis lazuli piece": "gem_piece",
+    "Lune stone": "herb",
+    "Malachite piece": "gem_piece",
+    "Mana mushroom": "herb",
+    "Moonstone piece": "gem_piece",
+    "Nappa grass": "herb",
+    "Onyx piece": "gem_piece",
+    "Opal piece": "gem_piece",
+    "Pearl piece": "gem_piece",
+    "Peridot piece": "gem_piece",
+    "Quetzal feather": "herb",
+    "Ruby piece": "gem_piece",
+    "Runic bone": "herb",
+    "Sapphire piece": "gem_piece",
+    "Topaz piece": "gem_piece",
+    "Tourmaline piece": "gem_piece",
+    "Unicorn horn": "herb",
+    "Vunderbark": "herb",
+    "Wano honey": "herb",
+    "Yon nut": "herb",
+    "Zam shell": "herb"
+  },
+  "for_sale": {
+    "ingredients": {
+      "Agate piece": 20,
+      "Batta berry": 15,
+      "Diamond piece": 20,
+      "Dragon scale": 25,
+      "Holy water": 20,
+      "Lune stone": 10,
+      "Moonstone piece": 20,
+      "Sapphire piece": 20,
+      "Vunderbark": 20,
+      "Zam shell": 15
+    },
+    "outputs": {
+      "Blessed medicine": true,
+      "Blood potion": true,
+      "Brew of the Master": true,
+      "Dark Toxin": true,
+      "Deluxe medicine": true,
+      "Fish potion": true,
+      "Hyper potion": true,
+      "Light grenade": true,
+      "Mana potion": true,
+      "Super potion": true,
+      "Truth potion": true,
+      "Warming medicine": true
+    }
+  },
+  "subtypes": {
+    "potion": {
+      "label": "Potion",
+      "action_text": "1 passive action",
+      "targeting_text": ""
+    },
+    "medicine": {
+      "label": "Medicine",
+      "action_text": "Reactive",
+      "targeting_text": ""
+    },
+    "elixir": {
+      "label": "Elixir",
+      "action_text": "1 passive action",
+      "targeting_text": "can use on adjacent allies"
+    },
+    "toxin": {
+      "label": "Toxin",
+      "action_text": "1 action",
+      "targeting_text": "can use on adjacent allies"
+    },
+    "solution": {
+      "label": "Solution",
+      "action_text": "1 action",
+      "targeting_text": ""
+    },
+    "grenade": {
+      "label": "Grenade",
+      "action_text": "1 attack action",
+      "targeting_text": ""
+    },
+    "brew": {
+      "label": "Brew",
+      "action_text": "Must use between levels",
+      "targeting_text": ""
+    },
+    "gem": {
+      "label": "Gem",
+      "action_text": "",
+      "targeting_text": ""
+    }
+  },
+  "recipes": {
+    "recipes": [
+      {
+        "name": "Agate",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Agate piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Alexandrite",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Alexandrite piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Amethyst",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Amethyst piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Ancient medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "C",
+        "price": 70,
+        "ingredients": {
+          "Nappa grass": 3,
+          "Yon nut": 3
+        },
+        "effect_text": "Cures Confusion, Doom, Silence, or Mind control"
+      },
+      {
+        "name": "Aquamarine",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Aquamarine piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Beryl",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Beryl piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Blessed medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "B",
+        "price": 100,
+        "ingredients": {
+          "Holy water": 3,
+          "Runic bone": 1
+        },
+        "effect_text": "Resist Magic attacks for 2 turns"
+      },
+      {
+        "name": "Blood potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "C",
+        "price": 100,
+        "ingredients": {
+          "Cactus pulp": 4,
+          "Kora root": 2
+        },
+        "effect_text": "Gain 8 HP"
+      },
+      {
+        "name": "Brew of the Dancer",
+        "kind": "potion",
+        "subtype": "brew",
+        "tier": "A",
+        "price": 165,
+        "ingredients": {
+          "Batta berry": 3,
+          "Faroh weed": 4,
+          "Tourmaline piece": 2,
+          "Vunderbark": 1
+        },
+        "effect_text": "Increases dexterity by 1 and dexterity cap by 1 permanantly"
+      },
+      {
+        "name": "Brew of the Master",
+        "kind": "potion",
+        "subtype": "brew",
+        "tier": "A",
+        "price": 165,
+        "ingredients": {
+          "Diamond piece": 2,
+          "Green herb": 4,
+          "Wano honey": 1,
+          "Zam shell": 3
+        },
+        "effect_text": "Increases all caps by 1 permanently"
+      },
+      {
+        "name": "Brew of the Painter",
+        "kind": "potion",
+        "subtype": "brew",
+        "tier": "A",
+        "price": 165,
+        "ingredients": {
+          "Jhi fruit": 1,
+          "Kora root": 3,
+          "Pearl piece": 2,
+          "Yon nut": 4
+        },
+        "effect_text": "Increases skill by 1 and skill cap by 1 permanantly"
+      },
+      {
+        "name": "Brew of the Scholar",
+        "kind": "potion",
+        "subtype": "brew",
+        "tier": "A",
+        "price": 165,
+        "ingredients": {
+          "Holy water": 1,
+          "Mana mushroom": 3,
+          "Nappa grass": 4,
+          "Opal piece": 2
+        },
+        "effect_text": "Increases wisdom by 1 and wisdom cap by 1 permanantly"
+      },
+      {
+        "name": "Brew of the Smith",
+        "kind": "potion",
+        "subtype": "brew",
+        "tier": "A",
+        "price": 165,
+        "ingredients": {
+          "Beryl piece": 2,
+          "Cactus pulp": 3,
+          "Ibsidian shard": 1,
+          "Lune stone": 4
+        },
+        "effect_text": "Increases strength by 1 and strength cap by 1 permanantly"
+      },
+      {
+        "name": "Calming medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "D",
+        "price": 45,
+        "ingredients": {
+          "Yon nut": 4
+        },
+        "effect_text": "Cures Confusion or Mind control"
+      },
+      {
+        "name": "Citrine",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Citrine piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Clay solution",
+        "kind": "potion",
+        "subtype": "solution",
+        "tier": "B",
+        "price": 170,
+        "ingredients": {
+          "Ibsidian shard": 2,
+          "Lune stone": 5,
+          "Runic bone": 1,
+          "Topaz piece": 2
+        },
+        "effect_text": "Create a unit: Homunculus (rockwalking)"
+      },
+      {
+        "name": "Cleansing medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "D",
+        "price": 45,
+        "ingredients": {
+          "Green herb": 4
+        },
+        "effect_text": "Cures Poison or Paralysis"
+      },
+      {
+        "name": "Cooling medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "D",
+        "price": 45,
+        "ingredients": {
+          "Vunderbark": 2
+        },
+        "effect_text": "Resets Temp to 0 from a positive number, grants heat and sandstorm resist, and +20 to lava checks for 5 turns"
+      },
+      {
+        "name": "Cursed medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "B",
+        "price": 100,
+        "ingredients": {
+          "Dragon scale": 1,
+          "Kora root": 4
+        },
+        "effect_text": "Resist physical attacks for 2 turns"
+      },
+      {
+        "name": "Dark Toxin",
+        "kind": "potion",
+        "subtype": "toxin",
+        "tier": "A",
+        "price": 195,
+        "ingredients": {
+          "Amethyst piece": 2,
+          "Nappa grass": 5,
+          "Runic bone": 1,
+          "Wano honey": 3
+        },
+        "effect_text": "Dooms all damaged enemies for the next 5 turns"
+      },
+      {
+        "name": "Deluxe medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "B",
+        "price": 125,
+        "ingredients": {
+          "Green herb": 3,
+          "Jhi fruit": 1,
+          "Kora root": 2,
+          "Yon nut": 3
+        },
+        "effect_text": "Cures Burn, Freeze, Confusion, Doom, Poison, Paralysis, Silence, or Mind control"
+      },
+      {
+        "name": "Diamond",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Diamond piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Elemental solution",
+        "kind": "potion",
+        "subtype": "solution",
+        "tier": "A",
+        "price": 180,
+        "ingredients": {
+          "Alexandrite piece": 2,
+          "Mana mushroom": 3,
+          "Runic bone": 2,
+          "Unicorn horn": 1
+        },
+        "effect_text": "Create a unit: Elemental"
+      },
+      {
+        "name": "Elixir of evolution",
+        "kind": "potion",
+        "subtype": "elixir",
+        "tier": "B",
+        "price": 155,
+        "ingredients": {
+          "Emerald piece": 2,
+          "Green herb": 5,
+          "Nappa grass": 3,
+          "Wano honey": 1
+        },
+        "effect_text": "13MP: (Attack: 4) (range: 3) a magic attack that (Poisons-Lyc,Orc)(Paralyzes-Air,Min)(Silences-Ver,Gno)(Dooms-Ear,Leo)(Confuses-Daw,Dro)(Mind controls-Man,Hum)(Burns-Fir,Zar)(Freezes-Wat,Mer)(lasts 4 turns)"
+      },
+      {
+        "name": "Elixir of invisibility",
+        "kind": "potion",
+        "subtype": "elixir",
+        "tier": "C",
+        "price": 100,
+        "ingredients": {
+          "Lune stone": 3,
+          "Moonstone piece": 2,
+          "Vunderbark": 1
+        },
+        "effect_text": "5MP: Grants Invisibility (lasts 3 turns)"
+      },
+      {
+        "name": "Elixir of space",
+        "kind": "potion",
+        "subtype": "elixir",
+        "tier": "A",
+        "price": 220,
+        "ingredients": {
+          "Aquamarine piece": 2,
+          "Aurora flower": 2,
+          "Lune stone": 5,
+          "Vunderbark": 3
+        },
+        "effect_text": "10MP: Teleports you to a square within 10 tiles (P) (lasts 4 turns)"
+      },
+      {
+        "name": "Elixir of storms",
+        "kind": "potion",
+        "subtype": "elixir",
+        "tier": "B",
+        "price": 140,
+        "ingredients": {
+          "Aurora flower": 1,
+          "Faroh weed": 3,
+          "Lapis lazuli piece": 2,
+          "Zam shell": 2
+        },
+        "effect_text": "7MP: change the weather pattern and grants resistance to storms for 5 turns (lasts 5 turns)"
+      },
+      {
+        "name": "Elixir of time",
+        "kind": "potion",
+        "subtype": "elixir",
+        "tier": "A",
+        "price": 220,
+        "ingredients": {
+          "Aurora flower": 2,
+          "Green herb": 5,
+          "Ibsidian shard": 3,
+          "Malachite piece": 2
+        },
+        "effect_text": "15MP: Freezes time for the user (P) (lasts 5 turns)"
+      },
+      {
+        "name": "Elixir of vision",
+        "kind": "potion",
+        "subtype": "elixir",
+        "tier": "D",
+        "price": 65,
+        "ingredients": {
+          "Faroh weed": 2,
+          "Peridot piece": 2
+        },
+        "effect_text": "3MP: Reveals an event tile or hidden enemy in the room (lasts 3 turns)"
+      },
+      {
+        "name": "Emerald",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Emerald piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Fish potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "C",
+        "price": 85,
+        "ingredients": {
+          "Dragon scale": 1,
+          "Nappa grass": 2,
+          "Zam shell": 2
+        },
+        "effect_text": "grants resistance to rain, wading 3, +2 move in water bog or lava and +10 to deep water and bog checks for 5 turns"
+      },
+      {
+        "name": "Flammable toxin",
+        "kind": "potion",
+        "subtype": "toxin",
+        "tier": "B",
+        "price": 165,
+        "ingredients": {
+          "Faroh weed": 5,
+          "Ibsidian shard": 1,
+          "Ruby piece": 2,
+          "Wano honey": 2
+        },
+        "effect_text": "Burns all damaged enemies for next 4 turns"
+      },
+      {
+        "name": "Focus potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "D",
+        "price": 50,
+        "ingredients": {
+          "Kora root": 3
+        },
+        "effect_text": "Gain +4 Accuracy (reduces by 1 each turn)"
+      },
+      {
+        "name": "Frost grenade",
+        "kind": "potion",
+        "subtype": "grenade",
+        "tier": "B",
+        "price": 155,
+        "ingredients": {
+          "Sapphire piece": 2,
+          "Vunderbark": 2,
+          "Zam shell": 4
+        },
+        "effect_text": "Freezes targets (range:3 and adjacent tiles)"
+      },
+      {
+        "name": "Garnet",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Garnet piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Health potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "D",
+        "price": 55,
+        "ingredients": {
+          "Cactus pulp": 2,
+          "Green herb": 2
+        },
+        "effect_text": "Gain 4 HP"
+      },
+      {
+        "name": "Heart potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "A",
+        "price": 180,
+        "ingredients": {
+          "Cactus pulp": 4,
+          "Quetzal feather": 2,
+          "Yon nut": 5
+        },
+        "effect_text": "Gain 12 HP (up to 2 higher than max health"
+      },
+      {
+        "name": "Holy potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "D",
+        "price": 45,
+        "ingredients": {
+          "Holy water": 2
+        },
+        "effect_text": "Gain 4 magic shield (reduces by 1 after each turn)"
+      },
+      {
+        "name": "Hyper potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "B",
+        "price": 130,
+        "ingredients": {
+          "Aurora flower": 1,
+          "Kora root": 4,
+          "Mana mushroom": 2
+        },
+        "effect_text": "Gain 3 magic attack and 6 accuracy (reduces by 1 after each turn)"
+      },
+      {
+        "name": "Juggernaut potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "B",
+        "price": 130,
+        "ingredients": {
+          "Dragon scale": 1,
+          "Holy water": 3,
+          "Lune stone": 3
+        },
+        "effect_text": "Gain 3 shield and 6 magic shield (reduces by 1 after each turn)"
+      },
+      {
+        "name": "Lapis lazuli",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Lapis lazuli piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Light grenade",
+        "kind": "potion",
+        "subtype": "grenade",
+        "tier": "D",
+        "price": 65,
+        "ingredients": {
+          "Agate piece": 2,
+          "Lune stone": 2
+        },
+        "effect_text": "Makes one tile unpassable within 3 range (lasts 3 tuns)"
+      },
+      {
+        "name": "Luck potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "D",
+        "price": 30,
+        "ingredients": {
+          "Unicorn horn": 1
+        },
+        "effect_text": "add 20 to all d20 rolls (reduces by 5 each turn)"
+      },
+      {
+        "name": "Magic potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "C",
+        "price": 85,
+        "ingredients": {
+          "Mana mushroom": 5
+        },
+        "effect_text": "Gain +3 magic attack (reduces by 1 after each turn)"
+      },
+      {
+        "name": "Malachite",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Malachite piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Mana potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "D",
+        "price": 55,
+        "ingredients": {
+          "Mana mushroom": 2,
+          "Nappa grass": 2
+        },
+        "effect_text": "Gain 25 MP"
+      },
+      {
+        "name": "Metal medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "A",
+        "price": 175,
+        "ingredients": {
+          "Cactus pulp": 3,
+          "Dragon scale": 2,
+          "Ibsidian shard": 3
+        },
+        "effect_text": "Heals a piece of equipment to base HP"
+      },
+      {
+        "name": "Mind potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "A",
+        "price": 180,
+        "ingredients": {
+          "Faroh weed": 5,
+          "Mana mushroom": 4,
+          "Quetzal feather": 2
+        },
+        "effect_text": "Gain 75 MP (up to 15 higher than max)"
+      },
+      {
+        "name": "Miracle medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "A",
+        "price": 150,
+        "ingredients": {
+          "Holy water": 2,
+          "Jhi fruit": 2,
+          "Unicorn horn": 2
+        },
+        "effect_text": "Cures death, and heals 3 HP and 20 MP"
+      },
+      {
+        "name": "Monkey potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "C",
+        "price": 85,
+        "ingredients": {
+          "Batta berry": 2,
+          "Green herb": 2,
+          "Quetzal feather": 1
+        },
+        "effect_text": "grants resistance to wind, Brushwalking, Sandwalking, +7 climbing cap, +2 falling factor, and +10 to quicksand and ice checks for 5 turns"
+      },
+      {
+        "name": "Moonstone",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Moonstone piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Muscle potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "D",
+        "price": 45,
+        "ingredients": {
+          "Lune stone": 2,
+          "Yon nut": 2
+        },
+        "effect_text": "Gain 2 shield (reduces by 1 after each turn)"
+      },
+      {
+        "name": "Neuro toxin",
+        "kind": "potion",
+        "subtype": "toxin",
+        "tier": "C",
+        "price": 140,
+        "ingredients": {
+          "Citrine piece": 2,
+          "Wano honey": 2,
+          "Yon nut": 5
+        },
+        "effect_text": "Confuses all damaged enemies for next 3 turns"
+      },
+      {
+        "name": "Onyx",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Onyx piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Opal",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Opal piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Pearl",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Pearl piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Peridot",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Peridot piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Reaver potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "B",
+        "price": 130,
+        "ingredients": {
+          "Batta berry": 4,
+          "Cactus pulp": 2,
+          "Unicorn horn": 1
+        },
+        "effect_text": "Gain 3 attack and 3 movement (reduces by 1 after each turn)"
+      },
+      {
+        "name": "Rejuvination potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "C",
+        "price": 70,
+        "ingredients": {
+          "Jhi fruit": 3
+        },
+        "effect_text": "Gain 2HP, and 15 MP"
+      },
+      {
+        "name": "Reversal medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "B",
+        "price": 125,
+        "ingredients": {
+          "Nappa grass": 5,
+          "Vunderbark": 3
+        },
+        "effect_text": "Re-roll one die roll"
+      },
+      {
+        "name": "Ruby",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Ruby piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Sapphire",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Sapphire piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Sheen potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "C",
+        "price": 70,
+        "ingredients": {
+          "Wano honey": 3
+        },
+        "effect_text": "Gives a piece of equipment 10 HP (doesn\u2019t stack)"
+      },
+      {
+        "name": "Sight potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "C",
+        "price": 70,
+        "ingredients": {
+          "Holy water": 1,
+          "Lune stone": 4
+        },
+        "effect_text": "Gain +3 spell or projection range and sight (reduces by 1 each turn)"
+      },
+      {
+        "name": "Smoke grenade",
+        "kind": "potion",
+        "subtype": "grenade",
+        "tier": "C",
+        "price": 130,
+        "ingredients": {
+          "Faroh weed": 2,
+          "Garnet piece": 2,
+          "Zam shell": 4
+        },
+        "effect_text": "Blinds targets and blocks line of sight (range:3 and adjacent tiles)"
+      },
+      {
+        "name": "Soothing medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "D",
+        "price": 45,
+        "ingredients": {
+          "Faroh weed": 4
+        },
+        "effect_text": "Cures Burn or freeze"
+      },
+      {
+        "name": "Soul potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "C",
+        "price": 100,
+        "ingredients": {
+          "Batta berry": 2,
+          "Mana mushroom": 4
+        },
+        "effect_text": "Gain 50 MP"
+      },
+      {
+        "name": "Spiritual medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "D",
+        "price": 45,
+        "ingredients": {
+          "Nappa grass": 4
+        },
+        "effect_text": "Cures Silence or Doom"
+      },
+      {
+        "name": "Stamina potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "D",
+        "price": 50,
+        "ingredients": {
+          "Batta berry": 3
+        },
+        "effect_text": "Gain 2 movement (reduces by 1 after each turn)"
+      },
+      {
+        "name": "Super potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "B",
+        "price": 135,
+        "ingredients": {
+          "Batta berry": 4,
+          "Jhi fruit": 3
+        },
+        "effect_text": "Gain 5 HP, and 30 MP"
+      },
+      {
+        "name": "Superior medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "C",
+        "price": 70,
+        "ingredients": {
+          "Faroh weed": 3,
+          "Green herb": 3
+        },
+        "effect_text": "Cures Burn, Freeze, Poison or Paralysis"
+      },
+      {
+        "name": "Sustaining medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "B",
+        "price": 105,
+        "ingredients": {
+          "Jhi fruit": 2,
+          "Unicorn horn": 2
+        },
+        "effect_text": "Cures death"
+      },
+      {
+        "name": "Topaz",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Topaz piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Tourmaline",
+        "kind": "gem",
+        "subtype": "gem",
+        "tier": "X",
+        "price": null,
+        "ingredients": {
+          "Tourmaline piece": 5
+        },
+        "effect_text": ""
+      },
+      {
+        "name": "Truth potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "C",
+        "price": 60,
+        "ingredients": {
+          "Runic bone": 2
+        },
+        "effect_text": "Gives a clue"
+      },
+      {
+        "name": "Ultra potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "A",
+        "price": 220,
+        "ingredients": {
+          "Batta berry": 5,
+          "Dragon scale": 2,
+          "Kora root": 5
+        },
+        "effect_text": "Gain 2 movement, attack, shield, magic attack, and 4 magic shield and accuracy (reduces by 1/2 after each turn)"
+      },
+      {
+        "name": "Vigor potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "C",
+        "price": 85,
+        "ingredients": {
+          "Cactus pulp": 5
+        },
+        "effect_text": "Gain +3 attack (reduces by 1 after each turn)"
+      },
+      {
+        "name": "Warming medicine",
+        "kind": "potion",
+        "subtype": "medicine",
+        "tier": "D",
+        "price": 45,
+        "ingredients": {
+          "Ibsidian shard": 2
+        },
+        "effect_text": "Resets Temp to 0 from a negative number, grants cold and snowstorm resist, and snowalking for 5 turns"
+      },
+      {
+        "name": "Warp grenade",
+        "kind": "potion",
+        "subtype": "grenade",
+        "tier": "A",
+        "price": 185,
+        "ingredients": {
+          "Aurora flower": 1,
+          "Onyx piece": 2,
+          "Quetzal feather": 1,
+          "Zam shell": 5
+        },
+        "effect_text": "Creates a black hole within 3 range (lasts 3 turns)"
+      },
+      {
+        "name": "Wing potion",
+        "kind": "potion",
+        "subtype": "potion",
+        "tier": "B",
+        "price": 105,
+        "ingredients": {
+          "Quetzal feather": 1,
+          "Yon nut": 2,
+          "Zam shell": 3
+        },
+        "effect_text": "grants flying for 3 turns"
+      }
+    ]
+  }
+}
