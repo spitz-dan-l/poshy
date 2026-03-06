@@ -27,6 +27,7 @@ def test_index_smoke() -> None:
         expect(page).to_have_title("Poshy Lab")
         expect(page.get_by_role("heading", name="Poshy Lab")).to_be_visible()
         expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
+        expect(page.get_by_role("heading", name="Item Details")).to_be_visible()
         expect(page.get_by_role("heading", name="Action Log")).to_be_visible()
         expect(page.locator(".holdings-panel").get_by_role("heading", name="Potions")).to_be_visible()
         expect(page.locator(".holdings-panel").get_by_role("heading", name="Gems")).to_be_visible()
@@ -46,24 +47,35 @@ def test_index_smoke() -> None:
         expect(warming_card).to_be_visible()
         expect(warming_card.locator(".potion-meta-line")).to_contain_text("Tier D")
         expect(warming_card.locator(".potion-meta-line")).to_contain_text("Medicine")
-        effect_drawer = warming_card.locator("details.effect-drawer")
-        expect(effect_drawer).to_have_count(1)
-        expect(effect_drawer.locator("summary")).to_contain_text("Effect & Use")
-        effect_drawer.locator("summary").click()
-        expect(effect_drawer).to_contain_text("Reactive")
-        expect(effect_drawer).to_contain_text("Resets Temp to 0 from a negative number")
-        agate_drawer = agate_card.locator("details.effect-drawer")
-        expect(agate_drawer).to_have_count(1)
-        expect(agate_drawer.locator("summary")).to_contain_text("Gem Details")
-        agate_drawer.locator("summary").click()
-        expect(agate_drawer).to_contain_text("Violet")
-        expect(agate_drawer).to_contain_text("golem +")
-        expect(agate_drawer).to_contain_text("gain 2MP every turn you don't cast a spell")
+        warming_card.get_by_role("button", name="Inspect").click()
+        warming_inspector = page.locator('[data-inspector-recipe="Warming medicine"]')
+        expect(warming_inspector).to_be_visible()
+        expect(warming_inspector).to_contain_text("Reactive")
+        expect(warming_inspector).to_contain_text("Resets Temp to 0 from a negative number")
+        agate_card.get_by_role("button", name="Inspect").click()
+        agate_inspector = page.locator('[data-inspector-recipe="Agate"]')
+        expect(agate_inspector).to_be_visible()
+        expect(agate_inspector).to_contain_text("Violet")
+        expect(agate_inspector).to_contain_text("golem +")
+        expect(agate_inspector).to_contain_text("gain 2MP every turn you don't cast a spell")
+        expect(page.locator(".inspector-panel")).to_have_attribute("data-selected-recipe", "Agate")
+        expect(page.locator(".inspector-panel")).to_contain_text("Inspecting Agate")
+
+        workbench_list = page.locator(".workbench-panel .grid-list")
+        scrolled_top = workbench_list.evaluate(
+            "(el) => { el.scrollTop = 280; return Math.round(el.scrollTop); }"
+        )
+        page.locator(
+            '[data-recipe-card="Ancient medicine"] button[data-action="inspect-recipe"]'
+        ).dispatch_event("click")
+        assert workbench_list.evaluate("el => Math.round(el.scrollTop)") == scrolled_top
 
         holdings_health_row = page.locator(".holdings-panel tr").filter(
             has=page.locator("td", has_text="Health potion")
         ).first
-        expect(holdings_health_row.locator("details.effect-drawer")).to_have_count(1)
+        expect(holdings_health_row.get_by_role("button", name="Inspect")).to_have_count(1)
+        holdings_health_row.get_by_role("button", name="Inspect").click()
+        expect(page.locator('[data-inspector-recipe="Health potion"]')).to_be_visible()
 
         core_holdings = page.locator(".holdings-panel .subsection").filter(
             has=page.get_by_role("heading", name="Herbs")
@@ -94,7 +106,12 @@ def test_index_smoke() -> None:
         expect(page.locator('[data-role="toast"]')).to_contain_text("Crafted")
         expect(page.locator(".history-card strong").first).to_contain_text("Crafted")
         expect(page.locator('button[data-action="undo-action"]')).to_contain_text("Crafted")
-        expect(page.locator(".history-card details.effect-drawer")).to_have_count(1)
+        history_inspect_button = page.locator(".history-card").first.locator('button[data-action="inspect-recipe"]').first
+        expect(history_inspect_button).to_have_count(1)
+        selected_history_recipe = history_inspect_button.get_attribute("data-recipe")
+        assert selected_history_recipe
+        history_inspect_button.click()
+        expect(page.locator(f'[data-inspector-recipe="{selected_history_recipe}"]')).to_be_visible()
         assert stat_value(page, "Steps") == "1"
 
         page.locator('button[data-action="undo-action"]').click()
@@ -185,14 +202,22 @@ def test_index_smoke() -> None:
         mobile_holdings_button = mobile.locator(
             'button[data-action="set-workbench-mobile-section"][data-section="holdings"]'
         )
+        mobile_workbench_button = mobile.locator(
+            'button[data-action="set-workbench-mobile-section"][data-section="workbench"]'
+        )
         mobile_log_button = mobile.locator(
             'button[data-action="set-workbench-mobile-section"][data-section="log"]'
         )
+        mobile_details_button = mobile.locator(
+            'button[data-action="set-workbench-mobile-section"][data-section="details"]'
+        )
         expect(mobile_holdings_button).to_be_visible()
         expect(mobile_log_button).to_be_visible()
+        expect(mobile_details_button).to_be_visible()
         expect(mobile.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
         expect(mobile.get_by_role("heading", name="Current Holdings")).not_to_be_visible()
         expect(mobile.get_by_role("heading", name="Action Log")).not_to_be_visible()
+        expect(mobile.get_by_role("heading", name="Item Details")).not_to_be_visible()
 
         mobile_holdings_button.click()
         expect(mobile.get_by_role("heading", name="Current Holdings")).to_be_visible()
@@ -201,6 +226,14 @@ def test_index_smoke() -> None:
         mobile_log_button.click()
         expect(mobile.get_by_role("heading", name="Action Log")).to_be_visible()
         expect(mobile.get_by_role("heading", name="Current Holdings")).not_to_be_visible()
+
+        mobile_workbench_button.click()
+        mobile.locator('[data-recipe-card="Warming medicine"]').get_by_role("button", name="Inspect").click()
+        expect(mobile.get_by_role("heading", name="Item Details")).to_be_visible()
+        expect(mobile.get_by_role("heading", name="Alchemy Workbench")).not_to_be_visible()
+        expect(mobile.locator('[data-inspector-recipe="Warming medicine"]')).to_contain_text(
+            "Resets Temp to 0 from a negative number"
+        )
 
         hero_toggle.click()
         expect(hero_toggle).to_have_text("Hide Intro")
