@@ -1309,7 +1309,7 @@
           <div class="hero-detail-copy">
             <div class="hero-mini-list">
               <div class="hero-mini">Use the workbench for quick what-if runs</div>
-              <div class="hero-mini">Switch to Inventory, For Sale, or Recipes to change the rules</div>
+              <div class="hero-mini">Switch to Inventory, For Sale, or Catalog to change the rules</div>
             </div>
           </div>
         </div>
@@ -1391,6 +1391,48 @@
     },
     "gems": {}
   },
+  "ingredient_prices": {
+    "Agate piece": 20,
+    "Alexandrite piece": 20,
+    "Amethyst piece": 20,
+    "Aquamarine piece": 20,
+    "Aurora flower": 25,
+    "Batta berry": 15,
+    "Beryl piece": 20,
+    "Cactus pulp": 15,
+    "Citrine piece": 20,
+    "Diamond piece": 20,
+    "Dragon scale": 25,
+    "Emerald piece": 20,
+    "Faroh weed": 10,
+    "Garnet piece": 20,
+    "Green herb": 10,
+    "Holy water": 20,
+    "Ibsidian shard": 20,
+    "Jhi fruit": 20,
+    "Kora root": 15,
+    "Lapis lazuli piece": 20,
+    "Lune stone": 10,
+    "Malachite piece": 20,
+    "Mana mushroom": 15,
+    "Moonstone piece": 20,
+    "Nappa grass": 10,
+    "Onyx piece": 20,
+    "Opal piece": 20,
+    "Pearl piece": 20,
+    "Peridot piece": 20,
+    "Quetzal feather": 25,
+    "Ruby piece": 20,
+    "Runic bone": 25,
+    "Sapphire piece": 20,
+    "Topaz piece": 20,
+    "Tourmaline piece": 20,
+    "Unicorn horn": 25,
+    "Vunderbark": 20,
+    "Wano honey": 20,
+    "Yon nut": 10,
+    "Zam shell": 15
+  },
   "ingredient_types": {
     "Agate piece": "gem_piece",
     "Alexandrite piece": "gem_piece",
@@ -1433,18 +1475,171 @@
     "Yon nut": "herb",
     "Zam shell": "herb"
   },
+  "gem_metadata": {
+    "Agate": {
+      "color": "Violet",
+      "god": "golem +",
+      "accessory_effects": [
+        "gain 2MP every turn you don't cast a spell"
+      ]
+    },
+    "Alexandrite": {
+      "color": "Tan",
+      "god": "Golem -",
+      "accessory_effects": [
+        "Increases magic defense by 2"
+      ]
+    },
+    "Amethyst": {
+      "color": "Purple",
+      "god": "Lyconid",
+      "accessory_effects": [
+        "Increases ability count by 1",
+        "(-3MP)"
+      ]
+    },
+    "Aquamarine": {
+      "color": "Blue",
+      "god": "Zuloscia",
+      "accessory_effects": [
+        "resist rain",
+        "Waterwalking",
+        "Bogwalking"
+      ]
+    },
+    "Beryl": {
+      "color": "Pink",
+      "god": "Minotaur",
+      "accessory_effects": [
+        "Increases HP by 1"
+      ]
+    },
+    "Citrine": {
+      "color": "Orange",
+      "god": "Cantuko",
+      "accessory_effects": [
+        "Increases spell/projectile range by 1"
+      ]
+    },
+    "Diamond": {
+      "color": "Clear",
+      "god": "Amiti",
+      "accessory_effects": [
+        "Increases Stat by 1",
+        "increases cap by 1"
+      ]
+    },
+    "Emerald": {
+      "color": "Green",
+      "god": "Quolanti",
+      "accessory_effects": [
+        "+3 to herb rolls",
+        "resist cold",
+        "+1 move on plains"
+      ]
+    },
+    "Garnet": {
+      "color": "Crimson",
+      "god": "Orc",
+      "accessory_effects": [
+        "Increases attack by 1"
+      ]
+    },
+    "Lapis lazuli": {
+      "color": "Torquoise",
+      "god": "Fenroc",
+      "accessory_effects": [
+        "resist heat",
+        "Lavawalking",
+        "Icewalking"
+      ]
+    },
+    "Malachite": {
+      "color": "Brown",
+      "god": "Guzma",
+      "accessory_effects": [
+        "+3 gem rolls",
+        "resist wind"
+      ]
+    },
+    "Moonstone": {
+      "color": "Periwinkle",
+      "god": "Drow",
+      "accessory_effects": [
+        "Increases magic attack by 1"
+      ]
+    },
+    "Onyx": {
+      "color": "Black",
+      "god": "Xyro",
+      "accessory_effects": [
+        "you may choose to change the result of 1 dice roll per level"
+      ]
+    },
+    "Opal": {
+      "color": "Rainbow",
+      "god": "Dawnfolk",
+      "accessory_effects": [
+        "Increases MP by 8"
+      ]
+    },
+    "Pearl": {
+      "color": "White",
+      "god": "Human",
+      "accessory_effects": [
+        "Increases trap, loot, and terrain checks by 5"
+      ]
+    },
+    "Peridot": {
+      "color": "Lime",
+      "god": "leo",
+      "accessory_effects": [
+        "Increases movement by 1"
+      ]
+    },
+    "Ruby": {
+      "color": "Red",
+      "god": "Zarian",
+      "accessory_effects": [
+        "Increases shield by 1"
+      ]
+    },
+    "Sapphire": {
+      "color": "Indigo",
+      "god": "Mer",
+      "accessory_effects": [
+        "Increases FAB by 1",
+        "Increases vision by 2"
+      ]
+    },
+    "Topaz": {
+      "color": "Yellow",
+      "god": "Gnome",
+      "accessory_effects": [
+        "Increases accuracy by 1"
+      ]
+    },
+    "Tourmaline": {
+      "color": "Teal",
+      "god": "Vermen",
+      "accessory_effects": [
+        "Increases climbing cap by 2",
+        "increases falling factor by 1"
+      ]
+    }
+  },
   "for_sale": {
     "ingredients": {
-      "Agate piece": 20,
-      "Batta berry": 15,
-      "Diamond piece": 20,
-      "Dragon scale": 25,
-      "Holy water": 20,
-      "Lune stone": 10,
-      "Moonstone piece": 20,
-      "Sapphire piece": 20,
-      "Vunderbark": 20,
-      "Zam shell": 15
+      "Agate piece": true,
+      "Batta berry": true,
+      "Diamond piece": true,
+      "Dragon scale": true,
+      "Holy water": true,
+      "Lune stone": true,
+      "Moonstone piece": true,
+      "Sapphire piece": true,
+      "Vunderbark": true,
+      "Zam shell": true
     },
     "outputs": {
       "Blessed medicine": true,
@@ -2489,7 +2684,7 @@
         { id: "workbench", label: "Workbench" },
         { id: "inventory", label: "Inventory" },
         { id: "shop", label: "For Sale" },
-        { id: "recipes", label: "Recipes" },
+        { id: "recipes", label: "Catalog" },
         { id: "data", label: "Data Studio" }
       ];
 
@@ -2640,15 +2835,62 @@
         return output;
       }
 
+      function normalizeGemMetadataEntry(raw, gemName) {
+        if (!raw || typeof raw !== "object") {
+          throw new Error(`Gem "${gemName}" is missing gem metadata.`);
+        }
+        const accessoryEffectsRaw = raw?.accessory_effects;
+        if (!Array.isArray(accessoryEffectsRaw)) {
+          throw new Error(`Gem "${gemName}" is missing an accessory_effects array.`);
+        }
+        return {
+          color: String(raw?.color ?? "").trim(),
+          god: String(raw?.god ?? "").trim(),
+          accessory_effects: accessoryEffectsRaw
+            .map((value) => String(value ?? "").trim())
+            .filter(Boolean)
+        };
+      }
+
+      function normalizeGemMetadataMap(raw, recipes) {
+        const canonicalSource = {};
+        for (const [rawName, value] of Object.entries(raw || {})) {
+          const name = canonicalOutputName(rawName, recipes);
+          if (!name) {
+            continue;
+          }
+          if (Object.prototype.hasOwnProperty.call(canonicalSource, name)) {
+            throw new Error(`gem_metadata contains duplicate entries for "${name}".`);
+          }
+          canonicalSource[name] = value;
+        }
+        const output = {};
+        const gemNames = recipes
+          .filter((recipe) => recipe.kind === "gem")
+          .map((recipe) => recipe.name);
+        for (const gemName of gemNames) {
+          if (!Object.prototype.hasOwnProperty.call(canonicalSource, gemName)) {
+            throw new Error(`Gem "${gemName}" is missing gem_metadata.`);
+          }
+          output[gemName] = normalizeGemMetadataEntry(canonicalSource[gemName], gemName);
+        }
+        for (const name of Object.keys(canonicalSource)) {
+          if (!gemNames.includes(name)) {
+            throw new Error(`gem_metadata references unknown gem "${name}".`);
+          }
+        }
+        return output;
+      }
+
       function collectScenarioIngredientNames(raw) {
         const names = new Set();
         const inventoryIngredients = raw?.inventory?.ingredients || {};
-        const saleIngredients = raw?.for_sale?.ingredients || {};
+        const ingredientPrices = raw?.ingredient_prices || {};
         const ingredientTypes = raw?.ingredient_types || {};
 
         Object.keys(ingredientTypes).forEach((name) => names.add(name));
         Object.keys(inventoryIngredients).forEach((name) => names.add(name));
-        Object.keys(saleIngredients).forEach((name) => names.add(name));
+        Object.keys(ingredientPrices).forEach((name) => names.add(name));
         for (const recipe of raw?.recipes?.recipes || []) {
           Object.keys(recipe?.ingredients || {}).forEach((name) => names.add(name));
         }
@@ -2674,6 +2916,22 @@
           output[name] = explicitType;
         }
 
+        return output;
+      }
+
+      function normalizeIngredientPriceMap(rawPrices, ingredientNames) {
+        const source = rawPrices || {};
+        const output = {};
+        for (const rawName of ingredientNames || []) {
+          const name = String(rawName ?? "").trim();
+          if (!name) {
+            continue;
+          }
+          if (!Object.prototype.hasOwnProperty.call(source, name)) {
+            throw new Error(`Ingredient "${name}" is missing an ingredient_prices entry.`);
+          }
+          output[name] = Math.max(0, Number(source[name]) || 0);
+        }
         return output;
       }
 
@@ -2713,6 +2971,18 @@
         for (const [name, sold] of Object.entries(raw || {})) {
           const key = canonicalOutputName(name, recipes);
           if (!key || !sold) {
+            continue;
+          }
+          output[key] = true;
+        }
+        return output;
+      }
+
+      function normalizeFlagMap(raw) {
+        const output = {};
+        for (const [name, enabled] of Object.entries(raw || {})) {
+          const key = String(name ?? "").trim();
+          if (!key || !enabled) {
             continue;
           }
           output[key] = true;
@@ -2783,12 +3053,19 @@
 
       function normalizeScenario(raw) {
         const recipes = (raw?.recipes?.recipes || []).map(normalizeRecipe);
+        const ingredientNames = collectScenarioIngredientNames(raw);
         const ingredientTypes = normalizeIngredientTypeMap(
           raw?.ingredient_types || {},
-          collectScenarioIngredientNames(raw)
+          ingredientNames
+        );
+        const ingredientPrices = normalizeIngredientPriceMap(
+          raw?.ingredient_prices || {},
+          ingredientNames
         );
         return {
+          ingredient_prices: ingredientPrices,
           ingredient_types: ingredientTypes,
+          gem_metadata: normalizeGemMetadataMap(raw?.gem_metadata || {}, recipes),
           subtypes: normalizeSubtypeMap(raw?.subtypes),
           inventory: rebalanceOutputs({
             gold: Math.max(0, Number(raw?.inventory?.gold) || 0),
@@ -2797,7 +3074,7 @@
             ingredients: normalizeCounter(raw?.inventory?.ingredients || {})
           }, recipes),
           for_sale: {
-            ingredients: normalizeCounter(raw?.for_sale?.ingredients || {}),
+            ingredients: normalizeFlagMap(raw?.for_sale?.ingredients || {}),
             outputs: normalizeOutputSaleMap(raw?.for_sale?.outputs || {}, recipes)
           },
           recipes: {
@@ -2932,9 +3209,9 @@
 
       function getAllIngredientNames() {
         const names = new Set();
+        Object.keys(state.scenario.ingredient_prices || {}).forEach((name) => names.add(name));
         Object.keys(state.scenario.ingredient_types || {}).forEach((name) => names.add(name));
         Object.keys(state.scenario.inventory.ingredients || {}).forEach((name) => names.add(name));
-        Object.keys(state.scenario.for_sale.ingredients || {}).forEach((name) => names.add(name));
         for (const recipe of state.scenario.recipes.recipes) {
           Object.keys(recipe.ingredients || {}).forEach((name) => names.add(name));
         }
@@ -3010,6 +3287,40 @@
         return subtypeMetaForRecipe(recipe)?.label || recipe.subtype;
       }
 
+      function createBlankGemMetadata() {
+        return {
+          color: "",
+          god: "",
+          accessory_effects: []
+        };
+      }
+
+      function gemMetadataForRecipe(recipe) {
+        if (!recipe || recipe.kind !== "gem") {
+          return null;
+        }
+        return state.scenario.gem_metadata?.[recipe.name] || null;
+      }
+
+      function ensureGemMetadata(name) {
+        const key = canonicalOutputName(name, state.scenario.recipes.recipes) || String(name ?? "").trim();
+        if (!key) {
+          return null;
+        }
+        if (!state.scenario.gem_metadata[key]) {
+          state.scenario.gem_metadata[key] = createBlankGemMetadata();
+        }
+        return state.scenario.gem_metadata[key];
+      }
+
+      function subtypeProfileText(recipe) {
+        const meta = subtypeMetaForRecipe(recipe);
+        if (!meta) {
+          return "";
+        }
+        return [meta.action_text, meta.targeting_text].filter(Boolean).join(" · ");
+      }
+
       function inferSubtypeForKind(name, kind) {
         if (kind === "gem") {
           return "gem";
@@ -3033,35 +3344,45 @@
         };
       }
 
+      function recipeMetaParts(recipe) {
+        const parts = [];
+        if (recipe.kind === "gem") {
+          const gemMeta = gemMetadataForRecipe(recipe);
+          parts.push("Gem");
+          if (gemMeta?.color) {
+            parts.push(gemMeta.color);
+          }
+          if (gemMeta?.god) {
+            parts.push(gemMeta.god);
+          }
+        } else {
+          parts.push(subtypeLabelForRecipe(recipe));
+          parts.push(`Tier ${recipe.tier}`);
+        }
+        return parts;
+      }
+
+      function recipeSearchText(recipe) {
+        const parts = [
+          recipe.name,
+          recipe.tier,
+          recipe.effect_text,
+          subtypeLabelForRecipe(recipe),
+          ...Object.keys(recipe.ingredients || {})
+        ];
+        const gemMeta = gemMetadataForRecipe(recipe);
+        if (gemMeta) {
+          parts.push(gemMeta.color, gemMeta.god, ...(gemMeta.accessory_effects || []));
+        }
+        return parts
+          .map((value) => String(value ?? "").trim().toLowerCase())
+          .filter(Boolean)
+          .join(" ");
+      }
+
       function isOutputSoldOnLevel(name) {
         const canonicalName = canonicalOutputName(name, state.scenario.recipes.recipes);
         return Boolean(state.scenario.for_sale.outputs?.[canonicalName]);
-      }
-
-      function buyStatusLabel(buy) {
-        if (buy.possible) {
-          return "Buyable";
-        }
-        if (buy.reason === "Not sold on this level") {
-          return "Not sold here";
-        }
-        if (buy.reason === "No direct buy price") {
-          return "No shop price";
-        }
-        if (buy.price !== undefined) {
-          return "Need more gold";
-        }
-        return "Unavailable";
-      }
-
-      function buyStatusTone(buy) {
-        if (buy.possible) {
-          return "good";
-        }
-        if (buy.reason === "Not sold on this level") {
-          return "warn";
-        }
-        return "bad";
       }
 
       function countNonZero(map) {
@@ -3083,6 +3404,16 @@
 
       function ingredientTypeForName(name) {
         return normalizeIngredientType(state.scenario.ingredient_types?.[name]);
+      }
+
+      function ingredientPriceForName(name) {
+        return Object.prototype.hasOwnProperty.call(state.scenario.ingredient_prices || {}, name)
+          ? state.scenario.ingredient_prices[name]
+          : null;
+      }
+
+      function isIngredientSoldOnLevel(name) {
+        return Boolean(state.scenario.for_sale.ingredients?.[name]);
       }
 
       function splitIngredientNames(names) {
@@ -3181,6 +3512,19 @@
         return next;
       }
 
+      function renameScalarMapKey(map, oldKey, newKey) {
+        const next = { ...(map || {}) };
+        if (!Object.prototype.hasOwnProperty.call(next, oldKey)) {
+          return next;
+        }
+        const oldValue = next[oldKey];
+        delete next[oldKey];
+        if (newKey) {
+          next[newKey] = oldValue;
+        }
+        return next;
+      }
+
       function promptIngredientType(name, fallbackKind = "herb") {
         const key = String(name ?? "").trim();
         if (!key) {
@@ -3207,6 +3551,9 @@
           return null;
         }
         if (state.scenario.ingredient_types[key]) {
+          if (!Object.prototype.hasOwnProperty.call(state.scenario.ingredient_prices, key)) {
+            state.scenario.ingredient_prices[key] = 0;
+          }
           return state.scenario.ingredient_types[key];
         }
         const kind = explicitKind
@@ -3216,7 +3563,57 @@
           return null;
         }
         state.scenario.ingredient_types[key] = kind;
+        if (!Object.prototype.hasOwnProperty.call(state.scenario.ingredient_prices, key)) {
+          state.scenario.ingredient_prices[key] = 0;
+        }
         return kind;
+      }
+
+      function hasIngredientNameConflict(name, skipName = "") {
+        return getAllIngredientNames().some((existing) => existing !== skipName && existing === name);
+      }
+
+      function renameIngredientEverywhere(oldName, newName) {
+        if (oldName === newName) {
+          return;
+        }
+        state.scenario.inventory.ingredients = renameMapKey(state.scenario.inventory.ingredients, oldName, newName);
+        state.scenario.ingredient_types = renameScalarMapKey(state.scenario.ingredient_types, oldName, newName);
+        state.scenario.ingredient_prices = renameScalarMapKey(state.scenario.ingredient_prices, oldName, newName);
+        state.scenario.for_sale.ingredients = renameFlagMapKey(state.scenario.for_sale.ingredients, oldName, newName);
+        state.workbench.ingredients = renameMapKey(state.workbench.ingredients, oldName, newName);
+        state.scenario.recipes.recipes.forEach((recipe) => {
+          recipe.ingredients = renameMapKey(recipe.ingredients || {}, oldName, newName);
+        });
+        const renameEntry = (entry) => ({
+          ...entry,
+          label: entry.label.replaceAll(oldName, newName),
+          before: {
+            ...entry.before,
+            ingredients: renameMapKey(entry.before.ingredients || {}, oldName, newName)
+          },
+          after: entry.after
+            ? {
+                ...entry.after,
+                ingredients: renameMapKey(entry.after.ingredients || {}, oldName, newName)
+              }
+            : null,
+          effect: entry.effect
+            ? {
+                ...entry.effect,
+                used: (entry.effect.used || []).map((item) => ({
+                  ...item,
+                  name: item.name === oldName ? newName : item.name
+                })),
+                autoBought: (entry.effect.autoBought || []).map((item) => ({
+                  ...item,
+                  name: item.name === oldName ? newName : item.name
+                }))
+              }
+            : null
+        });
+        state.history = state.history.map(renameEntry);
+        state.redo = state.redo.map(renameEntry);
       }
 
       function renameOutputEverywhere(oldName, newName, kind) {
@@ -3224,6 +3621,9 @@
           return;
         }
         const storeKey = outputStoreKey(kind);
+        if (kind === "gem") {
+          state.scenario.gem_metadata = renameScalarMapKey(state.scenario.gem_metadata, oldName, newName);
+        }
         state.scenario.inventory[storeKey] = renameMapKey(state.scenario.inventory[storeKey], oldName, newName);
         state.scenario.for_sale.outputs = renameFlagMapKey(state.scenario.for_sale.outputs, oldName, newName);
         state.workbench[storeKey] = renameMapKey(state.workbench[storeKey], oldName, newName);
@@ -3260,6 +3660,12 @@
         }
         const fromKey = outputStoreKey(fromKind);
         const toKey = outputStoreKey(toKind);
+        if (fromKind === "gem") {
+          delete state.scenario.gem_metadata[name];
+        }
+        if (toKind === "gem") {
+          ensureGemMetadata(name);
+        }
         const moveStoreValue = (container) => {
           const moved = Number(container[fromKey][name] || 0);
           if (!moved) {
@@ -3366,8 +3772,8 @@
             uses.push({ ingredient, count: used });
           }
           if (shortfall > 0) {
-            const price = state.scenario.for_sale.ingredients[ingredient];
-            if (price === undefined) {
+            const price = ingredientPriceForName(ingredient);
+            if (!isIngredientSoldOnLevel(ingredient) || price === null) {
               missing.push({ ingredient, count: shortfall, reason: "not sold" });
             } else {
               extraCost += shortfall * price;
@@ -3447,13 +3853,8 @@
             return { recipe, craft, buy, owned };
           })
           .filter((entry) => {
-            if (filter) {
-              const matchesText =
-                entry.recipe.name.toLowerCase().includes(filter) ||
-                Object.keys(entry.recipe.ingredients || {}).some((ingredient) => ingredient.toLowerCase().includes(filter));
-              if (!matchesText) {
-                return false;
-              }
+            if (filter && !recipeSearchText(entry.recipe).includes(filter)) {
+              return false;
             }
             return matchesWorkbenchScope(entry);
           })
@@ -3714,6 +4115,42 @@
         `;
       }
 
+      function renderHoldingsOutputTable(names, map, emptyText) {
+        const filter = ui.holdingsFilter.trim().toLowerCase();
+        const rows = names
+          .map((name) => [name, Number(map[name] || 0)])
+          .filter(([, value]) => value > 0)
+          .filter(([name]) => !filter || name.toLowerCase().includes(filter))
+          .map(([name, value]) => {
+            const recipe = getRecipeByName(name);
+            return `
+              <tr>
+                <td>${escapeHtml(name)}</td>
+                <td>${value}</td>
+                <td>${recipe ? renderEffectDrawer(recipe, { summaryLabel: "Details", includeIngredients: true }) : ""}</td>
+              </tr>
+            `;
+          })
+          .join("");
+
+        return `
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Count</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows || `<tr><td colspan="3" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
       function renderHoldingsSections() {
         const ingredientNames = sortedEntries(state.workbench.ingredients)
           .filter(([, value]) => value > 0)
@@ -3746,45 +4183,19 @@
               <h3>Potions</h3>
               <div class="subtle">${potionNames.length} rows</div>
             </div>
-            ${renderReadonlyTable(potionNames, state.workbench.potions, "No matching potions.")}
+            ${renderHoldingsOutputTable(potionNames, state.workbench.potions, "No matching potions.")}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Gems</h3>
               <div class="subtle">${gemNames.length} rows</div>
             </div>
-            ${renderReadonlyTable(gemNames, state.workbench.gems, "No matching gems.")}
+            ${renderHoldingsOutputTable(gemNames, state.workbench.gems, "No matching gems.")}
           </div>
         `;
       }
 
       function craftStatusMarkup(recipe, craft, buy) {
-        const directPrice = directPriceForRecipe(recipe);
-        const savings = directPrice !== null && craft.possible ? directPrice - craft.extraCost : null;
-        const badges = [];
-
-        if (craft.possible) {
-          badges.push(
-            `<span class="pill ${craft.extraCost === 0 ? "good" : "warn"}">Craft now for ${craft.extraCost}g</span>`
-          );
-        } else {
-          badges.push(`<span class="pill bad">${escapeHtml(craft.reason)}</span>`);
-        }
-
-        if (buy.possible) {
-          badges.push(`<span class="pill good">Buy now for ${buy.price}g</span>`);
-        } else if (buy.reason === "Not sold on this level") {
-          badges.push(`<span class="pill warn">Not sold on this level</span>`);
-        } else if (buy.price !== undefined) {
-          badges.push(`<span class="pill bad">Need ${buy.price}g</span>`);
-        } else {
-          badges.push(`<span class="pill">No direct buy price</span>`);
-        }
-
-        if (savings !== null && savings > 0) {
-          badges.push(`<span class="pill good">Craft saves ${savings}g</span>`);
-        }
-
         const ingredientChips = sortedEntries(recipe.ingredients || {}, { zeroLast: false })
           .map(([ingredient, count]) => {
             const owned = Number(state.workbench.ingredients[ingredient] || 0);
@@ -3793,35 +4204,93 @@
           })
           .join("");
 
-        const autoBuyText = craft.buys.length
-          ? `<div class="tiny">Auto-buy missing: ${craft.buys
+        const notes = [];
+        if (craft.possible && craft.buys.length) {
+          notes.push(
+            `<div class="tiny">Craft auto-buys: ${craft.buys
               .map((step) => `${escapeHtml(step.ingredient)} x${step.count} (${step.count * step.price}g)`)
               .join(", ")}</div>`
-          : `<div class="tiny">No ingredient top-up needed.</div>`;
+          );
+        } else if (!craft.possible) {
+          if (craft.missing.length) {
+            notes.push(
+              `<div class="tiny">Craft blocked by: ${craft.missing
+                .map((step) => `${escapeHtml(step.ingredient)} x${step.count}`)
+                .join(", ")}</div>`
+            );
+          } else if (craft.reason) {
+            notes.push(`<div class="tiny">${escapeHtml(craft.reason)}</div>`);
+          }
+        }
 
-        const blockedText = craft.missing.length
-          ? `<div class="tiny">Blocked by: ${craft.missing
-              .map((step) => `${escapeHtml(step.ingredient)} x${step.count}`)
-              .join(", ")}</div>`
-          : "";
+        if (!buy.possible) {
+          if (buy.reason === "Not sold on this level") {
+            notes.push(`<div class="tiny">Direct buy is not sold on this level.</div>`);
+          } else if (buy.reason === "No direct buy price") {
+            notes.push(`<div class="tiny">This output has no direct buy price.</div>`);
+          } else if (buy.price !== undefined) {
+            notes.push(`<div class="tiny">Need ${buy.price}g to buy directly.</div>`);
+          }
+        }
 
         return `
           <div class="chip-stack">${ingredientChips}</div>
-          <div class="pill-row" style="margin-top:0.8rem;">${badges.join("")}</div>
-          <div class="tiny" style="margin-top:0.8rem;">Owned copies: ${outputCount(state.workbench, recipe.kind, recipe.name)}</div>
-          <div class="tiny" style="margin-top:0.35rem;">${craft.possible ? autoBuyText : blockedText || escapeHtml(craft.reason)}</div>
+          ${notes.length ? `<div class="stack" style="gap:0.35rem; margin-top:0.75rem;">${notes.join("")}</div>` : ""}
         `;
       }
 
-      function renderEffectDrawer(recipe) {
-        if (recipe.kind === "gem") {
+      function renderEffectDrawer(recipe, options = {}) {
+        const {
+          summaryLabel = recipe?.kind === "gem" ? "Gem Details" : "Effect & Use",
+          includeIngredients = false,
+          startOpen = false
+        } = options;
+        if (!recipe) {
           return "";
+        }
+        if (recipe.kind === "gem") {
+          const gemMeta = gemMetadataForRecipe(recipe);
+          if (!gemMeta) {
+            return "";
+          }
+          const lines = [];
+          lines.push(`<div class="tiny"><strong>Type:</strong> Gem</div>`);
+          if (gemMeta.color) {
+            lines.push(`<div class="tiny"><strong>Color:</strong> ${escapeHtml(gemMeta.color)}</div>`);
+          }
+          if (gemMeta.god) {
+            lines.push(`<div class="tiny"><strong>God:</strong> ${escapeHtml(gemMeta.god)}</div>`);
+          }
+          if (gemMeta.accessory_effects.length) {
+            lines.push(`<div class="tiny"><strong>Accessory effects:</strong></div>`);
+            gemMeta.accessory_effects.forEach((effect) => {
+              lines.push(`<div class="tiny">${escapeHtml(effect)}</div>`);
+            });
+          }
+          if (includeIngredients) {
+            const ingredientText = sortedEntries(recipe.ingredients || {}, { zeroLast: false })
+              .map(([ingredient, count]) => `${ingredient} x${count}`)
+              .join(", ");
+            lines.push(`<div class="tiny"><strong>Ingredients:</strong> ${escapeHtml(ingredientText || "none")}</div>`);
+          }
+          return `
+            <details class="effect-drawer" ${startOpen ? "open" : ""}>
+              <summary>${escapeHtml(summaryLabel)}</summary>
+              <div class="effect-drawer-body">
+                ${lines.join("")}
+              </div>
+            </details>
+          `;
         }
         const subtypeMeta = subtypeMetaForRecipe(recipe);
         if (!subtypeMeta) {
           return "";
         }
         const lines = [];
+        lines.push(`<div class="tiny"><strong>Type:</strong> ${escapeHtml(recipe.kind === "gem" ? "Gem" : subtypeLabelForRecipe(recipe))}</div>`);
+        lines.push(`<div class="tiny"><strong>Tier:</strong> ${escapeHtml(recipe.tier)}</div>`);
+        const directPrice = directPriceForRecipe(recipe);
+        lines.push(`<div class="tiny"><strong>Direct price:</strong> ${directPrice === null ? "None" : `${directPrice}g`}</div>`);
         if (subtypeMeta.action_text) {
           lines.push(`<div class="tiny"><strong>Use:</strong> ${escapeHtml(subtypeMeta.action_text)}</div>`);
         }
@@ -3831,9 +4300,15 @@
         if (recipe.effect_text) {
           lines.push(`<div class="tiny"><strong>Effect:</strong> ${escapeHtml(recipe.effect_text)}</div>`);
         }
+        if (includeIngredients) {
+          const ingredientText = sortedEntries(recipe.ingredients || {}, { zeroLast: false })
+            .map(([ingredient, count]) => `${ingredient} x${count}`)
+            .join(", ");
+          lines.push(`<div class="tiny"><strong>Ingredients:</strong> ${escapeHtml(ingredientText || "none")}</div>`);
+        }
         return `
-          <details class="effect-drawer">
-            <summary>Effect &amp; Use</summary>
+          <details class="effect-drawer" ${startOpen ? "open" : ""}>
+            <summary>${escapeHtml(summaryLabel)}</summary>
             <div class="effect-drawer-body">
               ${lines.join("")}
             </div>
@@ -3883,34 +4358,31 @@
         const cards = entries
           .map(
             ({ recipe, craft, buy, owned }) => {
-              const directPrice = directPriceForRecipe(recipe);
-              const priceText = directPrice === null ? "Recipe only" : `Shop price: ${directPrice}g`;
+              const craftLabel = craft.possible ? `Craft Once · ${craft.extraCost}g` : "Craft Once";
+              const buyLabel = buy.possible
+                ? `Buy Once · ${buy.price}g`
+                : directPriceForRecipe(recipe) === null
+                  ? "Buy Once"
+                  : `Buy Once · ${directPriceForRecipe(recipe)}g`;
               return `
               <article class="potion-card ${recipe.kind === "gem" ? "gem-card" : ""}" data-recipe-card="${escapeHtml(recipe.name)}">
                 <div class="potion-top">
                   <div>
                     <h3>${escapeHtml(recipe.name)}</h3>
                     <div class="potion-meta-line">
-                      <span>${escapeHtml(priceText)}</span>
-                      <span>Tier ${escapeHtml(recipe.tier)}</span>
-                      <span>${escapeHtml(subtypeLabelForRecipe(recipe))}</span>
+                      ${recipeMetaParts(recipe).map((part) => `<span>${escapeHtml(part)}</span>`).join("")}
+                      <span>${owned} owned</span>
                     </div>
-                  </div>
-                  <div class="pill-row">
-                    <span class="pill">${recipe.kind === "gem" ? "Gem" : "Potion"}</span>
-                    <span class="pill ${craft.possible ? "good" : "bad"}">${craft.possible ? "Craftable" : "Blocked"}</span>
-                    <span class="pill ${buyStatusTone(buy)}">${buyStatusLabel(buy)}</span>
-                    <span class="pill">${owned} owned</span>
                   </div>
                 </div>
                 ${craftStatusMarkup(recipe, craft, buy)}
                 ${renderEffectDrawer(recipe)}
                 <div class="action-row">
                   <button class="button-primary" data-action="craft-once" data-recipe="${escapeHtml(recipe.name)}" ${craft.possible ? "" : "disabled"}>
-                    Craft Once
+                    ${escapeHtml(craftLabel)}
                   </button>
                   <button class="button-secondary" data-action="buy-once" data-recipe="${escapeHtml(recipe.name)}" ${buy.possible ? "" : "disabled"}>
-                    Buy Once
+                    ${escapeHtml(buyLabel)}
                   </button>
                 </div>
               </article>
@@ -3920,6 +4392,16 @@
           .join("");
 
         return cards || `<div class="muted-box">No recipes match the current workbench focus and search.</div>`;
+      }
+
+      function renderHistoryOutputDetails(entry) {
+        const outputs = entry.effect?.outputs || [];
+        const details = outputs
+          .map((item) => getRecipeByName(item.name))
+          .filter((recipe) => recipe)
+          .map((recipe) => renderEffectDrawer(recipe, { summaryLabel: `Details: ${recipe.name}`, includeIngredients: true }))
+          .join("");
+        return details ? `<div class="stack" style="margin-top:0.7rem;">${details}</div>` : "";
       }
 
       function renderHistory() {
@@ -3936,6 +4418,7 @@
                 ${kindPills}
               </div>
               <div class="tiny">${escapeHtml(effectSummary(entry, "forward") || "No action details saved for this step.")}</div>
+              ${renderHistoryOutputDetails(entry)}
             </div>
           `;
         });
@@ -4217,37 +4700,36 @@
         const gemNames = getAllOutputNames("gem");
         const filter = ui.shopFilter.trim().toLowerCase();
         const ingredientGroups = splitIngredientNames(ingredientNames);
-        const renderShopRows = (names, emptyText) => {
-          const rows = names
-            .filter((name) => {
-              const price = state.scenario.for_sale.ingredients[name];
-              if (!ui.showZeroShop && price === undefined) {
+        const renderSaleRows = (rowsData, emptyText) => {
+          const rows = rowsData
+            .filter((row) => {
+              if (!ui.showZeroShop && !row.sold) {
                 return false;
               }
               if (!filter) {
                 return true;
               }
-              return name.toLowerCase().includes(filter);
+              return (
+                row.name.toLowerCase().includes(filter) ||
+                row.category.toLowerCase().includes(filter)
+              );
             })
-            .map((name) => {
-              const price = state.scenario.for_sale.ingredients[name];
-              return `
-                <tr>
-                  <td>${escapeHtml(name)}</td>
-                  <td>
-                    <input
-                      type="number"
-                      min="0"
-                      value="${price === undefined ? "" : price}"
-                      placeholder="not sold"
-                      data-action="set-shop-price"
-                      data-name="${escapeHtml(name)}"
-                    >
-                  </td>
-                  <td>${price === undefined ? "No" : "Yes"}</td>
-                </tr>
-              `;
-            })
+            .map((row) => `
+              <tr>
+                <td>${escapeHtml(row.name)}</td>
+                <td>${escapeHtml(row.category)}</td>
+                <td>${escapeHtml(row.priceText)}</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    aria-label="Sold on this level for ${escapeHtml(row.name)}"
+                    data-action="${escapeHtml(row.action)}"
+                    data-name="${escapeHtml(row.name)}"
+                    ${row.sold ? "checked" : ""}
+                  >
+                </td>
+              </tr>
+            `)
             .join("");
 
           return `
@@ -4256,13 +4738,14 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>Ingredient</th>
+                      <th>Name</th>
+                      <th>Category</th>
                       <th>Price</th>
                       <th>Sold This Week</th>
                     </tr>
                   </thead>
                   <tbody>
-                    ${rows || `<tr><td colspan="3" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+                    ${rows || `<tr><td colspan="4" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
                   </tbody>
                 </table>
               </div>
@@ -4270,60 +4753,31 @@
           `;
         };
 
-        const renderOutputSaleRows = (names, emptyText) => {
-          const rows = names
+        const ingredientRowsFor = (names) =>
+          names.map((name) => ({
+            name,
+            category: ingredientTypeForName(name) === "gem_piece" ? "Gem Piece" : "Herb",
+            priceText: `${ingredientPriceForName(name) ?? 0}g`,
+            sold: isIngredientSoldOnLevel(name),
+            action: "set-ingredient-sale"
+          }));
+
+        const outputRowsFor = (names) =>
+          names
             .map((name) => ({ name, recipe: getRecipeByName(name) }))
             .filter(({ recipe }) => recipe)
-            .filter(({ name }) => {
-              const sold = isOutputSoldOnLevel(name);
-              if (!ui.showZeroShop && !sold) {
-                return false;
-              }
-              if (!filter) {
-                return true;
-              }
-              return name.toLowerCase().includes(filter);
-            })
-            .map(({ name, recipe }) => {
-              const price = directPriceForRecipe(recipe);
-              const sold = isOutputSoldOnLevel(name);
-              return `
-                <tr>
-                  <td>${escapeHtml(name)}</td>
-                  <td>${price === null ? "No price" : `${price}g`}</td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      aria-label="Sold on this level for ${escapeHtml(name)}"
-                      data-action="set-output-sale"
-                      data-name="${escapeHtml(name)}"
-                      ${sold ? "checked" : ""}
-                    >
-                  </td>
-                </tr>
-              `;
-            })
-            .join("");
-
-          return `
-            <div class="subsection">
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Output</th>
-                      <th>Direct Price</th>
-                      <th>Sold Here</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${rows || `<tr><td colspan="3" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          `;
-        };
+            .map(({ name, recipe }) => ({
+              name,
+              category: recipe.kind === "gem"
+                ? (() => {
+                    const gemMeta = gemMetadataForRecipe(recipe);
+                    return ["Gem", gemMeta?.color, gemMeta?.god].filter(Boolean).join(" · ");
+                  })()
+                : `Potion · ${subtypeLabelForRecipe(recipe)} · Tier ${recipe.tier}`,
+              priceText: directPriceForRecipe(recipe) === null ? "No price" : `${directPriceForRecipe(recipe)}g`,
+              sold: isOutputSoldOnLevel(name),
+              action: "set-output-sale"
+            }));
 
         return `
           <section class="tab-panel ${ui.activeTab === "shop" ? "active" : ""}" data-tab-panel="shop">
@@ -4340,11 +4794,9 @@
                       <input type="checkbox" data-action="toggle-zero-shop" ${ui.showZeroShop ? "checked" : ""}>
                       Show items not currently sold
                     </label>
-                    <button class="button-soft" data-action="add-ingredient-sale">Add Herb Sale</button>
-                    <button class="button-soft" data-action="add-gem-piece-sale">Add Gem Piece Sale</button>
                   </div>
                 </div>
-                <div class="notice">Ingredient sales are priced here. Direct output sales use each recipe’s price, and the checkboxes below control whether that output is actually sold on this level.</div>
+                <div class="notice">This tab only controls what is sold this week. Edit ingredient prices and recipe definitions in Catalog.</div>
               </div>
               <div class="panel">
                 <div class="stack">
@@ -4353,28 +4805,28 @@
                       <h3>Herbs</h3>
                       <div class="subtle">${ingredientGroups.herbs.length} names</div>
                     </div>
-                    ${renderShopRows(ingredientGroups.herbs, "No matching herb shop rows.")}
+                    ${renderSaleRows(ingredientRowsFor(ingredientGroups.herbs), "No matching herb shop rows.")}
                   </div>
                   <div class="subsection">
                     <div class="subsection-head">
                       <h3>Gem Pieces</h3>
                       <div class="subtle">${ingredientGroups.gems.length} names</div>
                     </div>
-                    ${renderShopRows(ingredientGroups.gems, "No matching gem-piece shop rows.")}
+                    ${renderSaleRows(ingredientRowsFor(ingredientGroups.gems), "No matching gem-piece shop rows.")}
                   </div>
                   <div class="subsection">
                     <div class="subsection-head">
                       <h3>Direct Buy Potions</h3>
                       <div class="subtle">${potionNames.length} names</div>
                     </div>
-                    ${renderOutputSaleRows(potionNames, "No matching direct-buy potion rows.")}
+                    ${renderSaleRows(outputRowsFor(potionNames), "No matching direct-buy potion rows.")}
                   </div>
                   <div class="subsection">
                     <div class="subsection-head">
                       <h3>Direct Buy Gems</h3>
                       <div class="subtle">${gemNames.length} names</div>
                     </div>
-                    ${renderOutputSaleRows(gemNames, "No matching direct-buy gem rows.")}
+                    ${renderSaleRows(outputRowsFor(gemNames), "No matching direct-buy gem rows.")}
                   </div>
                 </div>
               </div>
@@ -4385,19 +4837,60 @@
 
       function renderRecipeTab() {
         const filter = ui.recipeFilter.trim().toLowerCase();
+        const ingredientRows = getAllIngredientNames()
+          .filter((name) => {
+            if (!filter) {
+              return true;
+            }
+            const typeLabel = ingredientTypeForName(name) === "gem_piece" ? "gem piece" : "herb";
+            return name.toLowerCase().includes(filter) || typeLabel.includes(filter);
+          })
+          .sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" }))
+          .map((name) => {
+            const type = ingredientTypeForName(name) || "herb";
+            const price = ingredientPriceForName(name);
+            return `
+              <tr>
+                <td>
+                  <input
+                    type="text"
+                    list="ingredient-suggestions"
+                    value="${escapeHtml(name)}"
+                    data-action="set-ingredient-name"
+                    data-name="${escapeHtml(name)}"
+                  >
+                </td>
+                <td>
+                  <select data-action="set-ingredient-type" data-name="${escapeHtml(name)}">
+                    <option value="herb" ${type === "herb" ? "selected" : ""}>Herb</option>
+                    <option value="gem_piece" ${type === "gem_piece" ? "selected" : ""}>Gem Piece</option>
+                  </select>
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    value="${price === null ? 0 : price}"
+                    data-action="set-ingredient-price"
+                    data-name="${escapeHtml(name)}"
+                  >
+                </td>
+              </tr>
+            `;
+          })
+          .join("");
+
         const cards = state.scenario.recipes.recipes
           .map((recipe, index) => ({ recipe, index }))
           .filter(({ recipe }) => {
             if (!filter) {
               return true;
             }
-            return (
-              recipe.name.toLowerCase().includes(filter) ||
-              Object.keys(recipe.ingredients || {}).some((ingredient) => ingredient.toLowerCase().includes(filter))
-            );
+            return recipeSearchText(recipe).includes(filter);
           })
           .sort((left, right) => left.recipe.name.localeCompare(right.recipe.name, undefined, { sensitivity: "base" }))
           .map(({ recipe, index }) => {
+            const gemMeta = gemMetadataForRecipe(recipe) || createBlankGemMetadata();
             const ingredientRows = sortedEntries(recipe.ingredients || {}, { zeroLast: false })
               .map(
                 ([ingredient, count]) => `
@@ -4429,6 +4922,25 @@
                 `
               )
               .join("");
+            const gemEffectRows = gemMeta.accessory_effects
+              .map(
+                (effect, effectIndex) => `
+                  <div class="recipe-ingredient-row">
+                    <div class="field" style="flex:1 1 280px;">
+                      <label>Accessory effect</label>
+                      <input
+                        type="text"
+                        value="${escapeHtml(effect)}"
+                        data-action="set-gem-effect"
+                        data-name="${escapeHtml(recipe.name)}"
+                        data-effect-index="${effectIndex}"
+                      >
+                    </div>
+                    <button class="button-danger" data-action="delete-gem-effect" data-name="${escapeHtml(recipe.name)}" data-effect-index="${effectIndex}">Remove</button>
+                  </div>
+                `
+              )
+              .join("");
 
             return `
               <details class="recipe-card" ${filter ? "open" : ""}>
@@ -4436,6 +4948,10 @@
                   <strong>${escapeHtml(recipe.name)}</strong>
                   <div class="pill-row">
                     <span class="pill">${recipe.kind === "gem" ? "Gem" : "Potion"}</span>
+                    ${recipe.kind === "gem" ? "" : `<span class="pill">${escapeHtml(subtypeLabelForRecipe(recipe))}</span>`}
+                    <span class="pill">Tier ${escapeHtml(recipe.tier)}</span>
+                    ${recipe.kind === "gem" && gemMeta.color ? `<span class="pill">${escapeHtml(gemMeta.color)}</span>` : ""}
+                    ${recipe.kind === "gem" && gemMeta.god ? `<span class="pill">${escapeHtml(gemMeta.god)}</span>` : ""}
                     <span class="pill">${directPriceForRecipe(recipe) === null ? "Recipe only" : `Price ${directPriceForRecipe(recipe)}g`}</span>
                     <span class="pill">${Object.keys(recipe.ingredients || {}).length} ingredients</span>
                   </div>
@@ -4454,11 +4970,52 @@
                       </select>
                     </div>
                     <div class="field">
+                      <label>Subtype (derived)</label>
+                      <input type="text" value="${escapeHtml(subtypeLabelForRecipe(recipe))}" readonly>
+                    </div>
+                    <div class="field">
+                      <label>Tier</label>
+                      <select data-action="set-recipe-tier" data-index="${index}" ${recipe.kind === "gem" ? "disabled" : ""}>
+                        <option value="D" ${recipe.tier === "D" ? "selected" : ""}>D</option>
+                        <option value="C" ${recipe.tier === "C" ? "selected" : ""}>C</option>
+                        <option value="B" ${recipe.tier === "B" ? "selected" : ""}>B</option>
+                        <option value="A" ${recipe.tier === "A" ? "selected" : ""}>A</option>
+                        <option value="X" ${recipe.tier === "X" ? "selected" : ""}>X</option>
+                      </select>
+                    </div>
+                    <div class="field">
                       <label>Direct buy price</label>
-                      <input type="number" min="0" value="${directPriceForRecipe(recipe) === null ? "" : directPriceForRecipe(recipe)}" placeholder="none" data-action="set-recipe-price" data-index="${index}">
+                      <input type="number" min="0" value="${directPriceForRecipe(recipe) === null ? "" : directPriceForRecipe(recipe)}" placeholder="none" data-action="set-recipe-price" data-index="${index}" ${recipe.kind === "gem" ? "disabled" : ""}>
+                    </div>
+                    <div class="field">
+                      <label>${recipe.kind === "gem" ? "Gem profile" : "Use profile"}</label>
+                      <input type="text" value="${escapeHtml(recipe.kind === "gem" ? "Color, god, and accessory effects" : (subtypeProfileText(recipe) || "No subtype use text"))}" readonly>
                     </div>
                     <button class="button-danger" data-action="delete-recipe" data-index="${index}">Delete Recipe</button>
                   </div>
+                  ${recipe.kind === "gem" ? `
+                    <div class="recipe-grid">
+                      <div class="field">
+                        <label>Color</label>
+                        <input type="text" value="${escapeHtml(gemMeta.color)}" data-action="set-gem-color" data-name="${escapeHtml(recipe.name)}">
+                      </div>
+                      <div class="field">
+                        <label>God</label>
+                        <input type="text" value="${escapeHtml(gemMeta.god)}" data-action="set-gem-god" data-name="${escapeHtml(recipe.name)}">
+                      </div>
+                    </div>
+                    <div class="recipe-ingredients">
+                      ${gemEffectRows || `<div class="muted-box">No accessory effects defined yet.</div>`}
+                    </div>
+                    <div class="inline-fields">
+                      <button class="button-soft" data-action="add-gem-effect" data-name="${escapeHtml(recipe.name)}">Add Accessory Effect</button>
+                    </div>
+                  ` : `
+                    <div class="field">
+                      <label>Effect text</label>
+                      <textarea rows="3" data-action="set-recipe-effect" data-index="${index}">${escapeHtml(recipe.effect_text)}</textarea>
+                    </div>
+                  `}
                   <div class="recipe-ingredients">
                     ${ingredientRows || `<div class="muted-box">This recipe has no ingredients yet.</div>`}
                   </div>
@@ -4476,19 +5033,47 @@
             <div class="stack">
               <div class="panel">
                 <div class="section-head">
-                  <h2>Recipe Editor</h2>
+                  <h2>Catalog</h2>
                   <div class="inline-fields">
                     <div class="field" style="min-width:240px;">
-                      <label for="recipe-filter">Filter recipes</label>
-                      <input id="recipe-filter" type="text" value="${escapeHtml(ui.recipeFilter)}" placeholder="Search by output or ingredient" data-action="set-recipe-filter">
+                      <label for="recipe-filter">Filter catalog</label>
+                      <input id="recipe-filter" type="text" value="${escapeHtml(ui.recipeFilter)}" placeholder="Search definitions, outputs, or effects" data-action="set-recipe-filter">
                     </div>
-                    <button class="button-primary" data-action="add-recipe">Add Recipe</button>
+                    <button class="button-soft" data-action="add-herb">Add Herb Definition</button>
+                    <button class="button-soft" data-action="add-gem-piece">Add Gem Piece Definition</button>
+                    <button class="button-primary" data-action="add-recipe">Add Output Recipe</button>
                   </div>
                 </div>
-                <div class="notice">Recipe edits are live. The workbench recalculates craft and buy options immediately after each change.</div>
+                <div class="notice">Definition edits are live. Ingredient prices live here, while the For Sale tab only toggles what is offered this week.</div>
               </div>
-              <div class="grid-list">
-                ${cards || `<div class="muted-box">No recipes match the current filter.</div>`}
+              <div class="panel">
+                <div class="subsection-head">
+                  <h3>Ingredient Definitions</h3>
+                  <div class="subtle">${getAllIngredientNames().length} names</div>
+                </div>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Base Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${ingredientRows || `<tr><td colspan="3" class="subtle">No ingredient definitions match the current filter.</td></tr>`}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="subsection-head">
+                  <h3>Output Definitions</h3>
+                  <div class="subtle">${state.scenario.recipes.recipes.length} recipes</div>
+                </div>
+                <div class="grid-list">
+                  ${cards || `<div class="muted-box">No output definitions match the current filter.</div>`}
+                </div>
               </div>
             </div>
           </section>
@@ -4574,6 +5159,7 @@
           index: active.dataset.index || "",
           ingredient: active.dataset.ingredient || "",
           name: active.dataset.name || "",
+          effectIndex: active.dataset.effectIndex || "",
           selectionStart: active.selectionStart,
           selectionEnd: active.selectionEnd
         };
@@ -4599,6 +5185,9 @@
           }
           if (snapshot.name) {
             selector += `[data-name="${CSS.escape(snapshot.name)}"]`;
+          }
+          if (snapshot.effectIndex) {
+            selector += `[data-effect-index="${CSS.escape(snapshot.effectIndex)}"]`;
           }
         }
 
@@ -4777,36 +5366,6 @@
             renderApp();
             break;
           }
-          case "add-ingredient-sale": {
-            const name = handlePromptAdd("Herb name to add to the shop");
-            if (!name) {
-              return;
-            }
-            const priceInput = window.prompt("Price for this ingredient", "20");
-            if (priceInput === null) {
-              return;
-            }
-            ensureIngredientType(name, "herb");
-            state.scenario.for_sale.ingredients[name] = Math.max(0, Number(priceInput) || 0);
-            persistState();
-            renderApp();
-            break;
-          }
-          case "add-gem-piece-sale": {
-            const name = handlePromptAdd("Gem piece name to add to the shop");
-            if (!name) {
-              return;
-            }
-            const priceInput = window.prompt("Price for this gem piece", "20");
-            if (priceInput === null) {
-              return;
-            }
-            ensureIngredientType(name, "gem_piece");
-            state.scenario.for_sale.ingredients[name] = Math.max(0, Number(priceInput) || 0);
-            persistState();
-            renderApp();
-            break;
-          }
           case "add-recipe": {
             const name = handlePromptAdd("Output name for the new recipe");
             if (!name) {
@@ -4844,6 +5403,9 @@
             }
             if (window.confirm(`Delete recipe "${recipe.name}"?`)) {
               delete state.scenario.for_sale.outputs[recipe.name];
+              if (recipe.kind === "gem") {
+                delete state.scenario.gem_metadata[recipe.name];
+              }
               state.scenario.recipes.recipes.splice(index, 1);
               persistState();
               renderApp();
@@ -4883,6 +5445,31 @@
               return;
             }
             delete recipe.ingredients[ingredient];
+            persistState();
+            renderApp();
+            break;
+          }
+          case "add-gem-effect": {
+            const name = canonicalOutputName(element.dataset.name, state.scenario.recipes.recipes);
+            const recipe = getRecipeByName(name);
+            if (!recipe || recipe.kind !== "gem") {
+              return;
+            }
+            const gemMeta = ensureGemMetadata(name);
+            gemMeta.accessory_effects.push("New accessory effect");
+            persistState();
+            renderApp();
+            break;
+          }
+          case "delete-gem-effect": {
+            const name = canonicalOutputName(element.dataset.name, state.scenario.recipes.recipes);
+            const recipe = getRecipeByName(name);
+            const effectIndex = Number(element.dataset.effectIndex);
+            if (!recipe || recipe.kind !== "gem" || Number.isNaN(effectIndex)) {
+              return;
+            }
+            const gemMeta = ensureGemMetadata(name);
+            gemMeta.accessory_effects.splice(effectIndex, 1);
             persistState();
             renderApp();
             break;
@@ -4989,20 +5576,60 @@
             persistState();
             renderApp();
             break;
-          case "set-shop-price": {
+          case "set-ingredient-sale": {
             const name = element.dataset.name;
-            const value = element.value.trim();
             const ingredientType = ingredientTypeForName(name) || promptIngredientType(name, "herb");
             if (!ingredientType) {
               renderApp();
               return;
             }
             ensureIngredientType(name, ingredientType);
-            if (!value) {
-              delete state.scenario.for_sale.ingredients[name];
+            if (element.checked) {
+              state.scenario.for_sale.ingredients[name] = true;
             } else {
-              state.scenario.for_sale.ingredients[name] = Math.max(0, Number(value) || 0);
+              delete state.scenario.for_sale.ingredients[name];
             }
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-ingredient-name": {
+            const oldName = element.dataset.name;
+            const newName = element.value.trim();
+            if (!oldName || !newName) {
+              renderApp();
+              return;
+            }
+            if (hasIngredientNameConflict(newName, oldName)) {
+              window.alert(`An ingredient named "${newName}" already exists.`);
+              renderApp();
+              return;
+            }
+            const previousType = ingredientTypeForName(oldName) || "herb";
+            renameIngredientEverywhere(oldName, newName);
+            ensureIngredientType(newName, previousType);
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-ingredient-type": {
+            const name = element.dataset.name;
+            const nextType = normalizeIngredientType(element.value);
+            ensureIngredientType(name, nextType);
+            state.scenario.ingredient_types[name] = nextType;
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-ingredient-price": {
+            const name = element.dataset.name;
+            const ingredientType = ingredientTypeForName(name) || promptIngredientType(name, "herb");
+            if (!ingredientType) {
+              renderApp();
+              return;
+            }
+            ensureIngredientType(name, ingredientType);
+            state.scenario.ingredient_prices[name] = Math.max(0, Number(element.value) || 0);
             persistState();
             renderApp();
             break;
@@ -5016,6 +5643,44 @@
               state.scenario.for_sale.outputs[name] = true;
             } else {
               delete state.scenario.for_sale.outputs[name];
+            }
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-gem-color": {
+            const name = canonicalOutputName(element.dataset.name, state.scenario.recipes.recipes);
+            const recipe = getRecipeByName(name);
+            if (!recipe || recipe.kind !== "gem") {
+              return;
+            }
+            ensureGemMetadata(name).color = element.value.trim();
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-gem-god": {
+            const name = canonicalOutputName(element.dataset.name, state.scenario.recipes.recipes);
+            const recipe = getRecipeByName(name);
+            if (!recipe || recipe.kind !== "gem") {
+              return;
+            }
+            ensureGemMetadata(name).god = element.value.trim();
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-gem-effect": {
+            const name = canonicalOutputName(element.dataset.name, state.scenario.recipes.recipes);
+            const recipe = getRecipeByName(name);
+            const effectIndex = Number(element.dataset.effectIndex);
+            if (!recipe || recipe.kind !== "gem" || Number.isNaN(effectIndex)) {
+              return;
+            }
+            const gemMeta = ensureGemMetadata(name);
+            gemMeta.accessory_effects[effectIndex] = element.value.trim();
+            if (!gemMeta.accessory_effects[effectIndex]) {
+              gemMeta.accessory_effects.splice(effectIndex, 1);
             }
             persistState();
             renderApp();
@@ -5080,12 +5745,40 @@
             if (!recipe) {
               return;
             }
+            if (recipe.kind === "gem") {
+              recipe.price = null;
+              persistState();
+              renderApp();
+              break;
+            }
             const value = element.value.trim();
             if (!value) {
               recipe.price = null;
             } else {
               recipe.price = Math.max(0, Number(value) || 0);
             }
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-recipe-tier": {
+            const index = Number(element.dataset.index);
+            const recipe = state.scenario.recipes.recipes[index];
+            if (!recipe) {
+              return;
+            }
+            recipe.tier = normalizeRecipeTier(element.value, recipe.kind, recipe.name);
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-recipe-effect": {
+            const index = Number(element.dataset.index);
+            const recipe = state.scenario.recipes.recipes[index];
+            if (!recipe) {
+              return;
+            }
+            recipe.effect_text = recipe.kind === "gem" ? "" : element.value.trim();
             persistState();
             renderApp();
             break;

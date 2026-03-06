@@ -70,11 +70,16 @@ def test_import_workbook_generates_expected_schema(tmp_path: Path) -> None:
     assert agate["price"] is None
     assert agate["effect_text"] == ""
     assert agate["ingredients"] == {"Agate piece": 5}
+    assert data["gem_metadata"]["Agate"] == {
+        "color": "Violet",
+        "god": "golem +",
+        "accessory_effects": ["gain 2MP every turn you don't cast a spell"],
+    }
 
     assert data["inventory"]["ingredients"]["Agate piece"] == 0
     assert data["inventory"]["ingredients"]["Lapis lazuli piece"] == 9
-    assert data["for_sale"]["ingredients"]["Agate piece"] == 20
-    assert isinstance(data["for_sale"]["ingredients"]["Agate piece"], int)
+    assert data["ingredient_prices"]["Agate piece"] == 20
+    assert data["for_sale"]["ingredients"]["Agate piece"] is True
     assert data["for_sale"]["outputs"]["Dark Toxin"] is True
 
     assert data["ingredient_types"]["Diamond piece"] == "gem_piece"

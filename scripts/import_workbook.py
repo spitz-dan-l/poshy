@@ -17,11 +17,13 @@ NS = {"main": MAIN_NS, "pkgrel": PKGREL_NS}
 
 POTION_SHEETS = ("PotionsDC&B", "PotionsA&X")
 INGREDIENT_SHEET = "Ingrediants"
+ACCESSORIES_SHEET = "Accessories"
 PRICE_RE = re.compile(r"^\s*(\d+)\s*Gold\s*$", re.IGNORECASE)
 INGREDIENT_RE = re.compile(r"^(.*?)\s*\((\d+)\)$")
 RANK_RE = re.compile(r"^\s*([A-Z])(?:\s|$)")
 PIECE_SUFFIX_MARKER_RE = re.compile(r"^(.*?\bpiece)\s+[A-Z]$", re.IGNORECASE)
 CELL_REF_RE = re.compile(r"([A-Z]+)(\d+)")
+ACCESSORY_GEM_RE = re.compile(r"^(.*?)\s*\(([^()]*)\)\s*$")
 
 POTION_SUBTYPE_RULES = (
     ("brew", re.compile(r"^brew of ", re.IGNORECASE)),
@@ -343,6 +345,49 @@ def generate_gem_recipes(ingredient_names: list[str]) -> list[dict]:
     return gem_recipes
 
 
+def parse_gem_metadata(
+    rows_by_sheet: dict[str, list[dict[str, str]]],
+    output_aliases: dict[str, str],
+    known_gem_names: dict[str, str],
+) -> dict[str, dict[str, object]]:
+    metadata: dict[str, dict[str, object]] = {}
+    for row in rows_by_sheet[ACCESSORIES_SHEET]:
+        raw_name = collapse_space(row.get("A", ""))
+        if not raw_name:
+            continue
+        match = ACCESSORY_GEM_RE.fullmatch(raw_name)
+        if match is None:
+            continue
+        canonical_name = apply_alias(match.group(1), output_aliases)
+        gem_name = known_gem_names.get(canonical_name.casefold())
+        if gem_name is None:
+            raise ImportErrorWithContext(f"Accessories sheet references unknown gem {raw_name!r}")
+        if gem_name in metadata:
+            raise ImportErrorWithContext(f"Accessories sheet has duplicate metadata for gem {gem_name!r}")
+        god = collapse_space(match.group(2))
+        color = collapse_space(row.get("F", ""))
+        accessory_effects = [
+            collapse_space(row.get(column, ""))
+            for column in ("C", "D", "E")
+            if collapse_space(row.get(column, ""))
+        ]
+        if not god:
+            raise ImportErrorWithContext(f"Accessories sheet gem {gem_name!r} is missing a god name")
+        if not color:
+            raise ImportErrorWithContext(f"Accessories sheet gem {gem_name!r} is missing a color")
+        if not accessory_effects:
+            raise ImportErrorWithContext(f"Accessories sheet gem {gem_name!r} is missing accessory effects")
+        metadata[gem_name] = {
+            "color": color,
+            "god": god,
+            "accessory_effects": accessory_effects,
+        }
+    missing = sorted(name for name in known_gem_names.values() if name not in metadata)
+    if missing:
+        raise ImportErrorWithContext(f"Accessories sheet is missing gem metadata for: {', '.join(missing)}")
+    return dict(sorted(metadata.items(), key=lambda item: item[0].casefold()))
+
+
 def normalize_resources(
     raw_resources: dict,
     ingredient_aliases: dict[str, str],
@@ -397,10 +442,7 @@ def normalize_resources(
             "gems": gems,
         },
         "for_sale": {
-            "ingredients": {
-                name: ingredient_prices[name]
-                for name in sorted(sold_ingredients, key=str.casefold)
-            },
+            "ingredients": sold_ingredients,
             "outputs": sold_outputs,
         },
     }
@@ -421,7 +463,7 @@ def build_known_names(recipes: list[dict]) -> tuple[dict[str, str], dict[str, st
 def build_ingredient_types(scenario: dict) -> dict[str, str]:
     names: set[str] = set()
     names.update(scenario["inventory"]["ingredients"])
-    names.update(scenario["for_sale"]["ingredients"])
+    names.update(scenario["ingredient_prices"])
     for recipe in scenario["recipes"]["recipes"]:
         names.update(recipe["ingredients"])
     return {
@@ -436,7 +478,7 @@ def import_workbook(workbook_path: Path, alias_path: Path, resources_path: Path)
     output_aliases = build_alias_map(alias_data.get("outputs", {}), "output")
 
     rows_by_sheet = read_workbook(workbook_path)
-    missing_sheets = [name for name in (*POTION_SHEETS, INGREDIENT_SHEET) if name not in rows_by_sheet]
+    missing_sheets = [name for name in (*POTION_SHEETS, INGREDIENT_SHEET, ACCESSORIES_SHEET) if name not in rows_by_sheet]
     if missing_sheets:
         raise ImportErrorWithContext(f"Workbook is missing sheets: {', '.join(missing_sheets)}")
 
@@ -445,6 +487,11 @@ def import_workbook(workbook_path: Path, alias_path: Path, resources_path: Path)
     known_ingredients, _ = build_known_names(potion_recipes)
     ingredient_prices = parse_ingredient_prices(rows_by_sheet, ingredient_aliases, known_ingredients)
     gem_recipes = generate_gem_recipes(list(ingredient_prices))
+    gem_metadata = parse_gem_metadata(
+        rows_by_sheet,
+        output_aliases,
+        {recipe["name"].casefold(): recipe["name"] for recipe in gem_recipes},
+    )
     all_recipes = sorted(potion_recipes + gem_recipes, key=lambda recipe: recipe["name"].casefold())
 
     all_ingredient_names, all_output_names = build_known_names(all_recipes)
@@ -459,7 +506,9 @@ def import_workbook(workbook_path: Path, alias_path: Path, resources_path: Path)
 
     scenario = {
         "inventory": resources["inventory"],
+        "ingredient_prices": ingredient_prices,
         "ingredient_types": {},
+        "gem_metadata": gem_metadata,
         "for_sale": resources["for_sale"],
         "subtypes": subtypes,
         "recipes": {"recipes": all_recipes},

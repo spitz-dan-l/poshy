@@ -37,11 +37,12 @@ def test_index_smoke() -> None:
             has=page.locator("h3", has_text="Agate")
         ).first
         expect(agate_card).to_be_visible()
-        expect(agate_card.locator(".pill").first).to_contain_text("Gem")
+        expect(agate_card.locator(".potion-meta-line")).to_contain_text("Gem")
+        expect(agate_card.locator(".potion-meta-line")).to_contain_text("Violet")
+        expect(agate_card.locator(".potion-meta-line")).to_contain_text("golem +")
 
         warming_card = page.locator('[data-recipe-card="Warming medicine"]')
         expect(warming_card).to_be_visible()
-        expect(warming_card.locator(".pill").first).to_contain_text("Potion")
         expect(warming_card.locator(".potion-meta-line")).to_contain_text("Tier D")
         expect(warming_card.locator(".potion-meta-line")).to_contain_text("Medicine")
         effect_drawer = warming_card.locator("details.effect-drawer")
@@ -50,7 +51,18 @@ def test_index_smoke() -> None:
         effect_drawer.locator("summary").click()
         expect(effect_drawer).to_contain_text("Reactive")
         expect(effect_drawer).to_contain_text("Resets Temp to 0 from a negative number")
-        expect(agate_card.locator("details.effect-drawer")).to_have_count(0)
+        agate_drawer = agate_card.locator("details.effect-drawer")
+        expect(agate_drawer).to_have_count(1)
+        expect(agate_drawer.locator("summary")).to_contain_text("Gem Details")
+        agate_drawer.locator("summary").click()
+        expect(agate_drawer).to_contain_text("Violet")
+        expect(agate_drawer).to_contain_text("golem +")
+        expect(agate_drawer).to_contain_text("gain 2MP every turn you don't cast a spell")
+
+        holdings_health_row = page.locator(".holdings-panel tr").filter(
+            has=page.locator("td", has_text="Health potion")
+        ).first
+        expect(holdings_health_row.locator("details.effect-drawer")).to_have_count(1)
 
         core_holdings = page.locator(".holdings-panel .subsection").filter(
             has=page.get_by_role("heading", name="Herbs")
@@ -63,7 +75,7 @@ def test_index_smoke() -> None:
 
         ancient_card = page.locator('[data-recipe-card="Ancient medicine"]')
         expect(ancient_card).to_be_visible()
-        expect(ancient_card).to_contain_text("Not sold here")
+        expect(ancient_card).to_contain_text("Direct buy is not sold on this level.")
         expect(ancient_card.locator('button[data-action="buy-once"]')).to_be_disabled()
 
         mana_card = page.locator('[data-recipe-card="Mana potion"]')
@@ -81,6 +93,7 @@ def test_index_smoke() -> None:
         expect(page.locator('[data-role="toast"]')).to_contain_text("Crafted")
         expect(page.locator(".history-card strong").first).to_contain_text("Crafted")
         expect(page.locator('button[data-action="undo-action"]')).to_contain_text("Crafted")
+        expect(page.locator(".history-card details.effect-drawer")).to_have_count(1)
         assert stat_value(page, "Steps") == "1"
 
         page.locator('button[data-action="undo-action"]').click()
@@ -108,6 +121,7 @@ def test_index_smoke() -> None:
 
         page.locator('button[data-action="switch-tab"][data-tab="shop"]').click()
         expect(page.get_by_role("heading", name="Direct Buy Potions")).to_be_visible()
+        expect(page.locator('input[data-action="set-ingredient-sale"][data-name="Lune stone"]')).to_be_checked()
         expect(page.locator('input[data-action="set-output-sale"][data-name="Mana potion"]')).to_be_checked()
         expect(page.locator('input[data-action="set-output-sale"][data-name="Ancient medicine"]')).to_have_count(0)
         page.locator('input[data-action="toggle-zero-shop"]').check()
@@ -126,8 +140,29 @@ def test_index_smoke() -> None:
         assert stat_value(page, "Gold") == f"{updated_gold}g"
 
         page.locator('button[data-action="switch-tab"][data-tab="recipes"]').click()
+        expect(page.get_by_role("heading", name="Catalog")).to_be_visible()
+        expect(page.get_by_role("heading", name="Ingredient Definitions")).to_be_visible()
         recipe_names = page.locator("details.recipe-card summary strong").all_inner_texts()
         assert recipe_names == sorted(recipe_names, key=str.casefold)
+        warming_recipe = page.locator("details.recipe-card").filter(
+            has=page.locator("summary strong", has_text="Warming medicine")
+        ).first
+        warming_recipe.locator("summary").click()
+        subtype_field = warming_recipe.locator('input[readonly]').first
+        tier_field = warming_recipe.locator('select[data-action="set-recipe-tier"]')
+        effect_field = warming_recipe.locator('textarea[data-action="set-recipe-effect"]')
+        expect(subtype_field).to_have_value("Medicine")
+        expect(tier_field).to_have_value("D")
+        assert "Resets Temp to 0 from a negative number" in effect_field.input_value()
+        agate_recipe = page.locator("details.recipe-card").filter(
+            has=page.locator("summary strong", has_text="Agate")
+        ).first
+        agate_recipe.locator("summary").click()
+        expect(agate_recipe.locator('input[data-action="set-gem-color"]')).to_have_value("Violet")
+        expect(agate_recipe.locator('input[data-action="set-gem-god"]')).to_have_value("golem +")
+        expect(agate_recipe.locator('input[data-action="set-gem-effect"]').first).to_have_value(
+            "gain 2MP every turn you don't cast a spell"
+        )
 
         mobile_context = browser.new_context(
             viewport={"width": 430, "height": 932},

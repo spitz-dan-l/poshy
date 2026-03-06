@@ -50,6 +50,48 @@
     },
     "gems": {}
   },
+  "ingredient_prices": {
+    "Agate piece": 20,
+    "Alexandrite piece": 20,
+    "Amethyst piece": 20,
+    "Aquamarine piece": 20,
+    "Aurora flower": 25,
+    "Batta berry": 15,
+    "Beryl piece": 20,
+    "Cactus pulp": 15,
+    "Citrine piece": 20,
+    "Diamond piece": 20,
+    "Dragon scale": 25,
+    "Emerald piece": 20,
+    "Faroh weed": 10,
+    "Garnet piece": 20,
+    "Green herb": 10,
+    "Holy water": 20,
+    "Ibsidian shard": 20,
+    "Jhi fruit": 20,
+    "Kora root": 15,
+    "Lapis lazuli piece": 20,
+    "Lune stone": 10,
+    "Malachite piece": 20,
+    "Mana mushroom": 15,
+    "Moonstone piece": 20,
+    "Nappa grass": 10,
+    "Onyx piece": 20,
+    "Opal piece": 20,
+    "Pearl piece": 20,
+    "Peridot piece": 20,
+    "Quetzal feather": 25,
+    "Ruby piece": 20,
+    "Runic bone": 25,
+    "Sapphire piece": 20,
+    "Topaz piece": 20,
+    "Tourmaline piece": 20,
+    "Unicorn horn": 25,
+    "Vunderbark": 20,
+    "Wano honey": 20,
+    "Yon nut": 10,
+    "Zam shell": 15
+  },
   "ingredient_types": {
     "Agate piece": "gem_piece",
     "Alexandrite piece": "gem_piece",
@@ -92,18 +134,171 @@
     "Yon nut": "herb",
     "Zam shell": "herb"
   },
+  "gem_metadata": {
+    "Agate": {
+      "color": "Violet",
+      "god": "golem +",
+      "accessory_effects": [
+        "gain 2MP every turn you don't cast a spell"
+      ]
+    },
+    "Alexandrite": {
+      "color": "Tan",
+      "god": "Golem -",
+      "accessory_effects": [
+        "Increases magic defense by 2"
+      ]
+    },
+    "Amethyst": {
+      "color": "Purple",
+      "god": "Lyconid",
+      "accessory_effects": [
+        "Increases ability count by 1",
+        "(-3MP)"
+      ]
+    },
+    "Aquamarine": {
+      "color": "Blue",
+      "god": "Zuloscia",
+      "accessory_effects": [
+        "resist rain",
+        "Waterwalking",
+        "Bogwalking"
+      ]
+    },
+    "Beryl": {
+      "color": "Pink",
+      "god": "Minotaur",
+      "accessory_effects": [
+        "Increases HP by 1"
+      ]
+    },
+    "Citrine": {
+      "color": "Orange",
+      "god": "Cantuko",
+      "accessory_effects": [
+        "Increases spell/projectile range by 1"
+      ]
+    },
+    "Diamond": {
+      "color": "Clear",
+      "god": "Amiti",
+      "accessory_effects": [
+        "Increases Stat by 1",
+        "increases cap by 1"
+      ]
+    },
+    "Emerald": {
+      "color": "Green",
+      "god": "Quolanti",
+      "accessory_effects": [
+        "+3 to herb rolls",
+        "resist cold",
+        "+1 move on plains"
+      ]
+    },
+    "Garnet": {
+      "color": "Crimson",
+      "god": "Orc",
+      "accessory_effects": [
+        "Increases attack by 1"
+      ]
+    },
+    "Lapis lazuli": {
+      "color": "Torquoise",
+      "god": "Fenroc",
+      "accessory_effects": [
+        "resist heat",
+        "Lavawalking",
+        "Icewalking"
+      ]
+    },
+    "Malachite": {
+      "color": "Brown",
+      "god": "Guzma",
+      "accessory_effects": [
+        "+3 gem rolls",
+        "resist wind"
+      ]
+    },
+    "Moonstone": {
+      "color": "Periwinkle",
+      "god": "Drow",
+      "accessory_effects": [
+        "Increases magic attack by 1"
+      ]
+    },
+    "Onyx": {
+      "color": "Black",
+      "god": "Xyro",
+      "accessory_effects": [
+        "you may choose to change the result of 1 dice roll per level"
+      ]
+    },
+    "Opal": {
+      "color": "Rainbow",
+      "god": "Dawnfolk",
+      "accessory_effects": [
+        "Increases MP by 8"
+      ]
+    },
+    "Pearl": {
+      "color": "White",
+      "god": "Human",
+      "accessory_effects": [
+        "Increases trap, loot, and terrain checks by 5"
+      ]
+    },
+    "Peridot": {
+      "color": "Lime",
+      "god": "leo",
+      "accessory_effects": [
+        "Increases movement by 1"
+      ]
+    },
+    "Ruby": {
+      "color": "Red",
+      "god": "Zarian",
+      "accessory_effects": [
+        "Increases shield by 1"
+      ]
+    },
+    "Sapphire": {
+      "color": "Indigo",
+      "god": "Mer",
+      "accessory_effects": [
+        "Increases FAB by 1",
+        "Increases vision by 2"
+      ]
+    },
+    "Topaz": {
+      "color": "Yellow",
+      "god": "Gnome",
+      "accessory_effects": [
+        "Increases accuracy by 1"
+      ]
+    },
+    "Tourmaline": {
+      "color": "Teal",
+      "god": "Vermen",
+      "accessory_effects": [
+        "Increases climbing cap by 2",
+        "increases falling factor by 1"
+      ]
+    }
+  },
   "for_sale": {
     "ingredients": {
-      "Agate piece": 20,
-      "Batta berry": 15,
-      "Diamond piece": 20,
-      "Dragon scale": 25,
-      "Holy water": 20,
-      "Lune stone": 10,
-      "Moonstone piece": 20,
-      "Sapphire piece": 20,
-      "Vunderbark": 20,
-      "Zam shell": 15
+      "Agate piece": true,
+      "Batta berry": true,
+      "Diamond piece": true,
+      "Dragon scale": true,
+      "Holy water": true,
+      "Lune stone": true,
+      "Moonstone piece": true,
+      "Sapphire piece": true,
+      "Vunderbark": true,
+      "Zam shell": true
     },
     "outputs": {
       "Blessed medicine": true,
