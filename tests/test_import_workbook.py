@@ -54,22 +54,23 @@ def test_import_workbook_generates_expected_schema(tmp_path: Path) -> None:
 
     assert len(potions) == 60
     assert len(gems) == 20
-    assert set(data["subtypes"]) == {"medicine", "elixir", "potion", "toxin", "solution", "grenade", "brew", "gem"}
+    assert set(data["subtypes"]) == {"medicine", "elixir", "potion", "toxin", "solution", "grenade", "brew"}
 
     warming = next(recipe for recipe in recipes if recipe["name"] == "Warming medicine")
     assert warming["price"] == 45
     assert warming["tier"] == "D"
-    assert warming["subtype"] == "medicine"
     assert warming["effect_text"]
+    assert "subtype" not in warming
 
     miracle = next(recipe for recipe in recipes if recipe["name"] == "Miracle medicine")
     assert miracle["price"] == 150
 
     agate = next(recipe for recipe in recipes if recipe["name"] == "Agate")
-    assert agate["tier"] == "X"
-    assert agate["price"] is None
-    assert agate["effect_text"] == ""
     assert agate["ingredients"] == {"Agate piece": 5}
+    assert "subtype" not in agate
+    assert "tier" not in agate
+    assert "price" not in agate
+    assert "effect_text" not in agate
     assert data["gem_metadata"]["Agate"] == {
         "color": "Violet",
         "god": "golem +",
@@ -94,6 +95,32 @@ gold = 339
 
 [inventory.ingredients]
 "Unknown Mushroom" = 1
+
+[inventory.potions]
+
+[inventory.gems]
+
+[for_sale.ingredients]
+
+[for_sale.outputs]
+""".strip()
+        + "\n",
+        encoding="utf-8",
+    )
+
+    completed, _ = run_importer(tmp_path, resources_path=bad_resources)
+    assert completed.returncode != 0
+    assert "unknown name" in completed.stderr.lower()
+
+
+def test_import_workbook_rejects_resource_alias_names(tmp_path: Path) -> None:
+    bad_resources = tmp_path / "bad_resources_alias.toml"
+    bad_resources.write_text(
+        """
+gold = 339
+
+[inventory.ingredients]
+"Agate" = 1
 
 [inventory.potions]
 

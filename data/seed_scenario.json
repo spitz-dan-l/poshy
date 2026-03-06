@@ -350,11 +350,6 @@
       "label": "Brew",
       "action_text": "Must use between levels",
       "targeting_text": ""
-    },
-    "gem": {
-      "label": "Gem",
-      "action_text": "",
-      "targeting_text": ""
     }
   },
   "recipes": {
@@ -362,40 +357,27 @@
       {
         "name": "Agate",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Agate piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Alexandrite",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Alexandrite piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Amethyst",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Amethyst piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Ancient medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "C",
         "price": 70,
         "ingredients": {
@@ -407,29 +389,20 @@
       {
         "name": "Aquamarine",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Aquamarine piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Beryl",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Beryl piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Blessed medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "B",
         "price": 100,
         "ingredients": {
@@ -441,7 +414,6 @@
       {
         "name": "Blood potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "C",
         "price": 100,
         "ingredients": {
@@ -453,7 +425,6 @@
       {
         "name": "Brew of the Dancer",
         "kind": "potion",
-        "subtype": "brew",
         "tier": "A",
         "price": 165,
         "ingredients": {
@@ -467,7 +438,6 @@
       {
         "name": "Brew of the Master",
         "kind": "potion",
-        "subtype": "brew",
         "tier": "A",
         "price": 165,
         "ingredients": {
@@ -481,7 +451,6 @@
       {
         "name": "Brew of the Painter",
         "kind": "potion",
-        "subtype": "brew",
         "tier": "A",
         "price": 165,
         "ingredients": {
@@ -495,7 +464,6 @@
       {
         "name": "Brew of the Scholar",
         "kind": "potion",
-        "subtype": "brew",
         "tier": "A",
         "price": 165,
         "ingredients": {
@@ -509,7 +477,6 @@
       {
         "name": "Brew of the Smith",
         "kind": "potion",
-        "subtype": "brew",
         "tier": "A",
         "price": 165,
         "ingredients": {
@@ -523,7 +490,6 @@
       {
         "name": "Calming medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "D",
         "price": 45,
         "ingredients": {
@@ -534,18 +500,13 @@
       {
         "name": "Citrine",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Citrine piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Clay solution",
         "kind": "potion",
-        "subtype": "solution",
         "tier": "B",
         "price": 170,
         "ingredients": {
@@ -559,7 +520,6 @@
       {
         "name": "Cleansing medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "D",
         "price": 45,
         "ingredients": {
@@ -570,7 +530,6 @@
       {
         "name": "Cooling medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "D",
         "price": 45,
         "ingredients": {
@@ -581,7 +540,6 @@
       {
         "name": "Cursed medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "B",
         "price": 100,
         "ingredients": {
@@ -593,7 +551,6 @@
       {
         "name": "Dark Toxin",
         "kind": "potion",
-        "subtype": "toxin",
         "tier": "A",
         "price": 195,
         "ingredients": {
@@ -607,7 +564,6 @@
       {
         "name": "Deluxe medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "B",
         "price": 125,
         "ingredients": {
@@ -621,18 +577,13 @@
       {
         "name": "Diamond",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Diamond piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Elemental solution",
         "kind": "potion",
-        "subtype": "solution",
         "tier": "A",
         "price": 180,
         "ingredients": {
@@ -646,7 +597,6 @@
       {
         "name": "Elixir of evolution",
         "kind": "potion",
-        "subtype": "elixir",
         "tier": "B",
         "price": 155,
         "ingredients": {
@@ -660,7 +610,6 @@
       {
         "name": "Elixir of invisibility",
         "kind": "potion",
-        "subtype": "elixir",
         "tier": "C",
         "price": 100,
         "ingredients": {
@@ -673,7 +622,6 @@
       {
         "name": "Elixir of space",
         "kind": "potion",
-        "subtype": "elixir",
         "tier": "A",
         "price": 220,
         "ingredients": {
@@ -687,7 +635,6 @@
       {
         "name": "Elixir of storms",
         "kind": "potion",
-        "subtype": "elixir",
         "tier": "B",
         "price": 140,
         "ingredients": {
@@ -701,7 +648,6 @@
       {
         "name": "Elixir of time",
         "kind": "potion",
-        "subtype": "elixir",
         "tier": "A",
         "price": 220,
         "ingredients": {
@@ -715,7 +661,6 @@
       {
         "name": "Elixir of vision",
         "kind": "potion",
-        "subtype": "elixir",
         "tier": "D",
         "price": 65,
         "ingredients": {
@@ -727,18 +672,13 @@
       {
         "name": "Emerald",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Emerald piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Fish potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "C",
         "price": 85,
         "ingredients": {
@@ -751,7 +691,6 @@
       {
         "name": "Flammable toxin",
         "kind": "potion",
-        "subtype": "toxin",
         "tier": "B",
         "price": 165,
         "ingredients": {
@@ -765,7 +704,6 @@
       {
         "name": "Focus potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "D",
         "price": 50,
         "ingredients": {
@@ -776,7 +714,6 @@
       {
         "name": "Frost grenade",
         "kind": "potion",
-        "subtype": "grenade",
         "tier": "B",
         "price": 155,
         "ingredients": {
@@ -789,18 +726,13 @@
       {
         "name": "Garnet",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Garnet piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Health potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "D",
         "price": 55,
         "ingredients": {
@@ -812,7 +744,6 @@
       {
         "name": "Heart potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "A",
         "price": 180,
         "ingredients": {
@@ -825,7 +756,6 @@
       {
         "name": "Holy potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "D",
         "price": 45,
         "ingredients": {
@@ -836,7 +766,6 @@
       {
         "name": "Hyper potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "B",
         "price": 130,
         "ingredients": {
@@ -849,7 +778,6 @@
       {
         "name": "Juggernaut potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "B",
         "price": 130,
         "ingredients": {
@@ -862,18 +790,13 @@
       {
         "name": "Lapis lazuli",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Lapis lazuli piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Light grenade",
         "kind": "potion",
-        "subtype": "grenade",
         "tier": "D",
         "price": 65,
         "ingredients": {
@@ -885,7 +808,6 @@
       {
         "name": "Luck potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "D",
         "price": 30,
         "ingredients": {
@@ -896,7 +818,6 @@
       {
         "name": "Magic potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "C",
         "price": 85,
         "ingredients": {
@@ -907,18 +828,13 @@
       {
         "name": "Malachite",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Malachite piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Mana potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "D",
         "price": 55,
         "ingredients": {
@@ -930,7 +846,6 @@
       {
         "name": "Metal medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "A",
         "price": 175,
         "ingredients": {
@@ -943,7 +858,6 @@
       {
         "name": "Mind potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "A",
         "price": 180,
         "ingredients": {
@@ -956,7 +870,6 @@
       {
         "name": "Miracle medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "A",
         "price": 150,
         "ingredients": {
@@ -969,7 +882,6 @@
       {
         "name": "Monkey potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "C",
         "price": 85,
         "ingredients": {
@@ -982,18 +894,13 @@
       {
         "name": "Moonstone",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Moonstone piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Muscle potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "D",
         "price": 45,
         "ingredients": {
@@ -1005,7 +912,6 @@
       {
         "name": "Neuro toxin",
         "kind": "potion",
-        "subtype": "toxin",
         "tier": "C",
         "price": 140,
         "ingredients": {
@@ -1018,51 +924,34 @@
       {
         "name": "Onyx",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Onyx piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Opal",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Opal piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Pearl",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Pearl piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Peridot",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Peridot piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Reaver potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "B",
         "price": 130,
         "ingredients": {
@@ -1075,7 +964,6 @@
       {
         "name": "Rejuvination potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "C",
         "price": 70,
         "ingredients": {
@@ -1086,7 +974,6 @@
       {
         "name": "Reversal medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "B",
         "price": 125,
         "ingredients": {
@@ -1098,29 +985,20 @@
       {
         "name": "Ruby",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Ruby piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Sapphire",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Sapphire piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Sheen potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "C",
         "price": 70,
         "ingredients": {
@@ -1131,7 +1009,6 @@
       {
         "name": "Sight potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "C",
         "price": 70,
         "ingredients": {
@@ -1143,7 +1020,6 @@
       {
         "name": "Smoke grenade",
         "kind": "potion",
-        "subtype": "grenade",
         "tier": "C",
         "price": 130,
         "ingredients": {
@@ -1156,7 +1032,6 @@
       {
         "name": "Soothing medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "D",
         "price": 45,
         "ingredients": {
@@ -1167,7 +1042,6 @@
       {
         "name": "Soul potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "C",
         "price": 100,
         "ingredients": {
@@ -1179,7 +1053,6 @@
       {
         "name": "Spiritual medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "D",
         "price": 45,
         "ingredients": {
@@ -1190,7 +1063,6 @@
       {
         "name": "Stamina potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "D",
         "price": 50,
         "ingredients": {
@@ -1201,7 +1073,6 @@
       {
         "name": "Super potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "B",
         "price": 135,
         "ingredients": {
@@ -1213,7 +1084,6 @@
       {
         "name": "Superior medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "C",
         "price": 70,
         "ingredients": {
@@ -1225,7 +1095,6 @@
       {
         "name": "Sustaining medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "B",
         "price": 105,
         "ingredients": {
@@ -1237,29 +1106,20 @@
       {
         "name": "Topaz",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Topaz piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Tourmaline",
         "kind": "gem",
-        "subtype": "gem",
-        "tier": "X",
-        "price": null,
         "ingredients": {
           "Tourmaline piece": 5
-        },
-        "effect_text": ""
+        }
       },
       {
         "name": "Truth potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "C",
         "price": 60,
         "ingredients": {
@@ -1270,7 +1130,6 @@
       {
         "name": "Ultra potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "A",
         "price": 220,
         "ingredients": {
@@ -1283,7 +1142,6 @@
       {
         "name": "Vigor potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "C",
         "price": 85,
         "ingredients": {
@@ -1294,7 +1152,6 @@
       {
         "name": "Warming medicine",
         "kind": "potion",
-        "subtype": "medicine",
         "tier": "D",
         "price": 45,
         "ingredients": {
@@ -1305,7 +1162,6 @@
       {
         "name": "Warp grenade",
         "kind": "potion",
-        "subtype": "grenade",
         "tier": "A",
         "price": 185,
         "ingredients": {
@@ -1319,7 +1175,6 @@
       {
         "name": "Wing potion",
         "kind": "potion",
-        "subtype": "potion",
         "tier": "B",
         "price": 105,
         "ingredients": {

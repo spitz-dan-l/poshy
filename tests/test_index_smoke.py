@@ -40,6 +40,7 @@ def test_index_smoke() -> None:
         expect(agate_card.locator(".potion-meta-line")).to_contain_text("Gem")
         expect(agate_card.locator(".potion-meta-line")).to_contain_text("Violet")
         expect(agate_card.locator(".potion-meta-line")).to_contain_text("golem +")
+        expect(agate_card.locator(".potion-meta-line")).not_to_contain_text("Tier")
 
         warming_card = page.locator('[data-recipe-card="Warming medicine"]')
         expect(warming_card).to_be_visible()
@@ -158,6 +159,10 @@ def test_index_smoke() -> None:
             has=page.locator("summary strong", has_text="Agate")
         ).first
         agate_recipe.locator("summary").click()
+        expect(agate_recipe).not_to_contain_text("Subtype (derived)")
+        expect(agate_recipe.locator('select[data-action="set-recipe-tier"]')).to_have_count(0)
+        expect(agate_recipe.locator('input[data-action="set-recipe-price"]')).to_have_count(0)
+        expect(agate_recipe).not_to_contain_text("Recipe only")
         expect(agate_recipe.locator('input[data-action="set-gem-color"]')).to_have_value("Violet")
         expect(agate_recipe.locator('input[data-action="set-gem-god"]')).to_have_value("golem +")
         expect(agate_recipe.locator('input[data-action="set-gem-effect"]').first).to_have_value(

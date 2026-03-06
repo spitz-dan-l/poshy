@@ -43,7 +43,6 @@ POTION_SUBTYPE_LABELS = {
     "solution": "Solution",
     "grenade": "Grenade",
     "brew": "Brew",
-    "gem": "Gem",
 }
 
 VALID_TIERS = {"A", "B", "C", "D", "X"}
@@ -209,7 +208,7 @@ def normalize_flag_keys(
 
 def parse_subtypes(rows_by_sheet: dict[str, list[dict[str, str]]]) -> dict[str, dict[str, str]]:
     subtype_map: dict[str, dict[str, str]] = {}
-    legend_lookup = {label.casefold(): key for key, label in POTION_SUBTYPE_LABELS.items() if key != "gem"}
+    legend_lookup = {label.casefold(): key for key, label in POTION_SUBTYPE_LABELS.items()}
     for sheet_name in POTION_SHEETS:
         current: dict[str, dict[str, str]] = {}
         for row in rows_by_sheet[sheet_name]:
@@ -230,7 +229,6 @@ def parse_subtypes(rows_by_sheet: dict[str, list[dict[str, str]]]) -> dict[str, 
             continue
         if subtype_map != current:
             raise ImportErrorWithContext(f"Subtype legend mismatch between potion sheets and {sheet_name}")
-    subtype_map["gem"] = {"label": "Gem", "action_text": "", "targeting_text": ""}
     return subtype_map
 
 
@@ -269,11 +267,11 @@ def parse_potion_recipes(
             if not ingredients:
                 raise ImportErrorWithContext(f"Recipe {canonical_name!r} has no parsed ingredients")
 
+            infer_potion_subtype(canonical_name)
             recipes.append(
                 {
                     "name": canonical_name,
                     "kind": "potion",
-                    "subtype": infer_potion_subtype(canonical_name),
                     "tier": normalize_tier(row.get("B", "")),
                     "price": int(price_text),
                     "ingredients": dict(sorted(ingredients.items(), key=lambda item: item[0].casefold())),
@@ -335,11 +333,7 @@ def generate_gem_recipes(ingredient_names: list[str]) -> list[dict]:
             {
                 "name": gem_name,
                 "kind": "gem",
-                "subtype": "gem",
-                "tier": "X",
-                "price": None,
                 "ingredients": {ingredient_name: 5},
-                "effect_text": "",
             }
         )
     return gem_recipes
@@ -390,11 +384,8 @@ def parse_gem_metadata(
 
 def normalize_resources(
     raw_resources: dict,
-    ingredient_aliases: dict[str, str],
-    output_aliases: dict[str, str],
     known_ingredient_names: dict[str, str],
     known_output_names: dict[str, str],
-    ingredient_prices: dict[str, int],
 ) -> dict:
     gold = int(raw_resources.get("gold", 0))
     if gold < 0:
@@ -404,32 +395,32 @@ def normalize_resources(
     output_names = dict(known_output_names)
     ingredients = normalize_counter_keys(
         inventory.get("ingredients", {}),
-        ingredient_aliases,
+        {},
         known_ingredient_names,
         "inventory.ingredients",
     )
     potions = normalize_counter_keys(
         inventory.get("potions", {}),
-        output_aliases,
+        {},
         output_names,
         "inventory.potions",
     )
     gems = normalize_counter_keys(
         inventory.get("gems", {}),
-        output_aliases,
+        {},
         output_names,
         "inventory.gems",
     )
 
     sold_ingredients = normalize_flag_keys(
         raw_resources.get("for_sale", {}).get("ingredients", {}),
-        ingredient_aliases,
+        {},
         known_ingredient_names,
         "for_sale.ingredients",
     )
     sold_outputs = normalize_flag_keys(
         raw_resources.get("for_sale", {}).get("outputs", {}),
-        output_aliases,
+        {},
         known_output_names,
         "for_sale.outputs",
     )
@@ -497,11 +488,8 @@ def import_workbook(workbook_path: Path, alias_path: Path, resources_path: Path)
     all_ingredient_names, all_output_names = build_known_names(all_recipes)
     resources = normalize_resources(
         load_toml(resources_path),
-        ingredient_aliases,
-        output_aliases,
         all_ingredient_names,
         all_output_names,
-        ingredient_prices,
     )
 
     scenario = {
