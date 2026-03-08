@@ -5,11 +5,13 @@ This document describes the precise data model used by the current project acros
 1. The source workbook `Awesome Heroes Items.xlsx`.
 2. The import-side TOML files in `data/`.
 3. The generated scenario JSON blob in `data/seed_scenario.json`.
-4. The browser runtime strict validation in `index.html`.
+4. The embed step that splices that JSON into `index.html`.
+5. The browser runtime strict validation in `index.html`.
 
 The authoritative implementations are:
 
 - `scripts/import_workbook.py` for workbook parsing, aliasing, validation, and JSON generation.
+- `scripts/embed_seed_data.py` for refreshing the marked embedded JSON block inside `index.html`.
 - `index.html` for strict runtime validation of the scenario blob and persisted browser state.
 - `tests/test_import_workbook.py` for importer schema assertions.
 
@@ -32,6 +34,7 @@ flowchart LR
   resources["data/starting_resources.toml<br/>starting inventory and shop flags"]
   importer["scripts/import_workbook.py"]
   scenario["data/seed_scenario.json<br/>canonical scenario blob"]
+  embed["scripts/embed_seed_data.py"]
   app["index.html<br/>validateScenario()"]
   state["Runtime state<br/>scenario + workbench + history"]
 
@@ -39,7 +42,8 @@ flowchart LR
   aliases --> importer
   resources --> importer
   importer --> scenario
-  scenario --> app
+  scenario --> embed
+  embed --> app
   app --> state
 ```
 
