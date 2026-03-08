@@ -20,6 +20,16 @@ def stat_value(page, label: str) -> str:
     return stat.locator("span").inner_text()
 
 
+def set_data_json(page, payload: dict) -> None:
+    page.locator("#data-json").evaluate(
+        """(element, value) => {
+            element.value = value;
+            element.dispatchEvent(new Event("input", { bubbles: true }));
+        }""",
+        json.dumps(payload, indent=2),
+    )
+
+
 def test_index_smoke() -> None:
     index_url = (REPO_ROOT / "index.html").resolve().as_uri()
 
@@ -35,9 +45,13 @@ def test_index_smoke() -> None:
         expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
         expect(page.get_by_role("heading", name="Item Details")).to_be_visible()
         expect(page.get_by_role("heading", name="Action Log")).to_be_visible()
+        expect(page.locator(".holdings-panel").get_by_role("heading", name="Equipment")).to_be_visible()
         expect(page.locator(".holdings-panel").get_by_role("heading", name="Potions")).to_be_visible()
         expect(page.locator(".holdings-panel").get_by_role("heading", name="Gems")).to_be_visible()
         expect(page.locator(".holdings-panel")).to_contain_text("Health potion")
+        expect(page.locator(".holdings-panel")).to_contain_text("Bronze ring")
+        expect(page.locator(".holdings-panel")).to_contain_text("Basic Iron Shield")
+        assert stat_value(page, "Equipment") == "4"
         assert stat_value(page, "Gems") == "0"
 
         agate_card = page.locator(".workbench-panel .potion-card").filter(
@@ -157,16 +171,50 @@ def test_index_smoke() -> None:
         base_gold_input.fill(updated_gold)
         base_gold_input.press("Tab")
 
-        page.locator(".tools-drawer summary").click()
-        page.locator('button[data-action="apply-base-to-workbench"]').click()
+        inventory_panel = page.locator('[data-tab-panel="inventory"]')
+        expect(inventory_panel.get_by_role("heading", name="Equipment")).to_be_visible()
+        expect(inventory_panel.locator('input[data-action="set-base-equipment-name"]')).to_have_count(4)
+        boots_hp = inventory_panel.locator(
+            'input[data-action="set-base-equipment-hp"][data-id="boots-leather-1"]'
+        )
+        boots_hp.fill("5")
+        boots_hp.press("Tab")
+
+        inventory_panel.locator('button[data-action="add-starting-equipment"]').click()
+        expect(inventory_panel.locator('input[data-action="set-base-equipment-name"]')).to_have_count(5)
+        added_equipment_name = inventory_panel.locator(
+            'input[data-action="set-base-equipment-name"][data-id="ape-1"]'
+        )
+        expect(added_equipment_name).to_have_value("Ape")
+        added_equipment_name.fill("Bronze necklace")
+        added_equipment_name.press("Tab")
+        added_equipment_row = inventory_panel.locator("tr").filter(
+            has=page.locator('code', has_text="ape-1")
+        )
+        expect(
+            inventory_panel.locator('input[data-action="set-base-equipment-name"][data-id="ape-1"]')
+        ).to_have_value("Bronze necklace")
+        expect(added_equipment_row).to_contain_text("N/A")
+        added_equipment_row.get_by_role("button", name="Remove").click()
+        expect(inventory_panel.locator('input[data-action="set-base-equipment-name"]')).to_have_count(4)
+
+        page.locator('button[data-action="apply-base-to-workbench"]').dispatch_event("click")
         page.locator('button[data-action="switch-tab"][data-tab="workbench"]').click()
         expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
         assert stat_value(page, "Gold") == f"{updated_gold}g"
+        leather_shoes_row = page.locator(".holdings-panel tr").filter(
+            has=page.locator("td", has_text="Leather Shoes")
+        ).first
+        expect(leather_shoes_row).to_contain_text("5/7")
 
         page.locator('button[data-action="switch-tab"][data-tab="recipes"]').click()
         expect(page.get_by_role("heading", name="Catalog")).to_be_visible()
         expect(page.get_by_role("heading", name="Ingredient Definitions")).to_be_visible()
-        recipe_names = page.locator("details.recipe-card summary strong").all_inner_texts()
+        expect(page.get_by_role("heading", name="Equipment Definitions")).to_be_visible()
+        output_definitions_panel = page.locator(".panel").filter(
+            has=page.get_by_role("heading", name="Output Definitions")
+        ).first
+        recipe_names = output_definitions_panel.locator("details.recipe-card summary strong").all_inner_texts()
         assert recipe_names == sorted(recipe_names, key=str.casefold)
         warming_recipe = page.locator("details.recipe-card").filter(
             has=page.locator("summary strong", has_text="Warming medicine")
@@ -191,6 +239,34 @@ def test_index_smoke() -> None:
         expect(agate_recipe.locator('input[data-action="set-gem-effect"]').first).to_have_value(
             "gain 2MP every turn you don't cast a spell"
         )
+        bronze_ring_definition = page.locator("details.recipe-card").filter(
+            has=page.locator("summary strong", has_text="Bronze ring")
+        ).first
+        bronze_ring_definition.locator("summary").click()
+        expect(bronze_ring_definition).to_contain_text("0-1 gems @ 50g")
+        auto_sell_toggle = bronze_ring_definition.locator(
+            'input[data-action="set-equipment-auto-sell"][data-name="Bronze ring"]'
+        )
+        expect(auto_sell_toggle).not_to_be_checked()
+        auto_sell_toggle.check()
+        expect(auto_sell_toggle).to_be_checked()
+
+        page.reload(wait_until="domcontentloaded")
+        expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
+        leather_shoes_row = page.locator(".holdings-panel tr").filter(
+            has=page.locator("td", has_text="Leather Shoes")
+        ).first
+        expect(leather_shoes_row).to_contain_text("5/7")
+        page.locator('button[data-action="switch-tab"][data-tab="recipes"]').click()
+        bronze_ring_definition = page.locator("details.recipe-card").filter(
+            has=page.locator("summary strong", has_text="Bronze ring")
+        ).first
+        bronze_ring_definition.locator("summary").click()
+        expect(
+            bronze_ring_definition.locator(
+                'input[data-action="set-equipment-auto-sell"][data-name="Bronze ring"]'
+            )
+        ).to_be_checked()
 
         mobile_context = browser.new_context(
             viewport={"width": 430, "height": 932},
@@ -297,6 +373,12 @@ def test_index_rejects_invalid_import_json() -> None:
         }
     ]
 
+    bad_inventory_equipment_hp_payload = load_seed_scenario()
+    bad_inventory_equipment_hp_payload["inventory"]["equipment"][1]["current_hp"] = None
+
+    bad_for_sale_equipment_payload = load_seed_scenario()
+    bad_for_sale_equipment_payload["for_sale"]["equipment"]["Missing ring"] = True
+
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
         context = browser.new_context()
@@ -308,7 +390,7 @@ def test_index_rejects_invalid_import_json() -> None:
         page.locator('button[data-action="switch-tab"][data-tab="data"]').click()
         expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
 
-        page.locator("#data-json").fill(json.dumps(alias_payload, indent=2))
+        set_data_json(page, alias_payload)
         page.locator('button[data-action="import-scenario-json"]').click()
         assert dialog_messages
         assert 'unknown name "dark toxin"' in dialog_messages[-1]
@@ -317,7 +399,7 @@ def test_index_rejects_invalid_import_json() -> None:
         expect(page.locator('[data-recipe-card="Warming medicine"]')).to_be_visible()
 
         page.locator('button[data-action="switch-tab"][data-tab="data"]').click()
-        page.locator("#data-json").fill(json.dumps(misbucket_payload, indent=2))
+        set_data_json(page, misbucket_payload)
         page.locator('button[data-action="import-scenario-json"]').click()
         assert 'unknown name "Health potion"' in dialog_messages[-1]
         expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
@@ -325,19 +407,29 @@ def test_index_rejects_invalid_import_json() -> None:
         expect(page.locator('[data-recipe-card="Warming medicine"]')).to_be_visible()
 
         page.locator('button[data-action="switch-tab"][data-tab="data"]').click()
-        page.locator("#data-json").fill(json.dumps(bad_market_payload, indent=2))
+        set_data_json(page, bad_market_payload)
         page.locator('button[data-action="import-scenario-json"]').click()
         assert 'sell_markdown must not exceed 1' in dialog_messages[-1]
         expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
 
-        page.locator("#data-json").fill(json.dumps(bad_equipment_payload, indent=2))
+        set_data_json(page, bad_equipment_payload)
         page.locator('button[data-action="import-scenario-json"]').click()
         assert 'missing "optimizer_auto_sell"' in dialog_messages[-1]
         expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
 
-        page.locator("#data-json").fill(json.dumps(bad_inventory_equipment_payload, indent=2))
+        set_data_json(page, bad_inventory_equipment_payload)
         page.locator('button[data-action="import-scenario-json"]').click()
         assert 'unknown equipment "Missing ring"' in dialog_messages[-1]
+        expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+
+        set_data_json(page, bad_inventory_equipment_hp_payload)
+        page.locator('button[data-action="import-scenario-json"]').click()
+        assert "current_hp is required" in dialog_messages[-1]
+        expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+
+        set_data_json(page, bad_for_sale_equipment_payload)
+        page.locator('button[data-action="import-scenario-json"]').click()
+        assert 'for_sale.equipment references unknown name "Missing ring"' in dialog_messages[-1]
         expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
 
         context.close()

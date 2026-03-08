@@ -2,242 +2,228 @@
 
 ## Summary
 
-- Better factoring still applies: build one shared economy/simulator foundation first, then layer equipment, combo assembly, selling, and finally the planner on top.
-- Full combo scope now includes synthesized ring and necklace accessory+gem combinations, not just stored interaction hooks.
-- Recommended delivery order:
-  1. Economy/state/action foundation.
-  2. Equipment importer and catalog expansion.
-  3. Ring/necklace combo assembly and disassembly.
-  4. Selling across ingredients, outputs, equipment, and assembled combos.
-  5. Planner tab with exact optimization over all supported actions.
+This roadmap now reflects shipped work through phase 2 as of March 8, 2026.
+
+Recommended delivery order remains:
+
+1. Economy and state foundation.
+2. Equipment import and catalog surfacing.
+3. Manual equipment market actions.
+4. Ring and necklace combo assembly/disassembly.
+5. Selling for ingredients and outputs.
+6. Planner and optimization.
+
+Current status:
+
+- Phase 1 is implemented.
+- Phase 2 is implemented.
+- Phases 3 through 6 are still future work.
 
 ## Phase Breakdown
 
-### Phase 1: Economy and State Foundation
-
-Goal:
-- Create the data model and runtime plumbing that every later phase depends on.
+### Phase 1: Economy And State Foundation
 
 Status:
+
 - Implemented on March 8, 2026.
-- The shipped phase-1 schema uses `market.sell_markdown` as a single global resale markdown and emits empty `equipment.definitions`, `inventory.equipment`, and `for_sale.equipment` placeholders until phase 2.
 
-Changes:
-- Extend the canonical scenario with `equipment`, `market`, and `for_sale.equipment`.
-- Extend base inventory and workbench state with `equipment` as unique instances rather than counter maps.
-- Replace the current narrow `effect` payload with a generic transaction list that can represent buy, sell, craft, assemble, disassemble, and equipment-instance mutations.
-- Add a pure runtime simulator in `index.html` that owns all workbench mutations and can be called by manual actions, undo/redo, and the future planner.
-- Add market-value helpers for stackables and equipment so later phases reuse one pricing path.
+Shipped scope:
 
-Deliverables:
-- Scenario validation accepts the expanded shape.
-- Persisted state validation accepts the new workbench and history shape.
-- Existing manual `craft once`, `buy once`, undo, redo, and persistence flows run through the new simulator instead of directly mutating state.
-- Saved-state validation rejects legacy history/effect payloads cleanly.
-- Runtime transactions are validated as `gold`, `stackable`, or `equipment` records under `HistoryEntry.effect.transactions`.
-
-Out of scope:
-- No equipment importer yet.
-- No equipment UI yet.
-- No selling yet.
-- No planner yet.
+- Extended the canonical scenario with `market`, `equipment`, and `for_sale.equipment`.
+- Extended base inventory and workbench state with `equipment` as unique instances instead of counters.
+- Replaced the old narrow effect payload with transaction-based history entries.
+- Moved manual craft, buy, undo, redo, and persistence flows onto the shared simulator path in `index.html`.
+- Added strict runtime validation for scenario data, workbench state, and saved history.
 
 Done means:
-- Existing potion/gem workbench behavior still works after the refactor.
-- The browser can load, persist, undo, and redo using the new simulator/effect model.
-- Roadmap and data-model docs are updated to match the shipped phase-1 schema and runtime behavior.
 
-### Phase 2: Equipment Import and Catalog Surfacing
+- potion and gem workbench behavior still works through the new simulator,
+- runtime sell-value helpers already exist,
+- saved-state validation rejects legacy history payloads,
+- phase 2 could build on real equipment-aware state instead of adding another migration later.
 
-Goal:
-- Ingest equipment from the workbook and make it visible/editable in the scenario/runtime without combo behavior yet.
+### Phase 2: Equipment Import And Catalog Surfacing
 
-Changes:
-- Import equipment from all gear-like workbook sheets plus `Accessories`.
-- Normalize workbook rows into a single catalog shape with `name`, `family`, `source_sheet`, `rank`, `buy_price`, `max_hp | null`, `stats`, `effects`, `optimizer_auto_sell`, and optional `socket_policy`.
-- Parse `Accessories` in multiple passes:
-  - Preserve the current gem metadata extraction.
-  - Add standalone shield and talisman equipment definitions.
-  - Add socketable base definitions for rings and necklaces.
-- Extend the seed scenario JSON and embedded seed block to include equipment catalog data and equipment inventory.
-- Add base inventory editor support for equipment instances, including current HP and `optimizer_auto_sell`.
+Status:
 
-Deliverables:
-- Importer emits a stable `equipment` section in the scenario.
-- Equipment appears in runtime validation and survives reload/persistence.
-- Inventory/base editor can display and edit equipment instances.
-- No manual workbench actions depend on combos yet.
+- Implemented on March 8, 2026.
 
-Out of scope:
-- No buy/sell equipment actions yet.
-- No combo assembly/disassembly yet.
-- No planner yet.
+Shipped scope:
+
+- Import equipment definitions from:
+  - `Axes&Spears`
+  - `Swords&Bows`
+  - `Staves&Orbs`
+  - `Runestones`
+  - `Light&Heavy `
+  - `Robe&Hide`
+  - `Golem&Gauntlet`
+  - `Headware`
+  - `Familiars`
+  - `Footwear`
+  - `Mounts&Legs`
+  - `Accessories`
+- Preserve gem metadata import from `Accessories` and add accessory parsing for:
+  - ring bases,
+  - necklace bases,
+  - shield definitions,
+  - talisman definitions.
+- Emit workbook-derived `equipment.definitions` with:
+  - `name`
+  - `family`
+  - `source_sheet`
+  - `rank`
+  - `buy_price`
+  - `max_hp`
+  - `stats`
+  - `effects`
+  - `optimizer_auto_sell`
+  - optional `socket_policy`
+- Default `optimizer_auto_sell` to `false` for every imported definition.
+- Emit `socket_policy` only for rings and necklaces.
+- Extend `data/starting_resources.toml` so it can author:
+  - `[[inventory.equipment]]`
+  - `[for_sale.equipment]`
+- Regenerate `data/seed_scenario.json` and sync the embedded seed block in `index.html`.
+- Surface equipment in the browser as:
+  - read-only workbench holdings visibility,
+  - equipment counts in run summary stats,
+  - editable Base Inventory equipment instances,
+  - Catalog visibility for imported equipment definitions,
+  - editable `optimizer_auto_sell` in Catalog.
+
+Actual shipped constraints:
+
+- no shop-tab editor for `for_sale.equipment` yet,
+- no manual equipment buy/sell actions yet,
+- no ring/necklace combo assembly yet,
+- no socket editing yet.
 
 Done means:
-- Workbook-derived equipment exists in the scenario and browser state with no manual JSON patching.
-- Ring and necklace bases are present as equipment catalog entries, but not yet combinatorial instances.
+
+- workbook-derived equipment exists in canonical scenario data without manual JSON patching,
+- base inventory can author standalone equipment instances,
+- workbench visibly carries equipment state,
+- catalog exposes imported equipment definitions and optimizer flags,
+- docs, seed JSON, embedded seed JSON, and tests all match the shipped phase-2 behavior.
 
 ### Phase 3: Manual Equipment Market
 
-Goal:
-- Make standalone equipment participate in the workbench economy before introducing combos.
+Status:
 
-Changes:
-- Add manual workbench actions for `buy equipment` and `sell equipment`.
-- Buying equipment creates full-HP equipment instances from catalog entries.
-- Selling equipment uses HP-aware valuation when `max_hp` exists.
-- Keep `for_sale` as buy-side availability only; selling is allowed for any priced owned item.
-- Surface equipment in the workbench holdings, inspector, action log, and toasts.
-- Add `for_sale.equipment` editor controls and UI visibility in the shop tab.
-
-Deliverables:
-- Users can buy standalone equipment from the shop.
-- Users can sell owned standalone equipment from holdings/workbench.
-- Undo/redo and persisted history work for equipment transactions.
-
-Out of scope:
-- No ring/necklace combo assembly yet.
-- No stackable selling yet unless needed to unify the sell UI.
-- No planner yet.
-
-Done means:
-- Standalone equipment behaves as a first-class manual economy entity in the browser.
-
-### Phase 4: Ring/Necklace Combo Assembly and Disassembly
+- Not started.
 
 Goal:
-- Add the full accessory/gem combination system for rings and necklaces.
 
-Changes:
-- Model assembled accessories as equipment instances with `base_name`, `socketed_gems`, `current_hp | null`, and a canonical display label.
-- Normalize `socketed_gems` as a sorted multiset so duplicate gems are allowed but the same combo has one canonical representation.
-- Treat rings as socketable bases with `min_gems = 0`, `max_gems = 1`, `imbue_fee = 50`, and workbook buy price `40`.
-- Treat necklaces as socketable bases with `min_gems = 1`, `max_gems = 3`, `imbue_fee = 50` per inserted gem, and workbook buy price `150`.
-- Add manual actions for `assemble accessory` and `disassemble accessory`.
-- Combo assembly consumes one owned base accessory instance plus owned gem outputs; if only gem pieces are owned, the user must first obtain gem outputs through existing craft/buy flows.
-- Disassembly is free and returns the exact base accessory instance plus embedded gem outputs.
-- Compute assembled combo sell value as the sum of component sell values of the base accessory plus embedded gems; imbuement fees are sunk.
+- Make standalone equipment participate in manual economy actions.
 
-Deliverables:
-- Users can build ring combos and necklace combos manually.
-- Users can disassemble combos back into components.
-- Combo instances display correctly in holdings, inspector, history, and persistence.
-- Selling an assembled combo is value-equivalent to disassemble-then-sell.
+Planned scope:
 
-Out of scope:
-- Shields and talismans remain standalone.
-- No planner yet.
+- add manual `buy equipment` and `sell equipment` actions,
+- use full-HP creation on purchase,
+- use HP-aware valuation on sell,
+- add shop-tab controls for `for_sale.equipment`,
+- surface equipment buy/sell actions in holdings, history, toasts, and undo/redo.
 
-Done means:
-- Full manual combo lifecycle exists: acquire parts, assemble, inspect, sell, disassemble, undo, redo, reload.
+Depends on:
 
-### Phase 5: Selling for Ingredients and Outputs
+- the phase-2 imported equipment catalog,
+- the existing equipment-aware simulator and validation.
+
+### Phase 4: Ring And Necklace Combo Assembly
+
+Status:
+
+- Not started.
 
 Goal:
-- Complete the sell-side economy for the existing stackable item types.
 
-Changes:
-- Add manual sell actions for ingredients, potion outputs, and gem outputs.
-- Use one shared market-value helper for stackable sell values.
-- If an output has no direct buy price, derive its market value from its recipe input prices.
-- Surface sell actions from holdings/workbench and record them through the same simulator/effect path as all other actions.
+- Add the accessory-plus-gem combo lifecycle for rings and necklaces only.
 
-Deliverables:
-- Users can manually sell any owned ingredient or output.
-- Manual sell flows work alongside equipment and combo selling.
-- Undo/redo and persistence are stable across mixed craft/buy/sell/combo histories.
+Planned scope:
 
-Out of scope:
-- No planner yet.
+- model assembled accessories as `EquipmentInstance` values with `socketed_gems`,
+- add assemble and disassemble actions,
+- treat rings as `0..1` gem sockets and necklaces as `1..3`,
+- consume owned gem outputs when assembling,
+- return the same base instance and gem outputs on disassembly,
+- compute combo sell value from component sell values only.
 
-Done means:
-- All manual economy actions are implemented before optimization starts.
+Explicit non-goals:
 
-### Phase 6: Planner Tab and Optimization
+- shields stay standalone,
+- talismans stay standalone.
+
+### Phase 5: Selling For Ingredients And Outputs
+
+Status:
+
+- Not started.
 
 Goal:
-- Add a new planning surface that computes minimum-net-cost action sequences using the already-built simulator.
 
-Changes:
-- Add a Planner tab where request lines can ask to buy or sell stackables, buy or sell equipment instances, and assemble or disassemble specific ring/necklace combos.
-- Keep the objective as `minimum net gold cost` while exactly satisfying requested actions.
-- Allow the planner to:
-  - Auto-buy ingredients.
-  - Choose craft-vs-buy for outputs.
-  - Buy or craft gems for combo assembly.
-  - Disassemble combos when useful.
-  - Auto-sell ingredients and outputs freely.
-  - Auto-sell only equipment whose catalog entry is tagged `optimizer_auto_sell`.
-- Implement the solver as a deterministic memoized branch-and-bound search over normalized simulator state plus remaining request lines.
-- Reuse the simulator for plan preview and plan application so planner behavior matches manual action behavior.
+- Finish sell-side manual market coverage for stackable items.
 
-Deliverables:
-- Users can create requests, preview an optimized plan, and apply it to the workbench.
-- Planner output uses the same canonical combo representation as manual assembly.
-- Planner can reason over stackables, standalone equipment, and ring/necklace combos together.
+Planned scope:
 
-Out of scope:
-- No additional accessory families beyond rings and necklaces.
-- No alternative optimizer objective in this phase.
+- add manual sell actions for ingredients,
+- add manual sell actions for potion outputs,
+- add manual sell actions for gem outputs,
+- reuse one shared value helper for all stackable sell flows,
+- keep behavior consistent with existing transaction-based history and undo/redo.
 
-Done means:
-- The planner produces deterministic, explainable plans and those plans replay correctly in the workbench/history system.
+### Phase 6: Planner And Optimization
 
-## Key Changes
+Status:
 
-- Extend the canonical scenario with `equipment`, `market`, and `for_sale.equipment`, and extend workbench/base inventory with `equipment` as unique instances rather than counters.
-- Phase 1 has already landed those schema extensions with `market.sell_markdown = 0.5` and empty equipment placeholders in the seed data.
-- Replace the current narrow `effect` payload with a generic transaction list that can represent buy, sell, craft, assemble, disassemble, and equipment-instance mutations while keeping `before`/`after` snapshots for undo/redo.
-- Add a pure runtime simulator in `index.html` that owns every inventory mutation; UI handlers and planner execution both call that simulator.
-- Import equipment from all gear-like workbook sheets plus `Accessories`; normalize each sheet family into one catalog shape with `name`, `family`, `source_sheet`, `rank`, `buy_price`, `max_hp | null`, `stats`, `effects`, `optimizer_auto_sell`, and optional `socket_policy`.
-- Parse `Accessories` in multiple passes: keep the existing gem metadata extraction, add standalone shield/talisman equipment definitions, and add socketable accessory definitions for rings and necklaces.
-- Model assembled accessories as equipment instances with `base_name`, `socketed_gems`, `current_hp | null`, and a canonical display label; normalize `socketed_gems` as a sorted multiset so duplicate gems are allowed but identity is deterministic.
-- Treat rings as socketable bases with `min_gems = 0`, `max_gems = 1`, `imbue_fee = 50`, and workbook buy price `40`.
-- Treat necklaces as socketable bases with `min_gems = 1`, `max_gems = 3`, `imbue_fee = 50` per inserted gem, and workbook buy price `150`; direct market purchase of a new necklace requires at least one gem, but disassembly may leave a bare necklace in inventory.
-- Keep shields and talismans as standalone equipment in this roadmap; no synthesized gem combinations for them.
-- Add manual workbench actions for `buy equipment`, `sell equipment`, `assemble accessory`, and `disassemble accessory`, alongside the existing craft/buy output flows.
-- Combo assembly uses owned base accessory instances plus owned gem outputs; if the user only has gem pieces, existing gem crafting/buy logic is used first to obtain the gem output item.
-- Disassembly is free and returns the exact base accessory instance plus the embedded gem outputs back to inventory.
-- Selling remains available for any priced item, independent of weekly `for_sale` flags; `for_sale` is buy-side availability only.
-- Compute ingredient and output sell value from a shared market-value helper using the configured markdown; if an output has no direct buy price, derive its market value from its recipe input prices.
-- Compute standalone equipment sell value from buy price and remaining HP when HP exists.
-- Compute assembled ring/necklace sell value as the sum of component sell values of the base accessory plus embedded gems; imbuement fees are sunk and contribute no resale value, so `disassemble then sell` equals `sell assembled`.
-- Add a new Planner tab where request lines can ask to buy or sell stackables, buy or sell equipment instances, and assemble or disassemble specific ring/necklace combos.
-- Planner objective stays `minimum net gold cost` while exactly satisfying the requested actions.
-- Planner may auto-buy ingredients, choose craft-vs-buy for outputs, buy/craft gems for combo assembly, disassemble combos, auto-sell ingredients and outputs freely, and auto-sell only equipment whose catalog entry is tagged `optimizer_auto_sell`.
-- Implement the planner as a deterministic memoized branch-and-bound search over normalized simulator state plus remaining request lines; combo state keys use canonical base accessory plus sorted gem multiset.
+- Not started.
 
-## Suggested Phase Order
+Goal:
 
-- Build Phase 1 first and do not start later UI or optimizer work before the simulator and state model are stable.
-- Build Phase 2 next so all later phases target the real equipment catalog rather than temporary mock data.
-- Build Phase 3 before Phase 4 so standalone equipment buy/sell behavior is settled before combo-specific logic lands.
-- Build Phase 4 before Phase 5 if combo-specific selling is easier to validate while only equipment selling exists.
-- Build Phase 5 before Phase 6 so the planner is the last consumer of a complete manual action set, not the place where missing market logic gets invented.
+- Add a planner surface that computes exact minimum-net-cost sequences over the manual action set.
 
-## Public Interfaces and Types
+Planned scope:
 
-- `Scenario.inventory` gains `equipment`.
-- `Scenario.for_sale` gains `equipment`.
-- `Scenario` gains `market` and `equipment`.
-- `Scenario.market` currently ships as `{ sell_markdown: number }`.
-- `Scenario.equipment` currently ships as `{ definitions: Record<string, EquipmentDefinition> }`.
-- Add persisted `EquipmentDefinition` and `EquipmentInstance` types.
-- Represent assembled accessories as `EquipmentInstance`, not as separate recipe/output records.
-- `HistoryEntry.effect` becomes a generic transaction schema and saved-state validation should reject legacy effect payloads.
+- request lines for stackables, standalone equipment, and combo actions,
+- deterministic solver over normalized simulator state,
+- craft-vs-buy choice for outputs,
+- gem acquisition for combo assembly,
+- auto-sell only for equipment tagged `optimizer_auto_sell`,
+- plan preview and plan apply through the same simulator path as manual actions.
 
-## Test Plan
+## Current Baseline For Future Phases
 
-- Importer tests for each equipment family plus dual-pass `Accessories` parsing.
-- Validation tests for malformed equipment definitions, malformed equipment instances, invalid socket policies, and stale saved-state history entries.
-- Browser smoke tests for buying standalone equipment, assembling a ring combo, assembling a necklace combo with repeated gems, disassembling combos, selling assembled combos, undo/redo, and persistence across reload.
-- Planner tests for gem crafting before combo assembly, craft-vs-buy choice for gem acquisition, disassembly as an intermediate step, equipment auto-sell tag enforcement, and exact fulfillment of requested combo actions.
+Future work should assume these facts are already true:
+
+- `equipment.definitions` is populated from the workbook and currently contains real catalog data.
+- `inventory.equipment` and `for_sale.equipment` already exist in canonical scenario JSON.
+- standalone equipment instances are already editable in Base Inventory.
+- workbench holdings and summary stats already expose equipment counts.
+- Catalog already exposes imported equipment definitions and the `optimizer_auto_sell` toggle.
+- rings and necklaces already exist as base definitions with socket policy metadata.
+- no combo instances or socket editing exist yet.
+
+## Public Interfaces Already Shipped
+
+- `Scenario.market = { sell_markdown: number }`
+- `Scenario.equipment = { definitions: Record<string, EquipmentDefinition> }`
+- `Scenario.inventory.equipment: EquipmentInstance[]`
+- `Scenario.for_sale.equipment: Record<string, true>`
+- transaction-based `HistoryEntry.effect.transactions`
+
+## Remaining Test Plan
+
+Future phases should extend the current phase-2 coverage with:
+
+- browser tests for equipment buy/sell actions,
+- browser tests for combo assembly and disassembly,
+- value-equivalence tests for `sell assembled` vs `disassemble then sell`,
+- planner tests over mixed stackable/equipment/combo requests.
 
 ## Assumptions
 
-- Full combo scope for this roadmap means rings and necklaces only; shields and talismans stay standalone.
-- Duplicate gems in one combo are allowed.
-- Assembled combos are not separate shop stock; they are created from components.
-- Workbook literal prices are authoritative for accessory buying.
-- Imbuement fee is always paid on assembly, never recovered on sell, and disassembly is free.
-- Bare necklaces may exist only after disassembly or seed/import data, not as a direct new shop purchase state.
+- Full combo scope for this roadmap still means rings and necklaces only.
+- Duplicate gems inside one future combo remain allowed.
+- Assembled combos will be created from components, not imported as separate shop stock.
+- Imbue fees remain sunk costs and are not recovered on resale.
+- `optimizer_auto_sell` stays catalog-owned metadata, not per-instance state.

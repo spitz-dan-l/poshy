@@ -1713,7 +1713,28 @@
       "Rejuvination potion": 1
     },
     "gems": {},
-    "equipment": []
+    "equipment": [
+      {
+        "id": "ring-bronze-1",
+        "base_name": "Bronze ring",
+        "current_hp": null
+      },
+      {
+        "id": "shield-basic-1",
+        "base_name": "Basic Iron Shield",
+        "current_hp": 7
+      },
+      {
+        "id": "boots-leather-1",
+        "base_name": "Leather Shoes",
+        "current_hp": 7
+      },
+      {
+        "id": "talisman-silver-1",
+        "base_name": "Silver Talisman",
+        "current_hp": null
+      }
+    ]
   },
   "ingredient_prices": {
     "Agate piece": 20,
@@ -1953,7 +1974,6138 @@
     }
   },
   "equipment": {
-    "definitions": {}
+    "definitions": {
+      "Ape": {
+        "name": "Ape",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 5,
+        "stats": {
+          "mp": "12",
+          "movement": "5",
+          "accuracy": "16",
+          "skill": "x+6",
+          "strength": "x+4",
+          "dexterity": "X+0",
+          "attack": "2",
+          "shield": "1",
+          "magic_defense": "0",
+          "terrain": "Plains, Path"
+        },
+        "effects": [
+          "Climbing cap increased by 3",
+          "Can pick up one item",
+          "Knocks back opponents for half damage dealt",
+          "Chest beat (5MP) (ran: 3 all directions) (Acc: 18) increases attack by 1 and scares away enemies"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Apprentice's Hat": {
+        "name": "Apprentice's Hat",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 4,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Decrease Accuracy by 2",
+          "Increases magic defense by 1",
+          "Increases magic attack by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Aqua walkers": {
+        "name": "Aqua walkers",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 8,
+        "stats": {
+          "movement": "1",
+          "shield": "0"
+        },
+        "effects": [
+          "Requires 1 MP to Move",
+          "and 10 to deep water checks",
+          "ignore effects of rain",
+          "Wading 2",
+          "Waterwalking",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Basic Iron Shield": {
+        "name": "Basic Iron Shield",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 7,
+        "stats": {},
+        "effects": [
+          "Shield block",
+          "Increases shield by 1",
+          "-2 climb cap",
+          "Opponents accuracy increased by 2"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Basic Legs": {
+        "name": "Basic Legs",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "B 3/3",
+        "buy_price": 90,
+        "max_hp": 10,
+        "stats": {
+          "movement": "1",
+          "shield": "1"
+        },
+        "effects": [
+          "Requires 1 MP to Move",
+          "Increase climbing cap by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Basic Silver Shield": {
+        "name": "Basic Silver Shield",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "A 1/2",
+        "buy_price": 90,
+        "max_hp": 11,
+        "stats": {},
+        "effects": [
+          "Shield block",
+          "Increases shield by 2",
+          "-2 climb cap"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Basic Steel Shield": {
+        "name": "Basic Steel Shield",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "B 3/3",
+        "buy_price": 60,
+        "max_hp": 7,
+        "stats": {},
+        "effects": [
+          "Shield block",
+          "Increases shield by 2",
+          "-2 climb cap",
+          "Opponents accuracy increased by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Basic Turban": {
+        "name": "Basic Turban",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Decrease Accuracy by 3",
+          "gain 2 MP every turn you don't cast a spell"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Basic Work Hat": {
+        "name": "Basic Work Hat",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 6,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Decrease Movement by 1",
+          "Immune to Paralysis"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Bear": {
+        "name": "Bear",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 9,
+        "stats": {
+          "mp": "15",
+          "movement": "7",
+          "accuracy": "14",
+          "skill": "x+4",
+          "strength": "x+8",
+          "dexterity": "x-2",
+          "attack": "5",
+          "shield": "2",
+          "magic_defense": "2",
+          "terrain": "Rock, Brush, Snow, Ice, Plains"
+        },
+        "effects": [
+          "Increase ice, and deep water rolls by 10",
+          "Wading 1",
+          "Can sense hidden enemies",
+          "resist air",
+          "Ignore the effects of cold",
+          "Ignore effects of snowstorm",
+          "Climbing cap increased by 2",
+          "Add 10 to ice checks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Bear Hide": {
+        "name": "Bear Hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 20,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Bear Hide Shoes": {
+        "name": "Bear Hide Shoes",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 10,
+        "stats": {
+          "shield": "0",
+          "movement": "1"
+        },
+        "effects": [
+          "+1 magic defense",
+          "Sandwalking",
+          "Waterwalking",
+          "Bogwalking",
+          "Add 10 to Bog and Deep Water checks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Beetle Scale Mask": {
+        "name": "Beetle Scale Mask",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 4,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Decrease Accuracy by 2",
+          "Increases magic defense by 1",
+          "Decrease opponents accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Bishop Robe": {
+        "name": "Bishop Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 12,
+        "stats": {
+          "shield": "2",
+          "weight": "1,"
+        },
+        "effects": [
+          "Increases magic defense by 3"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Black Orb": {
+        "name": "Black Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases magic attack by 3",
+          "Increases MP by 8",
+          "Increases spell Accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Blaze Rune": {
+        "name": "Blaze Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "2",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Arcane fist",
+          "Increases Movement by 1",
+          "Increases Attack by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Blaze walkers": {
+        "name": "Blaze walkers",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 10,
+        "stats": {
+          "movement": "2",
+          "shield": "0"
+        },
+        "effects": [
+          "Requires 1 MP to Move",
+          "Lavawalking",
+          "Burns away Ice, snow and brush",
+          "ignore effects of heat",
+          "Add 15 to lava checks",
+          "Add 10 to Quicksand checks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Blessed Silver Talisman": {
+        "name": "Blessed Silver Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "B 3/3",
+        "buy_price": 160,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "1/6 chance of preventiing damage",
+          "Increases shields by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Blue Orb": {
+        "name": "Blue Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 8,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases magic attack by 1",
+          "Increases MP by 8",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Boar Hide": {
+        "name": "Boar Hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "B 3/3",
+        "buy_price": 100,
+        "max_hp": 16,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Bone mail Helm": {
+        "name": "Bone mail Helm",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 8,
+        "stats": {
+          "shield": "3"
+        },
+        "effects": [
+          "Decrease Accuracy by 1",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Bone Talisman": {
+        "name": "Bone Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "C 3/3",
+        "buy_price": 130,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "1/2 chance of preventiing death"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Brain Carapace": {
+        "name": "Brain Carapace",
+        "family": "golem_armor",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 16,
+        "stats": {
+          "shield": "3",
+          "weight": "3,"
+        },
+        "effects": [
+          "Immune to Mind control and Poison",
+          "Increases magic defense by 1",
+          "resist dark"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Brain Core": {
+        "name": "Brain Core",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "A 2/3",
+        "buy_price": 130,
+        "max_hp": 4,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Increases Wisdom by 1",
+          "Increases magic defense by 1",
+          "Increases Accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Bronze necklace": {
+        "name": "Bronze necklace",
+        "family": "necklace",
+        "source_sheet": "Accessories",
+        "rank": "A 3/4",
+        "buy_price": 150,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "+1 SKI cap",
+          "-1 WIS cap"
+        ],
+        "optimizer_auto_sell": false,
+        "socket_policy": {
+          "min_gems": 1,
+          "max_gems": 3,
+          "imbue_fee": 50
+        }
+      },
+      "Bronze Orb": {
+        "name": "Bronze Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases magic attack by 1",
+          "Increases magic defense by 2",
+          "Increases Spell Accuracy by 1",
+          "Gain 2 MP every turn you don't attack"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Bronze ring": {
+        "name": "Bronze ring",
+        "family": "ring",
+        "source_sheet": "Accessories",
+        "rank": "A 3/4",
+        "buy_price": 40,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "+1 STR cap",
+          "-1 SKI cap"
+        ],
+        "optimizer_auto_sell": false,
+        "socket_policy": {
+          "min_gems": 0,
+          "max_gems": 1,
+          "imbue_fee": 50
+        }
+      },
+      "Brown Orb": {
+        "name": "Brown Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases magic attack by 1",
+          "Increases Spell Accuracy by 1",
+          "Increases magic defense by 1",
+          "Gain 2 MP every turn you don't attack"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Cat": {
+        "name": "Cat",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 3,
+        "stats": {
+          "mp": "6",
+          "movement": "5",
+          "accuracy": "14",
+          "skill": "x+0",
+          "strength": "x+2",
+          "dexterity": "x+2",
+          "attack": "2",
+          "shield": "1",
+          "magic_defense": "0",
+          "terrain": "Brush,Sand,Plains,Path"
+        },
+        "effects": [
+          "Climbing cap increased by 5",
+          "Increase quicksand rolls by 10",
+          "Can sense hidden enemies"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Charmer's Turban": {
+        "name": "Charmer's Turban",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Decrease Accuracy by 2",
+          "Increases magic defense by 1",
+          "gain 2 MP every turn you don't cast a spell"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Clay Legs": {
+        "name": "Clay Legs",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "B 3/3",
+        "buy_price": 90,
+        "max_hp": 11,
+        "stats": {
+          "movement": "0",
+          "shield": "1"
+        },
+        "effects": [
+          "Requires 1 MP to Move",
+          "Brushwalking",
+          "Sandwalking",
+          "Bogwalking"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Clear Orb": {
+        "name": "Clear Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "A 2/3",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Spells cost 1 less to cast",
+          "Increases magic defense by 1",
+          "Increases spell range by 1",
+          "Gain 2 MP every turn you don't attack"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Clergy Robe": {
+        "name": "Clergy Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 4,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Cloud walkers": {
+        "name": "Cloud walkers",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 12,
+        "stats": {
+          "movement": "0",
+          "shield": "0"
+        },
+        "effects": [
+          "Requires 1 MP to Move",
+          "Levitate",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Common Carapace": {
+        "name": "Common Carapace",
+        "family": "golem_armor",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 16,
+        "stats": {
+          "shield": "2",
+          "weight": "2,"
+        },
+        "effects": [
+          "Immune to Poison and Freeze",
+          "Increases magic defense by 1",
+          "+8MP"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Common Chassis": {
+        "name": "Common Chassis",
+        "family": "golem_armor",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 12,
+        "stats": {
+          "shield": "1",
+          "weight": "2,"
+        },
+        "effects": [
+          "Immune to Poison and Freeze",
+          "Increases magic defense by 1",
+          "+ 8MP"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Common Core": {
+        "name": "Common Core",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 8,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Common eye": {
+        "name": "Common eye",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 4,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Decreases accuracy by 2"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Common head": {
+        "name": "Common head",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 4,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Decreases accuracy by 1",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Common shell": {
+        "name": "Common shell",
+        "family": "golem_armor",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 8,
+        "stats": {
+          "shield": "0",
+          "weight": "2,"
+        },
+        "effects": [
+          "Immune to Poison and Freeze",
+          "Increases magic defense by 1",
+          "+ 8MP"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Coon Hide": {
+        "name": "Coon Hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Cord-Rigged Gauntlets": {
+        "name": "Cord-Rigged Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 10,
+        "stats": {
+          "shield": "0",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 7",
+          "+1 movement",
+          "Increases climb rate by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Cougar Hide": {
+        "name": "Cougar Hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 12,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases movement by 1",
+          "Increases magic defense by 2"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Crocodile": {
+        "name": "Crocodile",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 6,
+        "stats": {
+          "mp": "9",
+          "movement": "3",
+          "accuracy": "12",
+          "skill": "x-0",
+          "strength": "x+6",
+          "dexterity": "x-2",
+          "attack": "4",
+          "shield": "3",
+          "magic_defense": "2",
+          "terrain": "Sand, Rock, Water, Bog"
+        },
+        "effects": [
+          "Ignore the effects of rain",
+          "Climbing cap reduced by 1",
+          "Increase bog and deep water rolls by 10",
+          "Wading 2",
+          "When in water, bog or lava, you are undetectable and increase your attack, accuracy, movement, shield and your magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Crystal Legs": {
+        "name": "Crystal Legs",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "B 3/3",
+        "buy_price": 90,
+        "max_hp": 7,
+        "stats": {
+          "movement": "1",
+          "shield": "1"
+        },
+        "effects": [
+          "Requires 1 MP to Move",
+          "Snowwalking",
+          "Icewalking",
+          "Add 10 to ice checks",
+          "Ignore the effects of snowstorm"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Crystal Orb": {
+        "name": "Crystal Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases magic attack by 2",
+          "Increases MP by 16",
+          "Increases spell range by 1",
+          "Critical cast"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Dew Rune": {
+        "name": "Dew Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 8,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Arcane fist",
+          "Increases MP by 8"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Dragon Bone Talisman": {
+        "name": "Dragon Bone Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "B 2/2",
+        "buy_price": 160,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "1/2 chance of preventiing death",
+          "Resist Fire"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Dragon Scale Mail": {
+        "name": "Dragon Scale Mail",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 16,
+        "stats": {
+          "shield": "2",
+          "weight": "1,"
+        },
+        "effects": [
+          "Increases magic defense by 1",
+          "resist fire"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Dragon Scale mask": {
+        "name": "Dragon Scale mask",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "A 2/3",
+        "buy_price": 130,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Increases magic defense by 2"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Eagle": {
+        "name": "Eagle",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "A 0/2",
+        "buy_price": 130,
+        "max_hp": 5,
+        "stats": {
+          "mp": "18",
+          "movement": "6",
+          "accuracy": "14",
+          "skill": "x+8",
+          "strength": "x+2",
+          "dexterity": "x+4",
+          "attack": "5",
+          "shield": "1",
+          "magic_defense": "1",
+          "terrain": "Flying"
+        },
+        "effects": [
+          "Can pick up one item",
+          "Shriek: (7MP) (ran: 2 all targets) (Acc: 12 + FAB) (Attack: 3) All allies gain accuracy until end of turn, and all opponents lose accuracy until end of turn",
+          "Air Lift: (9MP) (ran: 1) (Acc: 14 (+FAB)) the target is lifted and dropped in an adjacent tile to the tile you end your movement in and at that height",
+          "Can pick up one item",
+          "resist earth",
+          "Air lift: (4MP) (Acc: 14 + FAB) carry a unit you move adjacent to, to a tile that you moved over, if target is an enemy they fall"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Echanted Leather Shoes": {
+        "name": "Echanted Leather Shoes",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 11,
+        "stats": {
+          "shield": "1",
+          "movement": "2"
+        },
+        "effects": [
+          "+1 movement on floor"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Elder Composite Bow": {
+        "name": "Elder Composite Bow",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "A 0/2",
+        "buy_price": 110,
+        "max_hp": 12,
+        "stats": {
+          "attack": "5",
+          "range": "2,3,4,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "+1 spell range"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Elder Glaive": {
+        "name": "Elder Glaive",
+        "family": "spear",
+        "source_sheet": "Axes&Spears",
+        "rank": "A 0/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "5",
+          "range": "1,2,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "+1 to spell accuracy"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Elder Mirror Shield": {
+        "name": "Elder Mirror Shield",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "A 2/3",
+        "buy_price": 90,
+        "max_hp": 10,
+        "stats": {},
+        "effects": [
+          "Mirror block",
+          "Increases shield by 1",
+          "Increases magic defense by 2",
+          "-1 climb cap"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Elder Nun-chuks": {
+        "name": "Elder Nun-chuks",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "A 2/3",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "4",
+          "range": "1,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "Gain 2 MP every turn you don't attack",
+          "Increases spell range by 1",
+          "Can be equipped as a passive",
+          "Critical strike"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Elder Orbed Staff": {
+        "name": "Elder Orbed Staff",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "A 0/2",
+        "buy_price": 110,
+        "max_hp": 12,
+        "stats": {
+          "attack": "2",
+          "range": "1,2,",
+          "accuracy": "12"
+        },
+        "effects": [
+          "Gain 5 MP every turn you don't attack",
+          "Increases spell range by 1",
+          "Increases magic attack by 1",
+          "Increases spell accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Elder Snow Shoes": {
+        "name": "Elder Snow Shoes",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 12,
+        "stats": {
+          "shield": "1",
+          "movement": "0"
+        },
+        "effects": [
+          "+1 magic defense",
+          "Snowalking",
+          "Add 10 to Ice and Quick-sand checks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Elder Staff": {
+        "name": "Elder Staff",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "2",
+          "range": "1,2,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Gain 4 MP every turn you don't attack",
+          "Increases spell range by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Elder Talisman": {
+        "name": "Elder Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "C 3/3",
+        "buy_price": 130,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Elder Wand": {
+        "name": "Elder Wand",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 14,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Gain 3 MP every turn you don't attack",
+          "Increases spell range by 2",
+          "Can be equipped as a passive",
+          "Increases spell accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Elegant Hat": {
+        "name": "Elegant Hat",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 2,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Increases MP by 4"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Ember Rune": {
+        "name": "Ember Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 8,
+        "stats": {
+          "attack": "2",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Arcane fist"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Enchanted Crystal Talisman": {
+        "name": "Enchanted Crystal Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "A 0/2",
+        "buy_price": 190,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "Increase MP by 8",
+          "Resist Water",
+          "Support spells cost 1 less to cast"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Enchanted Hat": {
+        "name": "Enchanted Hat",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "B 3/3",
+        "buy_price": 80,
+        "max_hp": 6,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Increases MP by 4",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Enchanted Leather Armor": {
+        "name": "Enchanted Leather Armor",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 14,
+        "stats": {
+          "shield": "2",
+          "weight": "1,"
+        },
+        "effects": [
+          "Gain 1 MP every turn you don't get attacked"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Enchanted Leather Buckler": {
+        "name": "Enchanted Leather Buckler",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "A 1/2",
+        "buy_price": 90,
+        "max_hp": 14,
+        "stats": {},
+        "effects": [
+          "Shield block",
+          "Increases magic defense by 1",
+          "-1 climb cap"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Enchanted Leather Cap": {
+        "name": "Enchanted Leather Cap",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 6,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Immune to Confusion",
+          "gain 2 MP every turn you don't cast a spell"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Enchanted Leather Gauntlets": {
+        "name": "Enchanted Leather Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "A 0/2",
+        "buy_price": 150,
+        "max_hp": 13,
+        "stats": {
+          "shield": "0",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 2",
+          "Increases magic defense by 2",
+          "+1 movement"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Enchanted Robe": {
+        "name": "Enchanted Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 10,
+        "stats": {
+          "shield": "2",
+          "weight": "1,"
+        },
+        "effects": [
+          "Increases magic defense by 1",
+          "Gain 1 MP every turn you don't get attacked"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Enchanted Silver Talisman": {
+        "name": "Enchanted Silver Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "A 0/2",
+        "buy_price": 190,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "1/6 chance of preventiing damage",
+          "Increases shields by 1",
+          "Increase MP by 8"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Enchanter's Turban": {
+        "name": "Enchanter's Turban",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "A 2/3",
+        "buy_price": 130,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Decrease Accuracy by 1",
+          "Increases magic attack by 1",
+          "Increases Spell range by 1",
+          "Increases MP by 8"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Engineer Carapace": {
+        "name": "Engineer Carapace",
+        "family": "golem_armor",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "A 0/2",
+        "buy_price": 150,
+        "max_hp": 16,
+        "stats": {
+          "shield": "2",
+          "weight": "1,"
+        },
+        "effects": [
+          "Immune to Paralysis and Burn",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Engineer Core": {
+        "name": "Engineer Core",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "A 0/2",
+        "buy_price": 130,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Increases Skill by 1",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Engineer eye": {
+        "name": "Engineer eye",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 4,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Decreases accuracy by 1",
+          "Increases Skill by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Engineer head": {
+        "name": "Engineer head",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 4,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Increases Skill by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Engineer shell": {
+        "name": "Engineer shell",
+        "family": "golem_armor",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1",
+          "weight": "1,"
+        },
+        "effects": [
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Explorer Carapace": {
+        "name": "Explorer Carapace",
+        "family": "golem_armor",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 18,
+        "stats": {
+          "shield": "3",
+          "weight": "2,"
+        },
+        "effects": [
+          "Immune to Freeze and Burn",
+          "resist storms"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Explorer Chassis": {
+        "name": "Explorer Chassis",
+        "family": "golem_armor",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "B 3/3",
+        "buy_price": 100,
+        "max_hp": 14,
+        "stats": {
+          "shield": "2",
+          "weight": "2,"
+        },
+        "effects": [
+          "Immune to Freeze and Burn",
+          "resist storms"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Explorer Core": {
+        "name": "Explorer Core",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 12,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Increases Dexterity by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Explorer head": {
+        "name": "Explorer head",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 8,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Increases Dexterity by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Extravagant Hat": {
+        "name": "Extravagant Hat",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "A 0/2",
+        "buy_price": 130,
+        "max_hp": 12,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Increases magic defense by 1",
+          "Increases MP by 8"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Extravagant Robe": {
+        "name": "Extravagant Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "A 1/3",
+        "buy_price": 150,
+        "max_hp": 12,
+        "stats": {
+          "shield": "2",
+          "weight": "1,"
+        },
+        "effects": [
+          "Increases magic defense by 2",
+          "+8 MP"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Flame Rune": {
+        "name": "Flame Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "2",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Arcane fist",
+          "Increases Attack by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Focus Band": {
+        "name": "Focus Band",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 6,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Immune to Confusion",
+          "Increases Accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Fox Hide": {
+        "name": "Fox Hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases movement by 1",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "FulI Iron Helm": {
+        "name": "FulI Iron Helm",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Decrease movement by 1",
+          "Decrease Accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Full Plate Helm": {
+        "name": "Full Plate Helm",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 12,
+        "stats": {
+          "shield": "3"
+        },
+        "effects": [
+          "Decrease movement by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Full Runed Helm": {
+        "name": "Full Runed Helm",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "A 0/2",
+        "buy_price": 130,
+        "max_hp": 16,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Decrease movement by 1",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Full Silver Helm": {
+        "name": "Full Silver Helm",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "A 0/2",
+        "buy_price": 130,
+        "max_hp": 16,
+        "stats": {
+          "shield": "3"
+        },
+        "effects": [
+          "Decrease Accuracy by 1",
+          "Decrease Movement by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Full Steel Helm": {
+        "name": "Full Steel Helm",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 12,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Decrease Accuracy by 1",
+          "Decrease Movement by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Full Studded Helm": {
+        "name": "Full Studded Helm",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 8,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Decrease movement by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Gilded Robe": {
+        "name": "Gilded Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "A 0/2",
+        "buy_price": 150,
+        "max_hp": 14,
+        "stats": {
+          "shield": "3",
+          "weight": "1,"
+        },
+        "effects": [
+          "Increases magic defense by 1",
+          "Gain 1 MP every turn you don't get attacked"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Glow Legs": {
+        "name": "Glow Legs",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "B 2/2",
+        "buy_price": 90,
+        "max_hp": 9,
+        "stats": {
+          "movement": "1",
+          "shield": "0"
+        },
+        "effects": [
+          "Requires 1 MP to Move",
+          "Wading 1",
+          "Waterwalking",
+          "Add 5 to lava checks",
+          "Lavawalking"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Goat Hide": {
+        "name": "Goat Hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 12,
+        "stats": {
+          "shield": "0",
+          "weight": "0,"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Gold necklace": {
+        "name": "Gold necklace",
+        "family": "necklace",
+        "source_sheet": "Accessories",
+        "rank": "A 3/4",
+        "buy_price": 150,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "+1 WIS cap",
+          "-1 DEX cap"
+        ],
+        "optimizer_auto_sell": false,
+        "socket_policy": {
+          "min_gems": 1,
+          "max_gems": 3,
+          "imbue_fee": 50
+        }
+      },
+      "Gold Orb": {
+        "name": "Gold Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "A 0/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases spell range by 1",
+          "Increases MP by 16",
+          "Increases magic defense by 1",
+          "Support spells cost 1 less to cast"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Gold ring": {
+        "name": "Gold ring",
+        "family": "ring",
+        "source_sheet": "Accessories",
+        "rank": "A 3/4",
+        "buy_price": 40,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "+1 DEX cap",
+          "-1 STR cap"
+        ],
+        "optimizer_auto_sell": false,
+        "socket_policy": {
+          "min_gems": 0,
+          "max_gems": 1,
+          "imbue_fee": 50
+        }
+      },
+      "Green Orb": {
+        "name": "Green Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases spell range by 1",
+          "Increases MP by 8",
+          "Increases magic defense by 1",
+          "Support spells cost 1 less to cast"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Griffin hide": {
+        "name": "Griffin hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 16,
+        "stats": {
+          "shield": "0",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases magic defense by 1",
+          "Increases movement by 1",
+          "resist air"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Hare Hide": {
+        "name": "Hare Hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 4,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases movement by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Hare Hide Shoes": {
+        "name": "Hare Hide Shoes",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 4,
+        "stats": {
+          "shield": "0",
+          "movement": "1"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Hawk": {
+        "name": "Hawk",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 3,
+        "stats": {
+          "mp": "15",
+          "movement": "5",
+          "accuracy": "14",
+          "skill": "x+4",
+          "strength": "x-2",
+          "dexterity": "x+4",
+          "attack": "3",
+          "shield": "0",
+          "magic_defense": "1",
+          "terrain": "Flying"
+        },
+        "effects": [
+          "Can pick up one item",
+          "Call: (6MP) (ran: 2 all targets) (Acc: 12 (+FAB)) (Attack: 2) All allies gain accuracy, and all opponents lose accuracy until end of turn"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Heavy Robe": {
+        "name": "Heavy Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 14,
+        "stats": {
+          "shield": "2",
+          "weight": "2,"
+        },
+        "effects": [
+          "Increases magic defense by 1",
+          "resist cold"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Holy Silver Talisman": {
+        "name": "Holy Silver Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "A 2/3",
+        "buy_price": 190,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "1/6 chance of preventiing damage",
+          "Resist Dark",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Hooded Robe": {
+        "name": "Hooded Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 10,
+        "stats": {
+          "shield": "1",
+          "weight": "1,"
+        },
+        "effects": [
+          "resist cold"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Hooked Gauntlets": {
+        "name": "Hooked Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 4,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 3"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Human Skull Mask": {
+        "name": "Human Skull Mask",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "A 2/3",
+        "buy_price": 130,
+        "max_hp": 10,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Decrease Accuracy by 1",
+          "Increases MP by 4",
+          "Decrease opponents accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Indigo Orb": {
+        "name": "Indigo Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases magic attack by 1",
+          "Increases MP by 16",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Insulated Muck Boots": {
+        "name": "Insulated Muck Boots",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "B 3/3",
+        "buy_price": 90,
+        "max_hp": 9,
+        "stats": {
+          "shield": "0",
+          "movement": "1"
+        },
+        "effects": [
+          "resist rain",
+          "Add 10 to Bog checks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Insulated Robe": {
+        "name": "Insulated Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 18,
+        "stats": {
+          "shield": "3",
+          "weight": "2,"
+        },
+        "effects": [
+          "Increases magic defense by 1",
+          "resist cold"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Iron Axe": {
+        "name": "Iron Axe",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 8,
+        "stats": {
+          "attack": "5",
+          "range": "1,",
+          "accuracy": "14"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Iron Battle Helm": {
+        "name": "Iron Battle Helm",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 12,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Decrease Accuracy by 3"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Iron Chain Helm": {
+        "name": "Iron Chain Helm",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 8,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Decrease Accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Iron Chain Mail": {
+        "name": "Iron Chain Mail",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 8,
+        "stats": {
+          "shield": "2",
+          "weight": "1,"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Iron Coat of Arms": {
+        "name": "Iron Coat of Arms",
+        "family": "heavy_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 12,
+        "stats": {
+          "shield": "3",
+          "weight": "2,"
+        },
+        "effects": [
+          "Reduces ice, bog, quick sand, and deep water checks by 5"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Iron Knife": {
+        "name": "Iron Knife",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 4,
+        "stats": {
+          "attack": "3",
+          "range": "1,",
+          "accuracy": "18"
+        },
+        "effects": [
+          "Critical strike",
+          "May equip as a passive action"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Iron Mace": {
+        "name": "Iron Mace",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 12,
+        "stats": {
+          "attack": "3",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Knockback"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Iron Partisan": {
+        "name": "Iron Partisan",
+        "family": "spear",
+        "source_sheet": "Axes&Spears",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 4,
+        "stats": {
+          "attack": "3",
+          "range": "1,2",
+          "accuracy": "18"
+        },
+        "effects": [
+          "Knockback"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Iron Pike": {
+        "name": "Iron Pike",
+        "family": "spear",
+        "source_sheet": "Axes&Spears",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 8,
+        "stats": {
+          "attack": "5",
+          "range": "1,2,",
+          "accuracy": "14"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Iron Plate Armor": {
+        "name": "Iron Plate Armor",
+        "family": "heavy_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 12,
+        "stats": {
+          "shield": "2",
+          "weight": "2,"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Iron Plate Mail": {
+        "name": "Iron Plate Mail",
+        "family": "heavy_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 12,
+        "stats": {
+          "shield": "2",
+          "weight": "1,"
+        },
+        "effects": [
+          "When taking damage from a magic attack increase your opponents magic attack by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Iron Rune": {
+        "name": "Iron Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 8,
+        "stats": {
+          "attack": "3",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases MP by 8"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Iron Scale Mail": {
+        "name": "Iron Scale Mail",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 12,
+        "stats": {
+          "shield": "1",
+          "weight": "2,"
+        },
+        "effects": [
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Iron Scimitar": {
+        "name": "Iron Scimitar",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 8,
+        "stats": {
+          "attack": "4",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Critical strike"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Iron Scythe": {
+        "name": "Iron Scythe",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 8,
+        "stats": {
+          "attack": "3",
+          "range": "1,2,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "Increases magic attack by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Iron Short Sword": {
+        "name": "Iron Short Sword",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 12,
+        "stats": {
+          "attack": "3",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Iron Spear": {
+        "name": "Iron Spear",
+        "family": "spear",
+        "source_sheet": "Axes&Spears",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 4,
+        "stats": {
+          "attack": "4",
+          "range": "1,2",
+          "accuracy": "16"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Leather Buckler": {
+        "name": "Leather Buckler",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 6,
+        "stats": {},
+        "effects": [
+          "Shield block",
+          "-1 climb cap",
+          "Opponents accuracy increased by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Leather Cap": {
+        "name": "Leather Cap",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 4,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Leather Cuirass": {
+        "name": "Leather Cuirass",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 12,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "When taking damage from a Spear, or a Bow, Armor is bypassed"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Leather Gauntlets": {
+        "name": "Leather Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 6,
+        "stats": {
+          "shield": "0",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 1",
+          "+1 movement"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Leather Shoes": {
+        "name": "Leather Shoes",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 7,
+        "stats": {
+          "shield": "0",
+          "movement": "0"
+        },
+        "effects": [
+          "+1 movement on floor"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Leather Treads": {
+        "name": "Leather Treads",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 6,
+        "stats": {
+          "shield": "0",
+          "movement": "0"
+        },
+        "effects": [
+          "+1 movement on plains and path"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Lightning Rune": {
+        "name": "Lightning Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Arcane fist",
+          "Increases MP by 8",
+          "Increases Spell accuracy by 1",
+          "Increases Movement by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Lightning walkers": {
+        "name": "Lightning walkers",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 9,
+        "stats": {
+          "movement": "0",
+          "shield": "0"
+        },
+        "effects": [
+          "Requires 2 MP to Move",
+          "Flying",
+          "Ignore effects of wind"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Magma walkers": {
+        "name": "Magma walkers",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 11,
+        "stats": {
+          "movement": "1",
+          "shield": "1"
+        },
+        "effects": [
+          "Requires 1 MP to Move",
+          "Wading 1",
+          "Add 10 to lava checks",
+          "Gain 1 MP starting turn on rock 2MP magma 3MP lava"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Merchant Robe": {
+        "name": "Merchant Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 16,
+        "stats": {
+          "shield": "2",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases movement by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Metal walkers": {
+        "name": "Metal walkers",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 2/3",
+        "buy_price": 140,
+        "max_hp": 14,
+        "stats": {
+          "movement": "1",
+          "shield": "3"
+        },
+        "effects": [
+          "Requires 1 MP to Move",
+          "Reduces ice, bog, quick sand, and deep water checks by 5",
+          "Increase climbing cap by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Mind Band": {
+        "name": "Mind Band",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "A 0/2",
+        "buy_price": 130,
+        "max_hp": 10,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Increases Spell range by 1",
+          "Increases Accuracy by 1",
+          "gain 1 MP every turn you don't cast a spell"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Mirror plate mask": {
+        "name": "Mirror plate mask",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 8,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Decrease Accuracy by 1",
+          "Increases magic defense by 1",
+          "Decrease opponents accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Monks Robe": {
+        "name": "Monks Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "B 3/3",
+        "buy_price": 100,
+        "max_hp": 12,
+        "stats": {
+          "shield": "0",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases magic defense by 2"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Moon Rune": {
+        "name": "Moon Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 20,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "Arcane fist",
+          "Increases MP by 16",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Moose Hide": {
+        "name": "Moose Hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 16,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases magic defense by 1",
+          "resist earth"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Moth": {
+        "name": "Moth",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 3,
+        "stats": {
+          "mp": "30",
+          "movement": "4",
+          "accuracy": "18",
+          "skill": "x-2",
+          "strength": "x-2",
+          "dexterity": "x+10",
+          "attack": "2",
+          "shield": "1",
+          "magic_defense": "3",
+          "terrain": "Levitate"
+        },
+        "effects": [
+          "Can not be detected by enemies unless you have attacked them this turn",
+          "May enter rooms without owner",
+          "Silence Dust: (9MP) (ran: 1 all directions) (Acc: 18) (Attack: 2) Silences targets",
+          "Paralytic Dust: (7MP) (ran:1 all directions) (Acc: 18) (Attack: 3) Paralyzes targets",
+          "climbing cap increased by 6",
+          "resist light",
+          "Dazing Powder: (5MP) (ran:1 all directions) (Acc: 20) (Attack:0) this attack dazes targets",
+          "Invisible to enemies unless you target them",
+          "can move through enemies"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Mountain Elder Talisman": {
+        "name": "Mountain Elder Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "B 3/3",
+        "buy_price": 160,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "Increases magic attack by 1",
+          "Resist Air"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Null Carapace": {
+        "name": "Null Carapace",
+        "family": "golem_armor",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 16,
+        "stats": {
+          "shield": "5",
+          "weight": "2,"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Null Chassis": {
+        "name": "Null Chassis",
+        "family": "golem_armor",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "B 3/3",
+        "buy_price": 100,
+        "max_hp": 12,
+        "stats": {
+          "shield": "4",
+          "weight": "2,"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Null Core": {
+        "name": "Null Core",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 12,
+        "stats": {
+          "shield": "3"
+        },
+        "effects": [
+          "Decreases movement by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Null eye": {
+        "name": "Null eye",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 4,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Decreases movement by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Null head": {
+        "name": "Null head",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "B 3/3",
+        "buy_price": 80,
+        "max_hp": 8,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Decreases movement by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Null shell": {
+        "name": "Null shell",
+        "family": "golem_armor",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 8,
+        "stats": {
+          "shield": "3",
+          "weight": "2,"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Oaken Long Bow": {
+        "name": "Oaken Long Bow",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 8,
+        "stats": {
+          "attack": "3",
+          "range": "3,4,5,",
+          "accuracy": "14"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Oaken Shield": {
+        "name": "Oaken Shield",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 4,
+        "stats": {},
+        "effects": [
+          "Shield block",
+          "Opponents accuracy increased by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Oaken Short Bow": {
+        "name": "Oaken Short Bow",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 8,
+        "stats": {
+          "attack": "3",
+          "range": "2,3,4",
+          "accuracy": "14"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Oaken Sling": {
+        "name": "Oaken Sling",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 12,
+        "stats": {
+          "attack": "2",
+          "range": "1,2,3",
+          "accuracy": "14"
+        },
+        "effects": [
+          "Knockback"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Oaken Staff": {
+        "name": "Oaken Staff",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 10,
+        "stats": {
+          "attack": "2",
+          "range": "1,2,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Gain 1 MP every turn you don't attack"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Oaken Wand": {
+        "name": "Oaken Wand",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 8,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "May be equiped as a passive action",
+          "Increases spell range by 1",
+          "Increases spell accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Octopod": {
+        "name": "Octopod",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "A 1/3",
+        "buy_price": 130,
+        "max_hp": 4,
+        "stats": {
+          "mp": "24",
+          "movement": "3",
+          "accuracy": "12",
+          "skill": "x+10",
+          "strength": "x+0",
+          "dexterity": "x+8",
+          "attack": "3",
+          "shield": "0",
+          "magic_defense": "2",
+          "terrain": "Water, Floor, Rock"
+        },
+        "effects": [
+          "It requires 1MP for the owner to give their familiar an action (max of 2)",
+          "Wading 3",
+          "Can pick up four items",
+          "Mind Latch: (10MP) (ran:1) (Acc: 14 + FAB) may cast after dealing physical damage, Mind controls the target for 4 turns, sacrifice Octopod",
+          "Ignore effects of rain",
+          "resist water",
+          "When in water, bog or lava, you are undetectable and increase your attack, accuracy, movement shield and your magic defense by 2",
+          "Octo jet: (8MP) (ran: 2) (Acc: 16) (Attack: 2)",
+          "Gain 3 MP every turn you end in deep water, 2MP in water, 1MP in Bog",
+          "Add 10 to deep water rolls"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Orange Orb": {
+        "name": "Orange Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "B 3/3",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases magic attack by 2",
+          "Increases MP by 8",
+          "Increases Spell Accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Orbed Bone Talisman": {
+        "name": "Orbed Bone Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "A 1/2",
+        "buy_price": 190,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "1/2 chance of preventiing death",
+          "Resist Fire",
+          "Increases magic attack by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Orbed Elder Talisman": {
+        "name": "Orbed Elder Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "A 1/2",
+        "buy_price": 190,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "Increases magic attack by 1",
+          "Resist Air",
+          "immune to Silence, and Doom"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Owl": {
+        "name": "Owl",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 4,
+        "stats": {
+          "mp": "9",
+          "movement": "3",
+          "accuracy": "12",
+          "skill": "x+2",
+          "strength": "x+0",
+          "dexterity": "x+0",
+          "attack": "2",
+          "shield": "0",
+          "magic_defense": "1",
+          "terrain": "Flying"
+        },
+        "effects": [
+          "Camoflauge: (3MP) (Acc: 14+FAB) cant be seen until end of turn"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Ox hide": {
+        "name": "Ox hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "A 0/2",
+        "buy_price": 150,
+        "max_hp": 20,
+        "stats": {
+          "shield": "2",
+          "weight": "0,"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Padded Leather Cap": {
+        "name": "Padded Leather Cap",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "B 3/3",
+        "buy_price": 80,
+        "max_hp": 8,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Immune to dazing"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Pilgrim Robe": {
+        "name": "Pilgrim Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 12,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases movement by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Plated Chain mail": {
+        "name": "Plated Chain mail",
+        "family": "heavy_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 18,
+        "stats": {
+          "shield": "3",
+          "weight": "1,"
+        },
+        "effects": [
+          "Full block sword attacks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Plated Hiking Treads": {
+        "name": "Plated Hiking Treads",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "A 0/2",
+        "buy_price": 140,
+        "max_hp": 11,
+        "stats": {
+          "shield": "1",
+          "movement": "1"
+        },
+        "effects": [
+          "Rockwalking",
+          "Icewalking"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Plated Leather Buckler": {
+        "name": "Plated Leather Buckler",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "A 1/2",
+        "buy_price": 90,
+        "max_hp": 14,
+        "stats": {},
+        "effects": [
+          "Shield block",
+          "Increases shield by 1",
+          "-1 climb cap"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Plated Leather Cap": {
+        "name": "Plated Leather Cap",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 12,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Plated Leather Cuirass": {
+        "name": "Plated Leather Cuirass",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 20,
+        "stats": {
+          "shield": "3",
+          "weight": "0,"
+        },
+        "effects": [
+          "When taking damage from a Spear, or a Bow, Armor is bypassed"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Plated Leather Gauntlets": {
+        "name": "Plated Leather Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 12,
+        "stats": {
+          "shield": "2",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 3",
+          "+1 movement"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Plated Leather Treads": {
+        "name": "Plated Leather Treads",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "A 0/2",
+        "buy_price": 140,
+        "max_hp": 10,
+        "stats": {
+          "shield": "2",
+          "movement": "1"
+        },
+        "effects": [
+          "+1 movement on plains and path"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Plated Work Hat": {
+        "name": "Plated Work Hat",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 10,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Immune to Paralysis"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Poplar Composite Bow": {
+        "name": "Poplar Composite Bow",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "B 3/3",
+        "buy_price": 70,
+        "max_hp": 8,
+        "stats": {
+          "attack": "4",
+          "range": "2,3,4,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "+1 spell range"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Poplar Long Bow": {
+        "name": "Poplar Long Bow",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "4",
+          "range": "3,4,5,",
+          "accuracy": "14"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Poplar Orbed Staff": {
+        "name": "Poplar Orbed Staff",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 8,
+        "stats": {
+          "attack": "2",
+          "range": "1,2,",
+          "accuracy": "12"
+        },
+        "effects": [
+          "Gain 3 MP every turn you don't attack",
+          "Increases spell range by 1",
+          "Increases magic attack by 1",
+          "Increases spell accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Poplar Short Bow": {
+        "name": "Poplar Short Bow",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "B 3/3",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "4",
+          "range": "2,3,4,",
+          "accuracy": "14"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Poplar Sling": {
+        "name": "Poplar Sling",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 16,
+        "stats": {
+          "attack": "3",
+          "range": "1,2,3,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "Knockback"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Poplar Snow Shoes": {
+        "name": "Poplar Snow Shoes",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "B 2/2",
+        "buy_price": 90,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1",
+          "movement": "0"
+        },
+        "effects": [
+          "Snowalking",
+          "Add 10 to Ice and Quick-sand checks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Poplar Staff": {
+        "name": "Poplar Staff",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "B 3/3",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "2",
+          "range": "1,2",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Gain 2 MP every turn you don't attack",
+          "Increases spell range by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Poplar Target Shield": {
+        "name": "Poplar Target Shield",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "B 2/2",
+        "buy_price": 60,
+        "max_hp": 4,
+        "stats": {},
+        "effects": [
+          "Shield block",
+          "Decreases opponents projectile range by 3"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Poplar Wand": {
+        "name": "Poplar Wand",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 10,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Gain 1 MP every turn you don't attack",
+          "Increases spell range by 2",
+          "Can be equipped as a passive",
+          "Increases spell accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Priest Robe": {
+        "name": "Priest Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "B 3/3",
+        "buy_price": 100,
+        "max_hp": 8,
+        "stats": {
+          "shield": "2",
+          "weight": "1,"
+        },
+        "effects": [
+          "Increases magic defense by 2"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Prized Camel": {
+        "name": "Prized Camel",
+        "family": "mount",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 0/2",
+        "buy_price": 140,
+        "max_hp": 9,
+        "stats": {
+          "ski": "ski/2+2",
+          "str": "12",
+          "dex": "7",
+          "mp": "19",
+          "atk": "1",
+          "def_m": "1/3",
+          "movement": "(5)+2",
+          "shield": "1"
+        },
+        "effects": [
+          "Reduces dexterity by 3",
+          "+2 movement on sand, path, or plains",
+          "Ignore the effects of sandstorm",
+          "Increases magic defense by 2",
+          "Sense Hidden enemies"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Prized Stallion": {
+        "name": "Prized Stallion",
+        "family": "mount",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 0/2",
+        "buy_price": 140,
+        "max_hp": 8,
+        "stats": {
+          "ski": "ski/2",
+          "str": "14",
+          "dex": "10",
+          "mp": "16",
+          "atk": "2",
+          "def_m": "2/2",
+          "movement": "(9)+4",
+          "shield": "1"
+        },
+        "effects": [
+          "Reduces dexterity by 2",
+          "+2 movement on snow, path, or plains"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Purple Orb": {
+        "name": "Purple Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "B 3/3",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases magic attack by 2",
+          "Increases Spell Accuracy by 1",
+          "Offensive spells cost 1 less to cast"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Rain Rune": {
+        "name": "Rain Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Arcane fist",
+          "Increases MP by 16"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Raptor hide": {
+        "name": "Raptor hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "A 2/3",
+        "buy_price": 150,
+        "max_hp": 14,
+        "stats": {
+          "shield": "3",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases movement by 1",
+          "Gain 1 MP every turn you don't get attacked",
+          "When taking damage from an Axe or Animal, Armor is bypassed"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Red Orb": {
+        "name": "Red Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 8,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases magic attack by 2",
+          "Increases Spell Accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Reinforced Coat of arms": {
+        "name": "Reinforced Coat of arms",
+        "family": "heavy_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "A 1/3",
+        "buy_price": 150,
+        "max_hp": 22,
+        "stats": {
+          "shield": "4",
+          "weight": "3,"
+        },
+        "effects": [
+          "Reduces ice, bog, quick sand, and deep water checks by 5",
+          "Full block axe attacks",
+          "Cant be knocked back"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Reinforced Leather Cap": {
+        "name": "Reinforced Leather Cap",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 12,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Immune to Dazing"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Reinforced Leather Gauntlets": {
+        "name": "Reinforced Leather Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 3",
+          "+1 movement"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Reinforced Leather Shoes": {
+        "name": "Reinforced Leather Shoes",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "B 3/3",
+        "buy_price": 90,
+        "max_hp": 7,
+        "stats": {
+          "shield": "1",
+          "movement": "1"
+        },
+        "effects": [
+          "+1 movement on floor"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Reinforced Muck Boots": {
+        "name": "Reinforced Muck Boots",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 13,
+        "stats": {
+          "shield": "0",
+          "movement": "1"
+        },
+        "effects": [
+          "resist rain",
+          "Wading 1",
+          "Add 10 to Bog checks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Reinforced Tower Shield": {
+        "name": "Reinforced Tower Shield",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "A 0/2",
+        "buy_price": 90,
+        "max_hp": 13,
+        "stats": {},
+        "effects": [
+          "Shield block",
+          "Increases shield by 2",
+          "Decreases opponents projectile range by 3",
+          "Opponents accuracy increased by 1",
+          "-2 climb cap"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Reinforced Under Cuirass": {
+        "name": "Reinforced Under Cuirass",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "A 2/3",
+        "buy_price": 150,
+        "max_hp": 14,
+        "stats": {
+          "shield": "3",
+          "weight": "0,"
+        },
+        "effects": [
+          "full block staff attacks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Reinforced Work Hat": {
+        "name": "Reinforced Work Hat",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 6,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Immune to Paralysis"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Rune Studded Gauntlets": {
+        "name": "Rune Studded Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 9,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 5",
+          "+1 movement",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Runed bone Mail": {
+        "name": "Runed bone Mail",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "B 3/3",
+        "buy_price": 100,
+        "max_hp": 12,
+        "stats": {
+          "shield": "2",
+          "weight": "1,"
+        },
+        "effects": [
+          "+8 MP"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Runed Chain Mail": {
+        "name": "Runed Chain Mail",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "A 0/2",
+        "buy_price": 150,
+        "max_hp": 16,
+        "stats": {
+          "shield": "3",
+          "weight": "1,"
+        },
+        "effects": [
+          "+8 MP"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Runed Cloth slippers": {
+        "name": "Runed Cloth slippers",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 9,
+        "stats": {
+          "shield": "0",
+          "movement": "1"
+        },
+        "effects": [
+          "+1 magic defense",
+          "Add 10 to Ice checks",
+          "Sandwalking"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Runed Crown": {
+        "name": "Runed Crown",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 12,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Decrease Movement by 1",
+          "Increases magic defense by 2"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Runed Elder Talisman": {
+        "name": "Runed Elder Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "A 1/2",
+        "buy_price": 190,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "Increases magic defense by 1",
+          "Resist Earth",
+          "Immune to Mind control, and Confusion"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Runed Gauntlets": {
+        "name": "Runed Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 5,
+        "stats": {
+          "shield": "0",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 2",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Runed Leather Armor": {
+        "name": "Runed Leather Armor",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 18,
+        "stats": {
+          "shield": "3",
+          "weight": "1,"
+        },
+        "effects": [
+          "Gain 1 MP every turn you don't get attacked"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Runed Leather Boots": {
+        "name": "Runed Leather Boots",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 10,
+        "stats": {
+          "shield": "1",
+          "movement": "1"
+        },
+        "effects": [
+          "+1 magic defense",
+          "Brushwalking"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Runed Leather Buckler": {
+        "name": "Runed Leather Buckler",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "B 3/3",
+        "buy_price": 60,
+        "max_hp": 6,
+        "stats": {},
+        "effects": [
+          "Shield block",
+          "Increases magic defense by 1",
+          "-1 climb cap"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Runed Leather Cap": {
+        "name": "Runed Leather Cap",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "A 0/2",
+        "buy_price": 130,
+        "max_hp": 10,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "immune to confusion",
+          "gain 2 MP every turn you don't cast a spell"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Runed Leather Gauntlets": {
+        "name": "Runed Leather Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 9,
+        "stats": {
+          "shield": "0",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 2",
+          "Increases magic defense by 1",
+          "+1 movement"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Salamander": {
+        "name": "Salamander",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 8,
+        "stats": {
+          "mp": "27",
+          "movement": "4",
+          "accuracy": "16",
+          "skill": "x+0",
+          "strength": "x+10",
+          "dexterity": "x+2",
+          "attack": "3",
+          "shield": "0",
+          "magic_defense": "4",
+          "terrain": "Sand, Lava, Bog"
+        },
+        "effects": [
+          "Wading 2",
+          "Ignore the effects of heat",
+          "resist fire",
+          "Gill Blast: (6MP) (ran: 2 in a row) (Acc: 16) (Attack: Water-2, Bog-3, Lava-4) can only cast from a liquid tile, knockbacks targets",
+          "When in water, bog or lava, you are undetectable and increase your attack, accuracy, movement, shield and your magic defense by 1",
+          "Add 10 to Lava rolls",
+          "x = your current level"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Sand Rune": {
+        "name": "Sand Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 8,
+        "stats": {
+          "attack": "2",
+          "range": "1,",
+          "accuracy": "18"
+        },
+        "effects": [
+          "Arcane fist",
+          "Increases magic defense by 1",
+          "Knockback"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "sasquad": {
+        "name": "sasquad",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 7,
+        "stats": {
+          "mp": "12",
+          "movement": "6",
+          "accuracy": "18",
+          "skill": "x+6",
+          "strength": "x+6",
+          "dexterity": "x+6",
+          "attack": "4",
+          "shield": "2",
+          "magic_defense": "0",
+          "terrain": "Rock, Snow, Plains, Path"
+        },
+        "effects": [
+          "Climbing cap increased by 5 and rate by 1",
+          "Can pick up two items",
+          "climbing cap increased by 4 and rate by 1",
+          "Ignore effects of rainstorm",
+          "Knocks back opponents for half damage dealt",
+          "Chest beat (6MP) (ran: 3 all directions) (Acc: 18) increases attack by 2 and scares away enemies"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Sea Crystal Talisman": {
+        "name": "Sea Crystal Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "B 2/2",
+        "buy_price": 160,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "Increase MP by 8",
+          "Resist Water"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Sea Rune": {
+        "name": "Sea Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Arcane fist",
+          "Increases MP by 24"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Seal Hide": {
+        "name": "Seal Hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "B 3/3",
+        "buy_price": 100,
+        "max_hp": 14,
+        "stats": {
+          "shield": "1",
+          "weight": "1,"
+        },
+        "effects": [
+          "Increases magic defense by 1",
+          "resist rain"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Seal Hide Slippers": {
+        "name": "Seal Hide Slippers",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "B 3/3",
+        "buy_price": 90,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1",
+          "movement": "0"
+        },
+        "effects": [
+          "Wading 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Sentinel Jets": {
+        "name": "Sentinel Jets",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "C 4/4",
+        "buy_price": 50,
+        "max_hp": 4,
+        "stats": {
+          "movement": "0",
+          "shield": "0"
+        },
+        "effects": [
+          "Requires 2 MP to Move",
+          "Levitate"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Serpent": {
+        "name": "Serpent",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 6,
+        "stats": {
+          "mp": "21",
+          "movement": "5",
+          "accuracy": "16",
+          "skill": "x+2",
+          "strength": "x+4",
+          "dexterity": "x+0",
+          "attack": "4",
+          "shield": "3",
+          "magic_defense": "1",
+          "terrain": "Brush, Sand, Water ,Bog"
+        },
+        "effects": [
+          "Increase bog, and quicksand checks by 10",
+          "Wading 1",
+          "Ignore effects of sandstorm",
+          "resist dark",
+          "Add 10 to Bog and Quick-sand rolls",
+          "When in brush, sand, water, bog or lava, you are undetectable and increase your attack, accuracy, and movement by 1 and your shield by 2",
+          "Climbing cap increased by 8 and rate by 1",
+          "Toxic Venom: (3MP) (ran:1) (Acc: 18 + FAB) may cast after dealing damage, Poisons target"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Shadow legs": {
+        "name": "Shadow legs",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "B 2/2",
+        "buy_price": 90,
+        "max_hp": 8,
+        "stats": {
+          "movement": "0",
+          "shield": "0"
+        },
+        "effects": [
+          "Requires 2 MP to Move",
+          "Levitate",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Shamanic Robe": {
+        "name": "Shamanic Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 16,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases magic defense by 2"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Shell Mask": {
+        "name": "Shell Mask",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 4,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Decrease Accuracy by 3",
+          "Increases magic defense by 1",
+          "Decrease opponents accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Axe": {
+        "name": "Silver Axe",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "7",
+          "range": "1,",
+          "accuracy": "14"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Silver Battle Helm": {
+        "name": "Silver Battle Helm",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 12,
+        "stats": {
+          "shield": "3"
+        },
+        "effects": [
+          "Decrease Accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Battle Shield": {
+        "name": "Silver Battle Shield",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "A 0/2",
+        "buy_price": 90,
+        "max_hp": 12,
+        "stats": {},
+        "effects": [
+          "Shield block",
+          "Increases shield by 1",
+          "Increases magic defense by 1",
+          "Opponents accuracy increased by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Battle Staff": {
+        "name": "Silver Battle Staff",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 18,
+        "stats": {
+          "attack": "4",
+          "range": "1,2,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Knockback"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Bladed Gauntlets": {
+        "name": "Silver Bladed Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "A 2/3",
+        "buy_price": 150,
+        "max_hp": 7,
+        "stats": {
+          "shield": "2",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 4",
+          "Increases attack by 1",
+          "+1 movement"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Broad Sword": {
+        "name": "Silver Broad Sword",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "A 0/2",
+        "buy_price": 110,
+        "max_hp": 20,
+        "stats": {
+          "attack": "6",
+          "range": "1,",
+          "accuracy": "14"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Silver Chain Boots": {
+        "name": "Silver Chain Boots",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 13,
+        "stats": {
+          "shield": "2",
+          "movement": "0"
+        },
+        "effects": [
+          "Brushwalking",
+          "+1 movement on plains"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Chain Helm": {
+        "name": "Silver Chain Helm",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "A 0/2",
+        "buy_price": 130,
+        "max_hp": 16,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Decrease Accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Chain Mail": {
+        "name": "Silver Chain Mail",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "A 0/2",
+        "buy_price": 150,
+        "max_hp": 16,
+        "stats": {
+          "shield": "4",
+          "weight": "1,"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Silver Coat of Arms": {
+        "name": "Silver Coat of Arms",
+        "family": "heavy_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 20,
+        "stats": {
+          "shield": "5",
+          "weight": "2,"
+        },
+        "effects": [
+          "Reduces ice, bog, quick sand, and deep water checks by 5"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Cross Bow": {
+        "name": "Silver Cross Bow",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "4",
+          "range": "1,2,3,",
+          "accuracy": "16"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Silver Flail": {
+        "name": "Silver Flail",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "A 2/3",
+        "buy_price": 110,
+        "max_hp": 12,
+        "stats": {
+          "attack": "7",
+          "range": "2,3,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "Critical strike"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Halberd": {
+        "name": "Silver Halberd",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "7",
+          "range": "1,2,",
+          "accuracy": "12"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Silver Hand Cannon": {
+        "name": "Silver Hand Cannon",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "5",
+          "range": "2,3,4,5",
+          "accuracy": "12"
+        },
+        "effects": [
+          "Critical strike"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Heavy Boots": {
+        "name": "Silver Heavy Boots",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "A 0/2",
+        "buy_price": 140,
+        "max_hp": 11,
+        "stats": {
+          "shield": "3",
+          "movement": "0"
+        },
+        "effects": [
+          "Resist wind",
+          "Lavawalking",
+          "Add 5 to lava checks",
+          "Reduces ice, bog, quick sand, and deep water checks by 5"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Hooked Gauntlets": {
+        "name": "Silver Hooked Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 6",
+          "Increases attack by 1",
+          "Increases climb rate by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Javelin": {
+        "name": "Silver Javelin",
+        "family": "spear",
+        "source_sheet": "Axes&Spears",
+        "rank": "A 0/2",
+        "buy_price": 110,
+        "max_hp": 12,
+        "stats": {
+          "attack": "6",
+          "range": "2,3,",
+          "accuracy": "16"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Silver Knife": {
+        "name": "Silver Knife",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 12,
+        "stats": {
+          "attack": "5",
+          "range": "1,",
+          "accuracy": "18"
+        },
+        "effects": [
+          "Critical strike",
+          "May equip as a passive action"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Lance": {
+        "name": "Silver Lance",
+        "family": "spear",
+        "source_sheet": "Axes&Spears",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 12,
+        "stats": {
+          "attack": "7",
+          "range": "2,",
+          "accuracy": "16"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Silver Mace": {
+        "name": "Silver Mace",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "A 0/2",
+        "buy_price": 110,
+        "max_hp": 20,
+        "stats": {
+          "attack": "5",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Knockback"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Morning star": {
+        "name": "Silver Morning star",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 12,
+        "stats": {
+          "attack": "6",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Gain 2 MP every turn you don't attack"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver necklace": {
+        "name": "Silver necklace",
+        "family": "necklace",
+        "source_sheet": "Accessories",
+        "rank": "A 3/4",
+        "buy_price": 150,
+        "max_hp": null,
+        "stats": {},
+        "effects": [],
+        "optimizer_auto_sell": false,
+        "socket_policy": {
+          "min_gems": 1,
+          "max_gems": 3,
+          "imbue_fee": 50
+        }
+      },
+      "Silver Orb": {
+        "name": "Silver Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases magic attack by 2",
+          "Increases MP by 8",
+          "Increases Spell Accuracy by 1",
+          "Offensive spells cost 1 less to cast"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Orbed Gauntlets": {
+        "name": "Silver Orbed Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "A 0/2",
+        "buy_price": 150,
+        "max_hp": 11,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 1",
+          "Increases magic attack by 1",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Partisan": {
+        "name": "Silver Partisan",
+        "family": "spear",
+        "source_sheet": "Axes&Spears",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 12,
+        "stats": {
+          "attack": "5",
+          "range": "1,2",
+          "accuracy": "18"
+        },
+        "effects": [
+          "Knockback"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Pike": {
+        "name": "Silver Pike",
+        "family": "spear",
+        "source_sheet": "Axes&Spears",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "7",
+          "range": ",2",
+          "accuracy": "14"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Silver Plate Armor": {
+        "name": "Silver Plate Armor",
+        "family": "heavy_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 20,
+        "stats": {
+          "shield": "4",
+          "weight": "2,"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Silver Plate Mail": {
+        "name": "Silver Plate Mail",
+        "family": "heavy_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "A 0/2",
+        "buy_price": 150,
+        "max_hp": 20,
+        "stats": {
+          "shield": "4",
+          "weight": "1,"
+        },
+        "effects": [
+          "When taking damage from a magic attack increase your opponents magic attack by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Rapier": {
+        "name": "Silver Rapier",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "A 2/3",
+        "buy_price": 110,
+        "max_hp": 12,
+        "stats": {
+          "attack": "6",
+          "range": "1,",
+          "accuracy": "18"
+        },
+        "effects": [
+          "Critical strike"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver ring": {
+        "name": "Silver ring",
+        "family": "ring",
+        "source_sheet": "Accessories",
+        "rank": "A 3/4",
+        "buy_price": 40,
+        "max_hp": null,
+        "stats": {},
+        "effects": [],
+        "optimizer_auto_sell": false,
+        "socket_policy": {
+          "min_gems": 0,
+          "max_gems": 1,
+          "imbue_fee": 50
+        }
+      },
+      "Silver Rune": {
+        "name": "Silver Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "5",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases MP by 8"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Runed Plate": {
+        "name": "Silver Runed Plate",
+        "family": "heavy_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 18,
+        "stats": {
+          "shield": "3",
+          "weight": "2,"
+        },
+        "effects": [
+          "Gain 1 MP every turn you don't get attacked",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Saber": {
+        "name": "Silver Saber",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "5",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "+1 magic attack"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Scale Armor": {
+        "name": "Silver Scale Armor",
+        "family": "heavy_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 18,
+        "stats": {
+          "shield": "5",
+          "weight": "2,"
+        },
+        "effects": [
+          "Full block spear attacks",
+          "-1 Accuracy"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Scale Helm": {
+        "name": "Silver Scale Helm",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 12,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Decrease Accuracy by 1",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Scale Mail": {
+        "name": "Silver Scale Mail",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 20,
+        "stats": {
+          "shield": "3",
+          "weight": "2,"
+        },
+        "effects": [
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Scepter": {
+        "name": "Silver Scepter",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 14,
+        "stats": {
+          "attack": "3",
+          "range": "1,",
+          "accuracy": "18"
+        },
+        "effects": [
+          "Gain 1 MP every turn you don't attack",
+          "Knockback",
+          "Increases spell accuracy by 2"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Scimitar": {
+        "name": "Silver Scimitar",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "6",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Critical strike"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Scythe": {
+        "name": "Silver Scythe",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "A 0/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "5",
+          "range": "1,2,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "Increases magic attack by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Short Sword": {
+        "name": "Silver Short Sword",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "A 0/2",
+        "buy_price": 110,
+        "max_hp": 20,
+        "stats": {
+          "attack": "5",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Silver Shuriken": {
+        "name": "Silver Shuriken",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "4",
+          "range": "1,2,3,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "Critical strike",
+          "May equip as a passive action"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Spear": {
+        "name": "Silver Spear",
+        "family": "spear",
+        "source_sheet": "Axes&Spears",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 12,
+        "stats": {
+          "attack": "6",
+          "range": "1,2,",
+          "accuracy": "16"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Silver Spiked Treads": {
+        "name": "Silver Spiked Treads",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "A 2/3",
+        "buy_price": 140,
+        "max_hp": 10,
+        "stats": {
+          "shield": "2",
+          "movement": "0"
+        },
+        "effects": [
+          "Rockwalking",
+          "+1 to climb cap"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Talisman": {
+        "name": "Silver Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "C 3/3",
+        "buy_price": 130,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "1/6 chance of preventiing damage"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver Tomahawk": {
+        "name": "Silver Tomahawk",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "5",
+          "range": "1,2,3,",
+          "accuracy": "14"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Silver Trident": {
+        "name": "Silver Trident",
+        "family": "spear",
+        "source_sheet": "Axes&Spears",
+        "rank": "A 2/3",
+        "buy_price": 110,
+        "max_hp": 8,
+        "stats": {
+          "attack": "6",
+          "range": "1,2,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Critical strike"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Silver War Boots": {
+        "name": "Silver War Boots",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 12,
+        "stats": {
+          "shield": "3",
+          "movement": "0"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Silver War Hammer": {
+        "name": "Silver War Hammer",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "A 0/2",
+        "buy_price": 110,
+        "max_hp": 20,
+        "stats": {
+          "attack": "6",
+          "range": "1,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "Knockback"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Soldier Carapace": {
+        "name": "Soldier Carapace",
+        "family": "golem_armor",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "A 0/2",
+        "buy_price": 150,
+        "max_hp": 18,
+        "stats": {
+          "shield": "4",
+          "weight": "3,"
+        },
+        "effects": [
+          "Reduces ice, bog, quick sand, and deep water checks by 5",
+          "Increases magic defense by 2",
+          "full block bow attacks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Soldier Chassis": {
+        "name": "Soldier Chassis",
+        "family": "golem_armor",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 14,
+        "stats": {
+          "shield": "3",
+          "weight": "3,"
+        },
+        "effects": [
+          "Reduces ice, bog, quick sand, and deep water checks by 5",
+          "Increases magic defense by 2",
+          "full block bow attacks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Soldier Core": {
+        "name": "Soldier Core",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "A 0/2",
+        "buy_price": 130,
+        "max_hp": 8,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Increases Strength by 1",
+          "Increases magic defense by 1",
+          "Decreases accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Soldier head": {
+        "name": "Soldier head",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "B 3/3",
+        "buy_price": 80,
+        "max_hp": 4,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Increases Strength by 1",
+          "Increases magic defense by 1",
+          "Decreases accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Sorceror's Hat": {
+        "name": "Sorceror's Hat",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 4,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Increases magic defense by 3",
+          "Increases magic attack by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Spell Band": {
+        "name": "Spell Band",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "B 3/3",
+        "buy_price": 80,
+        "max_hp": 6,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Increases Spell range by 1",
+          "Increases Accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Spellbinder's Turban": {
+        "name": "Spellbinder's Turban",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Decrease Accuracy by 1",
+          "Increases magic defense by 2",
+          "gain 2 MP every turn you don't cast a spell"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Spider": {
+        "name": "Spider",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "B 3/3",
+        "buy_price": 80,
+        "max_hp": 2,
+        "stats": {
+          "mp": "18",
+          "movement": "4",
+          "accuracy": "18",
+          "skill": "x-2",
+          "strength": "x+0",
+          "dexterity": "x+6",
+          "attack": "2",
+          "shield": "2",
+          "magic_defense": "3",
+          "terrain": "Brush, Rock, Floor"
+        },
+        "effects": [
+          "Increase quicksand rolls by 10",
+          "Climbing cap increased by 7",
+          "Invisible to enemies unless you target them",
+          "Paralytic Venom: (4MP) (ran:1) (Acc: 16 + FAB) may cast after dealing damage, Paralyzes the target",
+          "Mind Tap: (7MP) (ran:1) (Acc: 14 + FAB) may cast after dealing damage, Mind controls the target for 2 turns, sacrifice spider"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Spiked Elder Club": {
+        "name": "Spiked Elder Club",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 10,
+        "stats": {
+          "attack": "5",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Gain 1 MP every turn you don't attack"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Spiked Oaken Club": {
+        "name": "Spiked Oaken Club",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 8,
+        "stats": {
+          "attack": "4",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Spiked Yew Treads": {
+        "name": "Spiked Yew Treads",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "A 2/3",
+        "buy_price": 140,
+        "max_hp": 13,
+        "stats": {
+          "shield": "1",
+          "movement": "1"
+        },
+        "effects": [
+          "+2 to climb cap"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Spirit Band": {
+        "name": "Spirit Band",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 10,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Increases magic defense by 1",
+          "Increases Accuracy by 1",
+          "Immune to Confusion"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Spirit Carapace": {
+        "name": "Spirit Carapace",
+        "family": "golem_armor",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "A 2/3",
+        "buy_price": 150,
+        "max_hp": 16,
+        "stats": {
+          "shield": "1",
+          "weight": "2,"
+        },
+        "effects": [
+          "+8MP",
+          "Increases magic defense by 2",
+          "gain 2 MP every turn you don't get attacked"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Spirit Core": {
+        "name": "Spirit Core",
+        "family": "golem_head",
+        "source_sheet": "Headware",
+        "rank": "A 1/2",
+        "buy_price": 130,
+        "max_hp": 4,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Decreases movement by 1",
+          "Increases magic defense by 3"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Stag Hide": {
+        "name": "Stag Hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 12,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Axe": {
+        "name": "Steel Axe",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "B 3/3",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "6",
+          "range": "1,",
+          "accuracy": "14"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Steel Battle Helm": {
+        "name": "Steel Battle Helm",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "B 3/3",
+        "buy_price": 80,
+        "max_hp": 12,
+        "stats": {
+          "shield": "2"
+        },
+        "effects": [
+          "Decrease Accuracy by 2"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Battle Shield": {
+        "name": "Steel Battle Shield",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "B 2/2",
+        "buy_price": 60,
+        "max_hp": 8,
+        "stats": {},
+        "effects": [
+          "Shield block",
+          "Increases shield by 1",
+          "Opponents accuracy increased by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Battle Staff": {
+        "name": "Steel Battle Staff",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "B 3/3",
+        "buy_price": 70,
+        "max_hp": 14,
+        "stats": {
+          "attack": "3",
+          "range": "1,2,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Knockback"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Broad Sword": {
+        "name": "Steel Broad Sword",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 16,
+        "stats": {
+          "attack": "5",
+          "range": "1,",
+          "accuracy": "14"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Steel Chain Boots": {
+        "name": "Steel Chain Boots",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "B 2/2",
+        "buy_price": 90,
+        "max_hp": 10,
+        "stats": {
+          "shield": "1",
+          "movement": "0"
+        },
+        "effects": [
+          "Brushwalking"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Chain Helm": {
+        "name": "Steel Chain Helm",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "B 3/3",
+        "buy_price": 80,
+        "max_hp": 12,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Decrease Accuracy by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Chain Mail": {
+        "name": "Steel Chain Mail",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 12,
+        "stats": {
+          "shield": "3",
+          "weight": "1,"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Steel Coat of Arms": {
+        "name": "Steel Coat of Arms",
+        "family": "heavy_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 16,
+        "stats": {
+          "shield": "4",
+          "weight": "2,"
+        },
+        "effects": [
+          "Reduces ice, bog, quick sand, and deep water checks by 5"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Cross Bow": {
+        "name": "Steel Cross Bow",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "3",
+          "range": "1,2,3,",
+          "accuracy": "16"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Steel Halberd": {
+        "name": "Steel Halberd",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "6",
+          "range": "1,2,",
+          "accuracy": "12"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Steel Heavy Boots": {
+        "name": "Steel Heavy Boots",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "B 2/2",
+        "buy_price": 90,
+        "max_hp": 7,
+        "stats": {
+          "shield": "2",
+          "movement": "0"
+        },
+        "effects": [
+          "Resist wind",
+          "Lavawalking",
+          "Add 5 to lava checks",
+          "Reduces ice, bog, quick sand, and deep water checks by 5"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Hooked Gauntlets": {
+        "name": "Steel Hooked Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "B 3/3",
+        "buy_price": 100,
+        "max_hp": 5,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 5",
+          "Increases climb rate by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Knife": {
+        "name": "Steel Knife",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 8,
+        "stats": {
+          "attack": "4",
+          "range": "1,",
+          "accuracy": "18"
+        },
+        "effects": [
+          "Critical strike",
+          "May equip as a passive action"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Mace": {
+        "name": "Steel Mace",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 16,
+        "stats": {
+          "attack": "4",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Knockback"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Orbed Gauntlets": {
+        "name": "Steel Orbed Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "B 3/3",
+        "buy_price": 100,
+        "max_hp": 7,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 1",
+          "Increases magic attack by 1",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Plate Armor": {
+        "name": "Steel Plate Armor",
+        "family": "heavy_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "B 3/3",
+        "buy_price": 100,
+        "max_hp": 16,
+        "stats": {
+          "shield": "3",
+          "weight": "2,"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Steel Plate Mail": {
+        "name": "Steel Plate Mail",
+        "family": "heavy_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 16,
+        "stats": {
+          "shield": "3",
+          "weight": "1,"
+        },
+        "effects": [
+          "When taking damage from a magic attack increase your opponents magic attack by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Rune": {
+        "name": "Steel Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "B 3/3",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "4",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases MP by 8"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Saber": {
+        "name": "Steel Saber",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "B 3/3",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "4",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "+1 magic attack"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Scale Armor": {
+        "name": "Steel Scale Armor",
+        "family": "heavy_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "B 3/3",
+        "buy_price": 100,
+        "max_hp": 14,
+        "stats": {
+          "shield": "4",
+          "weight": "2,"
+        },
+        "effects": [
+          "Full block spear attacks",
+          "-1 Accuracy"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Scale Helm": {
+        "name": "Steel Scale Helm",
+        "family": "heavy_helm",
+        "source_sheet": "Headware",
+        "rank": "B 3/3",
+        "buy_price": 80,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [
+          "Decrease Accuracy by 1",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Scale Mail": {
+        "name": "Steel Scale Mail",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 16,
+        "stats": {
+          "shield": "2",
+          "weight": "2,"
+        },
+        "effects": [
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Scimitar": {
+        "name": "Steel Scimitar",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "5",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Critical strike"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Scythe": {
+        "name": "Steel Scythe",
+        "family": "staff_orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "B 2/2",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "4",
+          "range": "1,2,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "Increases magic attack by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel Short Sword": {
+        "name": "Steel Short Sword",
+        "family": "sword",
+        "source_sheet": "Swords&Bows",
+        "rank": "B 3/3",
+        "buy_price": 70,
+        "max_hp": 16,
+        "stats": {
+          "attack": "4",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Steel Studded Gauntlets": {
+        "name": "Steel Studded Gauntlets",
+        "family": "gauntlet",
+        "source_sheet": "Golem&Gauntlet",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 6,
+        "stats": {
+          "shield": "1",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases climbing cap by 4",
+          "+1 movement"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Steel War Boots": {
+        "name": "Steel War Boots",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "B 3/3",
+        "buy_price": 90,
+        "max_hp": 8,
+        "stats": {
+          "shield": "2",
+          "movement": "0"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Steel War Hammer": {
+        "name": "Steel War Hammer",
+        "family": "axe",
+        "source_sheet": "Axes&Spears",
+        "rank": "B 3/3",
+        "buy_price": 70,
+        "max_hp": 16,
+        "stats": {
+          "attack": "5",
+          "range": "1,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "Knockback"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Stone Rune": {
+        "name": "Stone Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "A 0/2",
+        "buy_price": 110,
+        "max_hp": 12,
+        "stats": {
+          "attack": "3",
+          "range": "1,",
+          "accuracy": "18"
+        },
+        "effects": [
+          "Arcane fist",
+          "Increases magic defense by 1",
+          "Knockback"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Stone walkers": {
+        "name": "Stone walkers",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 13,
+        "stats": {
+          "movement": "1",
+          "shield": "2"
+        },
+        "effects": [
+          "Requires 1 MP to Move",
+          "Sandwalking",
+          "ignore effects of sandstorm"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Studded Hiking Treads": {
+        "name": "Studded Hiking Treads",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "B 2/2",
+        "buy_price": 90,
+        "max_hp": 7,
+        "stats": {
+          "shield": "0",
+          "movement": "1"
+        },
+        "effects": [
+          "Rockwalking",
+          "Icewalking"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Studded Leather Buckler": {
+        "name": "Studded Leather Buckler",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "B 2/2",
+        "buy_price": 60,
+        "max_hp": 6,
+        "stats": {},
+        "effects": [
+          "Shield block",
+          "Increases shield by 1",
+          "-1 climb cap"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Studded Leather Cap": {
+        "name": "Studded Leather Cap",
+        "family": "light_helm",
+        "source_sheet": "Headware",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Studded Leather Cuirass": {
+        "name": "Studded Leather Cuirass",
+        "family": "light_armor",
+        "source_sheet": "Light&Heavy",
+        "rank": "B 3/3",
+        "buy_price": 100,
+        "max_hp": 16,
+        "stats": {
+          "shield": "2",
+          "weight": "0,"
+        },
+        "effects": [
+          "When taking damage from a Spear, or a Bow, Armor is bypassed"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Studded Leather Treads": {
+        "name": "Studded Leather Treads",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "B 2/2",
+        "buy_price": 90,
+        "max_hp": 6,
+        "stats": {
+          "shield": "1",
+          "movement": "1"
+        },
+        "effects": [
+          "+1 movement on plains and path"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Sun Rune": {
+        "name": "Sun Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "A 1/3",
+        "buy_price": 110,
+        "max_hp": 20,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "Arcane fist",
+          "Increases MP by 8",
+          "Increases Spell accuracy by 1",
+          "Increases Magic attack by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Swamp Elder Talisman": {
+        "name": "Swamp Elder Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "B 2/2",
+        "buy_price": 160,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "Increases magic defense by 1",
+          "Resist Earth"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Toad": {
+        "name": "Toad",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "C 3/3",
+        "buy_price": 40,
+        "max_hp": 2,
+        "stats": {
+          "mp": "12",
+          "movement": "4",
+          "accuracy": "16",
+          "skill": "x-2",
+          "strength": "x-2",
+          "dexterity": "x-2",
+          "attack": "1",
+          "shield": "0",
+          "magic_defense": "2",
+          "terrain": "Water,Bog,Sand"
+        },
+        "effects": [
+          "Ignore the effects of rain",
+          "Increase bog and deep water rolls by 10",
+          "Invisible to enemies unless you target them",
+          "When in water, bog or lava, you are undetectable and increase your attack, accuracy, movement, shield and your magic defense by 1",
+          "killer of Toad recieves a random status effect",
+          "Sacrifice (4MP) (Ran:1) (Acc:16+FAB) sacrifice Toad Heal target for 5 HP, 30MP, and all status",
+          "Wading 1",
+          "Mystery Venom (3MP) (ran:1) (Acc: 12 +FAB) may cast after dealing damage, random status effects the target"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Trained Camel": {
+        "name": "Trained Camel",
+        "family": "mount",
+        "source_sheet": "Mounts&Legs",
+        "rank": "B 2/2",
+        "buy_price": 90,
+        "max_hp": 9,
+        "stats": {
+          "ski": "ski/2+2",
+          "str": "9",
+          "dex": "6",
+          "mp": "17",
+          "atk": "1",
+          "def_m": "0/2",
+          "movement": "(5)+2",
+          "shield": "1"
+        },
+        "effects": [
+          "Reduces dexterity by 3",
+          "+2 movement on sand, or path",
+          "Ignore the effects of sandstorm",
+          "Increases magic defense by 1",
+          "Sense Hidden enemies"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Trained Donkey": {
+        "name": "Trained Donkey",
+        "family": "mount",
+        "source_sheet": "Mounts&Legs",
+        "rank": "B 2/2",
+        "buy_price": 90,
+        "max_hp": 7,
+        "stats": {
+          "ski": "ski/2+1",
+          "str": "15",
+          "dex": "7",
+          "mp": "11",
+          "atk": "1",
+          "def_m": "1/0",
+          "movement": "(6)+3",
+          "shield": "1"
+        },
+        "effects": [
+          "Reduces dexterity by 3",
+          "+2 movement on snow, or rock",
+          "Ignore the effects of cold",
+          "Add 10 to ice checks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Trained Griffin": {
+        "name": "Trained Griffin",
+        "family": "mount",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 2/3",
+        "buy_price": 140,
+        "max_hp": 7,
+        "stats": {
+          "ski": "ski/2+4",
+          "str": "8",
+          "dex": "11",
+          "mp": "22",
+          "atk": "4",
+          "def_m": "1/2",
+          "movement": "(6)+3",
+          "shield": "1"
+        },
+        "effects": [
+          "Reduces dexterity by 4",
+          "Flying",
+          "ignore the effects of snowstorm"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Trained Horse": {
+        "name": "Trained Horse",
+        "family": "mount",
+        "source_sheet": "Mounts&Legs",
+        "rank": "B 3/3",
+        "buy_price": 90,
+        "max_hp": 8,
+        "stats": {
+          "ski": "ski/2+3",
+          "str": "13",
+          "dex": "8",
+          "mp": "8",
+          "atk": "2",
+          "def_m": "2/0",
+          "movement": "(7)+3",
+          "shield": "1"
+        },
+        "effects": [
+          "Reduces dexterity by 2",
+          "+2 movement on path, or plains"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Trained Mule": {
+        "name": "Trained Mule",
+        "family": "mount",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 9,
+        "stats": {
+          "ski": "ski/2+1",
+          "str": "18",
+          "dex": "8",
+          "mp": "13",
+          "atk": "2",
+          "def_m": "2/1",
+          "movement": "(7)+3",
+          "shield": "1"
+        },
+        "effects": [
+          "Reduces dexterity by 2",
+          "+2 movement on snow, ice, or rock",
+          "Ignore the effects of cold",
+          "Add 10 to ice checks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Trained Raptor": {
+        "name": "Trained Raptor",
+        "family": "mount",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 8,
+        "stats": {
+          "ski": "ski/2+6",
+          "str": "10",
+          "dex": "12",
+          "mp": "7",
+          "atk": "4",
+          "def_m": "3/1",
+          "movement": "(10)+3",
+          "shield": "2"
+        },
+        "effects": [
+          "Reduces dexterity by 3",
+          "+2 movement on Brush, Sand, water and lava",
+          "Ignore the effects of heat",
+          "Add 10 to lava checks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Traveling Robe": {
+        "name": "Traveling Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "C 3/3",
+        "buy_price": 50,
+        "max_hp": 8,
+        "stats": {
+          "shield": "0",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases movement by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Tundra walkers": {
+        "name": "Tundra walkers",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 9,
+        "stats": {
+          "movement": "0",
+          "shield": "2"
+        },
+        "effects": [
+          "Requires 1 MP to Move",
+          "Add 10 to ice checks",
+          "ignore effect of cold and snowstorm",
+          "Icewalking",
+          "Snowwalking",
+          "Freezes Water and Bog when walked on"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Unholy Bone Talisman": {
+        "name": "Unholy Bone Talisman",
+        "family": "talisman",
+        "source_sheet": "Accessories",
+        "rank": "A 1/2",
+        "buy_price": 190,
+        "max_hp": null,
+        "stats": {},
+        "effects": [
+          "1/2 chance of preventiing death",
+          "Resist Light",
+          "Offensive spells cost 1 less to cast"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Veiled Robe": {
+        "name": "Veiled Robe",
+        "family": "robe_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "A 1/2",
+        "buy_price": 150,
+        "max_hp": 14,
+        "stats": {
+          "shield": "2",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases magic defense by 1",
+          "When taking damage from a Sword, or a Staff, Armor is bypassed",
+          "resist light",
+          "resist heat"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Walrus hide": {
+        "name": "Walrus hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "A 0/2",
+        "buy_price": 150,
+        "max_hp": 18,
+        "stats": {
+          "shield": "2",
+          "weight": "1,"
+        },
+        "effects": [
+          "resist water",
+          "resist rain"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Walrus Hide Slippers": {
+        "name": "Walrus Hide Slippers",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "A 0/2",
+        "buy_price": 140,
+        "max_hp": 8,
+        "stats": {
+          "shield": "1",
+          "movement": "0"
+        },
+        "effects": [
+          "Wading 1",
+          "Add 10 to terrain checks"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "War Elephant": {
+        "name": "War Elephant",
+        "family": "mount",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 10,
+        "stats": {
+          "ski": "ski/2+5",
+          "str": "20",
+          "dex": "6",
+          "mp": "25",
+          "atk": "3",
+          "def_m": "2/3",
+          "movement": "(4)+2",
+          "shield": "1"
+        },
+        "effects": [
+          "Reduces dexterity by 4",
+          "+2 movement on water, bog, Plains, or Brush",
+          "ignore the effects of rain",
+          "Add 10 to bog checks",
+          "ignore the effects of wind",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "War Horse": {
+        "name": "War Horse",
+        "family": "mount",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 8,
+        "stats": {
+          "ski": "ski/2+3",
+          "str": "16",
+          "dex": "9",
+          "mp": "10",
+          "atk": "3",
+          "def_m": "3/2",
+          "movement": "(8)+3",
+          "shield": "2"
+        },
+        "effects": [
+          "Reduces dexterity by 2",
+          "+2 movement on rock, plains, or path"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "White Orb": {
+        "name": "White Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "A 0/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Increases magic attack by 1",
+          "Increases MP by 24",
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Wild Elephant": {
+        "name": "Wild Elephant",
+        "family": "mount",
+        "source_sheet": "Mounts&Legs",
+        "rank": "B 2/2",
+        "buy_price": 90,
+        "max_hp": 10,
+        "stats": {
+          "ski": "ski/2+4",
+          "str": "17",
+          "dex": "5",
+          "mp": "20",
+          "atk": "3",
+          "def_m": "1/1",
+          "movement": "(4)+2",
+          "shield": "0"
+        },
+        "effects": [
+          "Reduces dexterity by 4",
+          "+2 movement on water, bog, plains or brush",
+          "ignore the effects of rain",
+          "Add 10 to bog checks",
+          "ignore the effects of wind",
+          "Wading"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Wild Stallion": {
+        "name": "Wild Stallion",
+        "family": "mount",
+        "source_sheet": "Mounts&Legs",
+        "rank": "B 3/3",
+        "buy_price": 90,
+        "max_hp": 8,
+        "stats": {
+          "ski": "ski/2",
+          "str": "11",
+          "dex": "9",
+          "mp": "14",
+          "atk": "2",
+          "def_m": "0/1",
+          "movement": "(8)+4",
+          "shield": "0"
+        },
+        "effects": [
+          "Reduces dexterity by 2",
+          "+2 movement on snow or plains"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Wind Rune": {
+        "name": "Wind Rune",
+        "family": "runestone",
+        "source_sheet": "Runestones",
+        "rank": "B 3/3",
+        "buy_price": 70,
+        "max_hp": 12,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Arcane fist",
+          "Increases MP by 8",
+          "Increases Movement by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Wizard's Hat": {
+        "name": "Wizard's Hat",
+        "family": "mage_helm",
+        "source_sheet": "Headware",
+        "rank": "B 2/2",
+        "buy_price": 80,
+        "max_hp": 4,
+        "stats": {
+          "shield": "0"
+        },
+        "effects": [
+          "Decrease Accuracy by 1",
+          "Increases magic defense by 2",
+          "Increases magic attack by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Wolf": {
+        "name": "Wolf",
+        "family": "familiar",
+        "source_sheet": "Familiars",
+        "rank": "B 3/3",
+        "buy_price": 80,
+        "max_hp": 4,
+        "stats": {
+          "mp": "21",
+          "movement": "6",
+          "accuracy": "14",
+          "skill": "x+2",
+          "strength": "x+2",
+          "dexterity": "x+2",
+          "attack": "3",
+          "shield": "1",
+          "magic_defense": "2",
+          "terrain": "Rock, Brush, Snow, Plains"
+        },
+        "effects": [
+          "Increase ice rolls by 10",
+          "wading 1",
+          "Ignore the effects of cold",
+          "Can sense hidden enemies"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Wolf Hide": {
+        "name": "Wolf Hide",
+        "family": "hide_armor",
+        "source_sheet": "Robe&Hide",
+        "rank": "B 2/2",
+        "buy_price": 100,
+        "max_hp": 16,
+        "stats": {
+          "shield": "0",
+          "weight": "0,"
+        },
+        "effects": [
+          "Increases magic defense by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Wolf Hide Shoes": {
+        "name": "Wolf Hide Shoes",
+        "family": "footwear",
+        "source_sheet": "Footwear",
+        "rank": "B 2/2",
+        "buy_price": 90,
+        "max_hp": 6,
+        "stats": {
+          "shield": "0",
+          "movement": "1"
+        },
+        "effects": [
+          "+1 magic defense",
+          "Sandwalking"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Wood walkers": {
+        "name": "Wood walkers",
+        "family": "golem_legs",
+        "source_sheet": "Mounts&Legs",
+        "rank": "A 1/2",
+        "buy_price": 140,
+        "max_hp": 12,
+        "stats": {
+          "movement": "1",
+          "shield": "1"
+        },
+        "effects": [
+          "Requires 1 MP to Move",
+          "Brushwalking",
+          "Bogwalking",
+          "add 10 to Bog checks",
+          "Wading 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Yellow Orb": {
+        "name": "Yellow Orb",
+        "family": "orb",
+        "source_sheet": "Staves&Orbs",
+        "rank": "C 3/3",
+        "buy_price": 30,
+        "max_hp": 8,
+        "stats": {
+          "attack": "1",
+          "range": "1,",
+          "accuracy": "16"
+        },
+        "effects": [
+          "Support spells cost 1 less to cast",
+          "Increases magic defense by 1",
+          "Increases spell range by 1"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Yew Long Bow": {
+        "name": "Yew Long Bow",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "5",
+          "range": "3,4,5,",
+          "accuracy": "14"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Yew Recurve Bow": {
+        "name": "Yew Recurve Bow",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "A 2/3",
+        "buy_price": 110,
+        "max_hp": 12,
+        "stats": {
+          "attack": "6",
+          "range": "3,4,5,6",
+          "accuracy": "12"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Yew Short Bow": {
+        "name": "Yew Short Bow",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "A 1/2",
+        "buy_price": 110,
+        "max_hp": 16,
+        "stats": {
+          "attack": "5",
+          "range": "2,3,4,",
+          "accuracy": "14"
+        },
+        "effects": [],
+        "optimizer_auto_sell": false
+      },
+      "Yew Sling": {
+        "name": "Yew Sling",
+        "family": "bow",
+        "source_sheet": "Swords&Bows",
+        "rank": "A 0/2",
+        "buy_price": 110,
+        "max_hp": 20,
+        "stats": {
+          "attack": "4",
+          "range": "1,2,3,",
+          "accuracy": "14"
+        },
+        "effects": [
+          "Knockback"
+        ],
+        "optimizer_auto_sell": false
+      },
+      "Yew Target Shield": {
+        "name": "Yew Target Shield",
+        "family": "shield",
+        "source_sheet": "Accessories",
+        "rank": "A 1/2",
+        "buy_price": 90,
+        "max_hp": 8,
+        "stats": {},
+        "effects": [
+          "Shield block",
+          "Increases shield by 1",
+          "Decreases opponents projectile range by 3"
+        ],
+        "optimizer_auto_sell": false
+      }
+    }
   },
   "for_sale": {
     "ingredients": {
@@ -1982,7 +8134,12 @@
       "Truth potion": true,
       "Warming medicine": true
     },
-    "equipment": {}
+    "equipment": {
+      "Basic Iron Shield": true,
+      "Bronze ring": true,
+      "Leather Shoes": true,
+      "Silver Talisman": true
+    }
   },
   "subtypes": {
     "potion": {
@@ -3685,6 +9842,108 @@
         return state.scenario.recipes.recipes.find((recipe) => recipe.name === name) || null;
       }
 
+      function getAllEquipmentDefinitionNames() {
+        return Object.keys(state.scenario.equipment?.definitions || {})
+          .sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" }));
+      }
+
+      function equipmentDefinitionSearchText(definition) {
+        const parts = [
+          definition?.name,
+          definition?.family,
+          definition?.rank,
+          definition?.source_sheet,
+          ...(definition?.effects || []),
+          ...Object.keys(definition?.stats || {}),
+          ...Object.values(definition?.stats || {})
+        ];
+        if (definition?.socket_policy) {
+          parts.push(
+            `min ${definition.socket_policy.min_gems ?? ""}`,
+            `max ${definition.socket_policy.max_gems ?? ""}`,
+            `fee ${definition.socket_policy.imbue_fee ?? ""}`
+          );
+        }
+        return parts
+          .map((value) => String(value ?? "").trim().toLowerCase())
+          .filter(Boolean)
+          .join(" ");
+      }
+
+      function equipmentInstanceSearchText(instance) {
+        const definition = getEquipmentDefinitionByName(instance?.base_name);
+        return [
+          instance?.id,
+          instance?.base_name,
+          definition?.family,
+          ...(definition?.effects || [])
+        ]
+          .map((value) => String(value ?? "").trim().toLowerCase())
+          .filter(Boolean)
+          .join(" ");
+      }
+
+      function sortedEquipmentInstances(instances = []) {
+        return [...instances].sort((left, right) => {
+          const leftKey = `${left.base_name || ""}\u0000${left.id || ""}`;
+          const rightKey = `${right.base_name || ""}\u0000${right.id || ""}`;
+          return leftKey.localeCompare(rightKey, undefined, { sensitivity: "base" });
+        });
+      }
+
+      function defaultCurrentHpForDefinition(definition) {
+        return definition?.max_hp === null ? null : (definition?.max_hp ?? null);
+      }
+
+      function slugifyEquipmentId(value) {
+        return String(value || "")
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "") || "equipment";
+      }
+
+      function nextEquipmentInstanceId(baseName) {
+        const prefix = slugifyEquipmentId(baseName);
+        const usedIds = new Set([
+          ...(state.scenario.inventory.equipment || []).map((instance) => instance.id),
+          ...(state.workbench.equipment || []).map((instance) => instance.id)
+        ]);
+        let counter = 1;
+        while (usedIds.has(`${prefix}-${counter}`)) {
+          counter += 1;
+        }
+        return `${prefix}-${counter}`;
+      }
+
+      function buildBaseEquipmentInstance(baseName) {
+        const definition = getEquipmentDefinitionByName(baseName);
+        if (!definition) {
+          return null;
+        }
+        return {
+          id: nextEquipmentInstanceId(baseName),
+          base_name: definition.name,
+          current_hp: defaultCurrentHpForDefinition(definition)
+        };
+      }
+
+      function formatEquipmentHp(instance, definition) {
+        if (!definition) {
+          return "Unknown";
+        }
+        if (definition.max_hp === null) {
+          return "N/A";
+        }
+        return `${instance.current_hp}/${definition.max_hp}`;
+      }
+
+      function formatSocketPolicy(policy) {
+        if (!policy) {
+          return "None";
+        }
+        return `${policy.min_gems}-${policy.max_gems} gems @ ${policy.imbue_fee}g`;
+      }
+
       function selectedInspectorRecipe(workbenchEntries = []) {
         const explicit = getRecipeByName(ui.selectedDetailName);
         if (explicit) {
@@ -3836,7 +10095,7 @@
       function renderInspectorCard(recipe, options = {}) {
         const { compact = false } = options;
         if (!recipe) {
-          return `<div class="muted-box">Select any potion or gem from the workbench, holdings, or action log.</div>`;
+          return `<div class="muted-box">Select any potion or gem from the workbench, holdings, or action log. Equipment is listed separately in holdings and catalog during phase 2.</div>`;
         }
 
         const owned = outputCount(state.workbench, recipe.kind, recipe.name);
@@ -4837,6 +11096,7 @@
           { label: "Ingredients", value: String(countNonZero(state.workbench.ingredients)) },
           { label: "Potions", value: String(totalCount(state.workbench.potions)) },
           { label: "Gems", value: String(totalCount(state.workbench.gems)) },
+          { label: "Equipment", value: String((state.workbench.equipment || []).length) },
           { label: "Steps", value: String(state.history.length) }
         ];
       }
@@ -4910,7 +11170,7 @@
           {
             id: "holdings",
             label: "Holdings",
-            meta: `${countNonZero(state.workbench.ingredients) + countNonZero(state.workbench.potions) + countNonZero(state.workbench.gems)} rows`
+            meta: `${countNonZero(state.workbench.ingredients) + countNonZero(state.workbench.potions) + countNonZero(state.workbench.gems) + (state.workbench.equipment || []).length} rows`
           },
           {
             id: "log",
@@ -5063,6 +11323,42 @@
         `;
       }
 
+      function renderEquipmentHoldingsTable(instances, emptyText) {
+        const filter = ui.holdingsFilter.trim().toLowerCase();
+        const rows = sortedEquipmentInstances(instances)
+          .filter((instance) => !filter || equipmentInstanceSearchText(instance).includes(filter))
+          .map((instance) => {
+            const definition = getEquipmentDefinitionByName(instance.base_name);
+            return `
+              <tr>
+                <td>${escapeHtml(instance.base_name)}</td>
+                <td>${escapeHtml(definition?.family || "Unknown")}</td>
+                <td>${escapeHtml(formatEquipmentHp(instance, definition))}</td>
+                <td>${escapeHtml(instance.id)}</td>
+              </tr>
+            `;
+          })
+          .join("");
+
+        return `
+          <div class="table-wrap">
+            <table class="holdings-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Family</th>
+                  <th>HP</th>
+                  <th>ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows || `<tr><td colspan="4" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
       function renderHoldingsSections(selectedRecipe) {
         const ingredientNames = sortedEntries(state.workbench.ingredients)
           .filter(([, value]) => value > 0)
@@ -5074,9 +11370,17 @@
         const gemNames = sortedEntries(state.workbench.gems)
           .filter(([, value]) => value > 0)
           .map(([name]) => name);
+        const equipmentInstances = sortedEquipmentInstances(state.workbench.equipment || []);
 
         return `
           <div class="holdings-scroll">
+          <div class="subsection">
+            <div class="subsection-head">
+              <h3>Equipment</h3>
+              <div class="subtle">${equipmentInstances.length} rows</div>
+            </div>
+            ${renderEquipmentHoldingsTable(equipmentInstances, "No matching equipment.")}
+          </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Potions</h3>
@@ -5278,7 +11582,7 @@
                     <h2>Current Holdings</h2>
                     <div class="field" style="min-width:220px;">
                       <label for="holdings-filter">Filter holdings</label>
-                      <input id="holdings-filter" type="text" value="${escapeHtml(ui.holdingsFilter)}" placeholder="Search ingredients, gems, or potions" data-action="set-holdings-filter">
+                      <input id="holdings-filter" type="text" value="${escapeHtml(ui.holdingsFilter)}" placeholder="Search equipment, ingredients, gems, or potions" data-action="set-holdings-filter">
                     </div>
                   </div>
                   ${renderHoldingsSections(selectedRecipe)}
@@ -5352,10 +11656,31 @@
           .join("");
       }
 
+      function formatEquipmentSummary(instances, limit = 6) {
+        const items = sortedEquipmentInstances(instances)
+          .slice(0, limit)
+          .map((instance) => {
+            const definition = getEquipmentDefinitionByName(instance.base_name);
+            if (!definition) {
+              return instance.base_name;
+            }
+            if (definition.max_hp === null) {
+              return instance.base_name;
+            }
+            return `${instance.base_name} (${instance.current_hp}/${definition.max_hp})`;
+          });
+        if (!items.length) {
+          return "none";
+        }
+        return items.join(", ") + (instances.length > limit ? `, +${instances.length - limit} more` : "");
+      }
+
       function renderInventoryTab() {
         const ingredientNames = getAllIngredientNames();
         const potionNames = getAllOutputNames("potion");
         const gemNames = getAllOutputNames("gem");
+        const equipmentNames = getAllEquipmentDefinitionNames();
+        const equipmentInstances = sortedEquipmentInstances(state.scenario.inventory.equipment || []);
         const filter = ui.inventoryFilter.trim().toLowerCase();
         const ingredientGroups = splitIngredientNames(ingredientNames);
         const herbRows = renderInventoryEditorRows(
@@ -5386,6 +11711,49 @@
           ui.showZeroStartingOutputs,
           "set-base-gem"
         );
+        const equipmentRows = equipmentInstances
+          .filter((instance) => !filter || equipmentInstanceSearchText(instance).includes(filter))
+          .map((instance) => {
+            const definition = getEquipmentDefinitionByName(instance.base_name);
+            const maxHp = definition?.max_hp ?? null;
+            return `
+              <tr>
+                <td>
+                  <input
+                    type="text"
+                    list="equipment-definition-suggestions"
+                    value="${escapeHtml(instance.base_name)}"
+                    data-action="set-base-equipment-name"
+                    data-id="${escapeHtml(instance.id)}"
+                  >
+                </td>
+                <td>${escapeHtml(definition?.family || "Unknown")}</td>
+                <td>
+                  ${maxHp === null
+                    ? `<span class="subtle">N/A</span>`
+                    : `
+                      <div class="inline-fields" style="gap:0.5rem; align-items:center;">
+                        <input
+                          type="number"
+                          min="0"
+                          max="${maxHp}"
+                          value="${instance.current_hp ?? maxHp}"
+                          data-action="set-base-equipment-hp"
+                          data-id="${escapeHtml(instance.id)}"
+                          style="width:96px;"
+                        >
+                        <span class="tiny">/ ${maxHp}</span>
+                      </div>
+                    `}
+                </td>
+                <td><code>${escapeHtml(instance.id)}</code></td>
+                <td>
+                  <button class="button-danger" data-action="delete-base-equipment" data-id="${escapeHtml(instance.id)}">Remove</button>
+                </td>
+              </tr>
+            `;
+          })
+          .join("");
 
         return `
           <section class="tab-panel ${ui.activeTab === "inventory" ? "active" : ""}" data-tab-panel="inventory">
@@ -5400,7 +11768,7 @@
                     </div>
                     <div class="field" style="min-width:220px;">
                       <label for="inventory-filter">Filter rows</label>
-                      <input id="inventory-filter" type="text" value="${escapeHtml(ui.inventoryFilter)}" placeholder="Search ingredients, gems, or potions" data-action="set-inventory-filter">
+                      <input id="inventory-filter" type="text" value="${escapeHtml(ui.inventoryFilter)}" placeholder="Search equipment, ingredients, gems, or potions" data-action="set-inventory-filter">
                     </div>
                     <div class="inline-fields">
                       <label class="pill">
@@ -5416,9 +11784,10 @@
                     <button class="button-soft" data-action="add-gem-piece">Add Gem Piece</button>
                     <button class="button-soft" data-action="add-starting-potion">Add Starting Potion</button>
                     <button class="button-soft" data-action="add-starting-gem">Add Starting Gem</button>
+                    <button class="button-soft" data-action="add-starting-equipment">Add Equipment</button>
                   </div>
                 </div>
-                <div class="notice">Editing this tab changes the base scenario data. Use <strong>Seed From Base</strong> when you want the live workbench to restart from it.</div>
+                <div class="notice">Editing this tab changes the base scenario data, including standalone equipment instances. Use <strong>Seed From Base</strong> when you want the live workbench to restart from it.</div>
               </div>
               <div class="triple">
                 <div class="panel">
@@ -5515,6 +11884,29 @@
                 </div>
                 <div class="panel">
                   <div class="section-head">
+                    <h2>Equipment</h2>
+                    <div class="subtle">${equipmentInstances.length} rows</div>
+                  </div>
+                  <div class="table-wrap">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Definition</th>
+                          <th>Family</th>
+                          <th>HP</th>
+                          <th>ID</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${equipmentRows || `<tr><td colspan="5" class="subtle">No matching equipment instances.</td></tr>`}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="tiny">IDs are generated automatically and remain read-only in the browser editor.</div>
+                </div>
+                <div class="panel">
+                  <div class="section-head">
                     <h2>Current Base Snapshot</h2>
                   </div>
                   <div class="note-card">
@@ -5532,6 +11924,14 @@
                   <div class="note-card">
                     <strong>Base gems</strong>
                     <div class="tiny">${formatMapSummary(state.scenario.inventory.gems, 10)}</div>
+                  </div>
+                  <div class="note-card">
+                    <strong>Base equipment</strong>
+                    <div class="tiny">${formatEquipmentSummary(equipmentInstances, 6)}</div>
+                  </div>
+                  <div class="note-card">
+                    <strong>Imported equipment catalog</strong>
+                    <div class="tiny">${equipmentNames.length} definitions available for new instances.</div>
                   </div>
                 </div>
               </div>
@@ -5644,7 +12044,7 @@
                     </label>
                   </div>
                 </div>
-                <div class="notice">This tab only controls what is sold this week. Edit ingredient prices and recipe definitions in Catalog.</div>
+                <div class="notice">This tab only controls ingredient and output sales this week. Equipment for-sale flags stay in scenario JSON after phase 2, but the shop editor for them remains future work.</div>
               </div>
               <div class="panel">
                 <div class="stack">
@@ -5724,6 +12124,95 @@
                   >
                 </td>
               </tr>
+            `;
+          })
+          .join("");
+        const equipmentCards = getAllEquipmentDefinitionNames()
+          .map((name) => state.scenario.equipment.definitions[name])
+          .filter((definition) => {
+            if (!filter) {
+              return true;
+            }
+            return equipmentDefinitionSearchText(definition).includes(filter);
+          })
+          .map((definition) => {
+            const statLines = Object.entries(definition.stats || {})
+              .sort(([left], [right]) => left.localeCompare(right, undefined, { sensitivity: "base" }))
+              .map(
+                ([name, value]) => `
+                  <div class="tiny"><strong>${escapeHtml(name)}</strong>: ${escapeHtml(value)}</div>
+                `
+              )
+              .join("");
+            const effectLines = (definition.effects || [])
+              .map((effect) => `<div class="tiny">${escapeHtml(effect)}</div>`)
+              .join("");
+            return `
+              <details class="recipe-card" ${filter ? "open" : ""}>
+                <summary>
+                  <strong>${escapeHtml(definition.name)}</strong>
+                  <div class="pill-row">
+                    <span class="pill">${escapeHtml(definition.family)}</span>
+                    <span class="pill">${escapeHtml(definition.rank || "No rank")}</span>
+                    <span class="pill">${escapeHtml(`${definition.buy_price}g`)}</span>
+                    <span class="pill">${escapeHtml(definition.max_hp === null ? "No HP" : `${definition.max_hp} HP`)}</span>
+                    ${definition.socket_policy ? `<span class="pill">${escapeHtml(formatSocketPolicy(definition.socket_policy))}</span>` : ""}
+                  </div>
+                </summary>
+                <div class="recipe-body">
+                  <div class="recipe-grid">
+                    <div class="field">
+                      <label>Name</label>
+                      <input type="text" value="${escapeHtml(definition.name)}" readonly>
+                    </div>
+                    <div class="field">
+                      <label>Family</label>
+                      <input type="text" value="${escapeHtml(definition.family)}" readonly>
+                    </div>
+                    <div class="field">
+                      <label>Rank</label>
+                      <input type="text" value="${escapeHtml(definition.rank || "")}" readonly>
+                    </div>
+                    <div class="field">
+                      <label>Source Sheet</label>
+                      <input type="text" value="${escapeHtml(definition.source_sheet)}" readonly>
+                    </div>
+                    <div class="field">
+                      <label>Buy Price</label>
+                      <input type="text" value="${escapeHtml(`${definition.buy_price}g`)}" readonly>
+                    </div>
+                    <div class="field">
+                      <label>Max HP</label>
+                      <input type="text" value="${escapeHtml(definition.max_hp === null ? "N/A" : String(definition.max_hp))}" readonly>
+                    </div>
+                    <div class="field">
+                      <label>Socket Policy</label>
+                      <input type="text" value="${escapeHtml(formatSocketPolicy(definition.socket_policy || null))}" readonly>
+                    </div>
+                    <label class="pill">
+                      <input
+                        type="checkbox"
+                        data-action="set-equipment-auto-sell"
+                        data-name="${escapeHtml(definition.name)}"
+                        ${definition.optimizer_auto_sell ? "checked" : ""}
+                      >
+                      Auto-sell in optimizer
+                    </label>
+                  </div>
+                  <div class="subsection">
+                    <div class="subsection-head">
+                      <h3>Stats</h3>
+                    </div>
+                    ${statLines || `<div class="muted-box">No stats recorded.</div>`}
+                  </div>
+                  <div class="subsection">
+                    <div class="subsection-head">
+                      <h3>Effects</h3>
+                    </div>
+                    ${effectLines || `<div class="muted-box">No effect text recorded.</div>`}
+                  </div>
+                </div>
+              </details>
             `;
           })
           .join("");
@@ -5888,14 +12377,14 @@
                   <div class="inline-fields">
                     <div class="field" style="min-width:240px;">
                       <label for="recipe-filter">Filter catalog</label>
-                      <input id="recipe-filter" type="text" value="${escapeHtml(ui.recipeFilter)}" placeholder="Search definitions, outputs, or effects" data-action="set-recipe-filter">
+                      <input id="recipe-filter" type="text" value="${escapeHtml(ui.recipeFilter)}" placeholder="Search ingredients, outputs, equipment, or effects" data-action="set-recipe-filter">
                     </div>
                     <button class="button-soft" data-action="add-herb">Add Herb Definition</button>
                     <button class="button-soft" data-action="add-gem-piece">Add Gem Piece Definition</button>
                     <button class="button-primary" data-action="add-recipe">Add Output Recipe</button>
                   </div>
                 </div>
-                <div class="notice">Definition edits are live. Ingredient prices live here, while the For Sale tab only toggles what is offered this week.</div>
+                <div class="notice">Definition edits are live. Ingredient prices and equipment optimizer flags live here, while the For Sale tab only toggles ingredient and output availability for the current week.</div>
               </div>
               <div class="panel">
                 <div class="subsection-head">
@@ -5924,6 +12413,15 @@
                 </div>
                 <div class="grid-list">
                   ${cards || `<div class="muted-box">No output definitions match the current filter.</div>`}
+                </div>
+              </div>
+              <div class="panel">
+                <div class="subsection-head">
+                  <h3>Equipment Definitions</h3>
+                  <div class="subtle">${getAllEquipmentDefinitionNames().length} definitions</div>
+                </div>
+                <div class="grid-list">
+                  ${equipmentCards || `<div class="muted-box">No equipment definitions match the current filter.</div>`}
                 </div>
               </div>
             </div>
@@ -5986,6 +12484,9 @@
           </datalist>
           <datalist id="output-suggestions">
             ${getAllOutputNames().map((name) => `<option value="${escapeHtml(name)}"></option>`).join("")}
+          </datalist>
+          <datalist id="equipment-definition-suggestions">
+            ${getAllEquipmentDefinitionNames().map((name) => `<option value="${escapeHtml(name)}"></option>`).join("")}
           </datalist>
         `;
       }
@@ -6342,6 +12843,32 @@
             renderApp();
             break;
           }
+          case "add-starting-equipment": {
+            const names = getAllEquipmentDefinitionNames();
+            if (!names.length) {
+              window.alert("No equipment definitions are loaded.");
+              return;
+            }
+            const instance = buildBaseEquipmentInstance(names[0]);
+            if (!instance) {
+              window.alert(`Unable to create a base equipment instance for "${names[0]}".`);
+              return;
+            }
+            state.scenario.inventory.equipment.push(instance);
+            persistState();
+            renderApp();
+            break;
+          }
+          case "delete-base-equipment": {
+            const id = element.dataset.id || "";
+            const previousLength = state.scenario.inventory.equipment.length;
+            state.scenario.inventory.equipment = state.scenario.inventory.equipment.filter((instance) => instance.id !== id);
+            if (state.scenario.inventory.equipment.length !== previousLength) {
+              persistState();
+              renderApp();
+            }
+            break;
+          }
           case "add-recipe": {
             const name = handlePromptAdd("Output name for the new recipe");
             if (!name) {
@@ -6553,6 +13080,45 @@
             persistState();
             renderApp();
             break;
+          case "set-base-equipment-name": {
+            const id = element.dataset.id || "";
+            const instance = (state.scenario.inventory.equipment || []).find((entry) => entry.id === id);
+            if (!instance) {
+              return;
+            }
+            const nextName = element.value.trim();
+            const definition = getEquipmentDefinitionByName(nextName);
+            if (!definition) {
+              window.alert(`No equipment definition named "${nextName}" exists.`);
+              renderApp();
+              return;
+            }
+            instance.base_name = definition.name;
+            instance.current_hp = defaultCurrentHpForDefinition(definition);
+            delete instance.socketed_gems;
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-base-equipment-hp": {
+            const id = element.dataset.id || "";
+            const instance = (state.scenario.inventory.equipment || []).find((entry) => entry.id === id);
+            if (!instance) {
+              return;
+            }
+            const definition = getEquipmentDefinitionByName(instance.base_name);
+            if (!definition || definition.max_hp === null) {
+              instance.current_hp = null;
+              persistState();
+              renderApp();
+              return;
+            }
+            const nextHp = Math.max(0, Math.min(definition.max_hp, Number(element.value) || 0));
+            instance.current_hp = nextHp;
+            persistState();
+            renderApp();
+            break;
+          }
           case "set-ingredient-sale": {
             const name = element.dataset.name;
             const ingredientType = ingredientTypeForName(name) || promptIngredientType(name, "herb");
@@ -6621,6 +13187,17 @@
             } else {
               delete state.scenario.for_sale.outputs[name];
             }
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-equipment-auto-sell": {
+            const name = element.dataset.name || "";
+            const definition = getEquipmentDefinitionByName(name);
+            if (!definition) {
+              return;
+            }
+            definition.optimizer_auto_sell = element.checked;
             persistState();
             renderApp();
             break;

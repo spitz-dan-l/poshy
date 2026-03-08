@@ -52,6 +52,24 @@ sell_markdown = 0.5
 
 [inventory.gems]
 
+[[inventory.equipment]]
+id = "ring-bronze-1"
+base_name = "Bronze ring"
+
+[[inventory.equipment]]
+id = "shield-basic-1"
+base_name = "Basic Iron Shield"
+current_hp = 7
+
+[[inventory.equipment]]
+id = "boots-leather-1"
+base_name = "Leather Shoes"
+current_hp = 7
+
+[[inventory.equipment]]
+id = "talisman-silver-1"
+base_name = "Silver Talisman"
+
 [for_sale.ingredients]
 "Lune stone" = true
 "Batta berry" = true
@@ -77,3 +95,9 @@ sell_markdown = 0.5
 "Deluxe medicine" = true
 "Dark Toxin" = true
 "Brew of the Master" = true
+
+[for_sale.equipment]
+"Bronze ring" = true
+"Basic Iron Shield" = true
+"Leather Shoes" = true
+"Silver Talisman" = true
