@@ -2,7 +2,7 @@
 
 ## Summary
 
-This roadmap now reflects shipped work through the post-phase-3 UI pass as of March 8, 2026.
+This roadmap now reflects shipped work through phase 4 as of March 8, 2026.
 
 Recommended delivery order remains:
 
@@ -19,7 +19,8 @@ Current status:
 - Phase 2 is implemented.
 - Phase 3 is implemented.
 - The post-phase-3 UI pass is implemented.
-- Phases 4 through 6 are still future work.
+- Phase 4 is implemented.
+- Phases 5 and 6 are still future work.
 
 ## Phase Breakdown
 
@@ -172,20 +173,30 @@ Done means:
 
 Status:
 
-- Not started.
+- Implemented on March 8, 2026.
 
 Goal:
 
 - Add the accessory-plus-gem combo lifecycle for rings and necklaces only.
 
-Planned scope:
+Shipped scope:
 
-- model assembled accessories as `EquipmentInstance` values with `socketed_gems`,
-- add assemble and disassemble actions,
-- treat rings as `0..1` gem sockets and necklaces as `1..3`,
-- consume owned gem outputs when assembling,
-- return the same base instance and gem outputs on disassembly,
-- compute combo sell value from component sell values only.
+- model assembled accessories as runtime `EquipmentInstance` values with `socketed_gems`,
+- add inspector-driven assemble and disassemble actions for owned rings and necklaces,
+- consume owned gem outputs when assembling and return them on disassembly,
+- charge the imported `imbue_fee` on assembly and never refund it,
+- preserve the same accessory instance `id`, `base_name`, and `current_hp` across combo updates,
+- compute assembled sell value as `sell(base accessory) + sell(each socketed gem)`,
+- tighten runtime validation so `socketed_gems` is only valid on items with `socket_policy` and must contain `1..max_gems`,
+- surface combo state in holdings summaries, item inspector details, history inspect links, and undo/redo.
+
+Done means:
+
+- owned rings and necklaces can be assembled from owned gems without adding new scenario fields or transaction kinds,
+- disassembly returns the exact gem outputs and keeps the same accessory instance identity,
+- selling an assembled combo pays component sell value only and does not recover imbue fees,
+- saved browser state, exported/imported scenario JSON, and `Set Base From Workbench` can all persist preassembled combos,
+- docs and browser tests cover combo assembly, disassembly, undo/redo, and strict validation.
 
 Explicit non-goals:
 
@@ -243,8 +254,10 @@ Future work should assume these facts are already true:
 - Shop exposes weekly equipment sale toggles.
 - Catalog already exposes imported equipment definitions and the `optimizer_auto_sell` toggle.
 - rings and necklaces already exist as base definitions with socket policy metadata.
-- the inspector covers outputs, ingredients, equipment definitions, and owned equipment instances.
-- no combo instances or socket editing exist yet.
+- ring and necklace combos can be assembled and disassembled in the inspector using owned gems.
+- `socketed_gems` can now appear on persisted ring and necklace instances, including base state copied from the workbench.
+- holdings and history already understand equipment `update` transactions for combo lifecycle actions.
+- Base Inventory still does not provide a dedicated socket editor.
 
 ## Public Interfaces Already Shipped
 
@@ -252,21 +265,21 @@ Future work should assume these facts are already true:
 - `Scenario.equipment = { definitions: Record<string, EquipmentDefinition> }`
 - `Scenario.inventory.equipment: EquipmentInstance[]`
 - `Scenario.for_sale.equipment: Record<string, true>`
+- `EquipmentInstance.socketed_gems?: string[]`
 - transaction-based `HistoryEntry.effect.transactions`
 
 ## Remaining Test Plan
 
 Future phases should extend the current shipped coverage with:
 
-- browser tests for combo assembly and disassembly,
-- value-equivalence tests for `sell assembled` vs `disassemble then sell`,
+- browser tests for ingredient, potion, and gem sell flows,
 - planner tests over mixed stackable/equipment/combo requests.
 
 ## Assumptions
 
 - Full combo scope for this roadmap still means rings and necklaces only.
-- Duplicate gems inside one future combo remain allowed.
-- Assembled combos will be created from components, not imported as separate shop stock.
+- Duplicate gems inside one combo are allowed.
+- Assembled combos are created from components, not imported as separate shop stock.
 - Imbue fees remain sunk costs and are not recovered on resale.
 - `optimizer_auto_sell` stays catalog-owned metadata, not per-instance state.
 - Manual herb and gem-piece buys are already shipped ahead of the remaining sell-side roadmap work.

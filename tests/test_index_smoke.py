@@ -40,6 +40,12 @@ def inspector_item(page, key: str):
     return page.locator(f'[data-inspector-item="{key}"]')
 
 
+def accessory_holdings_section(page):
+    return page.locator(".holdings-panel .subsection").filter(
+        has=page.get_by_role("heading", name="Accessories")
+    ).first
+
+
 def test_index_smoke() -> None:
     index_url = (REPO_ROOT / "index.html").resolve().as_uri()
 
@@ -545,6 +551,182 @@ def test_index_smoke() -> None:
         browser.close()
 
 
+def test_index_accessory_combo_assembly() -> None:
+    index_url = (REPO_ROOT / "index.html").resolve().as_uri()
+    scenario = load_seed_scenario()
+    sapphire_sell = scenario["ingredient_prices"]["Sapphire piece"] * 5 * scenario["market"]["sell_markdown"]
+    ring_base_sell = (
+        scenario["equipment"]["definitions"]["Bronze ring"]["buy_price"] * scenario["market"]["sell_markdown"]
+    )
+    expected_ring_combo_sell = ring_base_sell + sapphire_sell
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        context = browser.new_context()
+        page = context.new_page()
+        toast = page.locator('[data-role="toast"]')
+
+        page.goto(index_url, wait_until="domcontentloaded")
+
+        page.locator('button[data-action="switch-tab"][data-tab="shop"]').click()
+        page.locator('input[data-action="toggle-zero-shop"]').check()
+        bronze_necklace_sale = page.locator(
+            'input[data-action="set-equipment-sale"][data-name="Bronze necklace"]'
+        )
+        expect(bronze_necklace_sale).not_to_be_checked()
+        bronze_necklace_sale.check()
+
+        page.locator('button[data-action="switch-tab"][data-tab="workbench"]').click()
+        click_workbench_category(page, "accessories")
+        page.locator('button[data-action="buy-equipment"][data-name="Bronze necklace"]').click()
+        expect(toast).to_contain_text("Bought Bronze necklace")
+        assert stat_value(page, "Gold") == "189g"
+        assert stat_value(page, "Equipment") == "5"
+
+        click_workbench_category(page, "gems")
+        for gem_name in ["Sapphire", "Ruby", "Garnet"]:
+            gem_card = page.locator(f'[data-recipe-card="{gem_name}"]')
+            expect(gem_card).to_be_visible()
+            gem_card.locator('button[data-action="craft-once"]').click()
+            expect(toast).to_contain_text(f"Crafted {gem_name}")
+        assert stat_value(page, "Gems") == "3"
+
+        accessories = accessory_holdings_section(page)
+        ring_row = accessories.locator("tr").filter(
+            has=page.locator("td", has_text="ring-bronze-1")
+        ).first
+        ring_row.get_by_role("button", name="Inspect").click()
+        ring_inspector = inspector_item(page, "equipment_instance:ring-bronze-1")
+        expect(ring_inspector).to_be_visible()
+        expect(ring_inspector).to_contain_text("Current Sockets")
+        expect(ring_inspector).to_contain_text("Available Owned Gems")
+        assemble_ring_button = ring_inspector.locator(
+            'button[data-action="assemble-accessory"][data-id="ring-bronze-1"]'
+        )
+        expect(assemble_ring_button).to_be_disabled()
+        ring_inspector.locator(
+            'select[data-action="set-accessory-combo-slot"][data-id="ring-bronze-1"][data-slot="0"]'
+        ).select_option("Sapphire")
+        expect(assemble_ring_button).to_be_enabled()
+        assemble_ring_button.click()
+        expect(toast).to_contain_text("Assembled Bronze ring")
+        expect(toast).to_contain_text("socket Sapphire x1")
+        expect(toast).to_contain_text("spend 50g")
+        assert stat_value(page, "Gold") == "139g"
+        assert stat_value(page, "Gems") == "2"
+        ring_row = accessories.locator("tr").filter(
+            has=page.locator("td", has_text="ring-bronze-1")
+        ).first
+        expect(ring_row).to_contain_text("Sockets: Sapphire")
+        expect(ring_row).to_contain_text("70g")
+        expect(ring_inspector).to_contain_text("Sell Breakdown")
+        expect(ring_inspector).to_contain_text("Sapphire")
+        expect(ring_inspector).to_contain_text("Total")
+        expect(ring_inspector).to_contain_text("70g")
+
+        page.locator('button[data-action="undo-action"]').click()
+        expect(toast).to_contain_text("Undid Assembled Bronze ring")
+        assert stat_value(page, "Gold") == "189g"
+        assert stat_value(page, "Gems") == "3"
+        ring_row = accessories.locator("tr").filter(
+            has=page.locator("td", has_text="ring-bronze-1")
+        ).first
+        expect(ring_row).not_to_contain_text("Sockets: Sapphire")
+        expect(ring_row).to_contain_text("20g")
+
+        page.locator('button[data-action="redo-action"]').click()
+        expect(toast).to_contain_text("Redid Assembled Bronze ring")
+        assert stat_value(page, "Gold") == "139g"
+        assert stat_value(page, "Gems") == "2"
+        ring_row = accessories.locator("tr").filter(
+            has=page.locator("td", has_text="ring-bronze-1")
+        ).first
+        expect(ring_row).to_contain_text("Sockets: Sapphire")
+        expect(ring_row).to_contain_text("70g")
+
+        necklace_row = accessories.locator("tr").filter(
+            has=page.locator("td", has_text="bronze-necklace-1")
+        ).first
+        necklace_row.get_by_role("button", name="Inspect").click()
+        necklace_inspector = inspector_item(page, "equipment_instance:bronze-necklace-1")
+        expect(necklace_inspector).to_be_visible()
+        necklace_inspector.locator(
+            'select[data-action="set-accessory-combo-slot"][data-id="bronze-necklace-1"][data-slot="0"]'
+        ).select_option("Ruby")
+        necklace_inspector.locator(
+            'select[data-action="set-accessory-combo-slot"][data-id="bronze-necklace-1"][data-slot="1"]'
+        ).select_option("Garnet")
+        necklace_inspector.locator(
+            'button[data-action="assemble-accessory"][data-id="bronze-necklace-1"]'
+        ).click()
+        expect(toast).to_contain_text("Assembled Bronze necklace")
+        expect(toast).to_contain_text("spend 50g")
+        assert stat_value(page, "Gold") == "89g"
+        assert stat_value(page, "Gems") == "0"
+        necklace_row = accessories.locator("tr").filter(
+            has=page.locator("td", has_text="bronze-necklace-1")
+        ).first
+        expect(necklace_row).to_contain_text("Sockets: Ruby, Garnet")
+        expect(necklace_row).to_contain_text("175g")
+
+        necklace_inspector.locator(
+            'button[data-action="disassemble-accessory"][data-id="bronze-necklace-1"]'
+        ).click()
+        expect(toast).to_contain_text("Disassembled Bronze necklace")
+        assert stat_value(page, "Gold") == "89g"
+        assert stat_value(page, "Gems") == "2"
+        necklace_row = accessories.locator("tr").filter(
+            has=page.locator("td", has_text="bronze-necklace-1")
+        ).first
+        expect(necklace_row).not_to_contain_text("Sockets: Ruby, Garnet")
+        expect(necklace_row).to_contain_text("75g")
+        expect(
+            necklace_inspector.locator(
+                'select[data-action="set-accessory-combo-slot"][data-id="bronze-necklace-1"][data-slot="0"]'
+            )
+        ).to_have_value("Ruby")
+        expect(
+            necklace_inspector.locator(
+                'select[data-action="set-accessory-combo-slot"][data-id="bronze-necklace-1"][data-slot="1"]'
+            )
+        ).to_have_value("Garnet")
+
+        page.locator('button[data-action="undo-action"]').click()
+        expect(toast).to_contain_text("Undid Disassembled Bronze necklace")
+        assert stat_value(page, "Gems") == "0"
+        necklace_row = accessories.locator("tr").filter(
+            has=page.locator("td", has_text="bronze-necklace-1")
+        ).first
+        expect(necklace_row).to_contain_text("Sockets: Ruby, Garnet")
+        expect(necklace_row).to_contain_text("175g")
+
+        page.locator('button[data-action="redo-action"]').click()
+        expect(toast).to_contain_text("Redid Disassembled Bronze necklace")
+        assert stat_value(page, "Gems") == "2"
+        necklace_row = accessories.locator("tr").filter(
+            has=page.locator("td", has_text="bronze-necklace-1")
+        ).first
+        expect(necklace_row).not_to_contain_text("Sockets: Ruby, Garnet")
+        expect(necklace_row).to_contain_text("75g")
+
+        gold_before_sell = float(stat_value(page, "Gold").removesuffix("g"))
+        ring_row = accessories.locator("tr").filter(
+            has=page.locator("td", has_text="ring-bronze-1")
+        ).first
+        expect(ring_row).to_contain_text(f"{int(expected_ring_combo_sell)}g")
+        ring_row.get_by_role("button", name="Sell").click()
+        expect(toast).to_contain_text("Sold Bronze ring")
+        expect(toast).to_contain_text(f"gain {int(expected_ring_combo_sell)}g")
+        assert float(stat_value(page, "Gold").removesuffix("g")) == gold_before_sell + expected_ring_combo_sell
+        assert stat_value(page, "Equipment") == "4"
+        expect(
+            accessories.locator("tr").filter(has=page.locator("td", has_text="ring-bronze-1"))
+        ).to_have_count(0)
+
+        context.close()
+        browser.close()
+
+
 def test_index_rejects_invalid_import_json() -> None:
     index_url = (REPO_ROOT / "index.html").resolve().as_uri()
     alias_payload = load_seed_scenario()
@@ -594,6 +776,23 @@ def test_index_rejects_invalid_import_json() -> None:
 
     bad_for_sale_equipment_payload = load_seed_scenario()
     bad_for_sale_equipment_payload["for_sale"]["equipment"]["Missing ring"] = True
+
+    bad_non_socketable_combo_payload = load_seed_scenario()
+    bad_non_socketable_combo_payload["inventory"]["equipment"][1]["socketed_gems"] = ["Sapphire"]
+
+    bad_socket_cap_payload = load_seed_scenario()
+    bad_socket_cap_payload["inventory"]["equipment"][0]["socketed_gems"] = ["Sapphire", "Ruby"]
+
+    bad_socket_unknown_gem_payload = load_seed_scenario()
+    bad_socket_unknown_gem_payload["inventory"]["equipment"][0]["socketed_gems"] = ["Missing gem"]
+
+    valid_duplicate_socket_payload = load_seed_scenario()
+    valid_duplicate_socket_payload["inventory"]["equipment"][0] = {
+        "id": "ring-bronze-1",
+        "base_name": "Bronze necklace",
+        "current_hp": None,
+        "socketed_gems": ["Ruby", "Ruby"],
+    }
 
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
@@ -647,6 +846,29 @@ def test_index_rejects_invalid_import_json() -> None:
         page.locator('button[data-action="import-scenario-json"]').click()
         assert 'for_sale.equipment references unknown name "Missing ring"' in dialog_messages[-1]
         expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+
+        set_data_json(page, bad_non_socketable_combo_payload)
+        page.locator('button[data-action="import-scenario-json"]').click()
+        assert "socketed_gems is only allowed for equipment with socket_policy" in dialog_messages[-1]
+        expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+
+        set_data_json(page, bad_socket_cap_payload)
+        page.locator('button[data-action="import-scenario-json"]').click()
+        assert "socketed_gems must not exceed 1 gems" in dialog_messages[-1]
+        expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+
+        set_data_json(page, bad_socket_unknown_gem_payload)
+        page.locator('button[data-action="import-scenario-json"]').click()
+        assert 'references unknown gem "Missing gem"' in dialog_messages[-1]
+        expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+
+        prior_dialog_count = len(dialog_messages)
+        set_data_json(page, valid_duplicate_socket_payload)
+        page.locator('button[data-action="import-scenario-json"]').click()
+        assert len(dialog_messages) == prior_dialog_count
+        page.locator('button[data-action="switch-tab"][data-tab="workbench"]').click()
+        expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
+        expect(accessory_holdings_section(page)).to_contain_text("Bronze necklace")
 
         context.close()
         browser.close()

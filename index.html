@@ -9075,6 +9075,7 @@
         showZeroInventory: false,
         showZeroShop: false,
         showZeroStartingOutputs: false,
+        comboDrafts: {},
         exportText: "",
         toast: null
       };
@@ -9451,6 +9452,19 @@
               return gemName;
             })
           : undefined;
+        if (socketedGems) {
+          if (!definition.socket_policy) {
+            throw new Error(`${context} socketed_gems is only allowed for equipment with socket_policy.`);
+          }
+          if (!socketedGems.length) {
+            throw new Error(`${context} socketed_gems must include at least 1 gem.`);
+          }
+          if (socketedGems.length > definition.socket_policy.max_gems) {
+            throw new Error(
+              `${context} socketed_gems must not exceed ${definition.socket_policy.max_gems} gems for "${baseName}".`
+            );
+          }
+        }
         return {
           id,
           base_name: baseName,
@@ -9882,6 +9896,62 @@
         return isAccessoryDefinition(getEquipmentDefinitionByName(instance?.base_name));
       }
 
+      function isSocketableDefinition(definition) {
+        return Boolean(definition?.socket_policy);
+      }
+
+      function socketedGemList(instance) {
+        return Array.isArray(instance?.socketed_gems)
+          ? instance.socketed_gems.map((name) => String(name || "").trim()).filter(Boolean)
+          : [];
+      }
+
+      function buildGemCountMap(names = []) {
+        const counts = {};
+        for (const name of names) {
+          counts[name] = Number(counts[name] || 0) + 1;
+        }
+        return counts;
+      }
+
+      function buildSocketedEquipmentInstance(instance, gemNames = []) {
+        const next = deepClone(instance);
+        const cleaned = gemNames.map((name) => String(name || "").trim()).filter(Boolean);
+        if (cleaned.length) {
+          next.socketed_gems = cleaned;
+        } else {
+          delete next.socketed_gems;
+        }
+        return next;
+      }
+
+      function ownedGemEntries() {
+        return sortedEntries(state.workbench.gems || {}, { zeroLast: false })
+          .filter(([, count]) => Number(count) > 0);
+      }
+
+      function comboDraftForInstance(instance) {
+        const slotCount = Number(getEquipmentDefinitionByName(instance?.base_name)?.socket_policy?.max_gems || 0);
+        const stored = Array.isArray(ui.comboDrafts?.[instance?.id]) ? ui.comboDrafts[instance.id] : [];
+        return Array.from({ length: slotCount }, (_, index) => String(stored[index] || "").trim());
+      }
+
+      function selectedComboDraftGems(instance) {
+        return comboDraftForInstance(instance).filter(Boolean);
+      }
+
+      function setComboDraftSlot(instanceId, slotIndex, value) {
+        if (!instanceId || Number.isNaN(slotIndex) || slotIndex < 0) {
+          return;
+        }
+        if (!isPlainObject(ui.comboDrafts)) {
+          ui.comboDrafts = {};
+        }
+        const draft = Array.isArray(ui.comboDrafts[instanceId]) ? [...ui.comboDrafts[instanceId]] : [];
+        draft[slotIndex] = String(value || "").trim();
+        ui.comboDrafts[instanceId] = draft;
+      }
+
       function getEquipmentMarketDefinitions(options = {}) {
         const {
           filter = ui.potionFilter.trim().toLowerCase(),
@@ -9923,6 +9993,7 @@
           instance?.id,
           instance?.base_name,
           definition?.family,
+          ...socketedGemList(instance),
           ...(definition?.effects || [])
         ]
           .map((value) => String(value ?? "").trim().toLowerCase())
@@ -9989,6 +10060,117 @@
           return "None";
         }
         return `${policy.min_gems}-${policy.max_gems} gems @ ${policy.imbue_fee}g`;
+      }
+
+      function formatSocketedGems(gemNames = []) {
+        const names = gemNames.filter(Boolean);
+        return names.length ? names.join(", ") : "None";
+      }
+
+      function getBaseEquipmentSellValue(instance, definition = getEquipmentDefinitionByName(instance?.base_name)) {
+        if (!definition) {
+          return null;
+        }
+        let value = definition.buy_price * state.scenario.market.sell_markdown;
+        if (definition.max_hp !== null) {
+          if (instance?.current_hp === null) {
+            return null;
+          }
+          value *= instance.current_hp / definition.max_hp;
+        }
+        return value;
+      }
+
+      function getEquipmentSellBreakdown(instance) {
+        const definition = getEquipmentDefinitionByName(instance?.base_name);
+        if (!definition) {
+          return null;
+        }
+        const baseValue = getBaseEquipmentSellValue(instance, definition);
+        if (baseValue === null) {
+          return null;
+        }
+        const gemValues = socketedGemList(instance).map((name) => ({
+          name,
+          value: getStackableSellValue("gems", name)
+        }));
+        if (gemValues.some((item) => item.value === null)) {
+          return null;
+        }
+        return {
+          definition,
+          base_value: baseValue,
+          gem_values: gemValues,
+          total: gemValues.reduce((sum, item) => sum + item.value, baseValue)
+        };
+      }
+
+      function assessAccessoryAssembly(instance, gemNames = selectedComboDraftGems(instance)) {
+        const definition = getEquipmentDefinitionByName(instance?.base_name);
+        const policy = definition?.socket_policy || null;
+        const selectedGems = gemNames.map((name) => String(name || "").trim()).filter(Boolean);
+        const fee = Number(policy?.imbue_fee || 0);
+        if (!instance || !policy) {
+          return { possible: false, reason: "This accessory cannot hold gems.", fee, selected_gems: selectedGems };
+        }
+        if (socketedGemList(instance).length) {
+          return {
+            possible: false,
+            reason: "Disassemble the current combo before socketing new gems.",
+            fee,
+            selected_gems: selectedGems
+          };
+        }
+        if (!selectedGems.length) {
+          return {
+            possible: false,
+            reason: "Select at least 1 gem to assemble this combo.",
+            fee,
+            selected_gems: selectedGems
+          };
+        }
+        if (selectedGems.length > policy.max_gems) {
+          return {
+            possible: false,
+            reason: `Select no more than ${policy.max_gems} gems for ${definition.name}.`,
+            fee,
+            selected_gems: selectedGems
+          };
+        }
+        const invalidNames = selectedGems.filter((name) => {
+          const recipe = getRecipeByName(name);
+          return !recipe || recipe.kind !== "gem";
+        });
+        if (invalidNames.length) {
+          return {
+            possible: false,
+            reason: `Unknown gem selection: ${invalidNames.join(", ")}.`,
+            fee,
+            selected_gems: selectedGems
+          };
+        }
+        const shortfalls = sortedEntries(buildGemCountMap(selectedGems), { zeroLast: false })
+          .map(([name, required]) => ({ name, required, owned: Number(state.workbench.gems?.[name] || 0) }))
+          .filter((entry) => entry.owned < entry.required);
+        if (shortfalls.length) {
+          return {
+            possible: false,
+            reason: shortfalls
+              .map((entry) => `Need ${entry.required} ${entry.name}${entry.required === 1 ? "" : "s"} (${entry.owned} owned)`)
+              .join("; "),
+            fee,
+            selected_gems: selectedGems
+          };
+        }
+        if (state.workbench.gold < fee) {
+          return {
+            possible: false,
+            reason: `Need ${formatGoldAmount(fee)}g to pay the imbue fee.`,
+            fee,
+            selected_gems: selectedGems
+          };
+        }
+        return { possible: true, reason: "", fee, selected_gems: selectedGems };
       }
 
       function ingredientTypeLabel(type) {
@@ -10338,6 +10520,127 @@
         `;
       }
 
+      function renderSocketedGemChips(gemNames = []) {
+        const chips = gemNames
+          .map((name) => {
+            const recipe = getRecipeByName(name);
+            return recipe
+              ? renderInspectChip(makeOutputDetailSelection(recipe), name)
+              : `<span class="chip">${escapeHtml(name)}</span>`;
+          })
+          .join("");
+        return chips || `<div class="tiny">No gems socketed.</div>`;
+      }
+
+      function renderOwnedGemChips() {
+        const chips = ownedGemEntries()
+          .map(([name, count]) => {
+            const recipe = getRecipeByName(name);
+            const label = `${name} x${count}`;
+            return recipe
+              ? renderInspectChip(makeOutputDetailSelection(recipe), label)
+              : `<span class="chip">${escapeHtml(label)}</span>`;
+          })
+          .join("");
+        return chips || `<div class="tiny">No owned gems available for assembly.</div>`;
+      }
+
+      function renderEquipmentSellBreakdownSection(instance) {
+        const breakdown = getEquipmentSellBreakdown(instance);
+        if (!breakdown) {
+          return `
+            <div class="inspector-section">
+              <div class="label">Sell Breakdown</div>
+              <div class="tiny">Sell value is unavailable for this instance.</div>
+            </div>
+          `;
+        }
+        return `
+          <div class="inspector-section">
+            <div class="label">Sell Breakdown</div>
+            <div class="inspector-list">
+              <div class="tiny"><strong>${escapeHtml(breakdown.definition.name)}</strong>: ${escapeHtml(`${formatGoldAmount(breakdown.base_value)}g`)}</div>
+              ${breakdown.gem_values.map((item) => `
+                <div class="tiny"><strong>${escapeHtml(item.name)}</strong>: ${escapeHtml(`${formatGoldAmount(item.value)}g`)}</div>
+              `).join("")}
+              <div class="tiny"><strong>Total</strong>: ${escapeHtml(`${formatGoldAmount(breakdown.total)}g`)}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderAccessoryComboSection(instance, definition) {
+        if (!isSocketableDefinition(definition)) {
+          return "";
+        }
+        const policy = definition.socket_policy;
+        const currentGems = socketedGemList(instance);
+        const draft = comboDraftForInstance(instance);
+        const assessment = assessAccessoryAssembly(instance);
+        const slotRows = Array.from({ length: policy.max_gems }, (_, slotIndex) => `
+          <label class="field">
+            <span>Gem ${slotIndex + 1}</span>
+            <select data-action="set-accessory-combo-slot" data-id="${escapeHtml(instance.id)}" data-slot="${slotIndex}">
+              <option value="">Empty</option>
+              ${ownedGemEntries().map(([name, count]) => `
+                <option value="${escapeHtml(name)}" ${draft[slotIndex] === name ? "selected" : ""}>${escapeHtml(`${name} (${count})`)}</option>
+              `).join("")}
+            </select>
+          </label>
+        `).join("");
+        return `
+          <div class="inspector-section">
+            <div class="label">Current Sockets</div>
+            <div class="chip-stack">${renderSocketedGemChips(currentGems)}</div>
+          </div>
+          <div class="inspector-section">
+            <div class="label">Available Owned Gems</div>
+            <div class="chip-stack">${renderOwnedGemChips()}</div>
+          </div>
+          <div class="inspector-section">
+            <div class="label">Combo Actions</div>
+            <div class="inspector-grid">
+              <div class="inspector-field">
+                <span class="label">Assembly Rule</span>
+                <div>${escapeHtml(`1-${policy.max_gems} gems`)}</div>
+              </div>
+              <div class="inspector-field">
+                <span class="label">Imbue Fee</span>
+                <div>${escapeHtml(`${formatGoldAmount(policy.imbue_fee)}g`)}</div>
+              </div>
+            </div>
+            ${currentGems.length
+              ? `
+                <div class="tiny" style="margin-top:0.75rem;">Disassemble this combo before changing its gems.</div>
+                <div class="toolbar" style="margin-top:0.75rem;">
+                  <button class="button-secondary" data-action="disassemble-accessory" data-id="${escapeHtml(instance.id)}">Disassemble Combo</button>
+                </div>
+              `
+              : `
+                <div class="stack" style="gap:0.5rem; margin-top:0.75rem;">
+                  ${slotRows}
+                </div>
+                <div class="toolbar" style="margin-top:0.75rem;">
+                  <button
+                    class="button-primary"
+                    data-action="assemble-accessory"
+                    data-id="${escapeHtml(instance.id)}"
+                    ${assessment.possible ? "" : "disabled"}
+                  >
+                    Assemble Combo
+                  </button>
+                </div>
+                <div class="tiny" style="margin-top:0.5rem;">${escapeHtml(
+                  assessment.possible
+                    ? `Spend ${formatGoldAmount(assessment.fee)}g to socket ${assessment.selected_gems.length} gem${assessment.selected_gems.length === 1 ? "" : "s"}.`
+                    : assessment.reason
+                )}</div>
+              `}
+          </div>
+          ${renderEquipmentSellBreakdownSection(instance)}
+        `;
+      }
+
       function renderInspectorCard(item, options = {}) {
         const { compact = false } = options;
         if (!item) {
@@ -10391,6 +10694,7 @@
           const definition = item.definition;
           const instance = item.instance || null;
           const sellValue = instance ? getEquipmentSellValue(instance) : null;
+          const currentGems = instance ? socketedGemList(instance) : [];
           const metaPills = [
             item.isAccessory ? "Accessory" : "Equipment",
             definition.family,
@@ -10399,6 +10703,9 @@
           ];
           if (instance) {
             metaPills.push(instance.id);
+            if (currentGems.length) {
+              metaPills.push(`${currentGems.length} gem${currentGems.length === 1 ? "" : "s"} socketed`);
+            }
           }
           return `
             <article class="potion-card inspector-card" data-inspector-item="${escapeHtml(item.key)}">
@@ -10447,6 +10754,7 @@
                   </div>
                 ` : ""}
               </div>
+              ${instance ? renderAccessoryComboSection(instance, definition) : ""}
               ${renderEquipmentDetailSections(definition)}
             </article>
           `;
@@ -10567,6 +10875,10 @@
       }
 
       function effectPrimaryDetailSelection(effect) {
+        const updatedEquipment = effectUpdatedEquipmentItems(effect)[0];
+        if (updatedEquipment) {
+          return makeEquipmentDefinitionDetailSelection(updatedEquipment.name);
+        }
         const output = effectOutputItems(effect)[0];
         if (output) {
           return makeOutputDetailSelection(getRecipeByName(output.name));
@@ -10727,6 +11039,13 @@
         );
       }
 
+      function effectConsumedGemItems(effect) {
+        return collectEffectStackableItems(
+          effect,
+          (transaction) => transaction.bucket === "gems" && transaction.delta < 0
+        );
+      }
+
       function effectAutoBoughtIngredientItems(effect) {
         return collectEffectStackableItems(
           effect,
@@ -10768,6 +11087,10 @@
 
       function effectRemovedEquipmentItems(effect) {
         return collectEffectEquipmentItems(effect, (transaction) => transaction.action === "remove");
+      }
+
+      function effectUpdatedEquipmentItems(effect) {
+        return collectEffectEquipmentItems(effect, (transaction) => transaction.action === "update");
       }
 
       function effectKinds(effect) {
@@ -10827,18 +11150,7 @@
       }
 
       function getEquipmentSellValue(instance) {
-        const definition = getEquipmentDefinitionByName(instance?.base_name);
-        if (!definition) {
-          return null;
-        }
-        let value = definition.buy_price * state.scenario.market.sell_markdown;
-        if (definition.max_hp !== null) {
-          if (instance.current_hp === null) {
-            return null;
-          }
-          value *= instance.current_hp / definition.max_hp;
-        }
-        return value;
+        return getEquipmentSellBreakdown(instance)?.total ?? null;
       }
 
       function formatGoldAmount(amount) {
@@ -10863,9 +11175,11 @@
         const segments = [];
         const outputs = effectOutputItems(effect);
         const used = effectConsumedIngredientItems(effect);
+        const usedGems = effectConsumedGemItems(effect);
         const autoBought = effectAutoBoughtIngredientItems(effect);
         const boughtIngredients = effectManualBoughtIngredientItems(effect);
         const addedEquipment = effectAddedEquipmentItems(effect);
+        const updatedEquipment = effectUpdatedEquipmentItems(effect);
         const removedEquipment = effectRemovedEquipmentItems(effect);
         const signedGoldDelta = effectGoldDelta(effect) * (mode === "forward" ? 1 : -1);
         const spend = Math.max(0, -signedGoldDelta);
@@ -10878,6 +11192,9 @@
           if (used.length) {
             segments.push(`use ${listCounts(used, 2)}`);
           }
+          if (usedGems.length) {
+            segments.push(`socket ${listCounts(usedGems, 2)}`);
+          }
           if (autoBought.length) {
             segments.push(`auto-buy ${listCounts(autoBought, 2)}`);
           }
@@ -10886,6 +11203,9 @@
           }
           if (addedEquipment.length) {
             segments.push(`add ${listCounts(addedEquipment, 2)}`);
+          }
+          if (updatedEquipment.length) {
+            segments.push(`update ${listCounts(updatedEquipment, 2)}`);
           }
           if (removedEquipment.length) {
             segments.push(`remove ${listCounts(removedEquipment, 2)}`);
@@ -10903,11 +11223,17 @@
           if (used.length) {
             segments.push(`restore ${listCounts(used, 2)}`);
           }
+          if (usedGems.length) {
+            segments.push(`restore ${listCounts(usedGems, 2)}`);
+          }
           if (boughtIngredients.length) {
             segments.push(`remove ${listCounts(boughtIngredients, 2)}`);
           }
           if (addedEquipment.length) {
             segments.push(`remove ${listCounts(addedEquipment, 2)}`);
+          }
+          if (updatedEquipment.length) {
+            segments.push(`update ${listCounts(updatedEquipment, 2)}`);
           }
           if (removedEquipment.length) {
             segments.push(`add ${listCounts(removedEquipment, 2)}`);
@@ -11708,6 +12034,55 @@
         renderApp();
       }
 
+      function assembleAccessory(instanceId) {
+        const instance = (state.workbench.equipment || []).find((entry) => entry.id === instanceId);
+        if (!instance) {
+          return;
+        }
+        const assessment = assessAccessoryAssembly(instance);
+        if (!assessment.possible) {
+          return;
+        }
+        const nextInstance = buildSocketedEquipmentInstance(instance, assessment.selected_gems);
+        const gemTransactions = sortedEntries(buildGemCountMap(assessment.selected_gems), { zeroLast: false })
+          .map(([name, count]) => createStackableTransaction("gems", name, -count, "assemble accessory"));
+        ui.comboDrafts[instance.id] = [...assessment.selected_gems];
+        const before = deepClone(state.workbench);
+        const entry = buildWorkbenchAction(`Assembled ${instance.base_name}`, before, [
+          ...gemTransactions,
+          ...(assessment.fee > 0 ? [createGoldTransaction(-assessment.fee, `Imbue ${instance.base_name}`)] : []),
+          createEquipmentTransaction("update", nextInstance, "assemble accessory", { previous: instance })
+        ]);
+        rememberWorkbenchAction(entry);
+        showToast(entry.label, effectSummary(entry, "forward"), "good");
+        persistState();
+        renderApp();
+      }
+
+      function disassembleAccessory(instanceId) {
+        const instance = (state.workbench.equipment || []).find((entry) => entry.id === instanceId);
+        if (!instance) {
+          return;
+        }
+        const currentGems = socketedGemList(instance);
+        if (!currentGems.length) {
+          return;
+        }
+        ui.comboDrafts[instance.id] = [...currentGems];
+        const nextInstance = buildSocketedEquipmentInstance(instance, []);
+        const gemTransactions = sortedEntries(buildGemCountMap(currentGems), { zeroLast: false })
+          .map(([name, count]) => createStackableTransaction("gems", name, count, "disassemble accessory"));
+        const before = deepClone(state.workbench);
+        const entry = buildWorkbenchAction(`Disassembled ${instance.base_name}`, before, [
+          createEquipmentTransaction("update", nextInstance, "disassemble accessory", { previous: instance }),
+          ...gemTransactions
+        ]);
+        rememberWorkbenchAction(entry);
+        showToast(entry.label, effectSummary(entry, "forward"), "good");
+        persistState();
+        renderApp();
+      }
+
       function renderTabs() {
         const tabButtons = document.getElementById("tab-buttons");
         tabButtons.innerHTML = tabs
@@ -11966,6 +12341,9 @@
       function formatEquipmentHoldingSummary(instance, definition) {
         const parts = [instance.id];
         parts.push(definition?.max_hp === null ? "No HP" : formatEquipmentHp(instance, definition));
+        if (socketedGemList(instance).length) {
+          parts.push(`Sockets: ${formatSocketedGems(socketedGemList(instance))}`);
+        }
         return parts.join(" · ");
       }
 
@@ -12397,7 +12775,11 @@
 
       function renderHistoryEquipmentDetails(entry) {
         const grouped = new Map();
-        for (const item of [...effectAddedEquipmentItems(entry.effect), ...effectRemovedEquipmentItems(entry.effect)]) {
+        for (const item of [
+          ...effectAddedEquipmentItems(entry.effect),
+          ...effectUpdatedEquipmentItems(entry.effect),
+          ...effectRemovedEquipmentItems(entry.effect)
+        ]) {
           grouped.set(item.name, (grouped.get(item.name) || 0) + item.count);
         }
         return Array.from(grouped.entries())
@@ -12413,8 +12795,12 @@
           return false;
         }
         if (selectedItem.type === "equipment_instance") {
-          return [...effectAddedEquipmentItems(entry.effect), ...effectRemovedEquipmentItems(entry.effect)]
-            .some((item) => item.name === selectedItem.definition.name);
+          return effectTransactions(entry.effect)
+            .filter((transaction) => transaction.kind === "equipment")
+            .some((transaction) =>
+              transaction.instance?.id === selectedItem.instance.id
+              || transaction.previous?.id === selectedItem.instance.id
+            );
         }
         const touchedSelections = [
           ...effectOutputItems(entry.effect)
@@ -12424,7 +12810,11 @@
             ...effectAutoBoughtIngredientItems(entry.effect),
             ...effectManualBoughtIngredientItems(entry.effect)
           ].map((item) => makeIngredientDetailSelection(item.name)),
-          ...[...effectAddedEquipmentItems(entry.effect), ...effectRemovedEquipmentItems(entry.effect)]
+          ...[
+            ...effectAddedEquipmentItems(entry.effect),
+            ...effectUpdatedEquipmentItems(entry.effect),
+            ...effectRemovedEquipmentItems(entry.effect)
+          ]
             .map((item) => makeEquipmentDefinitionDetailSelection(item.name))
         ]
           .map((selection) => detailSelectionKey(selection))
@@ -13532,8 +13922,10 @@
         return {
           action,
           id,
+          equipmentId: active.dataset.id || "",
           recipe: active.dataset.recipe || "",
           index: active.dataset.index || "",
+          slot: active.dataset.slot || "",
           ingredient: active.dataset.ingredient || "",
           name: active.dataset.name || "",
           effectIndex: active.dataset.effectIndex || "",
@@ -13554,8 +13946,14 @@
           if (snapshot.recipe) {
             selector += `[data-recipe="${CSS.escape(snapshot.recipe)}"]`;
           }
+          if (snapshot.equipmentId) {
+            selector += `[data-id="${CSS.escape(snapshot.equipmentId)}"]`;
+          }
           if (snapshot.index) {
             selector += `[data-index="${CSS.escape(snapshot.index)}"]`;
+          }
+          if (snapshot.slot) {
+            selector += `[data-slot="${CSS.escape(snapshot.slot)}"]`;
           }
           if (snapshot.ingredient) {
             selector += `[data-ingredient="${CSS.escape(snapshot.ingredient)}"]`;
@@ -13773,6 +14171,7 @@
             state.loadError = null;
             ui.mobileInspectorOpen = false;
             ui.selectedDetail = null;
+            ui.comboDrafts = {};
             ui.exportText = JSON.stringify(state.scenario, null, 2);
             persistState();
             renderApp();
@@ -13802,6 +14201,7 @@
               state.loadError = null;
               ui.mobileInspectorOpen = false;
               ui.selectedDetail = null;
+              ui.comboDrafts = {};
               ui.exportText = JSON.stringify(state.scenario, null, 2);
               persistState();
               renderApp();
@@ -13818,6 +14218,12 @@
             break;
           case "buy-equipment":
             buyEquipment(element.dataset.name);
+            break;
+          case "assemble-accessory":
+            assembleAccessory(element.dataset.id);
+            break;
+          case "disassemble-accessory":
+            disassembleAccessory(element.dataset.id);
             break;
           case "sell-equipment":
             sellEquipment(element.dataset.id);
@@ -13903,6 +14309,7 @@
             const previousLength = state.scenario.inventory.equipment.length;
             state.scenario.inventory.equipment = state.scenario.inventory.equipment.filter((instance) => instance.id !== id);
             if (state.scenario.inventory.equipment.length !== previousLength) {
+              delete ui.comboDrafts[id];
               persistState();
               renderApp();
             }
@@ -14035,6 +14442,7 @@
               state.loadError = null;
               ui.mobileInspectorOpen = false;
               ui.selectedDetail = null;
+              ui.comboDrafts = {};
               persistState();
               renderApp();
             } catch (error) {
@@ -14119,6 +14527,10 @@
             persistState();
             renderApp();
             break;
+          case "set-accessory-combo-slot":
+            setComboDraftSlot(element.dataset.id || "", Number(element.dataset.slot), element.value);
+            renderApp();
+            break;
           case "set-base-equipment-name": {
             const id = element.dataset.id || "";
             const instance = (state.scenario.inventory.equipment || []).find((entry) => entry.id === id);
@@ -14135,6 +14547,7 @@
             instance.base_name = definition.name;
             instance.current_hp = defaultCurrentHpForDefinition(definition);
             delete instance.socketed_gems;
+            delete ui.comboDrafts[id];
             persistState();
             renderApp();
             break;

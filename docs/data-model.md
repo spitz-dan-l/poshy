@@ -1,6 +1,6 @@
 # Poshy Data Model
 
-This document describes the shipped data model after phase 3 and the follow-up UI pass were implemented on March 8, 2026.
+This document describes the shipped data model after phase 4 was implemented on March 8, 2026.
 
 The authoritative implementations are:
 
@@ -17,6 +17,7 @@ The authoritative implementations are:
 - Potion subtype is still derived from recipe name and is never stored as a recipe field.
 - Gem recipes are still generated from `"<Gem> piece"` ingredients.
 - Equipment definitions are imported from workbook sheets; standalone equipment instances are authored in `data/starting_resources.toml`.
+- Assembled ring and necklace combos are browser-authored runtime state stored on `EquipmentInstance.socketed_gems`.
 
 ## Pipeline
 
@@ -242,6 +243,7 @@ Rules:
 - each equipment instance needs `id` and `base_name`.
 - `current_hp` is required in TOML when the definition has numeric `max_hp`.
 - `current_hp` is omitted in TOML for definitions whose `max_hp` is `null`; the importer emits `current_hp: null` in canonical JSON.
+- `socketed_gems` is not currently authored in `data/starting_resources.toml`; phase 4 combo state is browser-authored.
 - duplicate equipment ids are rejected.
 - unknown equipment names in `inventory.equipment` or `for_sale.equipment` are rejected.
 - workbook aliases are not accepted here.
@@ -376,8 +378,11 @@ Current socket policy conventions:
 
 - rings: `{ min_gems: 0, max_gems: 1, imbue_fee: 50 }`
 - necklaces: `{ min_gems: 1, max_gems: 3, imbue_fee: 50 }`
+- unsocketed rings and necklaces omit `socketed_gems`
+- socketed ring and necklace instances require `socketed_gems` length `1..max_gems`
+- duplicate gem names inside one combo are allowed
 
-Phase 2 does not create assembled accessory combos and does not expose `socketed_gems` editing in the browser.
+Phase 4 creates assembled ring and necklace combos at runtime and persists them through saved browser state and exported/imported scenario JSON.
 
 ## Scenario JSON Shape
 
@@ -463,6 +468,8 @@ Representative fragment from the current generated seed:
 }
 ```
 
+Phase 4 does not change the generated seed fragment above. Runtime-authored or imported scenario JSON may additionally include `socketed_gems` on ring and necklace instances.
+
 ## Runtime Validation And Persisted State
 
 `index.html` validates:
@@ -503,7 +510,17 @@ Equipment instances in persisted scenario and workbench state must always carry 
 
 Even when an authored TOML instance omits `current_hp` for a `max_hp = null` item, the generated JSON and runtime state store `current_hp: null`.
 
-## Browser Surfaces Shipped Through The March 8, 2026 UI Pass
+Runtime rules for `socketed_gems` now enforced by the browser validator:
+
+- only equipment definitions with `socket_policy` may carry `socketed_gems`,
+- each socketed gem name must be a known gem recipe name,
+- `socketed_gems` must contain at least one gem when present,
+- `socketed_gems` must not exceed `socket_policy.max_gems`,
+- duplicate gem names are allowed.
+
+Because phase 4 combo state lives on the existing `EquipmentInstance` shape, saved browser state, exported/imported JSON, and `Set Base From Workbench` all preserve assembled accessories without schema changes.
+
+## Browser Surfaces Shipped Through Phase 4
 
 The single-file browser app now exposes runtime state in these places:
 
@@ -511,9 +528,10 @@ The single-file browser app now exposes runtime state in these places:
 - Workbench recipe tabs: potion and gem cards still use the shared craft/buy simulator and focus-chip filtering.
 - Workbench ingredient tabs: weekly sold herbs and gem pieces can be bought directly into the live run.
 - Workbench equipment tabs: equipment and accessory listings are split by `source_sheet`, with accessories defined as every catalog entry imported from the workbook `Accessories` sheet.
-- Workbench holdings: standalone gear is split into `Equipment` and `Accessories`, with compact per-instance rows and sell actions.
+- Workbench holdings: standalone gear is split into `Equipment` and `Accessories`, with compact per-instance rows, socket summaries for assembled combos, and sell actions that include socketed gem value.
 - Item inspector: outputs, ingredients, equipment definitions, and owned equipment instances can all be inspected from the workbench, holdings, and action log.
-- Action log: transaction history exposes inspect links for outputs, ingredients, and equipment definitions.
+- Accessory inspector: owned rings and necklaces can assemble or disassemble combos, view current sockets, review available owned gems, and inspect sell-value breakdowns.
+- Action log: transaction history exposes inspect links for outputs, ingredients, and equipment definitions, including accessory combo `equipment update` actions.
 - Run summary stats: equipment count is shown alongside gold, ingredients, potions, and gems.
 - Base Inventory tab: add, edit, remove standalone equipment instances.
 - Shop tab: toggle weekly `for_sale.equipment` availability.
@@ -521,9 +539,8 @@ The single-file browser app now exposes runtime state in these places:
 
 This shipped UI still does not yet expose:
 
-- combo assembly or disassembly,
 - manual ingredient, potion, or gem sell actions,
-- `socketed_gems` editing.
+- dedicated Base Inventory or Shop editors for `socketed_gems`.
 
 ## Validation And Failure Modes
 
@@ -544,6 +561,10 @@ The importer and runtime already reject these important failure cases:
 - unknown `inventory.equipment[*].base_name` values,
 - missing `current_hp` for HP-bearing equipment authored in TOML,
 - `current_hp` outside `0..max_hp` for HP-bearing equipment,
+- `socketed_gems` on equipment without `socket_policy`,
+- empty `socketed_gems` arrays,
+- `socketed_gems` longer than the accessory socket cap,
+- unknown gem names inside `socketed_gems`,
 - invalid `for_sale.equipment` names,
 - malformed equipment definitions in imported JSON,
 - malformed equipment instances in imported or persisted JSON,
@@ -557,6 +578,7 @@ The importer and runtime already reject these important failure cases:
 - Treat `equipment.definitions` as imported catalog data, not user-authored browser state.
 - Use `ingredient_types` instead of string suffix checks in new UI or analysis code.
 - Preserve `EquipmentInstance.id` as stable instance identity; do not derive gameplay meaning from it beyond uniqueness.
+- Treat `socketed_gems` as runtime-authored combo state; do not extend `data/starting_resources.toml` with it unless the importer is also updated.
 - Runtime gold can become fractional after HP-aware equipment sells; format it for display instead of assuming integers.
 - If you need the browser definition of an accessory, use `source_sheet === "Accessories"` rather than maintaining a separate family allowlist.
 - If you add new equipment behavior, decide first whether it belongs in:
