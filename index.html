@@ -1635,7 +1635,7 @@
           <div class="status-card">
             <strong>Persistence</strong>
             <span>Auto-saves locally</span>
-            <div class="status-note">Edits and the live workbench stay in <code>localStorage</code> on this machine.</div>
+            <div class="status-note">Edits and the live workbench stay in <code>localStorage</code> on this machine. Invalid saved data now blocks startup until you clear it.</div>
           </div>
           <div class="status-card">
             <strong>Flow</strong>
@@ -2861,24 +2861,8 @@
         { id: "data", label: "Data Studio" }
       ];
 
-      const OUTPUT_NAME_ALIASES = {
-        "blessed potion": "Blessed medicine",
-        "rejuvenation potion": "Rejuvination potion",
-        "dark toxin": "Dark Toxin",
-        "brew of the master": "Brew of the Master"
-      };
-
       const POTION_SUBTYPES = ["medicine", "elixir", "potion", "toxin", "solution", "grenade", "brew"];
       const REQUIRED_SUBTYPES = [...POTION_SUBTYPES];
-      const DEFAULT_SUBTYPE_LABELS = {
-        medicine: "Medicine",
-        elixir: "Elixir",
-        potion: "Potion",
-        toxin: "Toxin",
-        solution: "Solution",
-        grenade: "Grenade",
-        brew: "Brew"
-      };
       const VALID_RECIPE_TIERS = ["A", "B", "C", "D", "X"];
 
       const ui = {
@@ -2900,7 +2884,6 @@
         toast: null
       };
 
-      const state = loadState();
       let toastTimer = null;
       let inspectorFlashTimer = null;
 
@@ -2920,27 +2903,83 @@
           .replaceAll("'", "&#39;");
       }
 
-      function normalizeCounter(raw, keepZeros = true) {
-        const output = {};
-        for (const [name, count] of Object.entries(raw || {})) {
-          const key = String(name).trim();
-          if (!key) {
-            continue;
-          }
-          const value = Number(count) || 0;
-          if (!keepZeros && value <= 0) {
-            continue;
-          }
-          output[key] = Math.max(0, value);
-        }
-        return output;
+      function isPlainObject(value) {
+        return value !== null && typeof value === "object" && !Array.isArray(value);
       }
 
-      function normalizeIngredientType(rawType) {
+      function expectPlainObject(value, context) {
+        if (!isPlainObject(value)) {
+          throw new Error(`${context} must be an object.`);
+        }
+        return value;
+      }
+
+      function expectArray(value, context) {
+        if (!Array.isArray(value)) {
+          throw new Error(`${context} must be an array.`);
+        }
+        return value;
+      }
+
+      function validateExactKeys(value, keys, context) {
+        const obj = expectPlainObject(value, context);
+        for (const key of keys) {
+          if (!Object.prototype.hasOwnProperty.call(obj, key)) {
+            throw new Error(`${context} is missing "${key}".`);
+          }
+        }
+        for (const key of Object.keys(obj)) {
+          if (!keys.includes(key)) {
+            throw new Error(`${context} has an unexpected "${key}" field.`);
+          }
+        }
+        return obj;
+      }
+
+      function expectTrimmedString(value, context, { allowBlank = false } = {}) {
+        if (typeof value !== "string") {
+          throw new Error(`${context} must be a string.`);
+        }
+        if (value !== value.trim()) {
+          throw new Error(`${context} must not have leading or trailing whitespace.`);
+        }
+        if (!allowBlank && value.length === 0) {
+          throw new Error(`${context} must not be blank.`);
+        }
+        return value;
+      }
+
+      function expectFiniteNumber(value, context) {
+        if (typeof value !== "number" || !Number.isFinite(value)) {
+          throw new Error(`${context} must be a finite number.`);
+        }
+        return value;
+      }
+
+      function expectNonNegativeNumber(value, context) {
+        const amount = expectFiniteNumber(value, context);
+        if (amount < 0) {
+          throw new Error(`${context} must not be negative.`);
+        }
+        return amount;
+      }
+
+      function validateIngredientTypeValue(rawType, context = "Ingredient type") {
         if (rawType === "herb" || rawType === "gem_piece") {
           return rawType;
         }
-        return null;
+        throw new Error(`${context} must be "herb" or "gem_piece".`);
+      }
+
+      function isIngredientTypeValue(value) {
+        return value === "herb" || value === "gem_piece";
+      }
+
+      function validateOutputKind(rawKind, context = "Output kind") {
+        if (rawKind === "potion" || rawKind === "gem") {
+          return rawKind;
+        }
+        throw new Error(`${context} must be "potion" or "gem".`);
       }
 
       function inferPotionSubtype(name) {
@@ -2959,82 +2998,97 @@
         return null;
       }
 
-      function normalizeRecipeTier(rawTier, kind, name) {
-        const tier = String(rawTier ?? "").trim().toUpperCase();
-        if (!VALID_RECIPE_TIERS.includes(tier)) {
+      function validateRecipeTier(rawTier, kind, name) {
+        if (typeof rawTier !== "string") {
+          throw new Error(`Recipe "${name}" tier must be a string.`);
+        }
+        if (!VALID_RECIPE_TIERS.includes(rawTier)) {
           throw new Error(`Recipe "${name}" has an invalid tier "${rawTier}".`);
         }
         if (kind !== "potion") {
           throw new Error(`Only potion recipes may define a tier, but "${name}" is ${kind}.`);
         }
-        if (tier === "X") {
+        if (rawTier === "X") {
           throw new Error(`Potion recipe "${name}" cannot use tier "X".`);
         }
-        return tier;
+        return rawTier;
       }
 
-      function normalizeSubtypeMap(raw) {
-        const source = raw || {};
+      function validateCounterMap(raw, context, knownNames = null, { allowZero = true } = {}) {
+        const source = expectPlainObject(raw, context);
         const output = {};
-        for (const subtype of REQUIRED_SUBTYPES) {
-          const entry = source?.[subtype];
-          if (!entry || typeof entry !== "object") {
-            throw new Error(`Scenario is missing subtype metadata for "${subtype}".`);
+        for (const [name, count] of Object.entries(source)) {
+          expectTrimmedString(name, `${context} key`);
+          if (knownNames && !knownNames.has(name)) {
+            throw new Error(`${context} references unknown name "${name}".`);
           }
-          output[subtype] = {
-            label: String(entry.label ?? "").trim() || DEFAULT_SUBTYPE_LABELS[subtype],
-            action_text: String(entry.action_text ?? "").trim(),
-            targeting_text: String(entry.targeting_text ?? "").trim()
-          };
-        }
-        for (const key of Object.keys(source)) {
-          if (!REQUIRED_SUBTYPES.includes(key)) {
-            throw new Error(`Unexpected subtype metadata "${key}".`);
+          const amount = expectNonNegativeNumber(count, `${context}.${name}`);
+          if (!allowZero && amount <= 0) {
+            throw new Error(`${context}.${name} must be greater than zero.`);
           }
+          output[name] = amount;
         }
         return output;
       }
 
-      function normalizeGemMetadataEntry(raw, gemName) {
-        if (!raw || typeof raw !== "object") {
-          throw new Error(`Gem "${gemName}" is missing gem metadata.`);
+      function validateTrueFlagMap(raw, context, knownNames = null) {
+        const source = expectPlainObject(raw, context);
+        const output = {};
+        for (const [name, enabled] of Object.entries(source)) {
+          expectTrimmedString(name, `${context} key`);
+          if (knownNames && !knownNames.has(name)) {
+            throw new Error(`${context} references unknown name "${name}".`);
+          }
+          if (enabled !== true) {
+            throw new Error(`${context}.${name} must be true.`);
+          }
+          output[name] = true;
         }
-        const accessoryEffectsRaw = raw?.accessory_effects;
-        if (!Array.isArray(accessoryEffectsRaw)) {
-          throw new Error(`Gem "${gemName}" is missing an accessory_effects array.`);
-        }
+        return output;
+      }
+
+      function validateSubtypeEntry(raw, subtype) {
+        const entry = validateExactKeys(raw, ["label", "action_text", "targeting_text"], `Subtype "${subtype}"`);
         return {
-          color: String(raw?.color ?? "").trim(),
-          god: String(raw?.god ?? "").trim(),
-          accessory_effects: accessoryEffectsRaw
-            .map((value) => String(value ?? "").trim())
-            .filter(Boolean)
+          label: expectTrimmedString(entry.label, `Subtype "${subtype}" label`, { allowBlank: true }),
+          action_text: expectTrimmedString(entry.action_text, `Subtype "${subtype}" action_text`, { allowBlank: true }),
+          targeting_text: expectTrimmedString(entry.targeting_text, `Subtype "${subtype}" targeting_text`, { allowBlank: true })
         };
       }
 
-      function normalizeGemMetadataMap(raw, recipes) {
-        const canonicalSource = {};
-        for (const [rawName, value] of Object.entries(raw || {})) {
-          const name = canonicalOutputName(rawName, recipes);
-          if (!name) {
-            continue;
-          }
-          if (Object.prototype.hasOwnProperty.call(canonicalSource, name)) {
-            throw new Error(`gem_metadata contains duplicate entries for "${name}".`);
-          }
-          canonicalSource[name] = value;
+      function validateSubtypeMap(raw) {
+        const source = validateExactKeys(raw, REQUIRED_SUBTYPES, "Scenario subtypes");
+        const output = {};
+        for (const subtype of REQUIRED_SUBTYPES) {
+          output[subtype] = validateSubtypeEntry(source[subtype], subtype);
         }
+        return output;
+      }
+
+      function validateGemMetadataEntry(raw, gemName) {
+        const entry = validateExactKeys(raw, ["color", "god", "accessory_effects"], `Gem "${gemName}" metadata`);
+        return {
+          color: expectTrimmedString(entry.color, `Gem "${gemName}" color`, { allowBlank: true }),
+          god: expectTrimmedString(entry.god, `Gem "${gemName}" god`, { allowBlank: true }),
+          accessory_effects: expectArray(entry.accessory_effects, `Gem "${gemName}" accessory_effects`).map((value, index) =>
+            expectTrimmedString(value, `Gem "${gemName}" accessory_effects[${index}]`)
+          )
+        };
+      }
+
+      function validateGemMetadataMap(raw, recipes) {
+        const source = expectPlainObject(raw, "Scenario gem_metadata");
         const output = {};
         const gemNames = recipes
           .filter((recipe) => recipe.kind === "gem")
           .map((recipe) => recipe.name);
         for (const gemName of gemNames) {
-          if (!Object.prototype.hasOwnProperty.call(canonicalSource, gemName)) {
+          if (!Object.prototype.hasOwnProperty.call(source, gemName)) {
             throw new Error(`Gem "${gemName}" is missing gem_metadata.`);
           }
-          output[gemName] = normalizeGemMetadataEntry(canonicalSource[gemName], gemName);
+          output[gemName] = validateGemMetadataEntry(source[gemName], gemName);
         }
-        for (const name of Object.keys(canonicalSource)) {
+        for (const name of Object.keys(source)) {
           if (!gemNames.includes(name)) {
             throw new Error(`gem_metadata references unknown gem "${name}".`);
           }
@@ -3042,322 +3096,313 @@
         return output;
       }
 
-      function collectScenarioIngredientNames(raw) {
-        const names = new Set();
-        const inventoryIngredients = raw?.inventory?.ingredients || {};
-        const ingredientPrices = raw?.ingredient_prices || {};
-        const ingredientTypes = raw?.ingredient_types || {};
+      function validateRecipe(raw) {
+        const recipe = expectPlainObject(raw, "Recipe");
+        const name = expectTrimmedString(recipe.name, "Recipe name");
+        const kind = validateOutputKind(recipe.kind, `Recipe "${name}" kind`);
+        const ingredients = validateCounterMap(recipe.ingredients, `Recipe "${name}" ingredients`);
 
-        Object.keys(ingredientTypes).forEach((name) => names.add(name));
-        Object.keys(inventoryIngredients).forEach((name) => names.add(name));
-        Object.keys(ingredientPrices).forEach((name) => names.add(name));
-        for (const recipe of raw?.recipes?.recipes || []) {
-          Object.keys(recipe?.ingredients || {}).forEach((name) => names.add(name));
-        }
-
-        return Array.from(names);
-      }
-
-      function normalizeIngredientTypeMap(rawTypes, ingredientNames) {
-        const source = rawTypes || {};
-        const output = {};
-
-        for (const rawName of ingredientNames || []) {
-          const name = String(rawName ?? "").trim();
-          if (!name) {
-            continue;
-          }
-          const explicitType = Object.prototype.hasOwnProperty.call(source, name)
-            ? normalizeIngredientType(source[name])
-            : null;
-          if (!explicitType) {
-            throw new Error(`Ingredient "${name}" is missing a valid ingredient_types entry.`);
-          }
-          output[name] = explicitType;
-        }
-
-        return output;
-      }
-
-      function normalizeIngredientPriceMap(rawPrices, ingredientNames) {
-        const source = rawPrices || {};
-        const output = {};
-        for (const rawName of ingredientNames || []) {
-          const name = String(rawName ?? "").trim();
-          if (!name) {
-            continue;
-          }
-          if (!Object.prototype.hasOwnProperty.call(source, name)) {
-            throw new Error(`Ingredient "${name}" is missing an ingredient_prices entry.`);
-          }
-          output[name] = Math.max(0, Number(source[name]) || 0);
-        }
-        return output;
-      }
-
-      function canonicalOutputName(rawName, recipes = []) {
-        const name = String(rawName ?? "").trim();
-        if (!name) {
-          return "";
-        }
-        const alias = OUTPUT_NAME_ALIASES[name.toLowerCase()];
-        if (alias) {
-          return alias;
-        }
-        const recipeMatch = (recipes || []).find(
-          (recipe) => recipe.name.toLowerCase() === name.toLowerCase()
-        );
-        return recipeMatch ? recipeMatch.name : name;
-      }
-
-      function normalizeOutputCounter(raw, recipes = [], keepZeros = true) {
-        const output = {};
-        for (const [name, count] of Object.entries(raw || {})) {
-          const key = canonicalOutputName(name, recipes);
-          if (!key) {
-            continue;
-          }
-          const value = Number(count) || 0;
-          if (!keepZeros && value <= 0) {
-            continue;
-          }
-          output[key] = (Number(output[key]) || 0) + Math.max(0, value);
-        }
-        return output;
-      }
-
-      function normalizeOutputSaleMap(raw, recipes = []) {
-        const output = {};
-        for (const [name, sold] of Object.entries(raw || {})) {
-          const key = canonicalOutputName(name, recipes);
-          if (!key || !sold) {
-            continue;
-          }
-          output[key] = true;
-        }
-        return output;
-      }
-
-      function normalizeFlagMap(raw) {
-        const output = {};
-        for (const [name, enabled] of Object.entries(raw || {})) {
-          const key = String(name ?? "").trim();
-          if (!key || !enabled) {
-            continue;
-          }
-          output[key] = true;
-        }
-        return output;
-      }
-
-      function normalizeOutputKind(rawKind) {
-        return rawKind === "gem" ? "gem" : "potion";
-      }
-
-      function normalizeRecipe(raw) {
-        const name = String(raw?.name ?? "").trim() || "Untitled recipe";
-        const kind = normalizeOutputKind(raw?.kind);
-        if (raw?.kind !== "potion" && raw?.kind !== "gem") {
-          throw new Error(`Recipe "${name}" is missing a valid kind.`);
-        }
-        const ingredients = normalizeCounter(raw?.ingredients || {}, false);
         if (kind === "gem") {
-          for (const disallowed of ["subtype", "tier", "price", "effect_text"]) {
-            if (Object.prototype.hasOwnProperty.call(raw || {}, disallowed)) {
-              throw new Error(`Gem recipe "${name}" should not define ${disallowed}.`);
-            }
-          }
+          validateExactKeys(recipe, ["name", "kind", "ingredients"], `Recipe "${name}"`);
           return {
             name,
             kind,
             ingredients
           };
         }
-        const subtype = inferPotionSubtype(name);
-        if (!subtype) {
+
+        validateExactKeys(recipe, ["name", "kind", "tier", "price", "ingredients", "effect_text"], `Recipe "${name}"`);
+        if (!inferPotionSubtype(name)) {
           throw new Error(`Recipe "${name}" does not match a supported potion naming pattern.`);
         }
-        if (!raw || !Object.prototype.hasOwnProperty.call(raw, "price")) {
-          throw new Error(`Recipe "${name}" is missing a price field.`);
+        if (typeof recipe.effect_text !== "string") {
+          throw new Error(`Recipe "${name}" effect_text must be a string.`);
         }
-        if (!Object.prototype.hasOwnProperty.call(raw, "tier")) {
-          throw new Error(`Recipe "${name}" is missing a tier field.`);
-        }
-        if (!Object.prototype.hasOwnProperty.call(raw, "effect_text")) {
-          throw new Error(`Recipe "${name}" is missing effect_text.`);
-        }
-        if (Object.prototype.hasOwnProperty.call(raw, "subtype")) {
-          throw new Error(`Potion recipe "${name}" should not define subtype; it is derived from the name.`);
-        }
-        const price = raw.price === "" || raw.price === null
+        const price = recipe.price === null
           ? null
-          : Math.max(0, Number(raw.price) || 0);
+          : expectNonNegativeNumber(recipe.price, `Recipe "${name}" price`);
+
         return {
           name,
           kind,
-          tier: normalizeRecipeTier(raw?.tier, kind, name),
+          tier: validateRecipeTier(recipe.tier, kind, name),
           price,
           ingredients,
-          effect_text: String(raw?.effect_text ?? "")
+          effect_text: recipe.effect_text
         };
       }
 
-      function outputStoreKey(kind) {
-        return normalizeOutputKind(kind) === "gem" ? "gems" : "potions";
+      function validateRecipesContainer(raw) {
+        const container = validateExactKeys(raw, ["recipes"], "Scenario recipes");
+        const recipes = expectArray(container.recipes, "Scenario recipes.recipes").map((recipe, index) =>
+          validateRecipe(recipe, `Scenario recipes.recipes[${index}]`)
+        );
+        const seenNames = new Set();
+        for (const recipe of recipes) {
+          if (seenNames.has(recipe.name)) {
+            throw new Error(`Duplicate recipe "${recipe.name}".`);
+          }
+          seenNames.add(recipe.name);
+        }
+        return { recipes };
       }
 
-      function otherOutputStoreKey(kind) {
-        return outputStoreKey(kind) === "gems" ? "potions" : "gems";
+      function collectScenarioIngredientNames({ inventoryIngredients, ingredientPrices, ingredientTypes, recipes, soldIngredients }) {
+        const names = new Set();
+        Object.keys(inventoryIngredients).forEach((name) => names.add(name));
+        Object.keys(ingredientPrices).forEach((name) => names.add(name));
+        Object.keys(ingredientTypes).forEach((name) => names.add(name));
+        Object.keys(soldIngredients).forEach((name) => names.add(name));
+        for (const recipe of recipes) {
+          Object.keys(recipe.ingredients).forEach((name) => names.add(name));
+        }
+        return names;
       }
 
-      function rebalanceOutputs(container, recipes) {
-        const next = {
-          ...container,
-          potions: normalizeCounter(container?.potions || {}),
-          gems: normalizeCounter(container?.gems || {})
-        };
-        const kindByName = new Map((recipes || []).map((recipe) => [recipe.name, recipe.kind]));
-        for (const kind of ["potion", "gem"]) {
-          const sourceKey = outputStoreKey(kind);
-          const targetKey = otherOutputStoreKey(kind);
-          for (const [name, count] of Object.entries({ ...next[sourceKey] })) {
-            if (kindByName.get(name) === (kind === "gem" ? "potion" : "gem")) {
-              next[targetKey][name] = (Number(next[targetKey][name]) || 0) + count;
-              delete next[sourceKey][name];
-            }
+      function validateIngredientTypeMap(rawTypes, ingredientNames) {
+        const source = expectPlainObject(rawTypes, "Scenario ingredient_types");
+        const output = {};
+        for (const name of ingredientNames) {
+          if (!Object.prototype.hasOwnProperty.call(source, name)) {
+            throw new Error(`Ingredient "${name}" is missing an ingredient_types entry.`);
+          }
+          output[name] = validateIngredientTypeValue(source[name], `ingredient_types.${name}`);
+        }
+        for (const name of Object.keys(source)) {
+          if (!ingredientNames.has(name)) {
+            throw new Error(`ingredient_types references unknown ingredient "${name}".`);
           }
         }
-        return next;
+        return output;
       }
 
-      function normalizeScenario(raw) {
-        const recipes = (raw?.recipes?.recipes || []).map(normalizeRecipe);
-        const ingredientNames = collectScenarioIngredientNames(raw);
-        const ingredientTypes = normalizeIngredientTypeMap(
-          raw?.ingredient_types || {},
-          ingredientNames
-        );
-        const ingredientPrices = normalizeIngredientPriceMap(
-          raw?.ingredient_prices || {},
-          ingredientNames
-        );
+      function validateIngredientPriceMap(rawPrices, ingredientNames) {
+        const source = expectPlainObject(rawPrices, "Scenario ingredient_prices");
+        const output = {};
+        for (const name of ingredientNames) {
+          if (!Object.prototype.hasOwnProperty.call(source, name)) {
+            throw new Error(`Ingredient "${name}" is missing an ingredient_prices entry.`);
+          }
+          output[name] = expectNonNegativeNumber(source[name], `ingredient_prices.${name}`);
+        }
+        for (const name of Object.keys(source)) {
+          if (!ingredientNames.has(name)) {
+            throw new Error(`ingredient_prices references unknown ingredient "${name}".`);
+          }
+        }
+        return output;
+      }
+
+      function buildScenarioCatalog(scenario) {
+        const recipeByName = new Map();
+        const recipeNames = new Set();
+        const potionNames = new Set();
+        const gemNames = new Set();
+
+        for (const recipe of scenario.recipes.recipes) {
+          recipeByName.set(recipe.name, recipe);
+          recipeNames.add(recipe.name);
+          if (recipe.kind === "gem") {
+            gemNames.add(recipe.name);
+          } else {
+            potionNames.add(recipe.name);
+          }
+        }
+
         return {
+          recipeByName,
+          recipeNames,
+          potionNames,
+          gemNames,
+          ingredientNames: new Set(Object.keys(scenario.ingredient_types))
+        };
+      }
+
+      function validateScenario(raw) {
+        const scenario = validateExactKeys(
+          raw,
+          ["inventory", "ingredient_prices", "ingredient_types", "gem_metadata", "for_sale", "subtypes", "recipes"],
+          "Scenario"
+        );
+        const inventory = validateExactKeys(scenario.inventory, ["gold", "ingredients", "potions", "gems"], "Scenario inventory");
+        const forSale = validateExactKeys(scenario.for_sale, ["ingredients", "outputs"], "Scenario for_sale");
+        const recipes = validateRecipesContainer(scenario.recipes);
+        const soldIngredients = validateTrueFlagMap(forSale.ingredients, "for_sale.ingredients");
+        const ingredientNames = collectScenarioIngredientNames({
+          inventoryIngredients: expectPlainObject(inventory.ingredients, "Scenario inventory.ingredients"),
+          ingredientPrices: expectPlainObject(scenario.ingredient_prices, "Scenario ingredient_prices"),
+          ingredientTypes: expectPlainObject(scenario.ingredient_types, "Scenario ingredient_types"),
+          recipes: recipes.recipes,
+          soldIngredients
+        });
+        const ingredientTypes = validateIngredientTypeMap(scenario.ingredient_types, ingredientNames);
+        const ingredientPrices = validateIngredientPriceMap(scenario.ingredient_prices, ingredientNames);
+        const catalog = buildScenarioCatalog({
+          ingredient_types: ingredientTypes,
+          recipes
+        });
+
+        return {
+          inventory: {
+            gold: expectNonNegativeNumber(inventory.gold, "Scenario inventory.gold"),
+            ingredients: validateCounterMap(inventory.ingredients, "Scenario inventory.ingredients", ingredientNames),
+            potions: validateCounterMap(inventory.potions, "Scenario inventory.potions", catalog.potionNames),
+            gems: validateCounterMap(inventory.gems, "Scenario inventory.gems", catalog.gemNames)
+          },
           ingredient_prices: ingredientPrices,
           ingredient_types: ingredientTypes,
-          gem_metadata: normalizeGemMetadataMap(raw?.gem_metadata || {}, recipes),
-          subtypes: normalizeSubtypeMap(raw?.subtypes),
-          inventory: rebalanceOutputs({
-            gold: Math.max(0, Number(raw?.inventory?.gold) || 0),
-            potions: normalizeOutputCounter(raw?.inventory?.potions || {}, recipes),
-            gems: normalizeOutputCounter(raw?.inventory?.gems || {}, recipes),
-            ingredients: normalizeCounter(raw?.inventory?.ingredients || {})
-          }, recipes),
+          gem_metadata: validateGemMetadataMap(scenario.gem_metadata, recipes.recipes),
           for_sale: {
-            ingredients: normalizeFlagMap(raw?.for_sale?.ingredients || {}),
-            outputs: normalizeOutputSaleMap(raw?.for_sale?.outputs || {}, recipes)
+            ingredients: soldIngredients,
+            outputs: validateTrueFlagMap(forSale.outputs, "for_sale.outputs", catalog.recipeNames)
           },
-          recipes: {
-            recipes
-          }
+          subtypes: validateSubtypeMap(scenario.subtypes),
+          recipes
         };
       }
 
-      function normalizeWorkbench(raw, recipes = []) {
-        return rebalanceOutputs({
-          gold: Math.max(0, Number(raw?.gold) || 0),
-          potions: normalizeOutputCounter(raw?.potions || {}, recipes),
-          gems: normalizeOutputCounter(raw?.gems || {}, recipes),
-          ingredients: normalizeCounter(raw?.ingredients || {})
-        }, recipes);
+      function validateWorkbenchState(raw, catalog, context = "Workbench") {
+        const workbench = validateExactKeys(raw, ["gold", "ingredients", "potions", "gems"], context);
+        return {
+          gold: expectNonNegativeNumber(workbench.gold, `${context} gold`),
+          ingredients: validateCounterMap(workbench.ingredients, `${context} ingredients`, catalog.ingredientNames),
+          potions: validateCounterMap(workbench.potions, `${context} potions`, catalog.potionNames),
+          gems: validateCounterMap(workbench.gems, `${context} gems`, catalog.gemNames)
+        };
       }
 
-      function normalizeOutputEffectItems(rawItems, recipes = []) {
-        const kindByName = new Map((recipes || []).map((recipe) => [recipe.name, recipe.kind]));
-        return (rawItems || [])
-          .map((item) => {
-            const name = canonicalOutputName(item?.name, recipes);
+      function validateEffectIngredientItems(raw, context, ingredientNames, { requireCost = false } = {}) {
+        return expectArray(raw, context).map((item, index) => {
+          const keys = requireCost ? ["name", "count", "cost"] : ["name", "count"];
+          const entry = validateExactKeys(item, keys, `${context}[${index}]`);
+          const name = expectTrimmedString(entry.name, `${context}[${index}] name`);
+          if (!ingredientNames.has(name)) {
+            throw new Error(`${context}[${index}] references unknown ingredient "${name}".`);
+          }
+          const count = expectNonNegativeNumber(entry.count, `${context}[${index}] count`);
+          if (count <= 0) {
+            throw new Error(`${context}[${index}] count must be greater than zero.`);
+          }
+          if (requireCost) {
             return {
               name,
-              count: Math.max(0, Number(item?.count) || 0),
-              cost: Math.max(0, Number(item?.cost) || 0),
-              kind: normalizeOutputKind(item?.kind || kindByName.get(name) || "potion")
+              count,
+              cost: expectNonNegativeNumber(entry.cost, `${context}[${index}] cost`)
             };
-          })
-          .filter((item) => item.name && item.count > 0);
+          }
+          return { name, count };
+        });
       }
 
-      function normalizeEffect(raw, recipes = []) {
-        const normalizeList = (items) =>
-          (items || [])
-            .map((item) => ({
-              name: String(item?.name || "").trim(),
-              count: Math.max(0, Number(item?.count) || 0),
-              cost: Math.max(0, Number(item?.cost) || 0)
-            }))
-            .filter((item) => item.name && item.count > 0);
+      function validateEffectOutputItems(raw, context, catalog) {
+        return expectArray(raw, context).map((item, index) => {
+          const entry = validateExactKeys(item, ["name", "count", "cost", "kind"], `${context}[${index}]`);
+          const name = expectTrimmedString(entry.name, `${context}[${index}] name`);
+          const recipe = catalog.recipeByName.get(name);
+          if (!recipe) {
+            throw new Error(`${context}[${index}] references unknown output "${name}".`);
+          }
+          const kind = validateOutputKind(entry.kind, `${context}[${index}] kind`);
+          if (kind !== recipe.kind) {
+            throw new Error(`${context}[${index}] kind does not match output "${name}".`);
+          }
+          const count = expectNonNegativeNumber(entry.count, `${context}[${index}] count`);
+          if (count <= 0) {
+            throw new Error(`${context}[${index}] count must be greater than zero.`);
+          }
+          return {
+            name,
+            count,
+            cost: expectNonNegativeNumber(entry.cost, `${context}[${index}] cost`),
+            kind
+          };
+        });
+      }
 
+      function validateEffect(raw, catalog, context = "Effect") {
+        const effect = validateExactKeys(raw, ["gold", "used", "autoBought", "outputs"], context);
         return {
-          gold: Number(raw?.gold) || 0,
-          used: normalizeList(raw?.used),
-          autoBought: normalizeList(raw?.autoBought),
-          outputs: normalizeOutputEffectItems(raw?.outputs || raw?.potions, recipes)
+          gold: expectFiniteNumber(effect.gold, `${context} gold`),
+          used: validateEffectIngredientItems(effect.used, `${context} used`, catalog.ingredientNames),
+          autoBought: validateEffectIngredientItems(effect.autoBought, `${context} autoBought`, catalog.ingredientNames, { requireCost: true }),
+          outputs: validateEffectOutputItems(effect.outputs, `${context} outputs`, catalog)
         };
       }
 
-      function normalizeHistoryEntry(entry, recipes = []) {
+      function validateHistoryEntry(raw, catalog, context = "History entry") {
+        const entry = validateExactKeys(raw, ["label", "before", "after", "effect"], context);
         return {
-          label: String(entry?.label || "Previous state"),
-          before: normalizeWorkbench(entry?.before || entry?.snapshot || {}, recipes),
-          after: entry?.after ? normalizeWorkbench(entry.after, recipes) : null,
-          effect: entry?.effect ? normalizeEffect(entry.effect, recipes) : null
+          label: expectTrimmedString(entry.label, `${context} label`, { allowBlank: true }),
+          before: validateWorkbenchState(entry.before, catalog, `${context} before`),
+          after: entry.after === null
+            ? null
+            : validateWorkbenchState(entry.after, catalog, `${context} after`),
+          effect: entry.effect === null
+            ? null
+            : validateEffect(entry.effect, catalog, `${context} effect`)
         };
+      }
+
+      function validateHistoryArray(raw, catalog, context) {
+        return expectArray(raw, context).map((entry, index) =>
+          validateHistoryEntry(entry, catalog, `${context}[${index}]`)
+        );
       }
 
       function createWorkbenchFromScenario(scenario) {
-        return normalizeWorkbench({
+        return {
           gold: scenario.inventory.gold,
-          potions: scenario.inventory.potions || {},
-          gems: scenario.inventory.gems || {},
-          ingredients: scenario.inventory.ingredients || {}
-        }, scenario.recipes.recipes);
+          potions: deepClone(scenario.inventory.potions || {}),
+          gems: deepClone(scenario.inventory.gems || {}),
+          ingredients: deepClone(scenario.inventory.ingredients || {})
+        };
       }
 
-      function loadState() {
-        const fallbackScenario = normalizeScenario(seedData);
+      function createDefaultState(embeddedScenario) {
+        const scenario = deepClone(embeddedScenario);
+        return {
+          scenario,
+          workbench: createWorkbenchFromScenario(scenario),
+          history: [],
+          redo: [],
+          loadError: null
+        };
+      }
+
+      function validatePersistedState(raw) {
+        const saved = validateExactKeys(raw, ["scenario", "workbench", "history", "redo"], "Saved state");
+        const scenario = validateScenario(saved.scenario);
+        const catalog = buildScenarioCatalog(scenario);
+        return {
+          scenario,
+          workbench: validateWorkbenchState(saved.workbench, catalog, "Saved workbench"),
+          history: validateHistoryArray(saved.history, catalog, "Saved history"),
+          redo: validateHistoryArray(saved.redo, catalog, "Saved redo")
+        };
+      }
+
+      function loadState(embeddedScenario) {
+        const defaultState = createDefaultState(embeddedScenario);
+        const savedText = localStorage.getItem(STORAGE_KEY);
+        if (!savedText) {
+          return defaultState;
+        }
         try {
-          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-          if (!saved) {
-            return {
-              scenario: fallbackScenario,
-              workbench: createWorkbenchFromScenario(fallbackScenario),
-              history: [],
-              redo: []
-            };
-          }
-          const rawScenario = saved.scenario || fallbackScenario;
-          const scenario = normalizeScenario({
-            ...rawScenario,
-            for_sale: {
-              ...(rawScenario.for_sale || {}),
-              outputs: rawScenario?.for_sale && Object.prototype.hasOwnProperty.call(rawScenario.for_sale, "outputs")
-                ? rawScenario.for_sale.outputs
-                : fallbackScenario.for_sale.outputs
-            }
-          });
-          const recipes = scenario.recipes.recipes;
-          const workbench = saved.workbench ? normalizeWorkbench(saved.workbench, recipes) : createWorkbenchFromScenario(scenario);
-          const history = Array.isArray(saved.history) ? saved.history.map((entry) => normalizeHistoryEntry(entry, recipes)) : [];
-          const redo = Array.isArray(saved.redo) ? saved.redo.map((entry) => normalizeHistoryEntry(entry, recipes)) : [];
-          return { scenario, workbench, history, redo };
+          const saved = JSON.parse(savedText);
+          return {
+            ...validatePersistedState(saved),
+            loadError: null
+          };
         } catch (error) {
           return {
-            scenario: fallbackScenario,
-            workbench: createWorkbenchFromScenario(fallbackScenario),
-            history: [],
-            redo: []
+            ...defaultState,
+            loadError: error instanceof Error ? error.message : String(error)
           };
         }
       }
+
+      const EMBEDDED_SEED_SCENARIO = validateScenario(seedData);
+      const state = loadState(EMBEDDED_SEED_SCENARIO);
 
       function persistState() {
         localStorage.setItem(
@@ -3425,8 +3470,12 @@
       }
 
       function effectKinds(effect) {
-        const kinds = new Set((effect?.outputs || []).map((item) => normalizeOutputKind(item.kind)));
+        const kinds = new Set((effect?.outputs || []).map((item) => validateOutputKind(item.kind)));
         return Array.from(kinds).sort();
+      }
+
+      function outputStoreKey(kind) {
+        return validateOutputKind(kind) === "gem" ? "gems" : "potions";
       }
 
       function outputMapForKind(container, kind) {
@@ -3446,8 +3495,7 @@
       }
 
       function getRecipeByName(name) {
-        const canonicalName = canonicalOutputName(name, state.scenario.recipes.recipes);
-        return state.scenario.recipes.recipes.find((recipe) => recipe.name === canonicalName) || null;
+        return state.scenario.recipes.recipes.find((recipe) => recipe.name === name) || null;
       }
 
       function selectedInspectorRecipe(workbenchEntries = []) {
@@ -3511,7 +3559,7 @@
       }
 
       function ensureGemMetadata(name) {
-        const key = canonicalOutputName(name, state.scenario.recipes.recipes) || String(name ?? "").trim();
+        const key = typeof name === "string" ? name : "";
         if (!key) {
           return null;
         }
@@ -3714,8 +3762,7 @@
       }
 
       function isOutputSoldOnLevel(name) {
-        const canonicalName = canonicalOutputName(name, state.scenario.recipes.recipes);
-        return Boolean(state.scenario.for_sale.outputs?.[canonicalName]);
+        return Boolean(state.scenario.for_sale.outputs?.[name]);
       }
 
       function countNonZero(map) {
@@ -3736,7 +3783,8 @@
       }
 
       function ingredientTypeForName(name) {
-        return normalizeIngredientType(state.scenario.ingredient_types?.[name]);
+        const type = state.scenario.ingredient_types?.[name];
+        return isIngredientTypeValue(type) ? type : null;
       }
 
       function ingredientPriceForName(name) {
@@ -3800,7 +3848,20 @@
       }
 
       function buildEffect({ gold = 0, used = [], autoBought = [], outputs = [] }) {
-        return normalizeEffect({ gold, used, autoBought, outputs }, state.scenario.recipes.recipes);
+        return validateEffect(
+          {
+            gold,
+            used: used.map((item) => ({ name: item.name, count: item.count })),
+            autoBought: autoBought.map((item) => ({ name: item.name, count: item.count, cost: item.cost ?? 0 })),
+            outputs: outputs.map((item) => ({
+              name: item.name,
+              count: item.count,
+              cost: item.cost ?? 0,
+              kind: item.kind
+            }))
+          },
+          buildScenarioCatalog(state.scenario)
+        );
       }
 
       function rememberWorkbenchAction(label, before, after, effect) {
@@ -3808,7 +3869,7 @@
           label,
           before: deepClone(before),
           after: deepClone(after),
-          effect: normalizeEffect(effect)
+          effect: validateEffect(effect, buildScenarioCatalog(state.scenario))
         });
         state.redo = [];
       }
@@ -3870,12 +3931,12 @@
         if (answer === null) {
           return null;
         }
-        const normalized = String(answer).trim().toLowerCase();
-        if (normalized !== "herb" && normalized !== "gem_piece") {
+        const answerValue = String(answer).trim().toLowerCase();
+        if (answerValue !== "herb" && answerValue !== "gem_piece") {
           window.alert('Ingredient type must be "herb" or "gem_piece".');
           return null;
         }
-        return normalizeIngredientType(normalized);
+        return validateIngredientTypeValue(answerValue);
       }
 
       function ensureIngredientType(name, explicitKind = null) {
@@ -3890,7 +3951,7 @@
           return state.scenario.ingredient_types[key];
         }
         const kind = explicitKind
-          ? normalizeIngredientType(explicitKind)
+          ? validateIngredientTypeValue(explicitKind)
           : promptIngredientType(key, "herb");
         if (!kind) {
           return null;
@@ -3990,6 +4051,49 @@
         state.redo = state.redo.map(renameEntry);
       }
 
+      function removeOutputEverywhere(name, kind) {
+        const storeKey = outputStoreKey(kind);
+        delete state.scenario.inventory[storeKey][name];
+        delete state.scenario.for_sale.outputs[name];
+        delete state.workbench[storeKey][name];
+        if (kind === "gem") {
+          delete state.scenario.gem_metadata[name];
+        }
+        if (ui.selectedDetailName === name) {
+          ui.selectedDetailName = "";
+          ui.mobileInspectorOpen = false;
+        }
+        const stripEntry = (entry) => ({
+          ...entry,
+          before: {
+            ...entry.before,
+            [storeKey]: (() => {
+              const next = { ...(entry.before[storeKey] || {}) };
+              delete next[name];
+              return next;
+            })()
+          },
+          after: entry.after
+            ? {
+                ...entry.after,
+                [storeKey]: (() => {
+                  const next = { ...(entry.after[storeKey] || {}) };
+                  delete next[name];
+                  return next;
+                })()
+              }
+            : null,
+          effect: entry.effect
+            ? {
+                ...entry.effect,
+                outputs: (entry.effect.outputs || []).filter((item) => item.name !== name)
+              }
+            : null
+        });
+        state.history = state.history.map(stripEntry);
+        state.redo = state.redo.map(stripEntry);
+      }
+
       function retypeOutputEverywhere(name, fromKind, toKind) {
         if (fromKind === toKind) {
           return;
@@ -4054,15 +4158,15 @@
         }
         const entry = state.history.pop();
         const currentAfter = deepClone(state.workbench);
-        const normalizedEntry = {
+        const validatedEntry = {
           label: entry.label,
           before: deepClone(entry.before),
           after: deepClone(entry.after || currentAfter),
-          effect: entry.effect ? normalizeEffect(entry.effect) : null
+          effect: entry.effect ? validateEffect(entry.effect, buildScenarioCatalog(state.scenario)) : null
         };
-        state.redo.push(normalizedEntry);
-        state.workbench = deepClone(normalizedEntry.before);
-        showToast(`Undid ${normalizedEntry.label}`, effectSummary(normalizedEntry, "reverse"), "warn");
+        state.redo.push(validatedEntry);
+        state.workbench = deepClone(validatedEntry.before);
+        showToast(`Undid ${validatedEntry.label}`, effectSummary(validatedEntry, "reverse"), "warn");
         persistState();
         renderApp();
       }
@@ -4072,24 +4176,24 @@
           return;
         }
         const entry = state.redo.pop();
-        const normalizedEntry = {
+        const validatedEntry = {
           label: entry.label,
           before: deepClone(entry.before),
           after: deepClone(entry.after || state.workbench),
-          effect: entry.effect ? normalizeEffect(entry.effect) : null
+          effect: entry.effect ? validateEffect(entry.effect, buildScenarioCatalog(state.scenario)) : null
         };
-        state.history.push(normalizedEntry);
-        state.workbench = deepClone(normalizedEntry.after);
-        showToast(`Redid ${normalizedEntry.label}`, effectSummary(normalizedEntry, "forward"), "good");
+        state.history.push(validatedEntry);
+        state.workbench = deepClone(validatedEntry.after);
+        showToast(`Redid ${validatedEntry.label}`, effectSummary(validatedEntry, "forward"), "good");
         persistState();
         renderApp();
       }
 
       function copyWorkbenchIntoBase() {
         state.scenario.inventory.gold = state.workbench.gold;
-        state.scenario.inventory.ingredients = normalizeCounter(state.workbench.ingredients || {});
-        state.scenario.inventory.potions = normalizeCounter(state.workbench.potions || {});
-        state.scenario.inventory.gems = normalizeCounter(state.workbench.gems || {});
+        state.scenario.inventory.ingredients = deepClone(state.workbench.ingredients || {});
+        state.scenario.inventory.potions = deepClone(state.workbench.potions || {});
+        state.scenario.inventory.gems = deepClone(state.workbench.gems || {});
         persistState();
         renderApp();
       }
@@ -5391,7 +5495,7 @@
                     <button class="button-secondary" data-action="download-scenario-json">Download Scenario JSON</button>
                   </div>
                 </div>
-                <div class="notice">Importing JSON replaces the scenario data and resets the workbench. Browser autosave is separate from the embedded defaults in this HTML file.</div>
+                <div class="notice">Importing JSON replaces the scenario data and resets the workbench. Imports are strictly validated and rejected as-is if names or structure do not already match the canonical scenario schema.</div>
               </div>
               <div class="panel">
                 <div class="field">
@@ -5433,6 +5537,24 @@
           <datalist id="output-suggestions">
             ${getAllOutputNames().map((name) => `<option value="${escapeHtml(name)}"></option>`).join("")}
           </datalist>
+        `;
+      }
+
+      function renderFatalState() {
+        return `
+          <section class="panel" data-role="fatal-state">
+            <div class="stack">
+              <div class="section-head">
+                <h2>Saved Data Blocked</h2>
+                <div class="subtle">Strict validation failed for the locally saved scenario state.</div>
+              </div>
+              <div class="notice">This app no longer repairs or aliases saved browser data. Clear local data to reload the embedded seed scenario from this HTML file.</div>
+              <pre class="muted-box" style="white-space:pre-wrap; margin:0;">${escapeHtml(state.loadError || "Unknown validation error.")}</pre>
+              <div class="toolbar" style="margin-bottom:0;">
+                <button class="button-danger" data-action="clear-invalid-local-data">Clear Local Data And Reload Defaults</button>
+              </div>
+            </div>
+          </section>
         `;
       }
 
@@ -5550,6 +5672,14 @@
       }
 
       function renderApp() {
+        if (state.loadError) {
+          renderHeroChrome();
+          document.getElementById("tab-buttons").innerHTML = "";
+          document.getElementById("scenario-tools").innerHTML = "";
+          document.getElementById("tab-panels").innerHTML = renderFatalState();
+          document.getElementById("toast-zone").innerHTML = "";
+          return;
+        }
         const focusSnapshot = getFocusSnapshot();
         const scrollSnapshot = getScrollSnapshot();
         renderChrome();
@@ -5609,6 +5739,9 @@
       }
 
       function onActionClick(action, element) {
+        if (state.loadError && action !== "clear-invalid-local-data" && action !== "toggle-mobile-hero") {
+          return;
+        }
         switch (action) {
           case "switch-tab":
             ui.activeTab = element.dataset.tab;
@@ -5631,7 +5764,7 @@
             renderApp();
             break;
           case "inspect-recipe": {
-            const name = canonicalOutputName(element.dataset.recipe, state.scenario.recipes.recipes);
+            const name = element.dataset.recipe || "";
             if (!name) {
               return;
             }
@@ -5649,6 +5782,21 @@
             ui.mobileHeroExpanded = !ui.mobileHeroExpanded;
             renderApp();
             break;
+          case "clear-invalid-local-data": {
+            localStorage.removeItem(STORAGE_KEY);
+            const freshState = createDefaultState(EMBEDDED_SEED_SCENARIO);
+            state.scenario = freshState.scenario;
+            state.workbench = freshState.workbench;
+            state.history = freshState.history;
+            state.redo = freshState.redo;
+            state.loadError = null;
+            ui.mobileInspectorOpen = false;
+            ui.selectedDetailName = "";
+            ui.exportText = JSON.stringify(state.scenario, null, 2);
+            persistState();
+            renderApp();
+            break;
+          }
           case "apply-base-to-workbench":
             resetWorkbench();
             break;
@@ -5666,9 +5814,11 @@
             break;
           case "reset-all-data":
             if (window.confirm("Reset scenario data and workbench to the embedded defaults in this HTML file?")) {
-              state.scenario = normalizeScenario(seedData);
+              state.scenario = deepClone(EMBEDDED_SEED_SCENARIO);
               state.workbench = createWorkbenchFromScenario(state.scenario);
               state.history = [];
+              state.redo = [];
+              state.loadError = null;
               ui.mobileInspectorOpen = false;
               ui.selectedDetailName = "";
               ui.exportText = JSON.stringify(state.scenario, null, 2);
@@ -5709,11 +5859,13 @@
             break;
           }
           case "add-starting-potion": {
-            const name = canonicalOutputName(
-              handlePromptAdd("New starting potion name"),
-              state.scenario.recipes.recipes
-            );
+            const name = handlePromptAdd("New starting potion name");
             if (!name) {
+              return;
+            }
+            const recipe = getRecipeByName(name);
+            if (!recipe || recipe.kind !== "potion") {
+              window.alert(`No potion recipe named "${name}" exists.`);
               return;
             }
             if (!(name in state.scenario.inventory.potions)) {
@@ -5724,11 +5876,13 @@
             break;
           }
           case "add-starting-gem": {
-            const name = canonicalOutputName(
-              handlePromptAdd("New starting gem name"),
-              state.scenario.recipes.recipes
-            );
+            const name = handlePromptAdd("New starting gem name");
             if (!name) {
+              return;
+            }
+            const recipe = getRecipeByName(name);
+            if (!recipe || recipe.kind !== "gem") {
+              window.alert(`No gem recipe named "${name}" exists.`);
               return;
             }
             if (!(name in state.scenario.inventory.gems)) {
@@ -5757,12 +5911,12 @@
               return;
             }
             const recipe = createRecipeDraft(name, "potion");
-            recipe.tier = normalizeRecipeTier(tierInput, "potion", name);
+            recipe.tier = validateRecipeTier(tierInput, "potion", name);
             recipe.effect_text = effectInput.trim();
             if (priceInput !== null && String(priceInput).trim() !== "") {
               recipe.price = Math.max(0, Number(priceInput) || 0);
             }
-            state.scenario.recipes.recipes.push(normalizeRecipe(recipe));
+            state.scenario.recipes.recipes.push(validateRecipe(recipe));
             persistState();
             renderApp();
             break;
@@ -5774,14 +5928,7 @@
               return;
             }
             if (window.confirm(`Delete recipe "${recipe.name}"?`)) {
-              delete state.scenario.for_sale.outputs[recipe.name];
-              if (recipe.kind === "gem") {
-                delete state.scenario.gem_metadata[recipe.name];
-              }
-              if (ui.selectedDetailName === recipe.name) {
-                ui.mobileInspectorOpen = false;
-                ui.selectedDetailName = "";
-              }
+              removeOutputEverywhere(recipe.name, recipe.kind);
               state.scenario.recipes.recipes.splice(index, 1);
               persistState();
               renderApp();
@@ -5826,7 +5973,7 @@
             break;
           }
           case "add-gem-effect": {
-            const name = canonicalOutputName(element.dataset.name, state.scenario.recipes.recipes);
+            const name = element.dataset.name || "";
             const recipe = getRecipeByName(name);
             if (!recipe || recipe.kind !== "gem") {
               return;
@@ -5838,7 +5985,7 @@
             break;
           }
           case "delete-gem-effect": {
-            const name = canonicalOutputName(element.dataset.name, state.scenario.recipes.recipes);
+            const name = element.dataset.name || "";
             const recipe = getRecipeByName(name);
             const effectIndex = Number(element.dataset.effectIndex);
             if (!recipe || recipe.kind !== "gem" || Number.isNaN(effectIndex)) {
@@ -5864,10 +6011,12 @@
             break;
           case "import-scenario-json":
             try {
-              const imported = normalizeScenario(JSON.parse(ui.exportText));
+              const imported = validateScenario(JSON.parse(ui.exportText));
               state.scenario = imported;
               state.workbench = createWorkbenchFromScenario(imported);
               state.history = [];
+              state.redo = [];
+              state.loadError = null;
               ui.mobileInspectorOpen = false;
               ui.selectedDetailName = "";
               persistState();
@@ -5992,7 +6141,7 @@
           }
           case "set-ingredient-type": {
             const name = element.dataset.name;
-            const nextType = normalizeIngredientType(element.value);
+            const nextType = validateIngredientTypeValue(element.value);
             ensureIngredientType(name, nextType);
             state.scenario.ingredient_types[name] = nextType;
             persistState();
@@ -6013,7 +6162,7 @@
             break;
           }
           case "set-output-sale": {
-            const name = canonicalOutputName(element.dataset.name, state.scenario.recipes.recipes);
+            const name = element.dataset.name || "";
             if (!name) {
               return;
             }
@@ -6027,7 +6176,7 @@
             break;
           }
           case "set-gem-color": {
-            const name = canonicalOutputName(element.dataset.name, state.scenario.recipes.recipes);
+            const name = element.dataset.name || "";
             const recipe = getRecipeByName(name);
             if (!recipe || recipe.kind !== "gem") {
               return;
@@ -6038,7 +6187,7 @@
             break;
           }
           case "set-gem-god": {
-            const name = canonicalOutputName(element.dataset.name, state.scenario.recipes.recipes);
+            const name = element.dataset.name || "";
             const recipe = getRecipeByName(name);
             if (!recipe || recipe.kind !== "gem") {
               return;
@@ -6049,7 +6198,7 @@
             break;
           }
           case "set-gem-effect": {
-            const name = canonicalOutputName(element.dataset.name, state.scenario.recipes.recipes);
+            const name = element.dataset.name || "";
             const recipe = getRecipeByName(name);
             const effectIndex = Number(element.dataset.effectIndex);
             if (!recipe || recipe.kind !== "gem" || Number.isNaN(effectIndex)) {
@@ -6094,7 +6243,7 @@
             if (!recipe) {
               return;
             }
-            const nextKind = normalizeOutputKind(element.value);
+            const nextKind = validateOutputKind(element.value);
             if (recipe.kind !== nextKind) {
               if (nextKind === "potion" && !inferPotionSubtype(recipe.name)) {
                 window.alert(`"${recipe.name}" does not match a supported ${nextKind} naming pattern.`);
@@ -6139,7 +6288,7 @@
             if (!recipe || recipe.kind !== "potion") {
               return;
             }
-            recipe.tier = normalizeRecipeTier(element.value, recipe.kind, recipe.name);
+            recipe.tier = validateRecipeTier(element.value, recipe.kind, recipe.name);
             persistState();
             renderApp();
             break;

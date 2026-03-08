@@ -1,11 +1,17 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from playwright.sync_api import expect, sync_playwright
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+STORAGE_KEY = "poshy.single-file.lab.v1"
+
+
+def load_seed_scenario() -> dict:
+    return json.loads((REPO_ROOT / "data/seed_scenario.json").read_text(encoding="utf-8"))
 
 
 def stat_value(page, label: str) -> str:
@@ -243,5 +249,97 @@ def test_index_smoke() -> None:
         expect(mobile.locator(".status-stack")).to_be_visible()
 
         mobile_context.close()
+        context.close()
+        browser.close()
+
+
+def test_index_rejects_invalid_import_json() -> None:
+    index_url = (REPO_ROOT / "index.html").resolve().as_uri()
+    alias_payload = load_seed_scenario()
+    alias_payload["for_sale"]["outputs"]["dark toxin"] = True
+    del alias_payload["for_sale"]["outputs"]["Dark Toxin"]
+
+    misbucket_payload = load_seed_scenario()
+    misbucket_payload["inventory"]["gems"]["Health potion"] = 1
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        context = browser.new_context()
+        page = context.new_page()
+        dialog_messages: list[str] = []
+        page.on("dialog", lambda dialog: (dialog_messages.append(dialog.message), dialog.dismiss()))
+
+        page.goto(index_url, wait_until="domcontentloaded")
+        page.locator('button[data-action="switch-tab"][data-tab="data"]').click()
+        expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+
+        page.locator("#data-json").fill(json.dumps(alias_payload, indent=2))
+        page.locator('button[data-action="import-scenario-json"]').click()
+        assert dialog_messages
+        assert 'unknown name "dark toxin"' in dialog_messages[-1]
+        expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+        page.locator('button[data-action="switch-tab"][data-tab="workbench"]').click()
+        expect(page.locator('[data-recipe-card="Warming medicine"]')).to_be_visible()
+
+        page.locator('button[data-action="switch-tab"][data-tab="data"]').click()
+        page.locator("#data-json").fill(json.dumps(misbucket_payload, indent=2))
+        page.locator('button[data-action="import-scenario-json"]').click()
+        assert 'unknown name "Health potion"' in dialog_messages[-1]
+        expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+        page.locator('button[data-action="switch-tab"][data-tab="workbench"]').click()
+        expect(page.locator('[data-recipe-card="Warming medicine"]')).to_be_visible()
+
+        context.close()
+        browser.close()
+
+
+def test_index_blocks_invalid_saved_state_and_can_clear() -> None:
+    index_url = (REPO_ROOT / "index.html").resolve().as_uri()
+    scenario = load_seed_scenario()
+    invalid_saved_state = {
+        "scenario": scenario,
+        "workbench": {
+            "gold": scenario["inventory"]["gold"],
+            "ingredients": scenario["inventory"]["ingredients"],
+            "potions": scenario["inventory"]["potions"],
+            "gems": scenario["inventory"]["gems"],
+        },
+        "history": [
+            {
+                "label": "Legacy snapshot",
+                "snapshot": {
+                    "gold": scenario["inventory"]["gold"],
+                    "ingredients": scenario["inventory"]["ingredients"],
+                    "potions": scenario["inventory"]["potions"],
+                    "gems": scenario["inventory"]["gems"],
+                },
+                "after": None,
+                "effect": None,
+            }
+        ],
+        "redo": [],
+    }
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        context = browser.new_context()
+        context.add_init_script(
+            f"window.localStorage.setItem({json.dumps(STORAGE_KEY)}, {json.dumps(json.dumps(invalid_saved_state))});"
+        )
+        page = context.new_page()
+
+        page.goto(index_url, wait_until="domcontentloaded")
+
+        fatal_state = page.locator('[data-role="fatal-state"]')
+        expect(fatal_state).to_be_visible()
+        expect(fatal_state).to_contain_text("Saved Data Blocked")
+        expect(fatal_state).to_contain_text('missing "before"')
+
+        page.locator('button[data-action="clear-invalid-local-data"]').click()
+
+        expect(page.locator('[data-role="fatal-state"]')).to_have_count(0)
+        expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
+        expect(page.locator('[data-recipe-card="Warming medicine"]')).to_be_visible()
+
         context.close()
         browser.close()
