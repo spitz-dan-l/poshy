@@ -82,14 +82,22 @@ def test_index_smoke() -> None:
         expect(page.locator(".inspector-panel")).to_have_attribute("data-selected-recipe", "Agate")
         expect(page.locator(".inspector-panel")).not_to_contain_text("Inspecting")
 
-        workbench_list = page.locator(".workbench-panel .grid-list")
-        scrolled_top = workbench_list.evaluate(
+        workbench_content = page.locator(".workbench-panel .workbench-content")
+        scroll_metrics = workbench_content.evaluate(
+            "(el) => ({ clientHeight: Math.round(el.clientHeight), scrollHeight: Math.round(el.scrollHeight) })"
+        )
+        assert scroll_metrics["scrollHeight"] > scroll_metrics["clientHeight"]
+        workbench_content.hover()
+        page.mouse.wheel(0, 900)
+        page.wait_for_timeout(50)
+        assert workbench_content.evaluate("el => Math.round(el.scrollTop)") > 0
+        scrolled_top = workbench_content.evaluate(
             "(el) => { el.scrollTop = 280; return Math.round(el.scrollTop); }"
         )
         page.locator(
             '[data-recipe-card="Ancient medicine"] button[data-action="inspect-recipe"]'
         ).dispatch_event("click")
-        assert workbench_list.evaluate("el => Math.round(el.scrollTop)") == scrolled_top
+        assert workbench_content.evaluate("el => Math.round(el.scrollTop)") == scrolled_top
 
         holdings_health_row = page.locator(".holdings-panel tr").filter(
             has=page.locator("td", has_text="Health potion")

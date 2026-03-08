@@ -710,6 +710,20 @@
       gap: 0.6rem;
     }
 
+    .workbench-content {
+      display: grid;
+      gap: 1rem;
+      min-height: 0;
+      overflow: auto;
+      padding-right: 0.25rem;
+      align-content: start;
+    }
+
+    .workbench-market,
+    .workbench-recipes {
+      min-height: 0;
+    }
+
     .subsection-head {
       display: flex;
       justify-content: space-between;
@@ -974,8 +988,6 @@
       align-content: start;
       grid-auto-rows: max-content;
       min-height: 0;
-      overflow: auto;
-      padding-right: 0.25rem;
     }
 
     .workbench-side-column {
@@ -1152,6 +1164,12 @@
       .holdings-panel,
       .workbench-panel,
       .action-log-panel {
+        display: block;
+        overflow: visible;
+      }
+
+      .workbench-content,
+      .workbench-recipes {
         display: block;
         overflow: visible;
       }
@@ -11801,15 +11819,15 @@
                     </div>
                   </div>
                   ${renderWorkbenchTools(workbenchEntries, equipmentMarketDefinitions)}
-                  <div class="stack">
-                    <div class="subsection">
+                  <div class="workbench-content">
+                    <div class="subsection workbench-market">
                       <div class="subsection-head">
                         <h3>Equipment Market</h3>
                         <div class="subtle">${equipmentMarketDefinitions.length} listings</div>
                       </div>
                       ${renderEquipmentMarketTable(equipmentMarketDefinitions, "No equipment matches the current filter or weekly sale list.")}
                     </div>
-                    <div class="subsection">
+                    <div class="subsection workbench-recipes">
                       <div class="subsection-head">
                         <h3>Recipes</h3>
                         <div class="subtle">${workbenchEntries.length} shown</div>
@@ -12750,7 +12768,7 @@
         return {
           windowX: window.scrollX,
           windowY: window.scrollY,
-          containers: Array.from(document.querySelectorAll(".table-wrap, .grid-list, .inspector-scroll")).map((element, index) => ({
+          containers: Array.from(document.querySelectorAll(".table-wrap, .grid-list, .inspector-scroll, .workbench-content")).map((element, index) => ({
             index,
             scrollTop: element.scrollTop,
             scrollLeft: element.scrollLeft
@@ -12832,7 +12850,7 @@
           return;
         }
         window.scrollTo(snapshot.windowX || 0, snapshot.windowY || 0);
-        const containers = document.querySelectorAll(".table-wrap, .grid-list, .inspector-scroll");
+        const containers = document.querySelectorAll(".table-wrap, .grid-list, .inspector-scroll, .workbench-content");
         (snapshot.containers || []).forEach((entry) => {
           const target = containers[entry.index];
           if (!target) {
