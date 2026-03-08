@@ -9050,14 +9050,23 @@
       const POTION_SUBTYPES = ["medicine", "elixir", "potion", "toxin", "solution", "grenade", "brew"];
       const REQUIRED_SUBTYPES = [...POTION_SUBTYPES];
       const VALID_RECIPE_TIERS = ["A", "B", "C", "D", "X"];
+      const WORKBENCH_CATEGORIES = [
+        { id: "potions", label: "Potions" },
+        { id: "gems", label: "Gems" },
+        { id: "herbs", label: "Herbs" },
+        { id: "gem_pieces", label: "Gem Pieces" },
+        { id: "equipment", label: "Equipment" },
+        { id: "accessories", label: "Accessories" }
+      ];
 
       const ui = {
         activeTab: "workbench",
         potionFilter: "",
+        workbenchCategory: "potions",
         workbenchScope: "actionable",
         workbenchMobileSection: "workbench",
         mobileInspectorOpen: false,
-        selectedDetailName: "",
+        selectedDetail: null,
         holdingsFilter: "",
         inventoryFilter: "",
         shopFilter: "",
@@ -9865,10 +9874,23 @@
           .sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" }));
       }
 
-      function getEquipmentMarketDefinitions(filter = ui.potionFilter.trim().toLowerCase()) {
+      function isAccessoryDefinition(definition) {
+        return definition?.source_sheet === "Accessories";
+      }
+
+      function isAccessoryInstance(instance) {
+        return isAccessoryDefinition(getEquipmentDefinitionByName(instance?.base_name));
+      }
+
+      function getEquipmentMarketDefinitions(options = {}) {
+        const {
+          filter = ui.potionFilter.trim().toLowerCase(),
+          accessory = null
+        } = options;
         return getAllEquipmentDefinitionNames()
           .map((name) => state.scenario.equipment.definitions[name])
           .filter((definition) => isEquipmentSoldOnLevel(definition.name))
+          .filter((definition) => accessory === null || isAccessoryDefinition(definition) === accessory)
           .filter((definition) => !filter || equipmentDefinitionSearchText(definition).includes(filter));
       }
 
@@ -9969,22 +9991,208 @@
         return `${policy.min_gems}-${policy.max_gems} gems @ ${policy.imbue_fee}g`;
       }
 
-      function selectedInspectorRecipe(workbenchEntries = []) {
-        const explicit = getRecipeByName(ui.selectedDetailName);
-        if (explicit) {
-          return explicit;
+      function ingredientTypeLabel(type) {
+        return type === "gem_piece" ? "Gem Piece" : "Herb";
+      }
+
+      function workbenchCategoryLabel(categoryId) {
+        return WORKBENCH_CATEGORIES.find((category) => category.id === categoryId)?.label || "Items";
+      }
+
+      function workbenchCategoryToRecipeKind(categoryId) {
+        if (categoryId === "potions") {
+          return "potion";
         }
-        if (workbenchEntries.length) {
-          return workbenchEntries[0].recipe;
+        if (categoryId === "gems") {
+          return "gem";
         }
-        for (let index = state.history.length - 1; index >= 0; index -= 1) {
-          const outputName = effectPrimaryOutputName(state.history[index]?.effect);
-          const recipe = getRecipeByName(outputName);
-          if (recipe) {
-            return recipe;
+        return null;
+      }
+
+      function makeOutputDetailSelection(recipe) {
+        if (!recipe) {
+          return null;
+        }
+        return {
+          type: "output",
+          kind: recipe.kind,
+          name: recipe.name
+        };
+      }
+
+      function makeIngredientDetailSelection(name) {
+        const ingredientType = ingredientTypeForName(name);
+        if (!ingredientType) {
+          return null;
+        }
+        return {
+          type: "ingredient",
+          ingredientType,
+          name
+        };
+      }
+
+      function makeEquipmentDefinitionDetailSelection(name) {
+        if (!name) {
+          return null;
+        }
+        return {
+          type: "equipment_definition",
+          name
+        };
+      }
+
+      function makeEquipmentInstanceDetailSelection(instanceOrId) {
+        const id = typeof instanceOrId === "string" ? instanceOrId : instanceOrId?.id;
+        if (!id) {
+          return null;
+        }
+        return {
+          type: "equipment_instance",
+          id
+        };
+      }
+
+      function detailSelectionKey(selection) {
+        if (!selection?.type) {
+          return "";
+        }
+        switch (selection.type) {
+          case "output":
+            return `output:${selection.kind}:${selection.name}`;
+          case "ingredient":
+            return `ingredient:${selection.ingredientType}:${selection.name}`;
+          case "equipment_definition":
+            return `equipment_definition:${selection.name}`;
+          case "equipment_instance":
+            return `equipment_instance:${selection.id}`;
+          default:
+            return "";
+        }
+      }
+
+      function selectedDetailKey() {
+        return detailSelectionKey(ui.selectedDetail);
+      }
+
+      function selectionMatches(selection) {
+        return detailSelectionKey(selection) !== "" && detailSelectionKey(selection) === selectedDetailKey();
+      }
+
+      function resolveDetailSelection(selection) {
+        if (!selection?.type) {
+          return null;
+        }
+        if (selection.type === "output") {
+          const recipe = getRecipeByName(selection.name);
+          if (!recipe || recipe.kind !== selection.kind) {
+            return null;
           }
+          return {
+            type: "output",
+            key: detailSelectionKey(selection),
+            selection: makeOutputDetailSelection(recipe),
+            recipe
+          };
         }
-        return state.scenario.recipes.recipes[0] || null;
+        if (selection.type === "ingredient") {
+          const ingredientType = ingredientTypeForName(selection.name);
+          if (!ingredientType || ingredientType !== selection.ingredientType) {
+            return null;
+          }
+          return {
+            type: "ingredient",
+            key: detailSelectionKey(selection),
+            selection: makeIngredientDetailSelection(selection.name),
+            name: selection.name,
+            ingredientType
+          };
+        }
+        if (selection.type === "equipment_definition") {
+          const definition = getEquipmentDefinitionByName(selection.name);
+          if (!definition) {
+            return null;
+          }
+          return {
+            type: "equipment_definition",
+            key: detailSelectionKey(selection),
+            selection: makeEquipmentDefinitionDetailSelection(definition.name),
+            definition,
+            isAccessory: isAccessoryDefinition(definition)
+          };
+        }
+        if (selection.type === "equipment_instance") {
+          const instance = [
+            ...(state.workbench.equipment || []),
+            ...(state.scenario.inventory.equipment || [])
+          ].find((entry) => entry.id === selection.id);
+          if (!instance) {
+            return null;
+          }
+          const definition = getEquipmentDefinitionByName(instance.base_name);
+          if (!definition) {
+            return null;
+          }
+          return {
+            type: "equipment_instance",
+            key: detailSelectionKey(selection),
+            selection: makeEquipmentInstanceDetailSelection(instance.id),
+            instance,
+            definition,
+            isAccessory: isAccessoryDefinition(definition)
+          };
+        }
+        return null;
+      }
+
+      function recipesUsingIngredient(name) {
+        return state.scenario.recipes.recipes
+          .filter((recipe) => Object.prototype.hasOwnProperty.call(recipe.ingredients || {}, name))
+          .sort((left, right) => left.name.localeCompare(right.name, undefined, { sensitivity: "base" }))
+          .map((recipe) => ({
+            recipe,
+            count: Number(recipe.ingredients?.[name] || 0)
+          }));
+      }
+
+      function renderInspectDataAttributes(selection) {
+        if (!selection?.type) {
+          return "";
+        }
+        if (selection.type === "output") {
+          return `data-detail-type="output" data-kind="${escapeHtml(selection.kind)}" data-name="${escapeHtml(selection.name)}"`;
+        }
+        if (selection.type === "ingredient") {
+          return `data-detail-type="ingredient" data-ingredient-type="${escapeHtml(selection.ingredientType)}" data-name="${escapeHtml(selection.name)}"`;
+        }
+        if (selection.type === "equipment_definition") {
+          return `data-detail-type="equipment_definition" data-name="${escapeHtml(selection.name)}"`;
+        }
+        if (selection.type === "equipment_instance") {
+          return `data-detail-type="equipment_instance" data-id="${escapeHtml(selection.id)}"`;
+        }
+        return "";
+      }
+
+      function renderInspectButton(selection, label = "Inspect", extraClass = "") {
+        if (!selection?.type) {
+          return "";
+        }
+        const isActive = selectionMatches(selection);
+        return `
+          <button
+            class="button-soft inspect-button ${extraClass} ${isActive ? "active" : ""}"
+            data-action="inspect-item"
+            ${renderInspectDataAttributes(selection)}
+            aria-pressed="${isActive ? "true" : "false"}"
+          >
+            ${escapeHtml(label)}
+          </button>
+        `;
+      }
+
+      function renderInspectChip(selection, label) {
+        return renderInspectButton(selection, label, "inspect-chip");
       }
 
       function hasRecipeNameConflict(name, skipIndex = -1) {
@@ -10092,20 +10300,6 @@
         return parts;
       }
 
-      function renderInspectButton(recipeName, selectedRecipe, label = "Inspect", extraClass = "") {
-        const isActive = selectedRecipe?.name === recipeName;
-        return `
-          <button
-            class="button-soft inspect-button ${extraClass} ${isActive ? "active" : ""}"
-            data-action="inspect-recipe"
-            data-recipe="${escapeHtml(recipeName)}"
-            aria-pressed="${isActive ? "true" : "false"}"
-          >
-            ${escapeHtml(label)}
-          </button>
-        `;
-      }
-
       function renderIngredientRequirementChips(recipe) {
         const chips = sortedEntries(recipe.ingredients || {}, { zeroLast: false })
           .map(([ingredient, count]) => {
@@ -10117,12 +10311,148 @@
         return chips || `<div class="tiny">No ingredients.</div>`;
       }
 
-      function renderInspectorCard(recipe, options = {}) {
+      function renderIngredientUsageChips(name) {
+        const uses = recipesUsingIngredient(name)
+          .map(({ recipe, count }) => renderInspectChip(makeOutputDetailSelection(recipe), `${recipe.name} x${count}`))
+          .join("");
+        return uses || `<div class="tiny">No recipes use this ingredient.</div>`;
+      }
+
+      function renderEquipmentDetailSections(definition) {
+        const statLines = Object.entries(definition.stats || {})
+          .sort(([left], [right]) => left.localeCompare(right, undefined, { sensitivity: "base" }))
+          .map(([name, value]) => `<div class="tiny"><strong>${escapeHtml(name)}</strong>: ${escapeHtml(value)}</div>`)
+          .join("");
+        const effectLines = (definition.effects || [])
+          .map((effect) => `<div class="tiny">${escapeHtml(effect)}</div>`)
+          .join("");
+        return `
+          <div class="inspector-section">
+            <div class="label">Stats</div>
+            <div class="inspector-list">${statLines || `<div class="tiny">No stats recorded.</div>`}</div>
+          </div>
+          <div class="inspector-section">
+            <div class="label">Effects</div>
+            <div class="inspector-list">${effectLines || `<div class="tiny">No effect text recorded.</div>`}</div>
+          </div>
+        `;
+      }
+
+      function renderInspectorCard(item, options = {}) {
         const { compact = false } = options;
-        if (!recipe) {
-          return `<div class="muted-box">Select any potion or gem from the workbench, holdings, or action log. Equipment trading lives in Current Holdings and the Equipment Market.</div>`;
+        if (!item) {
+          return `<div class="muted-box">Select any potion, gem, ingredient, equipment item, or accessory from the workbench, holdings, or action log.</div>`;
         }
 
+        if (item.type === "ingredient") {
+          const owned = Number(state.workbench.ingredients[item.name] || 0);
+          const price = ingredientPriceForName(item.name);
+          const sold = isIngredientSoldOnLevel(item.name);
+          return `
+            <article class="potion-card inspector-card" data-inspector-item="${escapeHtml(item.key)}">
+              <div class="potion-top">
+                <div>
+                  ${compact ? "" : `<div class="label">Selected Item</div>`}
+                  <h3>${escapeHtml(item.name)}</h3>
+                  <div class="pill-row" style="margin-top:0.5rem;">
+                    <span class="pill">${escapeHtml(ingredientTypeLabel(item.ingredientType))}</span>
+                    <span class="pill">${escapeHtml(`${owned} owned`)}</span>
+                    <span class="pill">${escapeHtml(price === null ? "No price" : `${formatGoldAmount(price)}g`)}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="inspector-grid">
+                <div class="inspector-field">
+                  <span class="label">Type</span>
+                  <div>${escapeHtml(ingredientTypeLabel(item.ingredientType))}</div>
+                </div>
+                <div class="inspector-field">
+                  <span class="label">Buy Price</span>
+                  <div>${escapeHtml(price === null ? "No base price" : `${formatGoldAmount(price)}g`)}</div>
+                </div>
+                <div class="inspector-field">
+                  <span class="label">Availability</span>
+                  <div>${escapeHtml(sold ? "Sold this week" : "Not sold this week")}</div>
+                </div>
+                <div class="inspector-field">
+                  <span class="label">Owned</span>
+                  <div>${escapeHtml(String(owned))}</div>
+                </div>
+              </div>
+              <div class="inspector-section">
+                <div class="label">Used By</div>
+                <div class="chip-stack">${renderIngredientUsageChips(item.name)}</div>
+              </div>
+            </article>
+          `;
+        }
+
+        if (item.type === "equipment_definition" || item.type === "equipment_instance") {
+          const definition = item.definition;
+          const instance = item.instance || null;
+          const sellValue = instance ? getEquipmentSellValue(instance) : null;
+          const metaPills = [
+            item.isAccessory ? "Accessory" : "Equipment",
+            definition.family,
+            definition.rank || "No rank",
+            `${formatGoldAmount(definition.buy_price)}g`
+          ];
+          if (instance) {
+            metaPills.push(instance.id);
+          }
+          return `
+            <article class="potion-card inspector-card" data-inspector-item="${escapeHtml(item.key)}">
+              <div class="potion-top">
+                <div>
+                  ${compact ? "" : `<div class="label">Selected Item</div>`}
+                  <h3>${escapeHtml(definition.name)}</h3>
+                  <div class="pill-row" style="margin-top:0.5rem;">
+                    ${metaPills.map((part) => `<span class="pill">${escapeHtml(part)}</span>`).join("")}
+                  </div>
+                </div>
+              </div>
+              <div class="inspector-grid">
+                <div class="inspector-field">
+                  <span class="label">Family</span>
+                  <div>${escapeHtml(definition.family)}</div>
+                </div>
+                <div class="inspector-field">
+                  <span class="label">Source Sheet</span>
+                  <div>${escapeHtml(definition.source_sheet)}</div>
+                </div>
+                <div class="inspector-field">
+                  <span class="label">Buy Price</span>
+                  <div>${escapeHtml(`${formatGoldAmount(definition.buy_price)}g`)}</div>
+                </div>
+                <div class="inspector-field">
+                  <span class="label">Max HP</span>
+                  <div>${escapeHtml(definition.max_hp === null ? "N/A" : String(definition.max_hp))}</div>
+                </div>
+                <div class="inspector-field">
+                  <span class="label">Socket Policy</span>
+                  <div>${escapeHtml(formatSocketPolicy(definition.socket_policy || null))}</div>
+                </div>
+                ${instance ? `
+                  <div class="inspector-field">
+                    <span class="label">Current HP</span>
+                    <div>${escapeHtml(formatEquipmentHp(instance, definition))}</div>
+                  </div>
+                  <div class="inspector-field">
+                    <span class="label">Instance ID</span>
+                    <div>${escapeHtml(instance.id)}</div>
+                  </div>
+                  <div class="inspector-field">
+                    <span class="label">Sell Value</span>
+                    <div>${escapeHtml(sellValue === null ? "N/A" : `${formatGoldAmount(sellValue)}g`)}</div>
+                  </div>
+                ` : ""}
+              </div>
+              ${renderEquipmentDetailSections(definition)}
+            </article>
+          `;
+        }
+
+        const recipe = item.recipe;
         const owned = outputCount(state.workbench, recipe.kind, recipe.name);
         const metaPills = recipe.kind === "gem"
           ? ["Gem", `${owned} owned`]
@@ -10131,7 +10461,7 @@
         if (recipe.kind === "gem") {
           const gemMeta = gemMetadataForRecipe(recipe) || createBlankGemMetadata();
           return `
-            <article class="potion-card gem-card inspector-card" data-inspector-recipe="${escapeHtml(recipe.name)}">
+            <article class="potion-card gem-card inspector-card" data-inspector-item="${escapeHtml(item.key)}">
               <div class="potion-top">
                 <div>
                   ${compact ? "" : `<div class="label">Selected Item</div>`}
@@ -10174,7 +10504,7 @@
           : (isOutputSoldOnLevel(recipe.name) ? "Sold this level" : "Not sold this level");
 
         return `
-          <article class="potion-card inspector-card" data-inspector-recipe="${escapeHtml(recipe.name)}">
+          <article class="potion-card inspector-card" data-inspector-item="${escapeHtml(item.key)}">
             <div class="potion-top">
               <div>
                 ${compact ? "" : `<div class="label">Selected Item</div>`}
@@ -10212,6 +10542,65 @@
             </div>
           </article>
         `;
+      }
+
+      function firstWorkbenchSelection(viewState = {}) {
+        if (ui.workbenchCategory === "potions") {
+          return makeOutputDetailSelection(viewState.potionEntries?.[0]?.recipe || null);
+        }
+        if (ui.workbenchCategory === "gems") {
+          return makeOutputDetailSelection(viewState.gemEntries?.[0]?.recipe || null);
+        }
+        if (ui.workbenchCategory === "herbs") {
+          return makeIngredientDetailSelection(viewState.herbNames?.[0] || "");
+        }
+        if (ui.workbenchCategory === "gem_pieces") {
+          return makeIngredientDetailSelection(viewState.gemPieceNames?.[0] || "");
+        }
+        if (ui.workbenchCategory === "equipment") {
+          return makeEquipmentDefinitionDetailSelection(viewState.equipmentDefinitions?.[0]?.name || "");
+        }
+        if (ui.workbenchCategory === "accessories") {
+          return makeEquipmentDefinitionDetailSelection(viewState.accessoryDefinitions?.[0]?.name || "");
+        }
+        return null;
+      }
+
+      function effectPrimaryDetailSelection(effect) {
+        const output = effectOutputItems(effect)[0];
+        if (output) {
+          return makeOutputDetailSelection(getRecipeByName(output.name));
+        }
+        const ingredient = effectManualBoughtIngredientItems(effect)[0]
+          || effectAutoBoughtIngredientItems(effect)[0]
+          || effectConsumedIngredientItems(effect)[0];
+        if (ingredient) {
+          return makeIngredientDetailSelection(ingredient.name);
+        }
+        const equipment = effectAddedEquipmentItems(effect)[0] || effectRemovedEquipmentItems(effect)[0];
+        if (equipment) {
+          return makeEquipmentDefinitionDetailSelection(equipment.name);
+        }
+        return null;
+      }
+
+      function selectedInspectorItem(viewState = {}) {
+        const explicit = resolveDetailSelection(ui.selectedDetail);
+        if (explicit) {
+          return explicit;
+        }
+        const firstVisible = resolveDetailSelection(firstWorkbenchSelection(viewState));
+        if (firstVisible) {
+          return firstVisible;
+        }
+        for (let index = state.history.length - 1; index >= 0; index -= 1) {
+          const selection = effectPrimaryDetailSelection(state.history[index]?.effect);
+          const resolved = resolveDetailSelection(selection);
+          if (resolved) {
+            return resolved;
+          }
+        }
+        return resolveDetailSelection(makeOutputDetailSelection(state.scenario.recipes.recipes[0] || null));
       }
 
       function recipeSearchText(recipe) {
@@ -10285,6 +10674,20 @@
         return { herbs, gems };
       }
 
+      function ingredientSearchText(name) {
+        const parts = [
+          name,
+          ingredientTypeLabel(ingredientTypeForName(name)),
+          ingredientPriceForName(name),
+          isIngredientSoldOnLevel(name) ? "sold this week" : "not sold this week",
+          ...recipesUsingIngredient(name).map(({ recipe }) => recipe.name)
+        ];
+        return parts
+          .map((value) => String(value ?? "").trim().toLowerCase())
+          .filter(Boolean)
+          .join(" ");
+      }
+
       function effectTransactions(effect) {
         return effect?.transactions || [];
       }
@@ -10327,7 +10730,20 @@
       function effectAutoBoughtIngredientItems(effect) {
         return collectEffectStackableItems(
           effect,
-          (transaction) => transaction.bucket === "ingredients" && transaction.delta > 0 && Object.prototype.hasOwnProperty.call(transaction, "unit_price")
+          (transaction) => transaction.bucket === "ingredients"
+            && transaction.delta > 0
+            && Object.prototype.hasOwnProperty.call(transaction, "unit_price")
+            && transaction.reason === "auto-buy ingredient"
+        );
+      }
+
+      function effectManualBoughtIngredientItems(effect) {
+        return collectEffectStackableItems(
+          effect,
+          (transaction) => transaction.bucket === "ingredients"
+            && transaction.delta > 0
+            && Object.prototype.hasOwnProperty.call(transaction, "unit_price")
+            && transaction.reason === "buy ingredient"
         );
       }
 
@@ -10355,8 +10771,13 @@
       }
 
       function effectKinds(effect) {
-        const order = { potion: 0, gem: 1, equipment: 2 };
+        const order = { potion: 0, gem: 1, ingredient: 2, equipment: 3 };
         const kinds = new Set(effectOutputItems(effect).map((item) => item.kind));
+        if (!kinds.size && effectTransactions(effect).some((transaction) =>
+          transaction.kind === "stackable" && transaction.bucket === "ingredients"
+        )) {
+          kinds.add("ingredient");
+        }
         if (effectTransactions(effect).some((transaction) => transaction.kind === "equipment")) {
           kinds.add("equipment");
         }
@@ -10443,6 +10864,7 @@
         const outputs = effectOutputItems(effect);
         const used = effectConsumedIngredientItems(effect);
         const autoBought = effectAutoBoughtIngredientItems(effect);
+        const boughtIngredients = effectManualBoughtIngredientItems(effect);
         const addedEquipment = effectAddedEquipmentItems(effect);
         const removedEquipment = effectRemovedEquipmentItems(effect);
         const signedGoldDelta = effectGoldDelta(effect) * (mode === "forward" ? 1 : -1);
@@ -10458,6 +10880,9 @@
           }
           if (autoBought.length) {
             segments.push(`auto-buy ${listCounts(autoBought, 2)}`);
+          }
+          if (boughtIngredients.length) {
+            segments.push(`buy ${listCounts(boughtIngredients, 2)}`);
           }
           if (addedEquipment.length) {
             segments.push(`add ${listCounts(addedEquipment, 2)}`);
@@ -10477,6 +10902,9 @@
           }
           if (used.length) {
             segments.push(`restore ${listCounts(used, 2)}`);
+          }
+          if (boughtIngredients.length) {
+            segments.push(`remove ${listCounts(boughtIngredients, 2)}`);
           }
           if (addedEquipment.length) {
             segments.push(`remove ${listCounts(addedEquipment, 2)}`);
@@ -10703,6 +11131,27 @@
         return next;
       }
 
+      function renameSelectedOutputDetail(oldName, newName, fromKind, toKind = fromKind) {
+        if (ui.selectedDetail?.type === "output"
+          && ui.selectedDetail.name === oldName
+          && ui.selectedDetail.kind === fromKind) {
+          ui.selectedDetail = { type: "output", kind: toKind, name: newName };
+        }
+      }
+
+      function renameSelectedIngredientDetail(oldName, newName) {
+        if (ui.selectedDetail?.type === "ingredient" && ui.selectedDetail.name === oldName) {
+          ui.selectedDetail = { ...ui.selectedDetail, name: newName };
+        }
+      }
+
+      function clearSelectedDetailIf(predicate) {
+        if (predicate(ui.selectedDetail)) {
+          ui.selectedDetail = null;
+          ui.mobileInspectorOpen = false;
+        }
+      }
+
       function transformEffectTransactions(effect, transform) {
         if (!effect) {
           return null;
@@ -10767,6 +11216,7 @@
         if (oldName === newName) {
           return;
         }
+        renameSelectedIngredientDetail(oldName, newName);
         state.scenario.inventory.ingredients = renameMapKey(state.scenario.inventory.ingredients, oldName, newName);
         state.scenario.ingredient_types = renameScalarMapKey(state.scenario.ingredient_types, oldName, newName);
         state.scenario.ingredient_prices = renameScalarMapKey(state.scenario.ingredient_prices, oldName, newName);
@@ -10804,9 +11254,7 @@
           return;
         }
         const storeKey = outputStoreKey(kind);
-        if (ui.selectedDetailName === oldName) {
-          ui.selectedDetailName = newName;
-        }
+        renameSelectedOutputDetail(oldName, newName, kind);
         if (kind === "gem") {
           state.scenario.gem_metadata = renameScalarMapKey(state.scenario.gem_metadata, oldName, newName);
         }
@@ -10845,10 +11293,7 @@
         if (kind === "gem") {
           delete state.scenario.gem_metadata[name];
         }
-        if (ui.selectedDetailName === name) {
-          ui.selectedDetailName = "";
-          ui.mobileInspectorOpen = false;
-        }
+        clearSelectedDetailIf((selection) => selection?.type === "output" && selection.name === name && selection.kind === kind);
         const stripEntry = (entry) => ({
           ...entry,
           before: {
@@ -10884,6 +11329,7 @@
         if (fromKind === toKind) {
           return;
         }
+        renameSelectedOutputDetail(name, name, fromKind, toKind);
         const fromKey = outputStoreKey(fromKind);
         const toKey = outputStoreKey(toKind);
         if (fromKind === "gem") {
@@ -11075,6 +11521,24 @@
         return { possible: true, price: definition.buy_price };
       }
 
+      function assessIngredientBuy(name) {
+        const price = ingredientPriceForName(name);
+        if (price === null) {
+          return { possible: false, reason: "No ingredient price" };
+        }
+        if (!isIngredientSoldOnLevel(name)) {
+          return { possible: false, reason: "Not sold on this level", price };
+        }
+        if (price > state.workbench.gold) {
+          return {
+            possible: false,
+            reason: `Need ${formatGoldAmount(price)}g but only have ${formatGoldAmount(state.workbench.gold)}g`,
+            price
+          };
+        }
+        return { possible: true, price };
+      }
+
       function matchesWorkbenchScope(entry) {
         switch (ui.workbenchScope) {
           case "craftable":
@@ -11091,7 +11555,7 @@
         }
       }
 
-      function getWorkbenchEntries() {
+      function getWorkbenchEntries(kind = null) {
         const filter = ui.potionFilter.trim().toLowerCase();
         return state.scenario.recipes.recipes
           .map((recipe) => {
@@ -11101,6 +11565,9 @@
             return { recipe, craft, buy, owned };
           })
           .filter((entry) => {
+            if (kind && entry.recipe.kind !== kind) {
+              return false;
+            }
             if (filter && !recipeSearchText(entry.recipe).includes(filter)) {
               return false;
             }
@@ -11147,6 +11614,28 @@
           createStackableTransaction(outputStoreKey(recipe.kind), recipe.name, 1, "craft output")
         );
         const entry = buildWorkbenchAction(`Crafted ${recipe.name}`, before, transactions);
+        rememberWorkbenchAction(entry);
+        showToast(entry.label, effectSummary(entry, "forward"), "good");
+        persistState();
+        renderApp();
+      }
+
+      function buyIngredient(name) {
+        const ingredientType = ingredientTypeForName(name);
+        if (!ingredientType) {
+          return;
+        }
+        const buy = assessIngredientBuy(name);
+        if (!buy.possible) {
+          return;
+        }
+        const before = deepClone(state.workbench);
+        const entry = buildWorkbenchAction(`Bought ${name}`, before, [
+          createGoldTransaction(-buy.price, `Buy ${name}`),
+          createStackableTransaction("ingredients", name, 1, "buy ingredient", {
+            unit_price: buy.price
+          })
+        ]);
         rememberWorkbenchAction(entry);
         showToast(entry.label, effectSummary(entry, "forward"), "good");
         persistState();
@@ -11306,12 +11795,12 @@
           : "";
       }
 
-      function renderMobileWorkbenchNav(workbenchEntries, equipmentMarketDefinitions = []) {
+      function renderMobileWorkbenchNav(workbenchEntries, marketListingCount = 0) {
         const sections = [
           {
             id: "workbench",
             label: "Workbench",
-            meta: `${workbenchEntries.length} recipes · ${equipmentMarketDefinitions.length} gear`
+            meta: `${workbenchEntries.length} recipes · ${marketListingCount} listings`
           },
           {
             id: "holdings",
@@ -11342,8 +11831,8 @@
         `;
       }
 
-      function renderMobileInspector(selectedRecipe) {
-        if (!ui.mobileInspectorOpen || !selectedRecipe) {
+      function renderMobileInspector(selectedItem) {
+        if (!ui.mobileInspectorOpen || !selectedItem) {
           return "";
         }
         return `
@@ -11358,14 +11847,14 @@
                 <button class="button-soft" data-action="close-mobile-inspector">Close</button>
               </div>
               <div class="mobile-inspector-body">
-                ${renderInspectorCard(selectedRecipe, { compact: true })}
+                ${renderInspectorCard(selectedItem, { compact: true })}
               </div>
             </div>
           </div>
         `;
       }
 
-      function renderRunBar(workbenchEntries, selectedRecipe, equipmentMarketDefinitions = []) {
+      function renderRunBar(workbenchEntries, marketListingCount = 0) {
         const undoEntry = state.history[state.history.length - 1] || null;
         const redoEntry = state.redo[state.redo.length - 1] || null;
         return `
@@ -11387,7 +11876,7 @@
                 <button class="run-action-card button-secondary" data-action="undo-action" ${undoEntry ? "" : "disabled"}>
                   <strong>Undo</strong>
                   <span>${escapeHtml(previewText(undoEntry, "No action"))}</span>
-                  <small>${escapeHtml(previewDetail(undoEntry, "reverse", "Craft, buy, or trade equipment to create a reversible step."))}</small>
+                  <small>${escapeHtml(previewDetail(undoEntry, "reverse", "Craft, buy, or trade items to create a reversible step."))}</small>
                 </button>
                 <button class="run-action-card button-secondary" data-action="redo-action" ${redoEntry ? "" : "disabled"}>
                   <strong>Redo</strong>
@@ -11395,57 +11884,26 @@
                   <small>${escapeHtml(previewDetail(redoEntry, "forward", "Undo an action first if you want a redo step."))}</small>
                 </button>
               </div>
-              ${renderMobileWorkbenchNav(workbenchEntries, equipmentMarketDefinitions)}
+              ${renderMobileWorkbenchNav(workbenchEntries, marketListingCount)}
             </div>
           </div>
         `;
       }
 
-      function renderReadonlyTable(names, map, emptyText) {
-        const filter = ui.holdingsFilter.trim().toLowerCase();
-        const rows = names
-          .map((name) => [name, Number(map[name] || 0)])
-          .filter(([, value]) => value > 0)
-          .filter(([name]) => !filter || name.toLowerCase().includes(filter))
-          .map(
-            ([name, value]) => `
-              <tr>
-                <td>${escapeHtml(name)}</td>
-                <td>${value}</td>
-              </tr>
-            `
-          )
-          .join("");
-
-        return `
-          <div class="table-wrap">
-            <table class="holdings-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th class="count-column">Count</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${rows || `<tr><td colspan="2" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
-              </tbody>
-            </table>
-          </div>
-        `;
-      }
-
-      function renderHoldingsOutputTable(names, map, emptyText, selectedRecipe) {
+      function renderHoldingsOutputTable(names, map, emptyText) {
         const filter = ui.holdingsFilter.trim().toLowerCase();
         const rows = names
           .map((name) => [name, Number(map[name] || 0)])
           .filter(([, value]) => value > 0)
           .filter(([name]) => !filter || name.toLowerCase().includes(filter))
           .map(([name, value]) => {
+            const recipe = getRecipeByName(name);
+            const selection = makeOutputDetailSelection(recipe);
             return `
-              <tr class="${selectedRecipe?.name === name ? "selected-row" : ""}">
+              <tr class="${selectionMatches(selection) ? "selected-row" : ""}">
                 <td>${escapeHtml(name)}</td>
                 <td>${value}</td>
-                <td>${renderInspectButton(name, selectedRecipe, "Inspect")}</td>
+                <td>${renderInspectButton(selection, "Inspect")}</td>
               </tr>
             `;
           })
@@ -11469,6 +11927,48 @@
         `;
       }
 
+      function renderIngredientHoldingsTable(names, map, emptyText) {
+        const filter = ui.holdingsFilter.trim().toLowerCase();
+        const rows = names
+          .map((name) => [name, Number(map[name] || 0)])
+          .filter(([, value]) => value > 0)
+          .filter(([name]) => !filter || ingredientSearchText(name).includes(filter))
+          .map(([name, value]) => {
+            const selection = makeIngredientDetailSelection(name);
+            return `
+              <tr class="${selectionMatches(selection) ? "selected-row" : ""}">
+                <td>${escapeHtml(name)}</td>
+                <td>${value}</td>
+                <td>${renderInspectButton(selection, "Inspect")}</td>
+              </tr>
+            `;
+          })
+          .join("");
+
+        return `
+          <div class="table-wrap">
+            <table class="holdings-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th class="count-column">Count</th>
+                  <th class="inspect-column">Inspect</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows || `<tr><td colspan="3" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      function formatEquipmentHoldingSummary(instance, definition) {
+        const parts = [instance.id];
+        parts.push(definition?.max_hp === null ? "No HP" : formatEquipmentHp(instance, definition));
+        return parts.join(" · ");
+      }
+
       function renderEquipmentHoldingsTable(instances, emptyText) {
         const filter = ui.holdingsFilter.trim().toLowerCase();
         const rows = sortedEquipmentInstances(instances)
@@ -11476,12 +11976,12 @@
           .map((instance) => {
             const definition = getEquipmentDefinitionByName(instance.base_name);
             const sellValue = getEquipmentSellValue(instance);
+            const selection = makeEquipmentInstanceDetailSelection(instance);
             return `
-              <tr>
+              <tr class="${selectionMatches(selection) ? "selected-row" : ""}">
                 <td>${escapeHtml(instance.base_name)}</td>
-                <td>${escapeHtml(definition?.family || "Unknown")}</td>
-                <td>${escapeHtml(formatEquipmentHp(instance, definition))}</td>
-                <td>${escapeHtml(instance.id)}</td>
+                <td>${escapeHtml(formatEquipmentHoldingSummary(instance, definition))}</td>
+                <td>${renderInspectButton(selection, "Inspect")}</td>
                 <td>${escapeHtml(sellValue === null ? "N/A" : `${formatGoldAmount(sellValue)}g`)}</td>
                 <td>
                   <button class="button-secondary" data-action="sell-equipment" data-id="${escapeHtml(instance.id)}" ${sellValue === null ? "disabled" : ""}>Sell</button>
@@ -11497,15 +11997,14 @@
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Family</th>
-                  <th>HP</th>
-                  <th>ID</th>
+                  <th>Instance</th>
+                  <th class="inspect-column">Inspect</th>
                   <th>Sell Value</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                ${rows || `<tr><td colspan="6" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+                ${rows || `<tr><td colspan="5" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
               </tbody>
             </table>
           </div>
@@ -11516,13 +12015,12 @@
         const rows = definitions
           .map((definition) => {
             const buy = assessEquipmentBuy(definition);
-            const hpText = definition.max_hp === null ? "N/A" : `${definition.max_hp}/${definition.max_hp}`;
+            const selection = makeEquipmentDefinitionDetailSelection(definition.name);
             return `
-              <tr>
+              <tr class="${selectionMatches(selection) ? "selected-row" : ""}">
                 <td>${escapeHtml(definition.name)}</td>
-                <td>${escapeHtml(definition.family)}</td>
-                <td>${escapeHtml(`${definition.buy_price}g`)}</td>
-                <td>${escapeHtml(hpText)}</td>
+                <td>${escapeHtml(`${formatGoldAmount(definition.buy_price)}g`)}</td>
+                <td>${renderInspectButton(selection, "Inspect")}</td>
                 <td>
                   <button class="button-secondary" data-action="buy-equipment" data-name="${escapeHtml(definition.name)}" ${buy.possible ? "" : "disabled"}>Buy</button>
                 </td>
@@ -11537,9 +12035,54 @@
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Family</th>
                   <th>Price</th>
-                  <th>New HP</th>
+                  <th class="inspect-column">Inspect</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows || `<tr><td colspan="4" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      function getWorkbenchIngredientMarketNames(type, filter = ui.potionFilter.trim().toLowerCase()) {
+        return getAllIngredientNames()
+          .filter((name) => ingredientTypeForName(name) === type)
+          .filter((name) => isIngredientSoldOnLevel(name))
+          .filter((name) => !filter || ingredientSearchText(name).includes(filter));
+      }
+
+      function renderIngredientMarketTable(names, emptyText) {
+        const rows = names
+          .map((name) => {
+            const buy = assessIngredientBuy(name);
+            const selection = makeIngredientDetailSelection(name);
+            return `
+              <tr class="${selectionMatches(selection) ? "selected-row" : ""}">
+                <td>${escapeHtml(name)}</td>
+                <td>${escapeHtml(`${formatGoldAmount(ingredientPriceForName(name) || 0)}g`)}</td>
+                <td>${escapeHtml(String(Number(state.workbench.ingredients[name] || 0)))}</td>
+                <td>${renderInspectButton(selection, "Inspect")}</td>
+                <td>
+                  <button class="button-secondary" data-action="buy-ingredient" data-name="${escapeHtml(name)}" ${buy.possible ? "" : "disabled"}>Buy</button>
+                </td>
+              </tr>
+            `;
+          })
+          .join("");
+
+        return `
+          <div class="table-wrap">
+            <table class="holdings-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Owned</th>
+                  <th class="inspect-column">Inspect</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -11551,7 +12094,7 @@
         `;
       }
 
-      function renderHoldingsSections(selectedRecipe) {
+      function renderHoldingsSections() {
         const ingredientNames = sortedEntries(state.workbench.ingredients)
           .filter(([, value]) => value > 0)
           .map(([name]) => name);
@@ -11563,43 +12106,52 @@
           .filter(([, value]) => value > 0)
           .map(([name]) => name);
         const equipmentInstances = sortedEquipmentInstances(state.workbench.equipment || []);
+        const accessories = equipmentInstances.filter((instance) => isAccessoryInstance(instance));
+        const equipment = equipmentInstances.filter((instance) => !isAccessoryInstance(instance));
 
         return `
           <div class="holdings-scroll">
           <div class="subsection">
             <div class="subsection-head">
               <h3>Equipment</h3>
-              <div class="subtle">${equipmentInstances.length} rows</div>
+              <div class="subtle">${equipment.length} rows</div>
             </div>
-            ${renderEquipmentHoldingsTable(equipmentInstances, "No matching equipment.")}
+            ${renderEquipmentHoldingsTable(equipment, "No matching equipment.")}
+          </div>
+          <div class="subsection">
+            <div class="subsection-head">
+              <h3>Accessories</h3>
+              <div class="subtle">${accessories.length} rows</div>
+            </div>
+            ${renderEquipmentHoldingsTable(accessories, "No matching accessories.")}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Potions</h3>
               <div class="subtle">${potionNames.length} rows</div>
             </div>
-            ${renderHoldingsOutputTable(potionNames, state.workbench.potions, "No matching potions.", selectedRecipe)}
+            ${renderHoldingsOutputTable(potionNames, state.workbench.potions, "No matching potions.")}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Gems</h3>
               <div class="subtle">${gemNames.length} rows</div>
             </div>
-            ${renderHoldingsOutputTable(gemNames, state.workbench.gems, "No matching gems.", selectedRecipe)}
+            ${renderHoldingsOutputTable(gemNames, state.workbench.gems, "No matching gems.")}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Herbs</h3>
               <div class="subtle">${groups.herbs.length} rows</div>
             </div>
-            ${renderReadonlyTable(groups.herbs, state.workbench.ingredients, "No matching herbs.")}
+            ${renderIngredientHoldingsTable(groups.herbs, state.workbench.ingredients, "No matching herbs.")}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Gem Pieces</h3>
               <div class="subtle">${groups.gems.length} rows</div>
             </div>
-            ${renderReadonlyTable(groups.gems, state.workbench.ingredients, "No matching gem pieces.")}
+            ${renderIngredientHoldingsTable(groups.gems, state.workbench.ingredients, "No matching gem pieces.")}
           </div>
           </div>
         `;
@@ -11641,7 +12193,57 @@
         `;
       }
 
-      function renderWorkbenchTools(entries, equipmentMarketDefinitions) {
+      function workbenchFilterPlaceholder() {
+        switch (ui.workbenchCategory) {
+          case "potions":
+            return "Search potion names, effects, or ingredients";
+          case "gems":
+            return "Search gem names, colors, gods, or ingredients";
+          case "herbs":
+            return "Search herbs or recipes that use them";
+          case "gem_pieces":
+            return "Search gem pieces or recipes that use them";
+          case "equipment":
+            return "Search equipment names or effects";
+          case "accessories":
+            return "Search accessory names or effects";
+          default:
+            return "Search workbench items";
+        }
+      }
+
+      function workbenchLeadText() {
+        switch (ui.workbenchCategory) {
+          case "potions":
+            return "Use focus chips to narrow potion recipes, then craft or buy from this week's listings.";
+          case "gems":
+            return "Use focus chips to narrow gem recipes, then craft them from the ingredients you have.";
+          case "herbs":
+            return "Buy herbs sold this week and inspect the recipes that depend on them.";
+          case "gem_pieces":
+            return "Buy gem pieces sold this week and inspect the gem recipes that consume them.";
+          case "equipment":
+            return "Buy weekly equipment listings and inspect full definition details in the side panel.";
+          case "accessories":
+            return "Buy weekly accessory listings and inspect their definition details in the side panel.";
+          default:
+            return "";
+        }
+      }
+
+      function renderWorkbenchTools(viewState) {
+        const categoryButtons = WORKBENCH_CATEGORIES
+          .map((category) => `
+            <button
+              class="scope-button ${ui.workbenchCategory === category.id ? "active" : ""}"
+              data-action="set-workbench-category"
+              data-category="${escapeHtml(category.id)}"
+              aria-pressed="${ui.workbenchCategory === category.id ? "true" : "false"}"
+            >
+              ${escapeHtml(category.label)}
+            </button>
+          `)
+          .join("");
         const scopeButtons = [
           ["actionable", "Actionable"],
           ["craftable", "Craftable"],
@@ -11663,31 +12265,57 @@
           )
           .join("");
 
-        const totalRecipes = state.scenario.recipes.recipes.length;
-        const totalEquipmentListings = getAllEquipmentDefinitionNames()
-          .filter((name) => isEquipmentSoldOnLevel(name))
-          .length;
-        const visibleText = entries.length === totalRecipes
-          ? `Showing all ${totalRecipes} recipes`
-          : `Showing ${entries.length} of ${totalRecipes} recipes`;
-        const equipmentText = totalEquipmentListings === 0
-          ? "No equipment sold this week"
-          : equipmentMarketDefinitions.length === totalEquipmentListings
-            ? `Showing all ${totalEquipmentListings} equipment listings`
-            : `Showing ${equipmentMarketDefinitions.length} of ${totalEquipmentListings} equipment listings`;
+        let visibleText = "";
+        if (ui.workbenchCategory === "potions" || ui.workbenchCategory === "gems") {
+          const kind = workbenchCategoryToRecipeKind(ui.workbenchCategory);
+          const totalRecipes = state.scenario.recipes.recipes.filter((recipe) => recipe.kind === kind).length;
+          const visibleRecipes = kind === "potion" ? viewState.potionEntries.length : viewState.gemEntries.length;
+          visibleText = visibleRecipes === totalRecipes
+            ? `Showing all ${totalRecipes} ${kind === "potion" ? "potions" : "gems"}`
+            : `Showing ${visibleRecipes} of ${totalRecipes} ${kind === "potion" ? "potions" : "gems"}`;
+        } else if (ui.workbenchCategory === "herbs" || ui.workbenchCategory === "gem_pieces") {
+          const type = ui.workbenchCategory === "herbs" ? "herb" : "gem_piece";
+          const totalListings = getAllIngredientNames()
+            .filter((name) => ingredientTypeForName(name) === type && isIngredientSoldOnLevel(name))
+            .length;
+          const visibleListings = type === "herb" ? viewState.herbNames.length : viewState.gemPieceNames.length;
+          visibleText = totalListings === 0
+            ? `No ${type === "herb" ? "herbs" : "gem pieces"} sold this week`
+            : visibleListings === totalListings
+              ? `Showing all ${totalListings} ${type === "herb" ? "herb" : "gem-piece"} listings`
+              : `Showing ${visibleListings} of ${totalListings} ${type === "herb" ? "herb" : "gem-piece"} listings`;
+        } else {
+          const accessory = ui.workbenchCategory === "accessories";
+          const totalListings = getAllEquipmentDefinitionNames()
+            .map((name) => getEquipmentDefinitionByName(name))
+            .filter((definition) => definition && isEquipmentSoldOnLevel(definition.name) && isAccessoryDefinition(definition) === accessory)
+            .length;
+          const visibleListings = accessory ? viewState.accessoryDefinitions.length : viewState.equipmentDefinitions.length;
+          visibleText = totalListings === 0
+            ? `No ${accessory ? "accessories" : "equipment"} sold this week`
+            : visibleListings === totalListings
+              ? `Showing all ${totalListings} ${accessory ? "accessory" : "equipment"} listings`
+              : `Showing ${visibleListings} of ${totalListings} ${accessory ? "accessory" : "equipment"} listings`;
+        }
 
         return `
           <div class="workbench-tools">
             <div class="scope-row">
+              <div class="label">Category</div>
+              ${categoryButtons}
+            </div>
+            ${ui.workbenchCategory === "potions" || ui.workbenchCategory === "gems" ? `
+            <div class="scope-row">
               <div class="label">Focus</div>
               ${scopeButtons}
             </div>
-            <div class="section-meta">${visibleText} · ${equipmentText}</div>
+            ` : ""}
+            <div class="section-meta">${visibleText}</div>
           </div>
         `;
       }
 
-      function renderPotionCards(entries, selectedRecipe) {
+      function renderPotionCards(entries, emptyText) {
         const cards = entries
           .map(
             ({ recipe, craft, buy, owned }) => {
@@ -11697,8 +12325,9 @@
                 : directPriceForRecipe(recipe) === null
                   ? "Buy Once"
                   : `Buy Once · ${directPriceForRecipe(recipe)}g`;
+              const selection = makeOutputDetailSelection(recipe);
               return `
-              <article class="potion-card ${recipe.kind === "gem" ? "gem-card" : ""} ${selectedRecipe?.name === recipe.name ? "selected" : ""}" data-recipe-card="${escapeHtml(recipe.name)}">
+              <article class="potion-card ${recipe.kind === "gem" ? "gem-card" : ""} ${selectionMatches(selection) ? "selected" : ""}" data-recipe-card="${escapeHtml(recipe.name)}">
                 <div class="potion-top">
                   <div>
                     <h3>${escapeHtml(recipe.name)}</h3>
@@ -11707,7 +12336,7 @@
                       <span>${owned} owned</span>
                     </div>
                   </div>
-                  ${renderInspectButton(recipe.name, selectedRecipe, "Inspect")}
+                  ${renderInspectButton(selection, "Inspect")}
                 </div>
                 ${craftStatusMarkup(recipe, craft, buy)}
                 <div class="action-row">
@@ -11724,10 +12353,10 @@
           )
           .join("");
 
-        return cards || `<div class="muted-box">No recipes match the current workbench focus and search.</div>`;
+        return cards || `<div class="muted-box">${escapeHtml(emptyText)}</div>`;
       }
 
-      function renderHistoryOutputDetails(entry, selectedRecipe) {
+      function renderHistoryOutputDetails(entry) {
         const outputs = effectOutputItems(entry.effect);
         const details = outputs
           .map((item) => {
@@ -11736,7 +12365,7 @@
               return "";
             }
             const label = `Inspect ${recipe.name}${item.count > 1 ? ` x${item.count}` : ""}`;
-            return renderInspectButton(recipe.name, selectedRecipe, label, "inspect-chip");
+            return renderInspectChip(makeOutputDetailSelection(recipe), label);
           })
           .filter(Boolean)
           .join("");
@@ -11745,18 +12374,66 @@
           : "";
       }
 
+      function renderHistoryIngredientDetails(entry) {
+        const grouped = new Map();
+        for (const item of [
+          ...effectConsumedIngredientItems(entry.effect),
+          ...effectAutoBoughtIngredientItems(entry.effect),
+          ...effectManualBoughtIngredientItems(entry.effect)
+        ]) {
+          grouped.set(item.name, (grouped.get(item.name) || 0) + item.count);
+        }
+        return Array.from(grouped.entries())
+          .map(([name, count]) => {
+            const selection = makeIngredientDetailSelection(name);
+            if (!selection) {
+              return "";
+            }
+            return renderInspectChip(selection, `Inspect ${name}${count > 1 ? ` x${count}` : ""}`);
+          })
+          .filter(Boolean)
+          .join("");
+      }
+
       function renderHistoryEquipmentDetails(entry) {
         const grouped = new Map();
         for (const item of [...effectAddedEquipmentItems(entry.effect), ...effectRemovedEquipmentItems(entry.effect)]) {
           grouped.set(item.name, (grouped.get(item.name) || 0) + item.count);
         }
         return Array.from(grouped.entries())
-          .map(([name, count]) => `<span class="pill">${escapeHtml(name)}${count > 1 ? ` x${count}` : ""}</span>`)
+          .map(([name, count]) => renderInspectChip(
+            makeEquipmentDefinitionDetailSelection(name),
+            `Inspect ${name}${count > 1 ? ` x${count}` : ""}`
+          ))
           .join("");
       }
 
-      function renderHistoryDetails(entry, selectedRecipe) {
-        const details = [renderHistoryOutputDetails(entry, selectedRecipe), renderHistoryEquipmentDetails(entry)]
+      function historyEntryTouchesSelected(entry, selectedItem) {
+        if (!selectedItem) {
+          return false;
+        }
+        if (selectedItem.type === "equipment_instance") {
+          return [...effectAddedEquipmentItems(entry.effect), ...effectRemovedEquipmentItems(entry.effect)]
+            .some((item) => item.name === selectedItem.definition.name);
+        }
+        const touchedSelections = [
+          ...effectOutputItems(entry.effect)
+            .map((item) => makeOutputDetailSelection(getRecipeByName(item.name))),
+          ...[
+            ...effectConsumedIngredientItems(entry.effect),
+            ...effectAutoBoughtIngredientItems(entry.effect),
+            ...effectManualBoughtIngredientItems(entry.effect)
+          ].map((item) => makeIngredientDetailSelection(item.name)),
+          ...[...effectAddedEquipmentItems(entry.effect), ...effectRemovedEquipmentItems(entry.effect)]
+            .map((item) => makeEquipmentDefinitionDetailSelection(item.name))
+        ]
+          .map((selection) => detailSelectionKey(selection))
+          .filter(Boolean);
+        return touchedSelections.includes(selectedItem.key);
+      }
+
+      function renderHistoryDetails(entry) {
+        const details = [renderHistoryOutputDetails(entry), renderHistoryIngredientDetails(entry), renderHistoryEquipmentDetails(entry)]
           .filter(Boolean)
           .join("");
         return details
@@ -11764,14 +12441,12 @@
           : "";
       }
 
-      function renderHistory(selectedRecipe) {
+      function renderHistory(selectedItem) {
         const items = [...state.history].reverse().map((entry, index) => {
           const kinds = effectKinds(entry.effect);
-          const hasSelectedOutput = Boolean(
-            effectOutputItems(entry.effect).some((item) => getRecipeByName(item.name)?.name === selectedRecipe?.name)
-          );
+          const hasSelectedOutput = historyEntryTouchesSelected(entry, selectedItem);
           const kindPills = kinds
-            .map((kind) => `<span class="pill">${kind === "gem" ? "Gem" : (kind === "equipment" ? "Equipment" : "Potion")}</span>`)
+            .map((kind) => `<span class="pill">${kind === "gem" ? "Gem" : (kind === "equipment" ? "Equipment" : (kind === "ingredient" ? "Ingredient" : "Potion"))}</span>`)
             .join("");
           return `
             <div class="history-card ${hasSelectedOutput ? "selected" : ""}">
@@ -11780,22 +12455,100 @@
                 <div class="tiny">Step ${state.history.length - index}</div>
                 ${kindPills}
               </div>
-              ${renderHistoryDetails(entry, selectedRecipe)}
+              ${renderHistoryDetails(entry)}
               <div class="tiny">${escapeHtml(effectSummary(entry, "forward") || "No action details saved for this step.")}</div>
             </div>
           `;
         });
-        return items.join("") || `<div class="muted-box">No actions yet. Craft, buy, or trade equipment to start a trial run.</div>`;
+        return items.join("") || `<div class="muted-box">No actions yet. Craft, buy, or trade items to start a trial run.</div>`;
+      }
+
+      function renderWorkbenchCategoryBody(viewState) {
+        if (ui.workbenchCategory === "potions") {
+          return `
+            <div class="subsection workbench-recipes">
+              <div class="subsection-head">
+                <h3>Potions</h3>
+                <div class="subtle">${viewState.potionEntries.length} shown</div>
+              </div>
+              <div class="grid-list">${renderPotionCards(viewState.potionEntries, "No potion recipes match the current workbench focus and search.")}</div>
+            </div>
+          `;
+        }
+        if (ui.workbenchCategory === "gems") {
+          return `
+            <div class="subsection workbench-recipes">
+              <div class="subsection-head">
+                <h3>Gems</h3>
+                <div class="subtle">${viewState.gemEntries.length} shown</div>
+              </div>
+              <div class="grid-list">${renderPotionCards(viewState.gemEntries, "No gem recipes match the current workbench focus and search.")}</div>
+            </div>
+          `;
+        }
+        if (ui.workbenchCategory === "herbs") {
+          return `
+            <div class="subsection workbench-market">
+              <div class="subsection-head">
+                <h3>Herbs</h3>
+                <div class="subtle">${viewState.herbNames.length} listings</div>
+              </div>
+              ${renderIngredientMarketTable(viewState.herbNames, "No herbs match the current filter or weekly sale list.")}
+            </div>
+          `;
+        }
+        if (ui.workbenchCategory === "gem_pieces") {
+          return `
+            <div class="subsection workbench-market">
+              <div class="subsection-head">
+                <h3>Gem Pieces</h3>
+                <div class="subtle">${viewState.gemPieceNames.length} listings</div>
+              </div>
+              ${renderIngredientMarketTable(viewState.gemPieceNames, "No gem pieces match the current filter or weekly sale list.")}
+            </div>
+          `;
+        }
+        if (ui.workbenchCategory === "equipment") {
+          return `
+            <div class="subsection workbench-market">
+              <div class="subsection-head">
+                <h3>Equipment</h3>
+                <div class="subtle">${viewState.equipmentDefinitions.length} listings</div>
+              </div>
+              ${renderEquipmentMarketTable(viewState.equipmentDefinitions, "No equipment matches the current filter or weekly sale list.")}
+            </div>
+          `;
+        }
+        return `
+          <div class="subsection workbench-market">
+            <div class="subsection-head">
+              <h3>Accessories</h3>
+              <div class="subtle">${viewState.accessoryDefinitions.length} listings</div>
+            </div>
+            ${renderEquipmentMarketTable(viewState.accessoryDefinitions, "No accessories match the current filter or weekly sale list.")}
+          </div>
+        `;
       }
 
       function renderWorkbenchTab() {
         const workbenchEntries = getWorkbenchEntries();
-        const equipmentMarketDefinitions = getEquipmentMarketDefinitions();
-        const selectedRecipe = selectedInspectorRecipe(workbenchEntries);
+        const viewState = {
+          potionEntries: getWorkbenchEntries("potion"),
+          gemEntries: getWorkbenchEntries("gem"),
+          herbNames: getWorkbenchIngredientMarketNames("herb"),
+          gemPieceNames: getWorkbenchIngredientMarketNames("gem_piece"),
+          equipmentDefinitions: getEquipmentMarketDefinitions({ accessory: false }),
+          accessoryDefinitions: getEquipmentMarketDefinitions({ accessory: true })
+        };
+        const selectedItem = selectedInspectorItem(viewState);
+        const marketListingCount = viewState.herbNames.length
+          + viewState.gemPieceNames.length
+          + viewState.equipmentDefinitions.length
+          + viewState.accessoryDefinitions.length;
         return `
           <section class="tab-panel ${ui.activeTab === "workbench" ? "active" : ""}" data-tab-panel="workbench">
             <div class="stack">
-              ${renderRunBar(workbenchEntries, selectedRecipe, equipmentMarketDefinitions)}
+              ${renderRunBar(workbenchEntries, marketListingCount)}
               <div class="workbench-layout" data-mobile-section="${escapeHtml(ui.workbenchMobileSection)}">
                 <div class="panel holdings-block holdings-panel">
                   <div class="section-head">
@@ -11805,43 +12558,30 @@
                       <input id="holdings-filter" type="text" value="${escapeHtml(ui.holdingsFilter)}" placeholder="Search equipment, ingredients, gems, or potions" data-action="set-holdings-filter">
                     </div>
                   </div>
-                  ${renderHoldingsSections(selectedRecipe)}
+                  ${renderHoldingsSections()}
                 </div>
                 <div class="panel workbench-panel">
                   <div class="section-head">
                     <div>
                       <h2>Alchemy Workbench</h2>
-                      <div class="section-meta">Use focus chips to cut the recipe list down, then use the Equipment Market for weekly gear trades.</div>
+                      <div class="section-meta">${escapeHtml(workbenchLeadText())}</div>
                     </div>
                     <div class="field" style="min-width:220px;">
                       <label for="potion-filter">Filter workbench</label>
-                      <input id="potion-filter" type="text" value="${escapeHtml(ui.potionFilter)}" placeholder="Search outputs, ingredients, or equipment" data-action="set-potion-filter">
+                      <input id="potion-filter" type="text" value="${escapeHtml(ui.potionFilter)}" placeholder="${escapeHtml(workbenchFilterPlaceholder())}" data-action="set-potion-filter">
                     </div>
                   </div>
-                  ${renderWorkbenchTools(workbenchEntries, equipmentMarketDefinitions)}
+                  ${renderWorkbenchTools(viewState)}
                   <div class="workbench-content">
-                    <div class="subsection workbench-market">
-                      <div class="subsection-head">
-                        <h3>Equipment Market</h3>
-                        <div class="subtle">${equipmentMarketDefinitions.length} listings</div>
-                      </div>
-                      ${renderEquipmentMarketTable(equipmentMarketDefinitions, "No equipment matches the current filter or weekly sale list.")}
-                    </div>
-                    <div class="subsection workbench-recipes">
-                      <div class="subsection-head">
-                        <h3>Recipes</h3>
-                        <div class="subtle">${workbenchEntries.length} shown</div>
-                      </div>
-                      <div class="grid-list">${renderPotionCards(workbenchEntries, selectedRecipe)}</div>
-                    </div>
+                    ${renderWorkbenchCategoryBody(viewState)}
                   </div>
                 </div>
                 <div class="workbench-side-column">
-                  <div class="panel inspector-panel" data-selected-recipe="${escapeHtml(selectedRecipe?.name || "")}">
+                  <div class="panel inspector-panel" data-selected-detail-key="${escapeHtml(selectedItem?.key || "")}">
                     <div class="section-head">
                       <h2>Item Details</h2>
                     </div>
-                    <div class="inspector-scroll">${renderInspectorCard(selectedRecipe)}</div>
+                    <div class="inspector-scroll">${renderInspectorCard(selectedItem)}</div>
                   </div>
                   <div class="panel action-log-panel">
                     <div class="section-head">
@@ -11850,11 +12590,11 @@
                         <button class="button-soft" data-action="reset-workbench">Reset Run</button>
                       </div>
                     </div>
-                    <div class="grid-list">${renderHistory(selectedRecipe)}</div>
+                    <div class="grid-list">${renderHistory(selectedItem)}</div>
                   </div>
                 </div>
               </div>
-              ${renderMobileInspector(selectedRecipe)}
+              ${renderMobileInspector(selectedItem)}
             </div>
           </section>
         `;
@@ -12877,6 +13617,35 @@
         }, 760);
       }
 
+      function selectionFromInspectElement(element) {
+        const detailType = element.dataset.detailType || "";
+        if (detailType === "output") {
+          const recipe = getRecipeByName(element.dataset.name || "");
+          if (!recipe || recipe.kind !== element.dataset.kind) {
+            return null;
+          }
+          return makeOutputDetailSelection(recipe);
+        }
+        if (detailType === "ingredient") {
+          const name = element.dataset.name || "";
+          if (!name || ingredientTypeForName(name) !== element.dataset.ingredientType) {
+            return null;
+          }
+          return makeIngredientDetailSelection(name);
+        }
+        if (detailType === "equipment_definition") {
+          const name = element.dataset.name || "";
+          return getEquipmentDefinitionByName(name)
+            ? makeEquipmentDefinitionDetailSelection(name)
+            : null;
+        }
+        if (detailType === "equipment_instance") {
+          const id = element.dataset.id || "";
+          return id ? makeEquipmentInstanceDetailSelection(id) : null;
+        }
+        return null;
+      }
+
       function renderApp() {
         if (state.loadError) {
           renderHeroChrome();
@@ -12956,6 +13725,12 @@
             }
             renderApp();
             break;
+          case "set-workbench-category":
+            ui.workbenchCategory = element.dataset.category || "potions";
+            ui.selectedDetail = null;
+            ui.mobileInspectorOpen = false;
+            renderApp();
+            break;
           case "set-workbench-scope":
             ui.workbenchScope = element.dataset.scope || "actionable";
             renderApp();
@@ -12969,12 +13744,12 @@
             ui.mobileInspectorOpen = false;
             renderApp();
             break;
-          case "inspect-recipe": {
-            const name = element.dataset.recipe || "";
-            if (!name) {
+          case "inspect-item": {
+            const selection = selectionFromInspectElement(element);
+            if (!selection) {
               return;
             }
-            ui.selectedDetailName = name;
+            ui.selectedDetail = selection;
             if (isCompactWorkbenchViewport()) {
               ui.mobileInspectorOpen = true;
             }
@@ -12997,7 +13772,7 @@
             state.redo = freshState.redo;
             state.loadError = null;
             ui.mobileInspectorOpen = false;
-            ui.selectedDetailName = "";
+            ui.selectedDetail = null;
             ui.exportText = JSON.stringify(state.scenario, null, 2);
             persistState();
             renderApp();
@@ -13026,7 +13801,7 @@
               state.redo = [];
               state.loadError = null;
               ui.mobileInspectorOpen = false;
-              ui.selectedDetailName = "";
+              ui.selectedDetail = null;
               ui.exportText = JSON.stringify(state.scenario, null, 2);
               persistState();
               renderApp();
@@ -13037,6 +13812,9 @@
             break;
           case "buy-once":
             buyOnce(element.dataset.recipe);
+            break;
+          case "buy-ingredient":
+            buyIngredient(element.dataset.name);
             break;
           case "buy-equipment":
             buyEquipment(element.dataset.name);
@@ -13256,7 +14034,7 @@
               state.redo = [];
               state.loadError = null;
               ui.mobileInspectorOpen = false;
-              ui.selectedDetailName = "";
+              ui.selectedDetail = null;
               persistState();
               renderApp();
             } catch (error) {

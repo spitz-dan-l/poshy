@@ -1,6 +1,6 @@
 # Poshy Data Model
 
-This document describes the shipped data model after phase 3 was implemented on March 8, 2026.
+This document describes the shipped data model after phase 3 and the follow-up UI pass were implemented on March 8, 2026.
 
 The authoritative implementations are:
 
@@ -492,6 +492,8 @@ Validated transaction kinds remain:
 - `stackable`
 - `equipment`
 
+Ingredient market buys still use `stackable` transactions with `bucket = "ingredients"` and `unit_price`; the browser distinguishes manual buys from craft auto-buys by the transaction `reason` string rather than by a new persisted transaction shape.
+
 Equipment instances in persisted scenario and workbench state must always carry canonical JSON shape:
 
 - `id`
@@ -501,18 +503,23 @@ Equipment instances in persisted scenario and workbench state must always carry 
 
 Even when an authored TOML instance omits `current_hp` for a `max_hp = null` item, the generated JSON and runtime state store `current_hp: null`.
 
-## Browser Surfaces Shipped Through Phase 3
+## Browser Surfaces Shipped Through The March 8, 2026 UI Pass
 
-The single-file browser app now exposes equipment in these places:
+The single-file browser app now exposes runtime state in these places:
 
-- Workbench holdings: per-instance equipment table with sell values and manual sell actions.
-- Workbench market: weekly sold equipment can be bought into the live run.
+- Workbench category tabs: `Potions`, `Gems`, `Herbs`, `Gem Pieces`, `Equipment`, and `Accessories`.
+- Workbench recipe tabs: potion and gem cards still use the shared craft/buy simulator and focus-chip filtering.
+- Workbench ingredient tabs: weekly sold herbs and gem pieces can be bought directly into the live run.
+- Workbench equipment tabs: equipment and accessory listings are split by `source_sheet`, with accessories defined as every catalog entry imported from the workbook `Accessories` sheet.
+- Workbench holdings: standalone gear is split into `Equipment` and `Accessories`, with compact per-instance rows and sell actions.
+- Item inspector: outputs, ingredients, equipment definitions, and owned equipment instances can all be inspected from the workbench, holdings, and action log.
+- Action log: transaction history exposes inspect links for outputs, ingredients, and equipment definitions.
 - Run summary stats: equipment count is shown alongside gold, ingredients, potions, and gems.
 - Base Inventory tab: add, edit, remove standalone equipment instances.
 - Shop tab: toggle weekly `for_sale.equipment` availability.
 - Catalog tab: read-only equipment definition details with editable `optimizer_auto_sell`.
 
-Phase 3 still does not yet expose:
+This shipped UI still does not yet expose:
 
 - combo assembly or disassembly,
 - manual ingredient, potion, or gem sell actions,
@@ -551,6 +558,7 @@ The importer and runtime already reject these important failure cases:
 - Use `ingredient_types` instead of string suffix checks in new UI or analysis code.
 - Preserve `EquipmentInstance.id` as stable instance identity; do not derive gameplay meaning from it beyond uniqueness.
 - Runtime gold can become fractional after HP-aware equipment sells; format it for display instead of assuming integers.
+- If you need the browser definition of an accessory, use `source_sheet === "Accessories"` rather than maintaining a separate family allowlist.
 - If you add new equipment behavior, decide first whether it belongs in:
   - workbook import,
   - `data/starting_resources.toml`,

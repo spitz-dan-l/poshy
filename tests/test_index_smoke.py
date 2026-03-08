@@ -30,6 +30,16 @@ def set_data_json(page, payload: dict) -> None:
     )
 
 
+def click_workbench_category(page, category: str) -> None:
+    page.locator(
+        f'button[data-action="set-workbench-category"][data-category="{category}"]'
+    ).click()
+
+
+def inspector_item(page, key: str):
+    return page.locator(f'[data-inspector-item="{key}"]')
+
+
 def test_index_smoke() -> None:
     index_url = (REPO_ROOT / "index.html").resolve().as_uri()
 
@@ -45,16 +55,35 @@ def test_index_smoke() -> None:
         expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
         expect(page.get_by_role("heading", name="Item Details")).to_be_visible()
         expect(page.get_by_role("heading", name="Action Log")).to_be_visible()
-        expect(page.get_by_role("heading", name="Equipment Market")).to_be_visible()
         expect(page.locator(".holdings-panel").get_by_role("heading", name="Equipment")).to_be_visible()
+        expect(page.locator(".holdings-panel").get_by_role("heading", name="Accessories")).to_be_visible()
         expect(page.locator(".holdings-panel").get_by_role("heading", name="Potions")).to_be_visible()
         expect(page.locator(".holdings-panel").get_by_role("heading", name="Gems")).to_be_visible()
+        expect(
+            page.locator('button[data-action="set-workbench-category"][data-category="potions"]')
+        ).to_be_visible()
+        expect(
+            page.locator('button[data-action="set-workbench-category"][data-category="accessories"]')
+        ).to_be_visible()
+        expect(page.locator(".workbench-panel").get_by_role("heading", name="Potions")).to_be_visible()
         expect(page.locator(".holdings-panel")).to_contain_text("Health potion")
         expect(page.locator(".holdings-panel")).to_contain_text("Bronze ring")
         expect(page.locator(".holdings-panel")).to_contain_text("Basic Iron Shield")
         assert stat_value(page, "Equipment") == "4"
         assert stat_value(page, "Gems") == "0"
 
+        warming_card = page.locator('[data-recipe-card="Warming medicine"]')
+        expect(warming_card).to_be_visible()
+        expect(warming_card.locator(".potion-meta-line")).to_contain_text("Tier D")
+        expect(warming_card.locator(".potion-meta-line")).to_contain_text("Medicine")
+        warming_card.get_by_role("button", name="Inspect").click()
+        warming_inspector = inspector_item(page, "output:potion:Warming medicine")
+        expect(warming_inspector).to_be_visible()
+        expect(warming_inspector).to_contain_text("Reactive")
+        expect(warming_inspector).to_contain_text("Resets Temp to 0 from a negative number")
+
+        click_workbench_category(page, "gems")
+        expect(page.locator(".workbench-panel").get_by_role("heading", name="Gems")).to_be_visible()
         agate_card = page.locator(".workbench-panel .potion-card").filter(
             has=page.locator("h3", has_text="Agate")
         ).first
@@ -63,25 +92,18 @@ def test_index_smoke() -> None:
         expect(agate_card.locator(".potion-meta-line")).to_contain_text("Violet")
         expect(agate_card.locator(".potion-meta-line")).to_contain_text("golem +")
         expect(agate_card.locator(".potion-meta-line")).not_to_contain_text("Tier")
-
-        warming_card = page.locator('[data-recipe-card="Warming medicine"]')
-        expect(warming_card).to_be_visible()
-        expect(warming_card.locator(".potion-meta-line")).to_contain_text("Tier D")
-        expect(warming_card.locator(".potion-meta-line")).to_contain_text("Medicine")
-        warming_card.get_by_role("button", name="Inspect").click()
-        warming_inspector = page.locator('[data-inspector-recipe="Warming medicine"]')
-        expect(warming_inspector).to_be_visible()
-        expect(warming_inspector).to_contain_text("Reactive")
-        expect(warming_inspector).to_contain_text("Resets Temp to 0 from a negative number")
         agate_card.get_by_role("button", name="Inspect").click()
-        agate_inspector = page.locator('[data-inspector-recipe="Agate"]')
+        agate_inspector = inspector_item(page, "output:gem:Agate")
         expect(agate_inspector).to_be_visible()
         expect(agate_inspector).to_contain_text("Violet")
         expect(agate_inspector).to_contain_text("golem +")
         expect(agate_inspector).to_contain_text("gain 2MP every turn you don't cast a spell")
-        expect(page.locator(".inspector-panel")).to_have_attribute("data-selected-recipe", "Agate")
+        expect(page.locator(".inspector-panel")).to_have_attribute(
+            "data-selected-detail-key", "output:gem:Agate"
+        )
         expect(page.locator(".inspector-panel")).not_to_contain_text("Inspecting")
 
+        click_workbench_category(page, "potions")
         workbench_content = page.locator(".workbench-panel .workbench-content")
         scroll_metrics = workbench_content.evaluate(
             "(el) => ({ clientHeight: Math.round(el.clientHeight), scrollHeight: Math.round(el.scrollHeight) })"
@@ -95,7 +117,7 @@ def test_index_smoke() -> None:
             "(el) => { el.scrollTop = 280; return Math.round(el.scrollTop); }"
         )
         page.locator(
-            '[data-recipe-card="Ancient medicine"] button[data-action="inspect-recipe"]'
+            '[data-recipe-card="Ancient medicine"] button[data-action="inspect-item"]'
         ).dispatch_event("click")
         assert workbench_content.evaluate("el => Math.round(el.scrollTop)") == scrolled_top
 
@@ -104,16 +126,29 @@ def test_index_smoke() -> None:
         ).first
         expect(holdings_health_row.get_by_role("button", name="Inspect")).to_have_count(1)
         holdings_health_row.get_by_role("button", name="Inspect").click()
-        expect(page.locator('[data-inspector-recipe="Health potion"]')).to_be_visible()
+        expect(inspector_item(page, "output:potion:Health potion")).to_be_visible()
 
-        core_holdings = page.locator(".holdings-panel .subsection").filter(
+        herb_holdings = page.locator(".holdings-panel .subsection").filter(
             has=page.get_by_role("heading", name="Herbs")
         ).first
         gem_piece_holdings = page.locator(".holdings-panel .subsection").filter(
             has=page.get_by_role("heading", name="Gem Pieces")
         ).first
-        expect(core_holdings).to_contain_text("Ibsidian shard")
+        expect(herb_holdings).to_contain_text("Ibsidian shard")
         expect(gem_piece_holdings).not_to_contain_text("Ibsidian shard")
+        herb_holdings.locator("tr").filter(
+            has=page.locator("td", has_text="Ibsidian shard")
+        ).first.get_by_role("button", name="Inspect").click()
+        expect(inspector_item(page, "ingredient:herb:Ibsidian shard")).to_be_visible()
+
+        accessories_holdings = page.locator(".holdings-panel .subsection").filter(
+            has=page.get_by_role("heading", name="Accessories")
+        ).first
+        accessories_holdings.locator("tr").filter(
+            has=page.locator("td", has_text="Bronze ring")
+        ).first.get_by_role("button", name="Inspect").click()
+        expect(inspector_item(page, "equipment_instance:ring-bronze-1")).to_be_visible()
+        expect(inspector_item(page, "equipment_instance:ring-bronze-1")).to_contain_text("0-1 gems @ 50g")
 
         ancient_card = page.locator('[data-recipe-card="Ancient medicine"]')
         expect(ancient_card).to_be_visible()
@@ -123,11 +158,65 @@ def test_index_smoke() -> None:
         mana_card = page.locator('[data-recipe-card="Mana potion"]')
         expect(mana_card).to_be_visible()
         expect(mana_card.locator('button[data-action="buy-once"]')).to_be_enabled()
+        click_workbench_category(page, "equipment")
+        expect(page.locator(".workbench-panel").get_by_role("heading", name="Equipment")).to_be_visible()
+        expect(page.locator('button[data-action="buy-equipment"][data-name="Leather Shoes"]')).to_be_visible()
+        click_workbench_category(page, "accessories")
+        expect(page.locator(".workbench-panel").get_by_role("heading", name="Accessories")).to_be_visible()
         expect(page.locator('button[data-action="buy-equipment"][data-name="Bronze ring"]')).to_be_visible()
         expect(page.locator('button[data-action="buy-equipment"][data-name="Bronze necklace"]')).to_have_count(0)
+        page.locator(".workbench-panel tr").filter(
+            has=page.locator("td", has_text="Bronze ring")
+        ).first.get_by_role("button", name="Inspect").click()
+        expect(inspector_item(page, "equipment_definition:Bronze ring")).to_be_visible()
+        expect(inspector_item(page, "equipment_definition:Bronze ring")).to_contain_text("Accessory")
+        expect(inspector_item(page, "equipment_definition:Bronze ring")).to_contain_text("Accessories")
 
         initial_gold = stat_value(page, "Gold")
 
+        click_workbench_category(page, "herbs")
+        lune_row = page.locator(".workbench-panel tr").filter(
+            has=page.locator("td", has_text="Lune stone")
+        ).first
+        expect(lune_row).to_be_visible()
+        lune_row.get_by_role("button", name="Inspect").click()
+        expect(inspector_item(page, "ingredient:herb:Lune stone")).to_be_visible()
+        lune_row.get_by_role("button", name="Buy").click()
+        expect(page.locator('[data-role="toast"]')).to_contain_text("Bought Lune stone")
+        expect(page.locator(".history-card strong").first).to_contain_text("Bought Lune stone")
+        expect(page.locator(".history-card .pill", has_text="Ingredient").first).to_be_visible()
+        assert stat_value(page, "Gold") == "329g"
+
+        click_workbench_category(page, "gem_pieces")
+        agate_piece_row = page.locator(".workbench-panel tr").filter(
+            has=page.locator("td", has_text="Agate piece")
+        ).first
+        expect(agate_piece_row).to_be_visible()
+        agate_piece_row.get_by_role("button", name="Inspect").click()
+        expect(inspector_item(page, "ingredient:gem_piece:Agate piece")).to_be_visible()
+        agate_piece_row.get_by_role("button", name="Buy").click()
+        expect(page.locator('[data-role="toast"]')).to_contain_text("Bought Agate piece")
+        assert stat_value(page, "Gold") == "309g"
+        assert stat_value(page, "Steps") == "2"
+
+        page.locator('button[data-action="undo-action"]').click()
+        expect(page.locator('[data-role="toast"]')).to_contain_text("Undid Bought Agate piece")
+        assert stat_value(page, "Gold") == "329g"
+        page.locator('button[data-action="undo-action"]').click()
+        expect(page.locator('[data-role="toast"]')).to_contain_text("Undid Bought Lune stone")
+        assert stat_value(page, "Gold") == initial_gold
+        assert stat_value(page, "Steps") == "0"
+        page.locator('button[data-action="redo-action"]').click()
+        page.locator('button[data-action="redo-action"]').click()
+        assert stat_value(page, "Gold") == "309g"
+        assert stat_value(page, "Steps") == "2"
+
+        page.locator('button[data-action="reset-workbench"]').click()
+        expect(page.locator(".history-card")).to_have_count(0)
+        assert stat_value(page, "Gold") == initial_gold
+        assert stat_value(page, "Steps") == "0"
+
+        click_workbench_category(page, "potions")
         craft_button = page.locator(
             'button[data-action="craft-once"]:not([disabled])'
         ).first
@@ -137,12 +226,14 @@ def test_index_smoke() -> None:
         expect(page.locator('[data-role="toast"]')).to_contain_text("Crafted")
         expect(page.locator(".history-card strong").first).to_contain_text("Crafted")
         expect(page.locator('button[data-action="undo-action"]')).to_contain_text("Crafted")
-        history_inspect_button = page.locator(".history-card").first.locator('button[data-action="inspect-recipe"]').first
+        history_inspect_button = page.locator(".history-card").first.locator('button[data-action="inspect-item"]').first
         expect(history_inspect_button).to_have_count(1)
-        selected_history_recipe = history_inspect_button.get_attribute("data-recipe")
-        assert selected_history_recipe
+        selected_history_name = history_inspect_button.get_attribute("data-name")
+        selected_history_kind = history_inspect_button.get_attribute("data-kind")
+        assert selected_history_name
+        assert selected_history_kind
         history_inspect_button.click()
-        expect(page.locator(f'[data-inspector-recipe="{selected_history_recipe}"]')).to_be_visible()
+        expect(inspector_item(page, f"output:{selected_history_kind}:{selected_history_name}")).to_be_visible()
         assert stat_value(page, "Steps") == "1"
 
         page.locator('button[data-action="undo-action"]').click()
@@ -185,13 +276,20 @@ def test_index_smoke() -> None:
         bronze_necklace_sale.check()
 
         page.locator('button[data-action="switch-tab"][data-tab="workbench"]').click()
+        click_workbench_category(page, "accessories")
         expect(page.locator('button[data-action="buy-equipment"][data-name="Bronze necklace"]')).to_be_visible()
 
         page.locator('button[data-action="switch-tab"][data-tab="inventory"]').click()
         base_gold_input = page.locator("#base-gold")
         updated_gold = str(int(initial_gold.removesuffix("g")) + 7)
-        base_gold_input.fill(updated_gold)
-        base_gold_input.press("Tab")
+        base_gold_input.evaluate(
+            """(element, value) => {
+                element.value = value;
+                element.dispatchEvent(new Event("input", { bubbles: true }));
+                element.dispatchEvent(new Event("change", { bubbles: true }));
+            }""",
+            updated_gold,
+        )
 
         inventory_panel = page.locator('[data-tab-panel="inventory"]')
         expect(inventory_panel.get_by_role("heading", name="Equipment")).to_be_visible()
@@ -199,8 +297,14 @@ def test_index_smoke() -> None:
         boots_hp = inventory_panel.locator(
             'input[data-action="set-base-equipment-hp"][data-id="boots-leather-1"]'
         )
-        boots_hp.fill("5")
-        boots_hp.press("Tab")
+        boots_hp.evaluate(
+            """(element, value) => {
+                element.value = value;
+                element.dispatchEvent(new Event("input", { bubbles: true }));
+                element.dispatchEvent(new Event("change", { bubbles: true }));
+            }""",
+            "5",
+        )
 
         inventory_panel.locator('button[data-action="add-starting-equipment"]').click()
         expect(inventory_panel.locator('input[data-action="set-base-equipment-name"]')).to_have_count(5)
@@ -208,8 +312,14 @@ def test_index_smoke() -> None:
             'input[data-action="set-base-equipment-name"][data-id="ape-1"]'
         )
         expect(added_equipment_name).to_have_value("Ape")
-        added_equipment_name.fill("Bronze necklace")
-        added_equipment_name.press("Tab")
+        added_equipment_name.evaluate(
+            """(element, value) => {
+                element.value = value;
+                element.dispatchEvent(new Event("input", { bubbles: true }));
+                element.dispatchEvent(new Event("change", { bubbles: true }));
+            }""",
+            "Bronze necklace",
+        )
         added_equipment_row = inventory_panel.locator("tr").filter(
             has=page.locator('code', has_text="ape-1")
         )
@@ -229,6 +339,7 @@ def test_index_smoke() -> None:
         ).first
         expect(leather_shoes_row).to_contain_text("5/7")
         expect(leather_shoes_row).to_contain_text("17.86g")
+        click_workbench_category(page, "accessories")
         expect(page.locator('button[data-action="buy-equipment"][data-name="Bronze necklace"]')).to_be_visible()
 
         page.locator('button[data-action="buy-equipment"][data-name="Bronze ring"]').click()
@@ -411,13 +522,16 @@ def test_index_smoke() -> None:
         expect(mobile.get_by_role("heading", name="Current Holdings")).not_to_be_visible()
 
         mobile_workbench_button.click()
-        mobile.locator('[data-recipe-card="Warming medicine"]').get_by_role("button", name="Inspect").click()
+        mobile_holdings_button.click()
+        mobile.locator(".holdings-panel tr").filter(
+            has=mobile.locator("td", has_text="Leather Shoes")
+        ).first.get_by_role("button", name="Inspect").click()
         mobile_sheet = mobile.locator('[data-role="mobile-inspector"]')
         expect(mobile_sheet).to_be_visible()
-        expect(mobile.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
-        expect(mobile_sheet).to_contain_text("Warming medicine")
-        expect(mobile_sheet.locator('[data-inspector-recipe="Warming medicine"]')).to_contain_text(
-            "Resets Temp to 0 from a negative number"
+        expect(mobile.get_by_role("heading", name="Current Holdings")).to_be_visible()
+        expect(mobile_sheet).to_contain_text("Leather Shoes")
+        expect(mobile_sheet.locator('[data-inspector-item="equipment_instance:boots-leather-1"]')).to_contain_text(
+            "7/7"
         )
         mobile_sheet.get_by_role("button", name="Close", exact=True).click()
         expect(mobile.locator('[data-role="mobile-inspector"]')).to_have_count(0)

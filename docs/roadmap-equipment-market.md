@@ -2,7 +2,7 @@
 
 ## Summary
 
-This roadmap now reflects shipped work through phase 3 as of March 8, 2026.
+This roadmap now reflects shipped work through the post-phase-3 UI pass as of March 8, 2026.
 
 Recommended delivery order remains:
 
@@ -18,6 +18,7 @@ Current status:
 - Phase 1 is implemented.
 - Phase 2 is implemented.
 - Phase 3 is implemented.
+- The post-phase-3 UI pass is implemented.
 - Phases 4 through 6 are still future work.
 
 ## Phase Breakdown
@@ -134,6 +135,39 @@ Done means:
 - Shop can edit weekly `for_sale.equipment` flags and the Workbench market updates immediately,
 - history, toasts, undo, redo, persistence, docs, and browser tests all reflect equipment market actions.
 
+### Post-Phase-3 UI Pass: Category Tabs, Generic Inspector, And Ingredient Buys
+
+Status:
+
+- Implemented on March 8, 2026.
+
+Goal:
+
+- Make the shipped manual economy easier to browse by item class and close the inspector gap for non-recipe items.
+
+Shipped scope:
+
+- split the Workbench center panel into `Potions`, `Gems`, `Herbs`, `Gem Pieces`, `Equipment`, and `Accessories`,
+- treat every definition imported from workbook `source_sheet = "Accessories"` as an accessory for Workbench and holdings grouping,
+- generalize the inspector so it can render:
+  - potion outputs,
+  - gem outputs,
+  - herb and gem-piece ingredients,
+  - equipment definitions,
+  - owned equipment instances,
+- add manual buy actions for herbs and gem pieces in the Workbench,
+- split holdings gear rows into `Equipment` and `Accessories`,
+- move most inline gear detail out of holdings/workbench tables and into the inspector,
+- extend action-log inspect links beyond output recipes.
+
+Done means:
+
+- Workbench no longer mixes recipes, ingredients, and gear in one central list,
+- herbs and gem pieces can be bought directly from the Workbench when sold this week,
+- every item class visible in holdings, Workbench, or history can be inspected,
+- accessory grouping is driven by the imported `Accessories` sheet instead of a hand-maintained family list,
+- docs and browser tests reflect the shipped UI.
+
 ### Phase 4: Ring And Necklace Combo Assembly
 
 Status:
@@ -202,11 +236,14 @@ Future work should assume these facts are already true:
 - `equipment.definitions` is populated from the workbook and currently contains real catalog data.
 - `inventory.equipment` and `for_sale.equipment` already exist in canonical scenario JSON.
 - standalone equipment instances are already editable in Base Inventory.
+- Workbench uses category tabs for outputs, ingredients, equipment, and accessories.
+- Workbench holdings split standalone gear into `Equipment` and `Accessories`.
+- Workbench exposes manual herb and gem-piece buys plus the existing manual equipment market driven by `for_sale.equipment`.
 - workbench holdings expose per-instance sell controls and summary stats expose equipment counts.
-- Workbench exposes a manual equipment market driven by `for_sale.equipment`.
 - Shop exposes weekly equipment sale toggles.
 - Catalog already exposes imported equipment definitions and the `optimizer_auto_sell` toggle.
 - rings and necklaces already exist as base definitions with socket policy metadata.
+- the inspector covers outputs, ingredients, equipment definitions, and owned equipment instances.
 - no combo instances or socket editing exist yet.
 
 ## Public Interfaces Already Shipped
@@ -219,7 +256,7 @@ Future work should assume these facts are already true:
 
 ## Remaining Test Plan
 
-Future phases should extend the current phase-3 coverage with:
+Future phases should extend the current shipped coverage with:
 
 - browser tests for combo assembly and disassembly,
 - value-equivalence tests for `sell assembled` vs `disassemble then sell`,
@@ -232,3 +269,4 @@ Future phases should extend the current phase-3 coverage with:
 - Assembled combos will be created from components, not imported as separate shop stock.
 - Imbue fees remain sunk costs and are not recovered on resale.
 - `optimizer_auto_sell` stays catalog-owned metadata, not per-instance state.
+- Manual herb and gem-piece buys are already shipped ahead of the remaining sell-side roadmap work.
