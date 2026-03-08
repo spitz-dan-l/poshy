@@ -1,5 +1,8 @@
 gold = 339
 
+[market]
+sell_markdown = 0.5
+
 [inventory.ingredients]
 "Lune stone" = 18
 "Green herb" = 4

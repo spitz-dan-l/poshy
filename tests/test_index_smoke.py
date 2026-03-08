@@ -262,6 +262,41 @@ def test_index_rejects_invalid_import_json() -> None:
     misbucket_payload = load_seed_scenario()
     misbucket_payload["inventory"]["gems"]["Health potion"] = 1
 
+    bad_market_payload = load_seed_scenario()
+    bad_market_payload["market"]["sell_markdown"] = 1.5
+
+    bad_equipment_payload = load_seed_scenario()
+    bad_equipment_payload["equipment"]["definitions"]["Traveler ring"] = {
+        "name": "Traveler ring",
+        "family": "ring",
+        "source_sheet": "Accessories",
+        "rank": "",
+        "buy_price": 40,
+        "max_hp": None,
+        "stats": {},
+        "effects": [],
+    }
+
+    bad_inventory_equipment_payload = load_seed_scenario()
+    bad_inventory_equipment_payload["equipment"]["definitions"]["Traveler ring"] = {
+        "name": "Traveler ring",
+        "family": "ring",
+        "source_sheet": "Accessories",
+        "rank": "",
+        "buy_price": 40,
+        "max_hp": None,
+        "stats": {},
+        "effects": [],
+        "optimizer_auto_sell": False,
+    }
+    bad_inventory_equipment_payload["inventory"]["equipment"] = [
+        {
+            "id": "ring-1",
+            "base_name": "Missing ring",
+            "current_hp": None,
+        }
+    ]
+
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
         context = browser.new_context()
@@ -289,6 +324,22 @@ def test_index_rejects_invalid_import_json() -> None:
         page.locator('button[data-action="switch-tab"][data-tab="workbench"]').click()
         expect(page.locator('[data-recipe-card="Warming medicine"]')).to_be_visible()
 
+        page.locator('button[data-action="switch-tab"][data-tab="data"]').click()
+        page.locator("#data-json").fill(json.dumps(bad_market_payload, indent=2))
+        page.locator('button[data-action="import-scenario-json"]').click()
+        assert 'sell_markdown must not exceed 1' in dialog_messages[-1]
+        expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+
+        page.locator("#data-json").fill(json.dumps(bad_equipment_payload, indent=2))
+        page.locator('button[data-action="import-scenario-json"]').click()
+        assert 'missing "optimizer_auto_sell"' in dialog_messages[-1]
+        expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+
+        page.locator("#data-json").fill(json.dumps(bad_inventory_equipment_payload, indent=2))
+        page.locator('button[data-action="import-scenario-json"]').click()
+        assert 'unknown equipment "Missing ring"' in dialog_messages[-1]
+        expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+
         context.close()
         browser.close()
 
@@ -303,6 +354,7 @@ def test_index_blocks_invalid_saved_state_and_can_clear() -> None:
             "ingredients": scenario["inventory"]["ingredients"],
             "potions": scenario["inventory"]["potions"],
             "gems": scenario["inventory"]["gems"],
+            "equipment": scenario["inventory"]["equipment"],
         },
         "history": [
             {
@@ -312,6 +364,7 @@ def test_index_blocks_invalid_saved_state_and_can_clear() -> None:
                     "ingredients": scenario["inventory"]["ingredients"],
                     "potions": scenario["inventory"]["potions"],
                     "gems": scenario["inventory"]["gems"],
+                    "equipment": scenario["inventory"]["equipment"],
                 },
                 "after": None,
                 "effect": None,
@@ -334,6 +387,60 @@ def test_index_blocks_invalid_saved_state_and_can_clear() -> None:
         expect(fatal_state).to_be_visible()
         expect(fatal_state).to_contain_text("Saved Data Blocked")
         expect(fatal_state).to_contain_text('missing "before"')
+
+        page.locator('button[data-action="clear-invalid-local-data"]').click()
+
+        expect(page.locator('[data-role="fatal-state"]')).to_have_count(0)
+        expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
+        expect(page.locator('[data-recipe-card="Warming medicine"]')).to_be_visible()
+
+        context.close()
+        browser.close()
+
+
+def test_index_blocks_legacy_effect_saved_state_and_can_clear() -> None:
+    index_url = (REPO_ROOT / "index.html").resolve().as_uri()
+    scenario = load_seed_scenario()
+    base_workbench = {
+        "gold": scenario["inventory"]["gold"],
+        "ingredients": scenario["inventory"]["ingredients"],
+        "potions": scenario["inventory"]["potions"],
+        "gems": scenario["inventory"]["gems"],
+        "equipment": scenario["inventory"]["equipment"],
+    }
+    invalid_saved_state = {
+        "scenario": scenario,
+        "workbench": base_workbench,
+        "history": [
+            {
+                "label": "Legacy effect payload",
+                "before": base_workbench,
+                "after": base_workbench,
+                "effect": {
+                    "gold": -45,
+                    "used": [],
+                    "autoBought": [],
+                    "outputs": [],
+                },
+            }
+        ],
+        "redo": [],
+    }
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        context = browser.new_context()
+        context.add_init_script(
+            f"window.localStorage.setItem({json.dumps(STORAGE_KEY)}, {json.dumps(json.dumps(invalid_saved_state))});"
+        )
+        page = context.new_page()
+
+        page.goto(index_url, wait_until="domcontentloaded")
+
+        fatal_state = page.locator('[data-role="fatal-state"]')
+        expect(fatal_state).to_be_visible()
+        expect(fatal_state).to_contain_text("Saved Data Blocked")
+        expect(fatal_state).to_contain_text('missing "transactions"')
 
         page.locator('button[data-action="clear-invalid-local-data"]').click()
 

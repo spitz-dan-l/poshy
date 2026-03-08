@@ -18,6 +18,10 @@
 Goal:
 - Create the data model and runtime plumbing that every later phase depends on.
 
+Status:
+- Implemented on March 8, 2026.
+- The shipped phase-1 schema uses `market.sell_markdown` as a single global resale markdown and emits empty `equipment.definitions`, `inventory.equipment`, and `for_sale.equipment` placeholders until phase 2.
+
 Changes:
 - Extend the canonical scenario with `equipment`, `market`, and `for_sale.equipment`.
 - Extend base inventory and workbench state with `equipment` as unique instances rather than counter maps.
@@ -30,6 +34,7 @@ Deliverables:
 - Persisted state validation accepts the new workbench and history shape.
 - Existing manual `craft once`, `buy once`, undo, redo, and persistence flows run through the new simulator instead of directly mutating state.
 - Saved-state validation rejects legacy history/effect payloads cleanly.
+- Runtime transactions are validated as `gold`, `stackable`, or `equipment` records under `HistoryEntry.effect.transactions`.
 
 Out of scope:
 - No equipment importer yet.
@@ -40,6 +45,7 @@ Out of scope:
 Done means:
 - Existing potion/gem workbench behavior still works after the refactor.
 - The browser can load, persist, undo, and redo using the new simulator/effect model.
+- Roadmap and data-model docs are updated to match the shipped phase-1 schema and runtime behavior.
 
 ### Phase 2: Equipment Import and Catalog Surfacing
 
@@ -180,6 +186,7 @@ Done means:
 ## Key Changes
 
 - Extend the canonical scenario with `equipment`, `market`, and `for_sale.equipment`, and extend workbench/base inventory with `equipment` as unique instances rather than counters.
+- Phase 1 has already landed those schema extensions with `market.sell_markdown = 0.5` and empty equipment placeholders in the seed data.
 - Replace the current narrow `effect` payload with a generic transaction list that can represent buy, sell, craft, assemble, disassemble, and equipment-instance mutations while keeping `before`/`after` snapshots for undo/redo.
 - Add a pure runtime simulator in `index.html` that owns every inventory mutation; UI handlers and planner execution both call that simulator.
 - Import equipment from all gear-like workbook sheets plus `Accessories`; normalize each sheet family into one catalog shape with `name`, `family`, `source_sheet`, `rank`, `buy_price`, `max_hp | null`, `stats`, `effects`, `optimizer_auto_sell`, and optional `socket_policy`.
@@ -213,6 +220,8 @@ Done means:
 - `Scenario.inventory` gains `equipment`.
 - `Scenario.for_sale` gains `equipment`.
 - `Scenario` gains `market` and `equipment`.
+- `Scenario.market` currently ships as `{ sell_markdown: number }`.
+- `Scenario.equipment` currently ships as `{ definitions: Record<string, EquipmentDefinition> }`.
 - Add persisted `EquipmentDefinition` and `EquipmentInstance` types.
 - Represent assembled accessories as `EquipmentInstance`, not as separate recipe/output records.
 - `HistoryEntry.effect` becomes a generic transaction schema and saved-state validation should reject legacy effect payloads.

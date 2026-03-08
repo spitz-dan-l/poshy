@@ -390,6 +390,10 @@ def normalize_resources(
     gold = int(raw_resources.get("gold", 0))
     if gold < 0:
         raise ImportErrorWithContext("Starting gold cannot be negative")
+    market = raw_resources.get("market", {})
+    sell_markdown = float(market.get("sell_markdown", 0.5))
+    if sell_markdown < 0:
+        raise ImportErrorWithContext("market.sell_markdown cannot be negative")
 
     inventory = raw_resources.get("inventory", {})
     output_names = dict(known_output_names)
@@ -426,15 +430,20 @@ def normalize_resources(
     )
 
     return {
+        "market": {
+            "sell_markdown": sell_markdown,
+        },
         "inventory": {
             "gold": gold,
             "ingredients": ingredients,
             "potions": potions,
             "gems": gems,
+            "equipment": [],
         },
         "for_sale": {
             "ingredients": sold_ingredients,
             "outputs": sold_outputs,
+            "equipment": {},
         },
     }
 
@@ -493,10 +502,12 @@ def import_workbook(workbook_path: Path, alias_path: Path, resources_path: Path)
     )
 
     scenario = {
+        "market": resources["market"],
         "inventory": resources["inventory"],
         "ingredient_prices": ingredient_prices,
         "ingredient_types": {},
         "gem_metadata": gem_metadata,
+        "equipment": {"definitions": {}},
         "for_sale": resources["for_sale"],
         "subtypes": subtypes,
         "recipes": {"recipes": all_recipes},

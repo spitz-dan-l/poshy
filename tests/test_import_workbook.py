@@ -79,9 +79,13 @@ def test_import_workbook_generates_expected_schema(tmp_path: Path) -> None:
 
     assert data["inventory"]["ingredients"]["Agate piece"] == 0
     assert data["inventory"]["ingredients"]["Lapis lazuli piece"] == 9
+    assert data["inventory"]["equipment"] == []
     assert data["ingredient_prices"]["Agate piece"] == 20
     assert data["for_sale"]["ingredients"]["Agate piece"] is True
     assert data["for_sale"]["outputs"]["Dark Toxin"] is True
+    assert data["for_sale"]["equipment"] == {}
+    assert data["market"] == {"sell_markdown": 0.5}
+    assert data["equipment"] == {"definitions": {}}
 
     assert data["ingredient_types"]["Diamond piece"] == "gem_piece"
     assert data["ingredient_types"]["Dragon scale"] == "herb"

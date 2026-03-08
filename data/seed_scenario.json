@@ -1,4 +1,7 @@
 {
+  "market": {
+    "sell_markdown": 0.5
+  },
   "inventory": {
     "gold": 339,
     "ingredients": {
@@ -48,7 +51,8 @@
       "Health potion": 1,
       "Rejuvination potion": 1
     },
-    "gems": {}
+    "gems": {},
+    "equipment": []
   },
   "ingredient_prices": {
     "Agate piece": 20,
@@ -287,6 +291,9 @@
       ]
     }
   },
+  "equipment": {
+    "definitions": {}
+  },
   "for_sale": {
     "ingredients": {
       "Agate piece": true,
@@ -313,7 +320,8 @@
       "Super potion": true,
       "Truth potion": true,
       "Warming medicine": true
-    }
+    },
+    "equipment": {}
   },
   "subtypes": {
     "potion": {

@@ -1660,6 +1660,9 @@
   <!-- generated from data/seed_scenario.json by scripts/embed_seed_data.py -->
   <script id="seed-data" type="application/json">
 {
+  "market": {
+    "sell_markdown": 0.5
+  },
   "inventory": {
     "gold": 339,
     "ingredients": {
@@ -1709,7 +1712,8 @@
       "Health potion": 1,
       "Rejuvination potion": 1
     },
-    "gems": {}
+    "gems": {},
+    "equipment": []
   },
   "ingredient_prices": {
     "Agate piece": 20,
@@ -1948,6 +1952,9 @@
       ]
     }
   },
+  "equipment": {
+    "definitions": {}
+  },
   "for_sale": {
     "ingredients": {
       "Agate piece": true,
@@ -1974,7 +1981,8 @@
       "Super potion": true,
       "Truth potion": true,
       "Warming medicine": true
-    }
+    },
+    "equipment": {}
   },
   "subtypes": {
     "potion": {
@@ -2967,6 +2975,13 @@
         return amount;
       }
 
+      function expectBoolean(value, context) {
+        if (typeof value !== "boolean") {
+          throw new Error(`${context} must be true or false.`);
+        }
+        return value;
+      }
+
       function validateIngredientTypeValue(rawType, context = "Ingredient type") {
         if (rawType === "herb" || rawType === "gem_piece") {
           return rawType;
@@ -3050,6 +3065,22 @@
         return output;
       }
 
+      function validateObjectShape(raw, requiredKeys, optionalKeys, context) {
+        const source = expectPlainObject(raw, context);
+        const allowed = new Set([...requiredKeys, ...optionalKeys]);
+        for (const key of requiredKeys) {
+          if (!Object.prototype.hasOwnProperty.call(source, key)) {
+            throw new Error(`${context} is missing "${key}".`);
+          }
+        }
+        for (const key of Object.keys(source)) {
+          if (!allowed.has(key)) {
+            throw new Error(`${context} has an unknown key "${key}".`);
+          }
+        }
+        return source;
+      }
+
       function validateSubtypeEntry(raw, subtype) {
         const entry = validateExactKeys(raw, ["label", "action_text", "targeting_text"], `Subtype "${subtype}"`);
         return {
@@ -3066,6 +3097,15 @@
           output[subtype] = validateSubtypeEntry(source[subtype], subtype);
         }
         return output;
+      }
+
+      function validateMarket(raw) {
+        const market = validateExactKeys(raw, ["sell_markdown"], "Scenario market");
+        const sellMarkdown = expectNonNegativeNumber(market.sell_markdown, "Scenario market.sell_markdown");
+        if (sellMarkdown > 1) {
+          throw new Error("Scenario market.sell_markdown must not exceed 1.");
+        }
+        return { sell_markdown: sellMarkdown };
       }
 
       function validateGemMetadataEntry(raw, gemName) {
@@ -3150,6 +3190,105 @@
         return { recipes };
       }
 
+      function validateEquipmentDefinition(raw, expectedName, context) {
+        const entry = validateObjectShape(
+          raw,
+          ["name", "family", "source_sheet", "rank", "buy_price", "max_hp", "stats", "effects", "optimizer_auto_sell"],
+          ["socket_policy"],
+          context
+        );
+        const name = expectTrimmedString(entry.name, `${context} name`);
+        if (name !== expectedName) {
+          throw new Error(`${context} name must match definition key "${expectedName}".`);
+        }
+        const maxHp = entry.max_hp === null
+          ? null
+          : expectNonNegativeNumber(entry.max_hp, `${context} max_hp`);
+        if (maxHp !== null && maxHp <= 0) {
+          throw new Error(`${context} max_hp must be greater than zero when present.`);
+        }
+        return {
+          name,
+          family: expectTrimmedString(entry.family, `${context} family`),
+          source_sheet: expectTrimmedString(entry.source_sheet, `${context} source_sheet`),
+          rank: expectTrimmedString(entry.rank, `${context} rank`, { allowBlank: true }),
+          buy_price: expectNonNegativeNumber(entry.buy_price, `${context} buy_price`),
+          max_hp: maxHp,
+          stats: expectPlainObject(entry.stats, `${context} stats`),
+          effects: expectArray(entry.effects, `${context} effects`).map((value, index) =>
+            expectTrimmedString(value, `${context} effects[${index}]`)
+          ),
+          optimizer_auto_sell: expectBoolean(entry.optimizer_auto_sell, `${context} optimizer_auto_sell`),
+          ...(Object.prototype.hasOwnProperty.call(entry, "socket_policy")
+            ? { socket_policy: expectPlainObject(entry.socket_policy, `${context} socket_policy`) }
+            : {})
+        };
+      }
+
+      function validateEquipmentDefinitionMap(raw) {
+        const source = expectPlainObject(raw, "Scenario equipment.definitions");
+        const output = {};
+        for (const [name, definition] of Object.entries(source)) {
+          const key = expectTrimmedString(name, "Scenario equipment.definitions key");
+          output[key] = validateEquipmentDefinition(definition, key, `Equipment definition "${key}"`);
+        }
+        return output;
+      }
+
+      function validateEquipmentInstance(raw, catalog, context) {
+        const entry = validateObjectShape(raw, ["id", "base_name", "current_hp"], ["socketed_gems"], context);
+        const id = expectTrimmedString(entry.id, `${context} id`);
+        const baseName = expectTrimmedString(entry.base_name, `${context} base_name`);
+        const definition = catalog.equipmentByName.get(baseName);
+        if (!definition) {
+          throw new Error(`${context} references unknown equipment "${baseName}".`);
+        }
+        const currentHp = entry.current_hp === null
+          ? null
+          : expectNonNegativeNumber(entry.current_hp, `${context} current_hp`);
+        if (definition.max_hp === null) {
+          if (currentHp !== null && currentHp < 0) {
+            throw new Error(`${context} current_hp must not be negative.`);
+          }
+        } else {
+          if (currentHp === null) {
+            throw new Error(`${context} current_hp is required for equipment with max_hp.`);
+          }
+          if (currentHp > definition.max_hp) {
+            throw new Error(`${context} current_hp must not exceed max_hp.`);
+          }
+        }
+        const socketedGems = Object.prototype.hasOwnProperty.call(entry, "socketed_gems")
+          ? expectArray(entry.socketed_gems, `${context} socketed_gems`).map((value, index) => {
+              const gemName = expectTrimmedString(value, `${context} socketed_gems[${index}]`);
+              if (!catalog.gemNames.has(gemName)) {
+                throw new Error(`${context} socketed_gems[${index}] references unknown gem "${gemName}".`);
+              }
+              return gemName;
+            })
+          : undefined;
+        return {
+          id,
+          base_name: baseName,
+          current_hp: currentHp,
+          ...(socketedGems ? { socketed_gems: socketedGems } : {})
+        };
+      }
+
+      function validateEquipmentList(raw, catalog, context) {
+        const equipment = expectArray(raw, context).map((item, index) =>
+          validateEquipmentInstance(item, catalog, `${context}[${index}]`)
+        );
+        const seenIds = new Set();
+        for (const instance of equipment) {
+          if (seenIds.has(instance.id)) {
+            throw new Error(`${context} contains duplicate equipment id "${instance.id}".`);
+          }
+          seenIds.add(instance.id);
+        }
+        return equipment;
+      }
+
       function collectScenarioIngredientNames({ inventoryIngredients, ingredientPrices, ingredientTypes, recipes, soldIngredients }) {
         const names = new Set();
         Object.keys(inventoryIngredients).forEach((name) => names.add(name));
@@ -3201,6 +3340,8 @@
         const recipeNames = new Set();
         const potionNames = new Set();
         const gemNames = new Set();
+        const equipmentByName = new Map();
+        const equipmentNames = new Set();
 
         for (const recipe of scenario.recipes.recipes) {
           recipeByName.set(recipe.name, recipe);
@@ -3212,11 +3353,18 @@
           }
         }
 
+        for (const definition of Object.values(scenario.equipment?.definitions || {})) {
+          equipmentByName.set(definition.name, definition);
+          equipmentNames.add(definition.name);
+        }
+
         return {
           recipeByName,
           recipeNames,
           potionNames,
           gemNames,
+          equipmentByName,
+          equipmentNames,
           ingredientNames: new Set(Object.keys(scenario.ingredient_types))
         };
       }
@@ -3224,11 +3372,12 @@
       function validateScenario(raw) {
         const scenario = validateExactKeys(
           raw,
-          ["inventory", "ingredient_prices", "ingredient_types", "gem_metadata", "for_sale", "subtypes", "recipes"],
+          ["market", "inventory", "ingredient_prices", "ingredient_types", "gem_metadata", "equipment", "for_sale", "subtypes", "recipes"],
           "Scenario"
         );
-        const inventory = validateExactKeys(scenario.inventory, ["gold", "ingredients", "potions", "gems"], "Scenario inventory");
-        const forSale = validateExactKeys(scenario.for_sale, ["ingredients", "outputs"], "Scenario for_sale");
+        const inventory = validateExactKeys(scenario.inventory, ["gold", "ingredients", "potions", "gems", "equipment"], "Scenario inventory");
+        const equipment = validateExactKeys(scenario.equipment, ["definitions"], "Scenario equipment");
+        const forSale = validateExactKeys(scenario.for_sale, ["ingredients", "outputs", "equipment"], "Scenario for_sale");
         const recipes = validateRecipesContainer(scenario.recipes);
         const soldIngredients = validateTrueFlagMap(forSale.ingredients, "for_sale.ingredients");
         const ingredientNames = collectScenarioIngredientNames({
@@ -3240,24 +3389,32 @@
         });
         const ingredientTypes = validateIngredientTypeMap(scenario.ingredient_types, ingredientNames);
         const ingredientPrices = validateIngredientPriceMap(scenario.ingredient_prices, ingredientNames);
+        const equipmentDefinitions = validateEquipmentDefinitionMap(equipment.definitions);
         const catalog = buildScenarioCatalog({
           ingredient_types: ingredientTypes,
-          recipes
+          recipes,
+          equipment: { definitions: equipmentDefinitions }
         });
 
         return {
+          market: validateMarket(scenario.market),
           inventory: {
             gold: expectNonNegativeNumber(inventory.gold, "Scenario inventory.gold"),
             ingredients: validateCounterMap(inventory.ingredients, "Scenario inventory.ingredients", ingredientNames),
             potions: validateCounterMap(inventory.potions, "Scenario inventory.potions", catalog.potionNames),
-            gems: validateCounterMap(inventory.gems, "Scenario inventory.gems", catalog.gemNames)
+            gems: validateCounterMap(inventory.gems, "Scenario inventory.gems", catalog.gemNames),
+            equipment: validateEquipmentList(inventory.equipment, catalog, "Scenario inventory.equipment")
           },
           ingredient_prices: ingredientPrices,
           ingredient_types: ingredientTypes,
           gem_metadata: validateGemMetadataMap(scenario.gem_metadata, recipes.recipes),
+          equipment: {
+            definitions: equipmentDefinitions
+          },
           for_sale: {
             ingredients: soldIngredients,
-            outputs: validateTrueFlagMap(forSale.outputs, "for_sale.outputs", catalog.recipeNames)
+            outputs: validateTrueFlagMap(forSale.outputs, "for_sale.outputs", catalog.recipeNames),
+            equipment: validateTrueFlagMap(forSale.equipment, "for_sale.equipment", catalog.equipmentNames)
           },
           subtypes: validateSubtypeMap(scenario.subtypes),
           recipes
@@ -3265,70 +3422,97 @@
       }
 
       function validateWorkbenchState(raw, catalog, context = "Workbench") {
-        const workbench = validateExactKeys(raw, ["gold", "ingredients", "potions", "gems"], context);
+        const workbench = validateExactKeys(raw, ["gold", "ingredients", "potions", "gems", "equipment"], context);
         return {
           gold: expectNonNegativeNumber(workbench.gold, `${context} gold`),
           ingredients: validateCounterMap(workbench.ingredients, `${context} ingredients`, catalog.ingredientNames),
           potions: validateCounterMap(workbench.potions, `${context} potions`, catalog.potionNames),
-          gems: validateCounterMap(workbench.gems, `${context} gems`, catalog.gemNames)
+          gems: validateCounterMap(workbench.gems, `${context} gems`, catalog.gemNames),
+          equipment: validateEquipmentList(workbench.equipment, catalog, `${context} equipment`)
         };
       }
 
-      function validateEffectIngredientItems(raw, context, ingredientNames, { requireCost = false } = {}) {
-        return expectArray(raw, context).map((item, index) => {
-          const keys = requireCost ? ["name", "count", "cost"] : ["name", "count"];
-          const entry = validateExactKeys(item, keys, `${context}[${index}]`);
-          const name = expectTrimmedString(entry.name, `${context}[${index}] name`);
-          if (!ingredientNames.has(name)) {
-            throw new Error(`${context}[${index}] references unknown ingredient "${name}".`);
-          }
-          const count = expectNonNegativeNumber(entry.count, `${context}[${index}] count`);
-          if (count <= 0) {
-            throw new Error(`${context}[${index}] count must be greater than zero.`);
-          }
-          if (requireCost) {
-            return {
-              name,
-              count,
-              cost: expectNonNegativeNumber(entry.cost, `${context}[${index}] cost`)
-            };
-          }
-          return { name, count };
-        });
+      function validateTransactionBucket(rawBucket, context = "Transaction bucket") {
+        if (rawBucket === "ingredients" || rawBucket === "potions" || rawBucket === "gems") {
+          return rawBucket;
+        }
+        throw new Error(`${context} must be "ingredients", "potions", or "gems".`);
       }
 
-      function validateEffectOutputItems(raw, context, catalog) {
-        return expectArray(raw, context).map((item, index) => {
-          const entry = validateExactKeys(item, ["name", "count", "cost", "kind"], `${context}[${index}]`);
-          const name = expectTrimmedString(entry.name, `${context}[${index}] name`);
-          const recipe = catalog.recipeByName.get(name);
-          if (!recipe) {
-            throw new Error(`${context}[${index}] references unknown output "${name}".`);
-          }
-          const kind = validateOutputKind(entry.kind, `${context}[${index}] kind`);
-          if (kind !== recipe.kind) {
-            throw new Error(`${context}[${index}] kind does not match output "${name}".`);
-          }
-          const count = expectNonNegativeNumber(entry.count, `${context}[${index}] count`);
-          if (count <= 0) {
-            throw new Error(`${context}[${index}] count must be greater than zero.`);
+      function validateEquipmentAction(rawAction, context = "Equipment action") {
+        if (rawAction === "add" || rawAction === "remove" || rawAction === "update") {
+          return rawAction;
+        }
+        throw new Error(`${context} must be "add", "remove", or "update".`);
+      }
+
+      function validateTransaction(raw, catalog, context) {
+        const entry = expectPlainObject(raw, context);
+        const kind = expectTrimmedString(entry.kind, `${context} kind`);
+        if (kind === "gold") {
+          const transaction = validateExactKeys(entry, ["kind", "delta", "reason"], context);
+          const delta = expectFiniteNumber(transaction.delta, `${context} delta`);
+          if (delta === 0) {
+            throw new Error(`${context} delta must not be zero.`);
           }
           return {
-            name,
-            count,
-            cost: expectNonNegativeNumber(entry.cost, `${context}[${index}] cost`),
-            kind
+            kind,
+            delta,
+            reason: expectTrimmedString(transaction.reason, `${context} reason`)
           };
-        });
+        }
+        if (kind === "stackable") {
+          const transaction = validateObjectShape(entry, ["kind", "bucket", "name", "delta", "reason"], ["unit_price"], context);
+          const bucket = validateTransactionBucket(transaction.bucket, `${context} bucket`);
+          const name = expectTrimmedString(transaction.name, `${context} name`);
+          const knownNames = bucket === "ingredients"
+            ? catalog.ingredientNames
+            : (bucket === "potions" ? catalog.potionNames : catalog.gemNames);
+          if (!knownNames.has(name)) {
+            throw new Error(`${context} references unknown ${bucket.slice(0, -1)} "${name}".`);
+          }
+          const delta = expectFiniteNumber(transaction.delta, `${context} delta`);
+          if (delta === 0) {
+            throw new Error(`${context} delta must not be zero.`);
+          }
+          return {
+            kind,
+            bucket,
+            name,
+            delta,
+            reason: expectTrimmedString(transaction.reason, `${context} reason`),
+            ...(Object.prototype.hasOwnProperty.call(transaction, "unit_price")
+              ? { unit_price: expectNonNegativeNumber(transaction.unit_price, `${context} unit_price`) }
+              : {})
+          };
+        }
+        if (kind === "equipment") {
+          const transaction = validateObjectShape(entry, ["kind", "action", "instance", "reason"], ["previous"], context);
+          const action = validateEquipmentAction(transaction.action, `${context} action`);
+          const instance = validateEquipmentInstance(transaction.instance, catalog, `${context} instance`);
+          const previous = Object.prototype.hasOwnProperty.call(transaction, "previous")
+            ? validateEquipmentInstance(transaction.previous, catalog, `${context} previous`)
+            : undefined;
+          if (action === "update" && !previous) {
+            throw new Error(`${context} previous is required for equipment update transactions.`);
+          }
+          return {
+            kind,
+            action,
+            instance,
+            reason: expectTrimmedString(transaction.reason, `${context} reason`),
+            ...(previous ? { previous } : {})
+          };
+        }
+        throw new Error(`${context} kind "${kind}" is not supported.`);
       }
 
       function validateEffect(raw, catalog, context = "Effect") {
-        const effect = validateExactKeys(raw, ["gold", "used", "autoBought", "outputs"], context);
+        const effect = validateExactKeys(raw, ["transactions"], context);
         return {
-          gold: expectFiniteNumber(effect.gold, `${context} gold`),
-          used: validateEffectIngredientItems(effect.used, `${context} used`, catalog.ingredientNames),
-          autoBought: validateEffectIngredientItems(effect.autoBought, `${context} autoBought`, catalog.ingredientNames, { requireCost: true }),
-          outputs: validateEffectOutputItems(effect.outputs, `${context} outputs`, catalog)
+          transactions: expectArray(effect.transactions, `${context} transactions`).map((transaction, index) =>
+            validateTransaction(transaction, catalog, `${context} transactions[${index}]`)
+          )
         };
       }
 
@@ -3357,7 +3541,8 @@
           gold: scenario.inventory.gold,
           potions: deepClone(scenario.inventory.potions || {}),
           gems: deepClone(scenario.inventory.gems || {}),
-          ingredients: deepClone(scenario.inventory.ingredients || {})
+          ingredients: deepClone(scenario.inventory.ingredients || {}),
+          equipment: deepClone(scenario.inventory.equipment || [])
         };
       }
 
@@ -3472,13 +3657,12 @@
         return Array.from(names).sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" }));
       }
 
-      function effectKinds(effect) {
-        const kinds = new Set((effect?.outputs || []).map((item) => validateOutputKind(item.kind)));
-        return Array.from(kinds).sort();
-      }
-
       function outputStoreKey(kind) {
         return validateOutputKind(kind) === "gem" ? "gems" : "potions";
+      }
+
+      function stackableMapForBucket(container, bucket) {
+        return bucket === "ingredients" ? container.ingredients : container[validateTransactionBucket(bucket)];
       }
 
       function outputMapForKind(container, kind) {
@@ -3510,7 +3694,7 @@
           return workbenchEntries[0].recipe;
         }
         for (let index = state.history.length - 1; index >= 0; index -= 1) {
-          const outputName = state.history[index]?.effect?.outputs?.[0]?.name;
+          const outputName = effectPrimaryOutputName(state.history[index]?.effect);
           const recipe = getRecipeByName(outputName);
           if (recipe) {
             return recipe;
@@ -3813,68 +3997,321 @@
         return { herbs, gems };
       }
 
+      function effectTransactions(effect) {
+        return effect?.transactions || [];
+      }
+
+      function collectEffectStackableItems(effect, predicate) {
+        const grouped = new Map();
+        for (const transaction of effectTransactions(effect)) {
+          if (transaction.kind !== "stackable" || !predicate(transaction)) {
+            continue;
+          }
+          const key = `${transaction.bucket}:${transaction.name}`;
+          if (!grouped.has(key)) {
+            grouped.set(key, {
+              name: transaction.name,
+              count: 0,
+              ...(transaction.bucket === "potions" || transaction.bucket === "gems"
+                ? { kind: transaction.bucket === "gems" ? "gem" : "potion" }
+                : {})
+            });
+          }
+          grouped.get(key).count += Math.abs(transaction.delta);
+        }
+        return Array.from(grouped.values()).filter((item) => item.count > 0);
+      }
+
+      function effectOutputItems(effect) {
+        return collectEffectStackableItems(
+          effect,
+          (transaction) => (transaction.bucket === "potions" || transaction.bucket === "gems") && transaction.delta > 0
+        );
+      }
+
+      function effectConsumedIngredientItems(effect) {
+        return collectEffectStackableItems(
+          effect,
+          (transaction) => transaction.bucket === "ingredients" && transaction.delta < 0
+        );
+      }
+
+      function effectAutoBoughtIngredientItems(effect) {
+        return collectEffectStackableItems(
+          effect,
+          (transaction) => transaction.bucket === "ingredients" && transaction.delta > 0 && Object.prototype.hasOwnProperty.call(transaction, "unit_price")
+        );
+      }
+
+      function effectKinds(effect) {
+        const kinds = new Set(effectOutputItems(effect).map((item) => validateOutputKind(item.kind)));
+        return Array.from(kinds).sort();
+      }
+
+      function effectPrimaryOutputName(effect) {
+        return effectOutputItems(effect)[0]?.name || "";
+      }
+
+      function getRecipeInputCost(recipe) {
+        if (!recipe) {
+          return null;
+        }
+        let total = 0;
+        for (const [ingredient, count] of Object.entries(recipe.ingredients || {})) {
+          const price = ingredientPriceForName(ingredient);
+          if (price === null) {
+            return null;
+          }
+          total += price * count;
+        }
+        return total;
+      }
+
+      function getStackableBuyPrice(bucket, name) {
+        if (bucket === "ingredients") {
+          return ingredientPriceForName(name);
+        }
+        const recipe = getRecipeByName(name);
+        if (!recipe) {
+          return null;
+        }
+        if (recipe.kind === "potion" && recipe.price !== null) {
+          return recipe.price;
+        }
+        return getRecipeInputCost(recipe);
+      }
+
+      function getStackableSellValue(bucket, name) {
+        const buyPrice = getStackableBuyPrice(bucket, name);
+        return buyPrice === null ? null : buyPrice * state.scenario.market.sell_markdown;
+      }
+
+      function getEquipmentDefinitionByName(name) {
+        return state.scenario.equipment?.definitions?.[name] || null;
+      }
+
+      function getEquipmentSellValue(instance) {
+        const definition = getEquipmentDefinitionByName(instance?.base_name);
+        if (!definition) {
+          return null;
+        }
+        let value = definition.buy_price * state.scenario.market.sell_markdown;
+        if (definition.max_hp !== null) {
+          if (instance.current_hp === null) {
+            return null;
+          }
+          value *= instance.current_hp / definition.max_hp;
+        }
+        return value;
+      }
+
+      function formatGoldAmount(amount) {
+        const rounded = Math.round(Number(amount || 0) * 100) / 100;
+        if (Number.isInteger(rounded)) {
+          return String(rounded);
+        }
+        return rounded.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
+      }
+
+      function effectGoldDelta(effect) {
+        return effectTransactions(effect)
+          .filter((transaction) => transaction.kind === "gold")
+          .reduce((sum, transaction) => sum + transaction.delta, 0);
+      }
+
       function effectSummary(entry, mode = "forward") {
         const effect = entry?.effect;
         if (!effect) {
           return "";
         }
         const segments = [];
-        const spend = Math.max(0, effect.gold * (mode === "forward" ? -1 : 1));
-        const refund = Math.max(0, effect.gold * (mode === "forward" ? 1 : -1));
+        const outputs = effectOutputItems(effect);
+        const used = effectConsumedIngredientItems(effect);
+        const autoBought = effectAutoBoughtIngredientItems(effect);
+        const signedGoldDelta = effectGoldDelta(effect) * (mode === "forward" ? 1 : -1);
+        const spend = Math.max(0, -signedGoldDelta);
+        const refund = Math.max(0, signedGoldDelta);
 
         if (mode === "forward") {
-          if (effect.outputs.length) {
-            segments.push(`+ ${listCounts(effect.outputs, 2)}`);
+          if (outputs.length) {
+            segments.push(`+ ${listCounts(outputs, 2)}`);
           }
-          if (effect.used.length) {
-            segments.push(`use ${listCounts(effect.used, 2)}`);
+          if (used.length) {
+            segments.push(`use ${listCounts(used, 2)}`);
           }
-          if (effect.autoBought.length) {
-            segments.push(`auto-buy ${listCounts(effect.autoBought, 2)}`);
+          if (autoBought.length) {
+            segments.push(`auto-buy ${listCounts(autoBought, 2)}`);
           }
           if (spend > 0) {
-            segments.push(`spend ${spend}g`);
-          }
-        } else {
-          if (effect.outputs.length) {
-            segments.push(`remove ${listCounts(effect.outputs, 2)}`);
-          }
-          if (effect.used.length) {
-            segments.push(`restore ${listCounts(effect.used, 2)}`);
+            segments.push(`spend ${formatGoldAmount(spend)}g`);
           }
           if (refund > 0) {
-            segments.push(`refund ${refund}g`);
+            segments.push(`gain ${formatGoldAmount(refund)}g`);
+          }
+        } else {
+          if (outputs.length) {
+            segments.push(`remove ${listCounts(outputs, 2)}`);
+          }
+          if (used.length) {
+            segments.push(`restore ${listCounts(used, 2)}`);
+          }
+          if (refund > 0) {
+            segments.push(`refund ${formatGoldAmount(refund)}g`);
           }
         }
 
         return segments.join(" · ");
       }
 
-      function buildEffect({ gold = 0, used = [], autoBought = [], outputs = [] }) {
-        return validateEffect(
-          {
-            gold,
-            used: used.map((item) => ({ name: item.name, count: item.count })),
-            autoBought: autoBought.map((item) => ({ name: item.name, count: item.count, cost: item.cost ?? 0 })),
-            outputs: outputs.map((item) => ({
-              name: item.name,
-              count: item.count,
-              cost: item.cost ?? 0,
-              kind: item.kind
-            }))
-          },
-          buildScenarioCatalog(state.scenario)
-        );
+      function createGoldTransaction(delta, reason) {
+        return { kind: "gold", delta, reason };
       }
 
-      function rememberWorkbenchAction(label, before, after, effect) {
-        state.history.push({
+      function createStackableTransaction(bucket, name, delta, reason, options = {}) {
+        return {
+          kind: "stackable",
+          bucket,
+          name,
+          delta,
+          reason,
+          ...(Object.prototype.hasOwnProperty.call(options, "unit_price") ? { unit_price: options.unit_price } : {})
+        };
+      }
+
+      function findEquipmentIndexById(equipment, id) {
+        return equipment.findIndex((item) => item.id === id);
+      }
+
+      function applyTransactionsToWorkbench(workbench, transactions, catalog, context = "Transaction replay") {
+        const next = deepClone(workbench);
+        for (let index = 0; index < transactions.length; index += 1) {
+          const transaction = transactions[index];
+          const transactionContext = `${context}[${index}]`;
+          if (transaction.kind === "gold") {
+            next.gold += transaction.delta;
+            if (next.gold < 0) {
+              throw new Error(`${transactionContext} would make gold negative.`);
+            }
+            continue;
+          }
+          if (transaction.kind === "stackable") {
+            const store = stackableMapForBucket(next, transaction.bucket);
+            store[transaction.name] = Number(store[transaction.name] || 0) + transaction.delta;
+            if (store[transaction.name] < 0) {
+              throw new Error(`${transactionContext} would make ${transaction.bucket}.${transaction.name} negative.`);
+            }
+            if (store[transaction.name] === 0) {
+              delete store[transaction.name];
+            }
+            continue;
+          }
+          const equipmentIndex = findEquipmentIndexById(next.equipment, transaction.instance.id);
+          if (transaction.action === "add") {
+            if (equipmentIndex !== -1) {
+              throw new Error(`${transactionContext} would add duplicate equipment id "${transaction.instance.id}".`);
+            }
+            next.equipment.push(deepClone(transaction.instance));
+            continue;
+          }
+          if (transaction.action === "remove") {
+            if (equipmentIndex === -1) {
+              throw new Error(`${transactionContext} cannot remove missing equipment id "${transaction.instance.id}".`);
+            }
+            next.equipment.splice(equipmentIndex, 1);
+            continue;
+          }
+          if (equipmentIndex === -1) {
+            throw new Error(`${transactionContext} cannot update missing equipment id "${transaction.instance.id}".`);
+          }
+          if (transaction.previous && JSON.stringify(next.equipment[equipmentIndex]) !== JSON.stringify(transaction.previous)) {
+            throw new Error(`${transactionContext} does not match the expected previous equipment state.`);
+          }
+          next.equipment[equipmentIndex] = deepClone(transaction.instance);
+        }
+        return validateWorkbenchState(next, catalog, context);
+      }
+
+      function invertTransaction(transaction) {
+        if (transaction.kind === "gold") {
+          return { ...transaction, delta: -transaction.delta };
+        }
+        if (transaction.kind === "stackable") {
+          return { ...transaction, delta: -transaction.delta };
+        }
+        if (transaction.action === "add") {
+          return { ...transaction, action: "remove" };
+        }
+        if (transaction.action === "remove") {
+          return { ...transaction, action: "add" };
+        }
+        return {
+          ...transaction,
+          instance: deepClone(transaction.previous),
+          previous: deepClone(transaction.instance)
+        };
+      }
+
+      function buildEffect({ transactions = [] }, catalog = buildScenarioCatalog(state.scenario)) {
+        return validateEffect({ transactions }, catalog);
+      }
+
+      function buildWorkbenchAction(label, before, transactions) {
+        const catalog = buildScenarioCatalog(state.scenario);
+        const effect = buildEffect({ transactions }, catalog);
+        const after = applyTransactionsToWorkbench(before, effect.transactions, catalog, `Action "${label}"`);
+        return {
           label,
           before: deepClone(before),
           after: deepClone(after),
-          effect: validateEffect(effect, buildScenarioCatalog(state.scenario))
-        });
+          effect
+        };
+      }
+
+      function rememberWorkbenchAction(entry) {
+        state.history.push(deepClone(entry));
         state.redo = [];
+        state.workbench = deepClone(entry.after);
+      }
+
+      function stableStringify(value) {
+        if (Array.isArray(value)) {
+          return `[${value.map((item) => stableStringify(item)).join(",")}]`;
+        }
+        if (value && typeof value === "object") {
+          return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`).join(",")}}`;
+        }
+        return JSON.stringify(value);
+      }
+
+      function normalizeSparseCounterMap(map) {
+        const next = {};
+        for (const [name, count] of Object.entries(map || {})) {
+          if (Number(count) !== 0) {
+            next[name] = count;
+          }
+        }
+        return next;
+      }
+
+      function normalizeWorkbenchSnapshot(workbench) {
+        return {
+          ...workbench,
+          ingredients: normalizeSparseCounterMap(workbench.ingredients),
+          potions: normalizeSparseCounterMap(workbench.potions),
+          gems: normalizeSparseCounterMap(workbench.gems)
+        };
+      }
+
+      function assertWorkbenchMatchesSnapshot(actual, expected, catalog, context) {
+        const current = normalizeWorkbenchSnapshot(
+          validateWorkbenchState(actual, catalog, `${context} current`)
+        );
+        const snapshot = normalizeWorkbenchSnapshot(
+          validateWorkbenchState(expected, catalog, `${context} snapshot`)
+        );
+        if (stableStringify(current) !== stableStringify(snapshot)) {
+          throw new Error(`${context} does not match the expected workbench snapshot.`);
+        }
       }
 
       function showToast(title, summary, tone = "good") {
@@ -3920,6 +4357,18 @@
           next[newKey] = oldValue;
         }
         return next;
+      }
+
+      function transformEffectTransactions(effect, transform) {
+        if (!effect) {
+          return null;
+        }
+        return {
+          ...effect,
+          transactions: (effect.transactions || [])
+            .map((transaction) => transform(transaction))
+            .filter(Boolean)
+        };
       }
 
       function promptIngredientType(name, fallbackKind = "herb") {
@@ -3995,19 +4444,12 @@
                 ingredients: renameMapKey(entry.after.ingredients || {}, oldName, newName)
               }
             : null,
-          effect: entry.effect
-            ? {
-                ...entry.effect,
-                used: (entry.effect.used || []).map((item) => ({
-                  ...item,
-                  name: item.name === oldName ? newName : item.name
-                })),
-                autoBought: (entry.effect.autoBought || []).map((item) => ({
-                  ...item,
-                  name: item.name === oldName ? newName : item.name
-                }))
-              }
-            : null
+          effect: transformEffectTransactions(
+            entry.effect,
+            (transaction) => transaction.kind === "stackable" && transaction.bucket === "ingredients" && transaction.name === oldName
+              ? { ...transaction, name: newName }
+              : transaction
+          )
         });
         state.history = state.history.map(renameEntry);
         state.redo = state.redo.map(renameEntry);
@@ -4040,15 +4482,12 @@
                 [storeKey]: renameMapKey(entry.after[storeKey] || {}, oldName, newName)
               }
             : null,
-          effect: entry.effect
-            ? {
-                ...entry.effect,
-                outputs: (entry.effect.outputs || []).map((item) => ({
-                  ...item,
-                  name: item.name === oldName ? newName : item.name
-                }))
-              }
-            : null
+          effect: transformEffectTransactions(
+            entry.effect,
+            (transaction) => transaction.kind === "stackable" && transaction.bucket === storeKey && transaction.name === oldName
+              ? { ...transaction, name: newName }
+              : transaction
+          )
         });
         state.history = state.history.map(renameEntry);
         state.redo = state.redo.map(renameEntry);
@@ -4086,12 +4525,12 @@
                 })()
               }
             : null,
-          effect: entry.effect
-            ? {
-                ...entry.effect,
-                outputs: (entry.effect.outputs || []).filter((item) => item.name !== name)
-              }
-            : null
+          effect: transformEffectTransactions(
+            entry.effect,
+            (transaction) => transaction.kind === "stackable" && transaction.bucket === storeKey && transaction.name === name
+              ? null
+              : transaction
+          )
         });
         state.history = state.history.map(stripEntry);
         state.redo = state.redo.map(stripEntry);
@@ -4134,14 +4573,12 @@
                 return after;
               })()
             : null,
-          effect: entry.effect
-            ? {
-                ...entry.effect,
-                outputs: (entry.effect.outputs || []).map((item) =>
-                  item.name === name ? { ...item, kind: toKind } : item
-                )
-              }
-            : null
+          effect: transformEffectTransactions(
+            entry.effect,
+            (transaction) => transaction.kind === "stackable" && transaction.bucket === fromKey && transaction.name === name
+              ? { ...transaction, bucket: toKey }
+              : transaction
+          )
         });
         state.history = state.history.map(moveEntry);
         state.redo = state.redo.map(moveEntry);
@@ -4159,17 +4596,20 @@
         if (!state.history.length) {
           return;
         }
-        const entry = state.history.pop();
-        const currentAfter = deepClone(state.workbench);
-        const validatedEntry = {
-          label: entry.label,
-          before: deepClone(entry.before),
-          after: deepClone(entry.after || currentAfter),
-          effect: entry.effect ? validateEffect(entry.effect, buildScenarioCatalog(state.scenario)) : null
-        };
-        state.redo.push(validatedEntry);
-        state.workbench = deepClone(validatedEntry.before);
-        showToast(`Undid ${validatedEntry.label}`, effectSummary(validatedEntry, "reverse"), "warn");
+        const catalog = buildScenarioCatalog(state.scenario);
+        const entry = validateHistoryEntry(state.history.pop(), catalog, "Undo entry");
+        assertWorkbenchMatchesSnapshot(state.workbench, entry.after || state.workbench, catalog, `Undo "${entry.label}"`);
+        const reversedTransactions = [...(entry.effect?.transactions || [])].reverse().map((transaction) => invertTransaction(transaction));
+        const restoredWorkbench = applyTransactionsToWorkbench(
+          state.workbench,
+          reversedTransactions,
+          catalog,
+          `Undo "${entry.label}"`
+        );
+        assertWorkbenchMatchesSnapshot(restoredWorkbench, entry.before, catalog, `Undo "${entry.label}"`);
+        state.redo.push(deepClone(entry));
+        state.workbench = restoredWorkbench;
+        showToast(`Undid ${entry.label}`, effectSummary(entry, "reverse"), "warn");
         persistState();
         renderApp();
       }
@@ -4178,16 +4618,19 @@
         if (!state.redo.length) {
           return;
         }
-        const entry = state.redo.pop();
-        const validatedEntry = {
-          label: entry.label,
-          before: deepClone(entry.before),
-          after: deepClone(entry.after || state.workbench),
-          effect: entry.effect ? validateEffect(entry.effect, buildScenarioCatalog(state.scenario)) : null
-        };
-        state.history.push(validatedEntry);
-        state.workbench = deepClone(validatedEntry.after);
-        showToast(`Redid ${validatedEntry.label}`, effectSummary(validatedEntry, "forward"), "good");
+        const catalog = buildScenarioCatalog(state.scenario);
+        const entry = validateHistoryEntry(state.redo.pop(), catalog, "Redo entry");
+        assertWorkbenchMatchesSnapshot(state.workbench, entry.before, catalog, `Redo "${entry.label}"`);
+        const replayedWorkbench = applyTransactionsToWorkbench(
+          state.workbench,
+          entry.effect?.transactions || [],
+          catalog,
+          `Redo "${entry.label}"`
+        );
+        assertWorkbenchMatchesSnapshot(replayedWorkbench, entry.after || replayedWorkbench, catalog, `Redo "${entry.label}"`);
+        state.history.push(deepClone(entry));
+        state.workbench = replayedWorkbench;
+        showToast(`Redid ${entry.label}`, effectSummary(entry, "forward"), "good");
         persistState();
         renderApp();
       }
@@ -4197,6 +4640,7 @@
         state.scenario.inventory.ingredients = deepClone(state.workbench.ingredients || {});
         state.scenario.inventory.potions = deepClone(state.workbench.potions || {});
         state.scenario.inventory.gems = deepClone(state.workbench.gems || {});
+        state.scenario.inventory.equipment = deepClone(state.workbench.equipment || []);
         persistState();
         renderApp();
       }
@@ -4322,23 +4766,28 @@
           return;
         }
         const before = deepClone(state.workbench);
-        for (const step of craft.uses) {
-          state.workbench.ingredients[step.ingredient] = Math.max(0, Number(state.workbench.ingredients[step.ingredient] || 0) - step.count);
-        }
+        const transactions = [];
         for (const step of craft.buys) {
-          state.workbench.gold -= step.count * step.price;
+          transactions.push(
+            createGoldTransaction(-(step.count * step.price), `Auto-buy ${step.ingredient}`)
+          );
+          transactions.push(
+            createStackableTransaction("ingredients", step.ingredient, step.count, "auto-buy ingredient", {
+              unit_price: step.price
+            })
+          );
         }
-        setOutputCount(state.workbench, recipe.kind, recipe.name, 1);
-        const effect = buildEffect({
-          gold: -craft.buys.reduce((sum, step) => sum + (step.count * step.price), 0),
-          used: craft.uses.map((step) => ({ name: step.ingredient, count: step.count })),
-          autoBought: craft.buys.map((step) => ({ name: step.ingredient, count: step.count, cost: step.count * step.price })),
-          outputs: [{ name: recipe.name, count: 1, kind: recipe.kind }]
-        });
-        const after = deepClone(state.workbench);
-        const entry = { label: `Crafted ${recipe.name}`, effect };
-        rememberWorkbenchAction(entry.label, before, after, effect);
-        showToast(entry.label, effectSummary({ effect }, "forward"), "good");
+        for (const [ingredient, needed] of sortedEntries(recipe.ingredients || {}, { zeroLast: false })) {
+          transactions.push(
+            createStackableTransaction("ingredients", ingredient, -needed, "craft ingredient")
+          );
+        }
+        transactions.push(
+          createStackableTransaction(outputStoreKey(recipe.kind), recipe.name, 1, "craft output")
+        );
+        const entry = buildWorkbenchAction(`Crafted ${recipe.name}`, before, transactions);
+        rememberWorkbenchAction(entry);
+        showToast(entry.label, effectSummary(entry, "forward"), "good");
         persistState();
         renderApp();
       }
@@ -4353,16 +4802,14 @@
           return;
         }
         const before = deepClone(state.workbench);
-        state.workbench.gold -= buy.price;
-        setOutputCount(state.workbench, recipe.kind, recipe.name, 1);
-        const effect = buildEffect({
-          gold: -buy.price,
-          outputs: [{ name: recipe.name, count: 1, kind: recipe.kind }]
-        });
-        const after = deepClone(state.workbench);
-        const entry = { label: `Bought ${recipe.name}`, effect };
-        rememberWorkbenchAction(entry.label, before, after, effect);
-        showToast(entry.label, effectSummary({ effect }, "forward"), "good");
+        const entry = buildWorkbenchAction(`Bought ${recipe.name}`, before, [
+          createGoldTransaction(-buy.price, `Buy ${recipe.name}`),
+          createStackableTransaction(outputStoreKey(recipe.kind), recipe.name, 1, "buy output", {
+            unit_price: buy.price
+          })
+        ]);
+        rememberWorkbenchAction(entry);
+        showToast(entry.label, effectSummary(entry, "forward"), "good");
         persistState();
         renderApp();
       }
@@ -4777,7 +5224,7 @@
       }
 
       function renderHistoryOutputDetails(entry, selectedRecipe) {
-        const outputs = entry.effect?.outputs || [];
+        const outputs = effectOutputItems(entry.effect);
         const details = outputs
           .map((item) => {
             const recipe = getRecipeByName(item.name);
@@ -4798,7 +5245,7 @@
         const items = [...state.history].reverse().map((entry, index) => {
           const kinds = effectKinds(entry.effect);
           const hasSelectedOutput = Boolean(
-            (entry.effect?.outputs || []).some((item) => getRecipeByName(item.name)?.name === selectedRecipe?.name)
+            effectOutputItems(entry.effect).some((item) => getRecipeByName(item.name)?.name === selectedRecipe?.name)
           );
           const kindPills = kinds
             .map((kind) => `<span class="pill">${kind === "gem" ? "Gem" : "Potion"}</span>`)

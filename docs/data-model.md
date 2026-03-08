@@ -31,7 +31,7 @@ Use these rules when building new features:
 flowchart LR
   workbook["Awesome Heroes Items.xlsx<br/>PotionsDC&B<br/>PotionsA&X<br/>Ingrediants<br/>Accessories"]
   aliases["data/workbook_aliases.toml<br/>workbook-only aliases"]
-  resources["data/starting_resources.toml<br/>starting inventory and shop flags"]
+  resources["data/starting_resources.toml<br/>starting inventory, shop flags, and market config"]
   importer["scripts/import_workbook.py"]
   scenario["data/seed_scenario.json<br/>canonical scenario blob"]
   embed["scripts/embed_seed_data.py"]
@@ -70,13 +70,17 @@ erDiagram
 
 The current `data/seed_scenario.json` contains:
 
+- 1 market config entry.
 - 40 canonical ingredients.
 - 60 potion recipes.
 - 20 gem recipes.
 - 20 gem metadata entries.
+- 0 equipment definitions.
+- 0 starting equipment instances.
 - 7 subtype metadata entries.
 - 10 sellable ingredients.
 - 12 sellable outputs.
+- 0 sellable equipment definitions.
 
 ## Canonical Type Model
 
@@ -100,11 +104,23 @@ type PotionTier = "A" | "B" | "C" | "D";
 type CounterMap = Record<string, number>;
 type FlagMap = Record<string, true>;
 
+interface MarketConfig {
+  sell_markdown: number;
+}
+
+interface EquipmentInstance {
+  id: string;
+  base_name: string;
+  current_hp: number | null;
+  socketed_gems?: string[];
+}
+
 interface Inventory {
   gold: number;
   ingredients: CounterMap;
   potions: CounterMap;
   gems: CounterMap;
+  equipment: EquipmentInstance[];
 }
 
 interface SubtypeMetadata {
@@ -134,14 +150,65 @@ interface GemMetadata {
   accessory_effects: string[];
 }
 
+interface EquipmentDefinition {
+  name: string;
+  family: string;
+  source_sheet: string;
+  rank: string;
+  buy_price: number;
+  max_hp: number | null;
+  stats: Record<string, unknown>;
+  effects: string[];
+  optimizer_auto_sell: boolean;
+  socket_policy?: Record<string, unknown>;
+}
+
+type Transaction =
+  | { kind: "gold"; delta: number; reason: string }
+  | {
+      kind: "stackable";
+      bucket: "ingredients" | "potions" | "gems";
+      name: string;
+      delta: number;
+      reason: string;
+      unit_price?: number;
+    }
+  | {
+      kind: "equipment";
+      action: "add" | "remove" | "update";
+      instance: EquipmentInstance;
+      previous?: EquipmentInstance;
+      reason: string;
+    };
+
+interface WorkbenchState {
+  gold: number;
+  ingredients: CounterMap;
+  potions: CounterMap;
+  gems: CounterMap;
+  equipment: EquipmentInstance[];
+}
+
+interface HistoryEntry {
+  label: string;
+  before: WorkbenchState;
+  after: WorkbenchState | null;
+  effect: { transactions: Transaction[] } | null;
+}
+
 interface Scenario {
+  market: MarketConfig;
   inventory: Inventory;
   ingredient_prices: Record<IngredientName, number>;
   ingredient_types: Record<IngredientName, IngredientType>;
   gem_metadata: Record<OutputName, GemMetadata>;
+  equipment: {
+    definitions: Record<string, EquipmentDefinition>;
+  };
   for_sale: {
     ingredients: FlagMap;
     outputs: FlagMap;
+    equipment: FlagMap;
   };
   subtypes: Record<PotionSubtype, SubtypeMetadata>;
   recipes: {
@@ -438,6 +505,7 @@ Example:
 Purpose:
 
 - Define starting gold.
+- Define market defaults used by runtime sell-value helpers.
 - Define starting inventory.
 - Define which ingredients and outputs are available for sale.
 
@@ -445,6 +513,9 @@ Shape:
 
 ```toml
 gold = 339
+
+[market]
+sell_markdown = 0.5
 
 [inventory.ingredients]
 "Ingredient name" = 0
@@ -465,12 +536,14 @@ gold = 339
 Rules:
 
 - `gold` is required in practice and is coerced to an integer by the importer.
+- `market.sell_markdown` defaults to `0.5` when omitted and must be between `0` and `1`.
 - Negative gold is rejected.
 - Inventory counts are coerced with `int(...)`.
 - Negative counts are rejected.
 - Names must already exist in the imported recipe universe.
 - Workbook aliases are not accepted here.
 - `inventory.potions` and `inventory.gems` both use output names.
+- Equipment inventory is not authored in TOML yet; phase 1 emits `inventory.equipment = []`, `for_sale.equipment = {}`, and `equipment.definitions = {}` automatically.
 - `for_sale.outputs` may reference any canonical output name, including gems, although current seed data only marks potions for sale.
 - Falsey sale entries are ignored and omitted from the JSON output.
 
@@ -478,6 +551,9 @@ Example:
 
 ```toml
 gold = 339
+
+[market]
+sell_markdown = 0.5
 
 [inventory.ingredients]
 "Lune stone" = 18
@@ -508,13 +584,20 @@ The importer produces a single scenario blob with this top-level shape:
 
 ```json
 {
+  "market": {
+    "sell_markdown": 0.5
+  },
   "inventory": { "...": "..." },
   "ingredient_prices": { "...": 10 },
   "ingredient_types": { "...": "herb" },
   "gem_metadata": { "...": { "...": "..." } },
+  "equipment": {
+    "definitions": {}
+  },
   "for_sale": {
     "ingredients": { "...": true },
-    "outputs": { "...": true }
+    "outputs": { "...": true },
+    "equipment": {}
   },
   "subtypes": { "...": { "...": "..." } },
   "recipes": {
@@ -522,6 +605,22 @@ The importer produces a single scenario blob with this top-level shape:
   }
 }
 ```
+
+### `market`
+
+Shape:
+
+```json
+{
+  "sell_markdown": 0.5
+}
+```
+
+Rules:
+
+- `sell_markdown` is a non-negative number and must not exceed `1`.
+- Runtime sell-value helpers use this scalar for ingredients, outputs, and future equipment resale.
+- Phase 1 intentionally uses one global markdown instead of per-category settings.
 
 ### `inventory`
 
@@ -537,7 +636,8 @@ Shape:
   "potions": {
     "Blessed medicine": 1
   },
-  "gems": {}
+  "gems": {},
+  "equipment": []
 }
 ```
 
@@ -547,8 +647,35 @@ Rules:
 - `ingredients` maps ingredient names to counts.
 - `potions` maps potion output names to counts.
 - `gems` maps gem output names to counts.
+- `equipment` stores unique equipment instances, not counts.
 - Counts are canonical non-negative integers in generated JSON.
 - The browser validates these buckets exactly and rejects misbucketed or malformed persisted/imported data instead of repairing it.
+
+### `equipment`
+
+Shape:
+
+```json
+{
+  "definitions": {}
+}
+```
+
+Rules:
+
+- `definitions` is keyed by equipment definition name.
+- Phase 1 seed data ships with an empty map, but the browser already validates the future definition shape.
+- Each definition must contain:
+  - `name`
+  - `family`
+  - `source_sheet`
+  - `rank`
+  - `buy_price`
+  - `max_hp`
+  - `stats`
+  - `effects`
+  - `optimizer_auto_sell`
+- `socket_policy` is optional and must be an object when present.
 
 ### `ingredient_prices`
 
@@ -623,7 +750,8 @@ Shape:
   "outputs": {
     "Dark Toxin": true,
     "Warming medicine": true
-  }
+  },
+  "equipment": {}
 }
 ```
 
@@ -631,6 +759,7 @@ Rules:
 
 - `ingredients` is keyed by ingredient name.
 - `outputs` is keyed by output name.
+- `equipment` is keyed by equipment definition name.
 - Values are stored as literal `true`.
 - Missing keys mean "not for sale".
 
@@ -733,9 +862,54 @@ These relationships are enforced by the importer and by strict browser-side vali
 - Every ingredient referenced in any recipe must exist in `ingredient_prices`.
 - Every ingredient referenced anywhere must exist in `ingredient_types`.
 - Every gem recipe must have exactly one `gem_metadata` entry.
+- Every equipment instance `base_name` must resolve to a real `equipment.definitions` entry.
 - `for_sale.outputs` names must resolve to real recipes.
+- `for_sale.equipment` names must resolve to real equipment definitions.
 - `inventory.potions` and `inventory.gems` should only contain recipe names of the matching kind.
 - Canonical names are the foreign keys across all objects.
+
+## Persisted Runtime State
+
+The browser persists more than the canonical scenario. Local storage stores:
+
+```json
+{
+  "scenario": { "...": "validated Scenario" },
+  "workbench": {
+    "gold": 339,
+    "ingredients": {},
+    "potions": {},
+    "gems": {},
+    "equipment": []
+  },
+  "history": [
+    {
+      "label": "Crafted Health potion",
+      "before": { "...": "WorkbenchState" },
+      "after": { "...": "WorkbenchState" },
+      "effect": {
+        "transactions": [
+          { "kind": "gold", "delta": -20, "reason": "Auto-buy Green herb" },
+          { "kind": "stackable", "bucket": "ingredients", "name": "Green herb", "delta": 2, "reason": "auto-buy ingredient", "unit_price": 10 },
+          { "kind": "stackable", "bucket": "ingredients", "name": "Green herb", "delta": -2, "reason": "craft ingredient" },
+          { "kind": "stackable", "bucket": "potions", "name": "Health potion", "delta": 1, "reason": "craft output" }
+        ]
+      }
+    }
+  ],
+  "redo": []
+}
+```
+
+Rules:
+
+- `workbench` uses the same shape as `inventory`, including `equipment`.
+- `effect` now validates only as `{ "transactions": [...] }`; legacy effect payloads such as `{ "gold": ..., "used": ... }` are rejected.
+- Transaction kinds currently validated by the browser are:
+  - `gold`
+  - `stackable`
+  - `equipment`
+- Undo and redo replay transactions and verify the replayed state against stored snapshots.
 
 ## Complete End-To-End Example
 
@@ -750,6 +924,9 @@ Representative generated scenario fragment:
 
 ```json
 {
+  "market": {
+    "sell_markdown": 0.5
+  },
   "inventory": {
     "gold": 339,
     "ingredients": {
@@ -760,7 +937,8 @@ Representative generated scenario fragment:
       "Blessed medicine": 1,
       "Health potion": 1
     },
-    "gems": {}
+    "gems": {},
+    "equipment": []
   },
   "ingredient_prices": {
     "Lune stone": 10,
@@ -779,13 +957,17 @@ Representative generated scenario fragment:
       ]
     }
   },
+  "equipment": {
+    "definitions": {}
+  },
   "for_sale": {
     "ingredients": {
       "Lune stone": true
     },
     "outputs": {
       "Warming medicine": true
-    }
+    },
+    "equipment": {}
   },
   "subtypes": {
     "medicine": {
@@ -831,11 +1013,14 @@ These are the most important schema failure cases already enforced in code:
 - Missing ingredient price coverage.
 - Unknown resource names in `data/starting_resources.toml`.
 - Alias names used directly in `data/starting_resources.toml`.
+- Invalid `market.sell_markdown` values.
 - Missing gem metadata for any generated gem.
 - Extra `gem_metadata` entries for non-gem outputs.
+- Malformed equipment definitions or equipment instances.
 - Missing required subtype metadata entries.
 - Imported browser JSON using alias names or misbucketed outputs.
 - Persisted browser state that no longer matches the strict scenario/workbench/history schema.
+- Persisted browser history entries that still use the legacy `{ gold, used, autoBought, outputs }` effect payload.
 
 ## Practical Guidance For New Features
 
