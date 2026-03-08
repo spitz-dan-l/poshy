@@ -8,7 +8,8 @@ This README is written primarily for coding agents working in this repo.
 
 - Phase 1 is complete: shared simulator, strict scenario validation, workbench/history plumbing, and equipment-aware state all ship.
 - Phase 2 is complete: workbook-driven equipment import, seed regeneration, Base Inventory equipment editing, workbench equipment visibility, and Catalog equipment definitions with `optimizer_auto_sell`.
-- Phase 3 and later are still future work: manual equipment market actions, combo assembly, broader selling, and planner/optimization.
+- Phase 3 is complete: manual equipment market actions, Shop equipment sale toggles, and HP-aware equipment sell flows now ship.
+- Phase 4 and later are still future work: combo assembly, broader selling, and planner/optimization.
 
 The live baseline is:
 
@@ -51,7 +52,7 @@ Use these first:
 
 ```bash
 git status --short
-rg -n "phase 2|equipment|optimizer_auto_sell" docs index.html scripts tests
+rg -n "phase 3|equipment|optimizer_auto_sell|for_sale.equipment" docs index.html scripts tests
 ```
 
 Do not assume docs are current. Check them.
@@ -113,7 +114,7 @@ uv run python scripts/import_workbook.py \
 uv run python scripts/embed_seed_data.py --html index.html --json data/seed_scenario.json
 ```
 
-### 5. Full Phase-2 Verification
+### 5. Full Phase-3 Verification
 
 This is the current high-signal suite:
 
@@ -128,7 +129,7 @@ This is the current high-signal suite:
 - `index.html` validates strict canonical scenario JSON. It does not alias or repair imported data.
 - Equipment definitions come from workbook import.
 - Standalone equipment instances come from `data/starting_resources.toml` or runtime editing.
-- Phase 2 supports standalone equipment only. No combo instances or socket editing yet.
+- Phase 3 supports standalone equipment manual market actions only. No combo instances or socket editing yet.
 
 ## How Dan Likes To Work
 
@@ -163,9 +164,8 @@ Do not accidentally implement future roadmap work without saying so.
 
 Still out of scope today:
 
-- shop-tab editing for `for_sale.equipment`
-- manual equipment buy/sell actions
 - ring/necklace combo assembly or disassembly
+- manual ingredient, potion, or gem sell actions
 - socket editing
 - planner/optimization tab
 

@@ -1,6 +1,6 @@
 # Poshy Data Model
 
-This document describes the shipped data model after phase 2 was implemented on March 8, 2026.
+This document describes the shipped data model after phase 3 was implemented on March 8, 2026.
 
 The authoritative implementations are:
 
@@ -369,7 +369,7 @@ Conventions already enforced by the importer and runtime validator:
 - `max_hp` is `null` for items such as rings, necklaces, and talismans.
 - `stats` is a lossless string map keyed by canonical snake_case labels derived from workbook headers.
 - `effects` is an ordered list of non-empty trimmed strings.
-- `optimizer_auto_sell` defaults to `false` for every imported equipment definition in phase 2.
+- `optimizer_auto_sell` defaults to `false` for every imported equipment definition.
 - `socket_policy` exists only for rings and necklaces.
 
 Current socket policy conventions:
@@ -501,20 +501,21 @@ Equipment instances in persisted scenario and workbench state must always carry 
 
 Even when an authored TOML instance omits `current_hp` for a `max_hp = null` item, the generated JSON and runtime state store `current_hp: null`.
 
-## Browser Surfaces Shipped In Phase 2
+## Browser Surfaces Shipped Through Phase 3
 
 The single-file browser app now exposes equipment in these places:
 
-- Workbench holdings: read-only equipment table.
+- Workbench holdings: per-instance equipment table with sell values and manual sell actions.
+- Workbench market: weekly sold equipment can be bought into the live run.
 - Run summary stats: equipment count is shown alongside gold, ingredients, potions, and gems.
 - Base Inventory tab: add, edit, remove standalone equipment instances.
+- Shop tab: toggle weekly `for_sale.equipment` availability.
 - Catalog tab: read-only equipment definition details with editable `optimizer_auto_sell`.
 
-Phase 2 does not yet expose:
+Phase 3 still does not yet expose:
 
-- shop-tab equipment toggles,
-- manual equipment buy/sell actions,
 - combo assembly or disassembly,
+- manual ingredient, potion, or gem sell actions,
 - `socketed_gems` editing.
 
 ## Validation And Failure Modes
@@ -549,6 +550,7 @@ The importer and runtime already reject these important failure cases:
 - Treat `equipment.definitions` as imported catalog data, not user-authored browser state.
 - Use `ingredient_types` instead of string suffix checks in new UI or analysis code.
 - Preserve `EquipmentInstance.id` as stable instance identity; do not derive gameplay meaning from it beyond uniqueness.
+- Runtime gold can become fractional after HP-aware equipment sells; format it for display instead of assuming integers.
 - If you add new equipment behavior, decide first whether it belongs in:
   - workbook import,
   - `data/starting_resources.toml`,

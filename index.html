@@ -9847,6 +9847,13 @@
           .sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" }));
       }
 
+      function getEquipmentMarketDefinitions(filter = ui.potionFilter.trim().toLowerCase()) {
+        return getAllEquipmentDefinitionNames()
+          .map((name) => state.scenario.equipment.definitions[name])
+          .filter((definition) => isEquipmentSoldOnLevel(definition.name))
+          .filter((definition) => !filter || equipmentDefinitionSearchText(definition).includes(filter));
+      }
+
       function equipmentDefinitionSearchText(definition) {
         const parts = [
           definition?.name,
@@ -10095,7 +10102,7 @@
       function renderInspectorCard(recipe, options = {}) {
         const { compact = false } = options;
         if (!recipe) {
-          return `<div class="muted-box">Select any potion or gem from the workbench, holdings, or action log. Equipment is listed separately in holdings and catalog during phase 2.</div>`;
+          return `<div class="muted-box">Select any potion or gem from the workbench, holdings, or action log. Equipment trading lives in Current Holdings and the Equipment Market.</div>`;
         }
 
         const owned = outputCount(state.workbench, recipe.kind, recipe.name);
@@ -10211,6 +10218,10 @@
         return Boolean(state.scenario.for_sale.outputs?.[name]);
       }
 
+      function isEquipmentSoldOnLevel(name) {
+        return Boolean(state.scenario.for_sale.equipment?.[name]);
+      }
+
       function countNonZero(map) {
         return Object.values(map || {}).filter((value) => Number(value) > 0).length;
       }
@@ -10302,9 +10313,36 @@
         );
       }
 
+      function collectEffectEquipmentItems(effect, predicate) {
+        const grouped = new Map();
+        for (const transaction of effectTransactions(effect)) {
+          if (transaction.kind !== "equipment" || !predicate(transaction)) {
+            continue;
+          }
+          const key = transaction.instance.base_name;
+          if (!grouped.has(key)) {
+            grouped.set(key, { name: key, count: 0 });
+          }
+          grouped.get(key).count += 1;
+        }
+        return Array.from(grouped.values()).filter((item) => item.count > 0);
+      }
+
+      function effectAddedEquipmentItems(effect) {
+        return collectEffectEquipmentItems(effect, (transaction) => transaction.action === "add");
+      }
+
+      function effectRemovedEquipmentItems(effect) {
+        return collectEffectEquipmentItems(effect, (transaction) => transaction.action === "remove");
+      }
+
       function effectKinds(effect) {
-        const kinds = new Set(effectOutputItems(effect).map((item) => validateOutputKind(item.kind)));
-        return Array.from(kinds).sort();
+        const order = { potion: 0, gem: 1, equipment: 2 };
+        const kinds = new Set(effectOutputItems(effect).map((item) => item.kind));
+        if (effectTransactions(effect).some((transaction) => transaction.kind === "equipment")) {
+          kinds.add("equipment");
+        }
+        return Array.from(kinds).sort((left, right) => (order[left] ?? 99) - (order[right] ?? 99));
       }
 
       function effectPrimaryOutputName(effect) {
@@ -10387,6 +10425,8 @@
         const outputs = effectOutputItems(effect);
         const used = effectConsumedIngredientItems(effect);
         const autoBought = effectAutoBoughtIngredientItems(effect);
+        const addedEquipment = effectAddedEquipmentItems(effect);
+        const removedEquipment = effectRemovedEquipmentItems(effect);
         const signedGoldDelta = effectGoldDelta(effect) * (mode === "forward" ? 1 : -1);
         const spend = Math.max(0, -signedGoldDelta);
         const refund = Math.max(0, signedGoldDelta);
@@ -10401,6 +10441,12 @@
           if (autoBought.length) {
             segments.push(`auto-buy ${listCounts(autoBought, 2)}`);
           }
+          if (addedEquipment.length) {
+            segments.push(`add ${listCounts(addedEquipment, 2)}`);
+          }
+          if (removedEquipment.length) {
+            segments.push(`remove ${listCounts(removedEquipment, 2)}`);
+          }
           if (spend > 0) {
             segments.push(`spend ${formatGoldAmount(spend)}g`);
           }
@@ -10413,6 +10459,15 @@
           }
           if (used.length) {
             segments.push(`restore ${listCounts(used, 2)}`);
+          }
+          if (addedEquipment.length) {
+            segments.push(`remove ${listCounts(addedEquipment, 2)}`);
+          }
+          if (removedEquipment.length) {
+            segments.push(`add ${listCounts(removedEquipment, 2)}`);
+          }
+          if (spend > 0) {
+            segments.push(`spend ${formatGoldAmount(spend)}g`);
           }
           if (refund > 0) {
             segments.push(`refund ${formatGoldAmount(refund)}g`);
@@ -10434,6 +10489,18 @@
           delta,
           reason,
           ...(Object.prototype.hasOwnProperty.call(options, "unit_price") ? { unit_price: options.unit_price } : {})
+        };
+      }
+
+      function createEquipmentTransaction(action, instance, reason, options = {}) {
+        return {
+          kind: "equipment",
+          action,
+          instance: deepClone(instance),
+          reason,
+          ...(Object.prototype.hasOwnProperty.call(options, "previous")
+            ? { previous: deepClone(options.previous) }
+            : {})
         };
       }
 
@@ -10973,6 +11040,23 @@
         return { possible: true, price };
       }
 
+      function assessEquipmentBuy(definition) {
+        if (!definition) {
+          return { possible: false, reason: "Unknown equipment definition" };
+        }
+        if (!isEquipmentSoldOnLevel(definition.name)) {
+          return { possible: false, reason: "Not sold on this level", price: definition.buy_price };
+        }
+        if (definition.buy_price > state.workbench.gold) {
+          return {
+            possible: false,
+            reason: `Need ${formatGoldAmount(definition.buy_price)}g but only have ${formatGoldAmount(state.workbench.gold)}g`,
+            price: definition.buy_price
+          };
+        }
+        return { possible: true, price: definition.buy_price };
+      }
+
       function matchesWorkbenchScope(entry) {
         switch (ui.workbenchScope) {
           case "craftable":
@@ -11073,6 +11157,50 @@
         renderApp();
       }
 
+      function buyEquipment(definitionName) {
+        const definition = getEquipmentDefinitionByName(definitionName);
+        if (!definition) {
+          return;
+        }
+        const buy = assessEquipmentBuy(definition);
+        if (!buy.possible) {
+          return;
+        }
+        const instance = buildBaseEquipmentInstance(definition.name);
+        if (!instance) {
+          return;
+        }
+        const before = deepClone(state.workbench);
+        const entry = buildWorkbenchAction(`Bought ${definition.name}`, before, [
+          createGoldTransaction(-buy.price, `Buy ${definition.name}`),
+          createEquipmentTransaction("add", instance, "buy equipment")
+        ]);
+        rememberWorkbenchAction(entry);
+        showToast(entry.label, effectSummary(entry, "forward"), "good");
+        persistState();
+        renderApp();
+      }
+
+      function sellEquipment(instanceId) {
+        const instance = (state.workbench.equipment || []).find((entry) => entry.id === instanceId);
+        if (!instance) {
+          return;
+        }
+        const sellValue = getEquipmentSellValue(instance);
+        if (sellValue === null) {
+          return;
+        }
+        const before = deepClone(state.workbench);
+        const entry = buildWorkbenchAction(`Sold ${instance.base_name}`, before, [
+          createEquipmentTransaction("remove", instance, "sell equipment"),
+          createGoldTransaction(sellValue, `Sell ${instance.base_name}`)
+        ]);
+        rememberWorkbenchAction(entry);
+        showToast(entry.label, effectSummary(entry, "forward"), "good");
+        persistState();
+        renderApp();
+      }
+
       function renderTabs() {
         const tabButtons = document.getElementById("tab-buttons");
         tabButtons.innerHTML = tabs
@@ -11092,7 +11220,7 @@
 
       function runSummaryStats() {
         return [
-          { label: "Gold", value: `${state.workbench.gold}g` },
+          { label: "Gold", value: `${formatGoldAmount(state.workbench.gold)}g` },
           { label: "Ingredients", value: String(countNonZero(state.workbench.ingredients)) },
           { label: "Potions", value: String(totalCount(state.workbench.potions)) },
           { label: "Gems", value: String(totalCount(state.workbench.gems)) },
@@ -11160,12 +11288,12 @@
           : "";
       }
 
-      function renderMobileWorkbenchNav(workbenchEntries) {
+      function renderMobileWorkbenchNav(workbenchEntries, equipmentMarketDefinitions = []) {
         const sections = [
           {
             id: "workbench",
             label: "Workbench",
-            meta: `${workbenchEntries.length} shown`
+            meta: `${workbenchEntries.length} recipes · ${equipmentMarketDefinitions.length} gear`
           },
           {
             id: "holdings",
@@ -11219,7 +11347,7 @@
         `;
       }
 
-      function renderRunBar(workbenchEntries, selectedRecipe) {
+      function renderRunBar(workbenchEntries, selectedRecipe, equipmentMarketDefinitions = []) {
         const undoEntry = state.history[state.history.length - 1] || null;
         const redoEntry = state.redo[state.redo.length - 1] || null;
         return `
@@ -11241,7 +11369,7 @@
                 <button class="run-action-card button-secondary" data-action="undo-action" ${undoEntry ? "" : "disabled"}>
                   <strong>Undo</strong>
                   <span>${escapeHtml(previewText(undoEntry, "No action"))}</span>
-                  <small>${escapeHtml(previewDetail(undoEntry, "reverse", "Craft or buy an output to create a reversible step."))}</small>
+                  <small>${escapeHtml(previewDetail(undoEntry, "reverse", "Craft, buy, or trade equipment to create a reversible step."))}</small>
                 </button>
                 <button class="run-action-card button-secondary" data-action="redo-action" ${redoEntry ? "" : "disabled"}>
                   <strong>Redo</strong>
@@ -11249,7 +11377,7 @@
                   <small>${escapeHtml(previewDetail(redoEntry, "forward", "Undo an action first if you want a redo step."))}</small>
                 </button>
               </div>
-              ${renderMobileWorkbenchNav(workbenchEntries)}
+              ${renderMobileWorkbenchNav(workbenchEntries, equipmentMarketDefinitions)}
             </div>
           </div>
         `;
@@ -11329,12 +11457,17 @@
           .filter((instance) => !filter || equipmentInstanceSearchText(instance).includes(filter))
           .map((instance) => {
             const definition = getEquipmentDefinitionByName(instance.base_name);
+            const sellValue = getEquipmentSellValue(instance);
             return `
               <tr>
                 <td>${escapeHtml(instance.base_name)}</td>
                 <td>${escapeHtml(definition?.family || "Unknown")}</td>
                 <td>${escapeHtml(formatEquipmentHp(instance, definition))}</td>
                 <td>${escapeHtml(instance.id)}</td>
+                <td>${escapeHtml(sellValue === null ? "N/A" : `${formatGoldAmount(sellValue)}g`)}</td>
+                <td>
+                  <button class="button-secondary" data-action="sell-equipment" data-id="${escapeHtml(instance.id)}" ${sellValue === null ? "disabled" : ""}>Sell</button>
+                </td>
               </tr>
             `;
           })
@@ -11349,10 +11482,51 @@
                   <th>Family</th>
                   <th>HP</th>
                   <th>ID</th>
+                  <th>Sell Value</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                ${rows || `<tr><td colspan="4" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+                ${rows || `<tr><td colspan="6" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      function renderEquipmentMarketTable(definitions, emptyText) {
+        const rows = definitions
+          .map((definition) => {
+            const buy = assessEquipmentBuy(definition);
+            const hpText = definition.max_hp === null ? "N/A" : `${definition.max_hp}/${definition.max_hp}`;
+            return `
+              <tr>
+                <td>${escapeHtml(definition.name)}</td>
+                <td>${escapeHtml(definition.family)}</td>
+                <td>${escapeHtml(`${definition.buy_price}g`)}</td>
+                <td>${escapeHtml(hpText)}</td>
+                <td>
+                  <button class="button-secondary" data-action="buy-equipment" data-name="${escapeHtml(definition.name)}" ${buy.possible ? "" : "disabled"}>Buy</button>
+                </td>
+              </tr>
+            `;
+          })
+          .join("");
+
+        return `
+          <div class="table-wrap">
+            <table class="holdings-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Family</th>
+                  <th>Price</th>
+                  <th>New HP</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows || `<tr><td colspan="5" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
               </tbody>
             </table>
           </div>
@@ -11449,7 +11623,7 @@
         `;
       }
 
-      function renderWorkbenchTools(entries) {
+      function renderWorkbenchTools(entries, equipmentMarketDefinitions) {
         const scopeButtons = [
           ["actionable", "Actionable"],
           ["craftable", "Craftable"],
@@ -11472,9 +11646,17 @@
           .join("");
 
         const totalRecipes = state.scenario.recipes.recipes.length;
+        const totalEquipmentListings = getAllEquipmentDefinitionNames()
+          .filter((name) => isEquipmentSoldOnLevel(name))
+          .length;
         const visibleText = entries.length === totalRecipes
           ? `Showing all ${totalRecipes} recipes`
           : `Showing ${entries.length} of ${totalRecipes} recipes`;
+        const equipmentText = totalEquipmentListings === 0
+          ? "No equipment sold this week"
+          : equipmentMarketDefinitions.length === totalEquipmentListings
+            ? `Showing all ${totalEquipmentListings} equipment listings`
+            : `Showing ${equipmentMarketDefinitions.length} of ${totalEquipmentListings} equipment listings`;
 
         return `
           <div class="workbench-tools">
@@ -11482,7 +11664,7 @@
               <div class="label">Focus</div>
               ${scopeButtons}
             </div>
-            <div class="section-meta">${visibleText}</div>
+            <div class="section-meta">${visibleText} · ${equipmentText}</div>
           </div>
         `;
       }
@@ -11541,6 +11723,25 @@
           .filter(Boolean)
           .join("");
         return details
+          ? details
+          : "";
+      }
+
+      function renderHistoryEquipmentDetails(entry) {
+        const grouped = new Map();
+        for (const item of [...effectAddedEquipmentItems(entry.effect), ...effectRemovedEquipmentItems(entry.effect)]) {
+          grouped.set(item.name, (grouped.get(item.name) || 0) + item.count);
+        }
+        return Array.from(grouped.entries())
+          .map(([name, count]) => `<span class="pill">${escapeHtml(name)}${count > 1 ? ` x${count}` : ""}</span>`)
+          .join("");
+      }
+
+      function renderHistoryDetails(entry, selectedRecipe) {
+        const details = [renderHistoryOutputDetails(entry, selectedRecipe), renderHistoryEquipmentDetails(entry)]
+          .filter(Boolean)
+          .join("");
+        return details
           ? `<div class="chip-stack history-output-links">${details}</div>`
           : "";
       }
@@ -11552,7 +11753,7 @@
             effectOutputItems(entry.effect).some((item) => getRecipeByName(item.name)?.name === selectedRecipe?.name)
           );
           const kindPills = kinds
-            .map((kind) => `<span class="pill">${kind === "gem" ? "Gem" : "Potion"}</span>`)
+            .map((kind) => `<span class="pill">${kind === "gem" ? "Gem" : (kind === "equipment" ? "Equipment" : "Potion")}</span>`)
             .join("");
           return `
             <div class="history-card ${hasSelectedOutput ? "selected" : ""}">
@@ -11561,21 +11762,22 @@
                 <div class="tiny">Step ${state.history.length - index}</div>
                 ${kindPills}
               </div>
-              ${renderHistoryOutputDetails(entry, selectedRecipe)}
+              ${renderHistoryDetails(entry, selectedRecipe)}
               <div class="tiny">${escapeHtml(effectSummary(entry, "forward") || "No action details saved for this step.")}</div>
             </div>
           `;
         });
-        return items.join("") || `<div class="muted-box">No actions yet. Craft or buy an output to start a trial run.</div>`;
+        return items.join("") || `<div class="muted-box">No actions yet. Craft, buy, or trade equipment to start a trial run.</div>`;
       }
 
       function renderWorkbenchTab() {
         const workbenchEntries = getWorkbenchEntries();
+        const equipmentMarketDefinitions = getEquipmentMarketDefinitions();
         const selectedRecipe = selectedInspectorRecipe(workbenchEntries);
         return `
           <section class="tab-panel ${ui.activeTab === "workbench" ? "active" : ""}" data-tab-panel="workbench">
             <div class="stack">
-              ${renderRunBar(workbenchEntries, selectedRecipe)}
+              ${renderRunBar(workbenchEntries, selectedRecipe, equipmentMarketDefinitions)}
               <div class="workbench-layout" data-mobile-section="${escapeHtml(ui.workbenchMobileSection)}">
                 <div class="panel holdings-block holdings-panel">
                   <div class="section-head">
@@ -11591,15 +11793,30 @@
                   <div class="section-head">
                     <div>
                       <h2>Alchemy Workbench</h2>
-                      <div class="section-meta">Use focus chips to cut the list down to the outputs you can act on now.</div>
+                      <div class="section-meta">Use focus chips to cut the recipe list down, then use the Equipment Market for weekly gear trades.</div>
                     </div>
                     <div class="field" style="min-width:220px;">
-                      <label for="potion-filter">Filter recipes</label>
-                      <input id="potion-filter" type="text" value="${escapeHtml(ui.potionFilter)}" placeholder="Search by output or ingredient" data-action="set-potion-filter">
+                      <label for="potion-filter">Filter workbench</label>
+                      <input id="potion-filter" type="text" value="${escapeHtml(ui.potionFilter)}" placeholder="Search outputs, ingredients, or equipment" data-action="set-potion-filter">
                     </div>
                   </div>
-                  ${renderWorkbenchTools(workbenchEntries)}
-                  <div class="grid-list">${renderPotionCards(workbenchEntries, selectedRecipe)}</div>
+                  ${renderWorkbenchTools(workbenchEntries, equipmentMarketDefinitions)}
+                  <div class="stack">
+                    <div class="subsection">
+                      <div class="subsection-head">
+                        <h3>Equipment Market</h3>
+                        <div class="subtle">${equipmentMarketDefinitions.length} listings</div>
+                      </div>
+                      ${renderEquipmentMarketTable(equipmentMarketDefinitions, "No equipment matches the current filter or weekly sale list.")}
+                    </div>
+                    <div class="subsection">
+                      <div class="subsection-head">
+                        <h3>Recipes</h3>
+                        <div class="subtle">${workbenchEntries.length} shown</div>
+                      </div>
+                      <div class="grid-list">${renderPotionCards(workbenchEntries, selectedRecipe)}</div>
+                    </div>
+                  </div>
                 </div>
                 <div class="workbench-side-column">
                   <div class="panel inspector-panel" data-selected-recipe="${escapeHtml(selectedRecipe?.name || "")}">
@@ -11764,7 +11981,7 @@
                   <div class="inline-fields">
                     <div class="field" style="width:120px;">
                       <label for="base-gold">Starting gold</label>
-                      <input id="base-gold" type="number" min="0" value="${state.scenario.inventory.gold}" data-action="set-base-gold">
+                      <input id="base-gold" type="number" min="0" step="0.01" value="${formatGoldAmount(state.scenario.inventory.gold)}" data-action="set-base-gold">
                     </div>
                     <div class="field" style="min-width:220px;">
                       <label for="inventory-filter">Filter rows</label>
@@ -11911,7 +12128,7 @@
                   </div>
                   <div class="note-card">
                     <strong>Gold</strong>
-                    <div class="tiny">${state.scenario.inventory.gold}</div>
+                    <div class="tiny">${formatGoldAmount(state.scenario.inventory.gold)}</div>
                   </div>
                   <div class="note-card">
                     <strong>Base ingredients</strong>
@@ -11944,6 +12161,7 @@
         const ingredientNames = getAllIngredientNames();
         const potionNames = getAllOutputNames("potion");
         const gemNames = getAllOutputNames("gem");
+        const equipmentNames = getAllEquipmentDefinitionNames();
         const filter = ui.shopFilter.trim().toLowerCase();
         const ingredientGroups = splitIngredientNames(ingredientNames);
         const renderSaleRows = (rowsData, emptyText) => {
@@ -12027,6 +12245,18 @@
               action: "set-output-sale"
             }));
 
+        const equipmentRowsFor = (names) =>
+          names
+            .map((name) => ({ name, definition: getEquipmentDefinitionByName(name) }))
+            .filter(({ definition }) => definition)
+            .map(({ name, definition }) => ({
+              name,
+              category: `Equipment · ${definition.family}`,
+              priceText: `${definition.buy_price}g`,
+              sold: isEquipmentSoldOnLevel(name),
+              action: "set-equipment-sale"
+            }));
+
         return `
           <section class="tab-panel ${ui.activeTab === "shop" ? "active" : ""}" data-tab-panel="shop">
             <div class="stack">
@@ -12036,7 +12266,7 @@
                   <div class="inline-fields">
                     <div class="field" style="min-width:220px;">
                       <label for="shop-filter">Filter items</label>
-                      <input id="shop-filter" type="text" value="${escapeHtml(ui.shopFilter)}" placeholder="Search ingredients or outputs" data-action="set-shop-filter">
+                      <input id="shop-filter" type="text" value="${escapeHtml(ui.shopFilter)}" placeholder="Search ingredients, outputs, or equipment" data-action="set-shop-filter">
                     </div>
                     <label class="pill">
                       <input type="checkbox" data-action="toggle-zero-shop" ${ui.showZeroShop ? "checked" : ""}>
@@ -12044,7 +12274,7 @@
                     </label>
                   </div>
                 </div>
-                <div class="notice">This tab only controls ingredient and output sales this week. Equipment for-sale flags stay in scenario JSON after phase 2, but the shop editor for them remains future work.</div>
+                <div class="notice">This tab controls which ingredients, outputs, and standalone equipment are sold this week. Manual buy and sell actions still happen in the Workbench.</div>
               </div>
               <div class="panel">
                 <div class="stack">
@@ -12075,6 +12305,13 @@
                       <div class="subtle">${gemNames.length} names</div>
                     </div>
                     ${renderSaleRows(outputRowsFor(gemNames), "No matching direct-buy gem rows.")}
+                  </div>
+                  <div class="subsection">
+                    <div class="subsection-head">
+                      <h3>Equipment</h3>
+                      <div class="subtle">${equipmentNames.length} names</div>
+                    </div>
+                    ${renderSaleRows(equipmentRowsFor(equipmentNames), "No matching equipment shop rows.")}
                   </div>
                 </div>
               </div>
@@ -12783,6 +13020,12 @@
           case "buy-once":
             buyOnce(element.dataset.recipe);
             break;
+          case "buy-equipment":
+            buyEquipment(element.dataset.name);
+            break;
+          case "sell-equipment":
+            sellEquipment(element.dataset.id);
+            break;
           case "add-herb": {
             const name = handlePromptAdd("New herb name");
             if (!name) {
@@ -13186,6 +13429,20 @@
               state.scenario.for_sale.outputs[name] = true;
             } else {
               delete state.scenario.for_sale.outputs[name];
+            }
+            persistState();
+            renderApp();
+            break;
+          }
+          case "set-equipment-sale": {
+            const name = element.dataset.name || "";
+            if (!name) {
+              return;
+            }
+            if (element.checked) {
+              state.scenario.for_sale.equipment[name] = true;
+            } else {
+              delete state.scenario.for_sale.equipment[name];
             }
             persistState();
             renderApp();

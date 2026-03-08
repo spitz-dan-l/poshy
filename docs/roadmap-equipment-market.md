@@ -2,7 +2,7 @@
 
 ## Summary
 
-This roadmap now reflects shipped work through phase 2 as of March 8, 2026.
+This roadmap now reflects shipped work through phase 3 as of March 8, 2026.
 
 Recommended delivery order remains:
 
@@ -17,7 +17,8 @@ Current status:
 
 - Phase 1 is implemented.
 - Phase 2 is implemented.
-- Phases 3 through 6 are still future work.
+- Phase 3 is implemented.
+- Phases 4 through 6 are still future work.
 
 ## Phase Breakdown
 
@@ -111,13 +112,13 @@ Done means:
 
 Status:
 
-- Not started.
+- Implemented on March 8, 2026.
 
 Goal:
 
 - Make standalone equipment participate in manual economy actions.
 
-Planned scope:
+Shipped scope:
 
 - add manual `buy equipment` and `sell equipment` actions,
 - use full-HP creation on purchase,
@@ -125,10 +126,13 @@ Planned scope:
 - add shop-tab controls for `for_sale.equipment`,
 - surface equipment buy/sell actions in holdings, history, toasts, and undo/redo.
 
-Depends on:
+Done means:
 
-- the phase-2 imported equipment catalog,
-- the existing equipment-aware simulator and validation.
+- standalone equipment can be bought from the Workbench when its definition is sold this week,
+- owned equipment can be sold per instance from Current Holdings,
+- equipment sales use HP-aware gold gain and can produce fractional runtime gold,
+- Shop can edit weekly `for_sale.equipment` flags and the Workbench market updates immediately,
+- history, toasts, undo, redo, persistence, docs, and browser tests all reflect equipment market actions.
 
 ### Phase 4: Ring And Necklace Combo Assembly
 
@@ -198,7 +202,9 @@ Future work should assume these facts are already true:
 - `equipment.definitions` is populated from the workbook and currently contains real catalog data.
 - `inventory.equipment` and `for_sale.equipment` already exist in canonical scenario JSON.
 - standalone equipment instances are already editable in Base Inventory.
-- workbench holdings and summary stats already expose equipment counts.
+- workbench holdings expose per-instance sell controls and summary stats expose equipment counts.
+- Workbench exposes a manual equipment market driven by `for_sale.equipment`.
+- Shop exposes weekly equipment sale toggles.
 - Catalog already exposes imported equipment definitions and the `optimizer_auto_sell` toggle.
 - rings and necklaces already exist as base definitions with socket policy metadata.
 - no combo instances or socket editing exist yet.
@@ -213,9 +219,8 @@ Future work should assume these facts are already true:
 
 ## Remaining Test Plan
 
-Future phases should extend the current phase-2 coverage with:
+Future phases should extend the current phase-3 coverage with:
 
-- browser tests for equipment buy/sell actions,
 - browser tests for combo assembly and disassembly,
 - value-equivalence tests for `sell assembled` vs `disassemble then sell`,
 - planner tests over mixed stackable/equipment/combo requests.

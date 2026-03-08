@@ -45,6 +45,7 @@ def test_index_smoke() -> None:
         expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
         expect(page.get_by_role("heading", name="Item Details")).to_be_visible()
         expect(page.get_by_role("heading", name="Action Log")).to_be_visible()
+        expect(page.get_by_role("heading", name="Equipment Market")).to_be_visible()
         expect(page.locator(".holdings-panel").get_by_role("heading", name="Equipment")).to_be_visible()
         expect(page.locator(".holdings-panel").get_by_role("heading", name="Potions")).to_be_visible()
         expect(page.locator(".holdings-panel").get_by_role("heading", name="Gems")).to_be_visible()
@@ -114,6 +115,8 @@ def test_index_smoke() -> None:
         mana_card = page.locator('[data-recipe-card="Mana potion"]')
         expect(mana_card).to_be_visible()
         expect(mana_card.locator('button[data-action="buy-once"]')).to_be_enabled()
+        expect(page.locator('button[data-action="buy-equipment"][data-name="Bronze ring"]')).to_be_visible()
+        expect(page.locator('button[data-action="buy-equipment"][data-name="Bronze necklace"]')).to_have_count(0)
 
         initial_gold = stat_value(page, "Gold")
 
@@ -159,11 +162,22 @@ def test_index_smoke() -> None:
 
         page.locator('button[data-action="switch-tab"][data-tab="shop"]').click()
         expect(page.get_by_role("heading", name="Direct Buy Potions")).to_be_visible()
+        expect(page.get_by_role("heading", name="Equipment")).to_be_visible()
         expect(page.locator('input[data-action="set-ingredient-sale"][data-name="Lune stone"]')).to_be_checked()
         expect(page.locator('input[data-action="set-output-sale"][data-name="Mana potion"]')).to_be_checked()
+        expect(page.locator('input[data-action="set-equipment-sale"][data-name="Bronze ring"]')).to_be_checked()
         expect(page.locator('input[data-action="set-output-sale"][data-name="Ancient medicine"]')).to_have_count(0)
+        expect(page.locator('input[data-action="set-equipment-sale"][data-name="Bronze necklace"]')).to_have_count(0)
         page.locator('input[data-action="toggle-zero-shop"]').check()
         expect(page.locator('input[data-action="set-output-sale"][data-name="Ancient medicine"]')).not_to_be_checked()
+        bronze_necklace_sale = page.locator(
+            'input[data-action="set-equipment-sale"][data-name="Bronze necklace"]'
+        )
+        expect(bronze_necklace_sale).not_to_be_checked()
+        bronze_necklace_sale.check()
+
+        page.locator('button[data-action="switch-tab"][data-tab="workbench"]').click()
+        expect(page.locator('button[data-action="buy-equipment"][data-name="Bronze necklace"]')).to_be_visible()
 
         page.locator('button[data-action="switch-tab"][data-tab="inventory"]').click()
         base_gold_input = page.locator("#base-gold")
@@ -206,6 +220,86 @@ def test_index_smoke() -> None:
             has=page.locator("td", has_text="Leather Shoes")
         ).first
         expect(leather_shoes_row).to_contain_text("5/7")
+        expect(leather_shoes_row).to_contain_text("17.86g")
+        expect(page.locator('button[data-action="buy-equipment"][data-name="Bronze necklace"]')).to_be_visible()
+
+        page.locator('button[data-action="buy-equipment"][data-name="Bronze ring"]').click()
+        expect(page.locator('[data-role="toast"]')).to_contain_text("Bought Bronze ring")
+        expect(page.locator('[data-role="toast"]')).to_contain_text("spend 40g")
+        expect(page.locator(".history-card strong").first).to_contain_text("Bought Bronze ring")
+        expect(page.locator(".history-card .pill", has_text="Equipment").first).to_be_visible()
+        assert stat_value(page, "Equipment") == "5"
+        assert stat_value(page, "Gold") == "306g"
+        bought_ring_row = page.locator(".holdings-panel tr").filter(
+            has=page.locator("td", has_text="bronze-ring-1")
+        ).first
+        expect(bought_ring_row).to_contain_text("Bronze ring")
+
+        page.locator('button[data-action="undo-action"]').click()
+        expect(page.locator('[data-role="toast"]')).to_contain_text("Undid Bought Bronze ring")
+        assert stat_value(page, "Equipment") == "4"
+        assert stat_value(page, "Gold") == f"{updated_gold}g"
+        expect(
+            page.locator(".holdings-panel tr").filter(has=page.locator("td", has_text="bronze-ring-1"))
+        ).to_have_count(0)
+
+        page.locator('button[data-action="redo-action"]').click()
+        expect(page.locator('[data-role="toast"]')).to_contain_text("Redid Bought Bronze ring")
+        assert stat_value(page, "Equipment") == "5"
+        assert stat_value(page, "Gold") == "306g"
+        bought_ring_row = page.locator(".holdings-panel tr").filter(
+            has=page.locator("td", has_text="bronze-ring-1")
+        ).first
+        expect(bought_ring_row).to_contain_text("Bronze ring")
+
+        page.reload(wait_until="domcontentloaded")
+        expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
+        assert stat_value(page, "Equipment") == "5"
+        assert stat_value(page, "Gold") == "306g"
+        bought_ring_row = page.locator(".holdings-panel tr").filter(
+            has=page.locator("td", has_text="bronze-ring-1")
+        ).first
+        expect(bought_ring_row).to_contain_text("Bronze ring")
+
+        bought_ring_row.get_by_role("button", name="Sell").click()
+        expect(page.locator('[data-role="toast"]')).to_contain_text("Sold Bronze ring")
+        expect(page.locator('[data-role="toast"]')).to_contain_text("gain 20g")
+        expect(page.locator(".history-card strong").first).to_contain_text("Sold Bronze ring")
+        assert stat_value(page, "Equipment") == "4"
+        assert stat_value(page, "Gold") == "326g"
+        expect(
+            page.locator(".holdings-panel tr").filter(has=page.locator("td", has_text="bronze-ring-1"))
+        ).to_have_count(0)
+
+        page.locator('button[data-action="undo-action"]').click()
+        expect(page.locator('[data-role="toast"]')).to_contain_text("Undid Sold Bronze ring")
+        assert stat_value(page, "Equipment") == "5"
+        assert stat_value(page, "Gold") == "306g"
+        bought_ring_row = page.locator(".holdings-panel tr").filter(
+            has=page.locator("td", has_text="bronze-ring-1")
+        ).first
+        expect(bought_ring_row).to_contain_text("Bronze ring")
+
+        page.locator('button[data-action="redo-action"]').click()
+        expect(page.locator('[data-role="toast"]')).to_contain_text("Redid Sold Bronze ring")
+        assert stat_value(page, "Equipment") == "4"
+        assert stat_value(page, "Gold") == "326g"
+        expect(
+            page.locator(".holdings-panel tr").filter(has=page.locator("td", has_text="bronze-ring-1"))
+        ).to_have_count(0)
+
+        leather_shoes_row = page.locator(".holdings-panel tr").filter(
+            has=page.locator("td", has_text="Leather Shoes")
+        ).first
+        leather_shoes_row.get_by_role("button", name="Sell").click()
+        expect(page.locator('[data-role="toast"]')).to_contain_text("Sold Leather Shoes")
+        expect(page.locator('[data-role="toast"]')).to_contain_text("gain 17.86g")
+        expect(page.locator(".history-card strong").first).to_contain_text("Sold Leather Shoes")
+        assert stat_value(page, "Equipment") == "3"
+        assert stat_value(page, "Gold") == "343.86g"
+        expect(
+            page.locator(".holdings-panel tr").filter(has=page.locator("td", has_text="Leather Shoes"))
+        ).to_have_count(0)
 
         page.locator('button[data-action="switch-tab"][data-tab="recipes"]').click()
         expect(page.get_by_role("heading", name="Catalog")).to_be_visible()
@@ -253,10 +347,10 @@ def test_index_smoke() -> None:
 
         page.reload(wait_until="domcontentloaded")
         expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
-        leather_shoes_row = page.locator(".holdings-panel tr").filter(
-            has=page.locator("td", has_text="Leather Shoes")
-        ).first
-        expect(leather_shoes_row).to_contain_text("5/7")
+        assert stat_value(page, "Gold") == "343.86g"
+        expect(
+            page.locator(".holdings-panel tr").filter(has=page.locator("td", has_text="Leather Shoes"))
+        ).to_have_count(0)
         page.locator('button[data-action="switch-tab"][data-tab="recipes"]').click()
         bronze_ring_definition = page.locator("details.recipe-card").filter(
             has=page.locator("summary strong", has_text="Bronze ring")
