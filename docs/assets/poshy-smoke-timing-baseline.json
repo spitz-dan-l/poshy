@@ -1,0 +1,1296 @@
+{
+  "generated_at": "2026-03-09T14:49:35.095562+00:00",
+  "summary": {
+    "test_count": 26,
+    "step_count": 95,
+    "total_elapsed_ms": 104894.879
+  },
+  "tests": [
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "elapsed_ms": 17575.32,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 18
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_tab_and_mobile_sections",
+      "elapsed_ms": 3976.035,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 4
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_goal_builder_scope_filters_and_preserves_selection",
+      "elapsed_ms": 3701.082,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 2
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_actionable_filter_ignores_current_gold",
+      "elapsed_ms": 2094.918,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 2
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_new_lines_open_empty_and_search_first",
+      "elapsed_ms": 3255.831,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 3
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_actionable_equipment_scope_includes_repurposable_socketed_bases",
+      "elapsed_ms": 1616.111,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 2
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_goal_scope_toggle_does_not_invalidate_preview",
+      "elapsed_ms": 2788.888,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 3
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_wrap_overflow_and_scroll_guards",
+      "elapsed_ms": 5484.911,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 5
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_inspector_stays_visible_and_resets_scroll",
+      "elapsed_ms": 1519.341,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 3
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_preserves_scroll_positions",
+      "elapsed_ms": 7068.779,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 5
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_accessory_combo_assembly",
+      "elapsed_ms": 6885.798,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 5
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_stackable_sell_flows",
+      "elapsed_ms": 5130.563,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 5
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_stackable_preview_and_apply",
+      "elapsed_ms": 3114.39,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 3
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_combo_preview_and_apply_preserves_identity",
+      "elapsed_ms": 3562.044,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 3
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_mixed_cross_system_plan_and_apply",
+      "elapsed_ms": 5133.138,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 3
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_solved_preview_omits_protected_footer_and_unaffected_equipment",
+      "elapsed_ms": 3082.109,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 2
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_balances_herb_liquidation_within_cohort",
+      "elapsed_ms": 1995.355,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 2
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_balances_gem_piece_liquidation_within_cohort",
+      "elapsed_ms": 2149.805,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 2
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_ingredient_funding_respects_reserves",
+      "elapsed_ms": 2659.205,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 3
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_pure_equipment_goal_uses_ingredient_funding",
+      "elapsed_ms": 2221.188,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 2
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_blocked_combo_and_repurposable_disassembly",
+      "elapsed_ms": 6337.468,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 4
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_planner_rules_persist_reload_and_reset",
+      "elapsed_ms": 6293.792,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 4
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_rejects_invalid_import_json",
+      "elapsed_ms": 4684.577,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 4
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_ignores_legacy_v2_saved_state",
+      "elapsed_ms": 830.271,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 2
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_blocks_invalid_saved_state_and_can_clear",
+      "elapsed_ms": 906.836,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 2
+      }
+    },
+    {
+      "kind": "test",
+      "test": "tests/test_index_smoke.py::test_index_blocks_legacy_effect_saved_state_and_can_clear",
+      "elapsed_ms": 827.124,
+      "outcome": "passed",
+      "metadata": {
+        "step_count": 2
+      }
+    }
+  ],
+  "steps": [
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "load desktop workbench",
+      "elapsed_ms": 287.706,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "validate initial workbench shell",
+      "elapsed_ms": 278.089,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "workbench"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "inspect workbench categories and holdings detail",
+      "elapsed_ms": 3027.81,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "workbench"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "buy ingredients and exercise undo redo reset",
+      "elapsed_ms": 2776.904,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "workbench"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "craft and buy stackables",
+      "elapsed_ms": 1527.924,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "workbench"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "open shop tab",
+      "elapsed_ms": 286.32,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "navigation",
+        "tab": "shop"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "return to workbench from shop",
+      "elapsed_ms": 222.852,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "navigation",
+        "tab": "workbench"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "open inventory tab",
+      "elapsed_ms": 229.84,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "navigation",
+        "tab": "inventory"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "toggle shop sale visibility and edit base inventory",
+      "elapsed_ms": 2288.348,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "inventory"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "return to workbench after base apply",
+      "elapsed_ms": 353.224,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "navigation",
+        "tab": "workbench"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "apply base inventory and buy equipment",
+      "elapsed_ms": 1653.207,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "workbench"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "reload after equipment purchase",
+      "elapsed_ms": 227.817,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "persistence"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "sell equipment and verify persistence",
+      "elapsed_ms": 1211.713,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "workbench"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "open catalog tab",
+      "elapsed_ms": 671.962,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "navigation",
+        "tab": "recipes"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "validate catalog definitions",
+      "elapsed_ms": 701.018,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "validation"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "reload after catalog validation",
+      "elapsed_ms": 202.432,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "persistence"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "validate catalog state after reload",
+      "elapsed_ms": 379.152,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "persistence"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_smoke",
+      "step": "exercise mobile workbench navigation and inspector",
+      "elapsed_ms": 1881.85,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "mobile"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_tab_and_mobile_sections",
+      "step": "load desktop planner shell",
+      "elapsed_ms": 305.167,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_tab_and_mobile_sections",
+      "step": "validate planner desktop layout",
+      "elapsed_ms": 416.582,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_tab_and_mobile_sections",
+      "step": "load mobile planner shell",
+      "elapsed_ms": 231.346,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_tab_and_mobile_sections",
+      "step": "exercise mobile planner sections and preview sheet",
+      "elapsed_ms": 2579.67,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "mobile"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_goal_builder_scope_filters_and_preserves_selection",
+      "step": "load planner scope filter page",
+      "elapsed_ms": 291.373,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_goal_builder_scope_filters_and_preserves_selection",
+      "step": "validate planner scope filters preserve selection",
+      "elapsed_ms": 2983.635,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_actionable_filter_ignores_current_gold",
+      "step": "load planner with zero gold state",
+      "elapsed_ms": 284.039,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_actionable_filter_ignores_current_gold",
+      "step": "validate actionable filter ignores current gold",
+      "elapsed_ms": 1378.294,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_new_lines_open_empty_and_search_first",
+      "step": "load planner new-line picker page",
+      "elapsed_ms": 298.717,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_new_lines_open_empty_and_search_first",
+      "step": "exercise stackable picker default state and search",
+      "elapsed_ms": 1320.65,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_new_lines_open_empty_and_search_first",
+      "step": "exercise combo picker default state and search",
+      "elapsed_ms": 1210.3,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_actionable_equipment_scope_includes_repurposable_socketed_bases",
+      "step": "load planner with repurposable combo base",
+      "elapsed_ms": 296.581,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_actionable_equipment_scope_includes_repurposable_socketed_bases",
+      "step": "toggle repurpose rule to expand equipment scope",
+      "elapsed_ms": 892.12,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_goal_scope_toggle_does_not_invalidate_preview",
+      "step": "load planner scope toggle preview page",
+      "elapsed_ms": 328.745,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_goal_scope_toggle_does_not_invalidate_preview",
+      "step": "build planner preview before scope toggle",
+      "elapsed_ms": 1412.344,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_goal_scope_toggle_does_not_invalidate_preview",
+      "step": "toggle planner scope without invalidating preview",
+      "elapsed_ms": 601.733,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_wrap_overflow_and_scroll_guards",
+      "step": "load desktop planner overflow page",
+      "elapsed_ms": 335.521,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_wrap_overflow_and_scroll_guards",
+      "step": "configure desktop planner preview",
+      "elapsed_ms": 1393.818,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_wrap_overflow_and_scroll_guards",
+      "step": "validate desktop planner overflow and scroll guards",
+      "elapsed_ms": 1155.334,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_wrap_overflow_and_scroll_guards",
+      "step": "load mobile planner overflow page",
+      "elapsed_ms": 242.77,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_wrap_overflow_and_scroll_guards",
+      "step": "validate mobile planner overflow and section guards",
+      "elapsed_ms": 1882.956,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "mobile"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_inspector_stays_visible_and_resets_scroll",
+      "step": "load planner inspector scroll page",
+      "elapsed_ms": 324.687,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_inspector_stays_visible_and_resets_scroll",
+      "step": "inspect planner holdings item and seed scroll state",
+      "elapsed_ms": 516.946,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_inspector_stays_visible_and_resets_scroll",
+      "step": "verify planner inspector stays visible and resets scroll",
+      "elapsed_ms": 241.828,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_preserves_scroll_positions",
+      "step": "load scroll preservation page",
+      "elapsed_ms": 322.277,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_preserves_scroll_positions",
+      "step": "import modified scenario for scroll checks",
+      "elapsed_ms": 948.914,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "validation"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_preserves_scroll_positions",
+      "step": "preserve workbench holdings and inspector scroll",
+      "elapsed_ms": 1406.6,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "workbench"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_preserves_scroll_positions",
+      "step": "preserve action log inventory and shop scroll",
+      "elapsed_ms": 3033.904,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "navigation"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_preserves_scroll_positions",
+      "step": "preserve mobile inspector scroll",
+      "elapsed_ms": 893.601,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "mobile"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_accessory_combo_assembly",
+      "step": "load accessory combo assembly page",
+      "elapsed_ms": 317.45,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_accessory_combo_assembly",
+      "step": "enable accessory market sale and buy base necklace",
+      "elapsed_ms": 1214.343,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "workbench"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_accessory_combo_assembly",
+      "step": "craft gems and assemble bronze ring combo",
+      "elapsed_ms": 2772.802,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "workbench"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_accessory_combo_assembly",
+      "step": "assemble and disassemble bronze necklace combo",
+      "elapsed_ms": 1792.534,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "workbench"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_accessory_combo_assembly",
+      "step": "sell assembled bronze ring combo",
+      "elapsed_ms": 347.827,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "workbench"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_stackable_sell_flows",
+      "step": "load stackable sell flow page",
+      "elapsed_ms": 309.683,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_stackable_sell_flows",
+      "step": "import modified scenario for sell flow coverage",
+      "elapsed_ms": 946.288,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "validation"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_stackable_sell_flows",
+      "step": "sell stackables across holdings and inspect history detail",
+      "elapsed_ms": 2555.714,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "workbench"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_stackable_sell_flows",
+      "step": "reload after stackable sell flow",
+      "elapsed_ms": 226.951,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "persistence"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_stackable_sell_flows",
+      "step": "undo redo and reload sell flow history",
+      "elapsed_ms": 893.291,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "persistence"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_stackable_preview_and_apply",
+      "step": "load planner stackable preview page",
+      "elapsed_ms": 315.444,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_stackable_preview_and_apply",
+      "step": "configure and preview stackable planner goal",
+      "elapsed_ms": 1546.55,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_stackable_preview_and_apply",
+      "step": "apply stackable planner preview to workbench",
+      "elapsed_ms": 795.41,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_combo_preview_and_apply_preserves_identity",
+      "step": "load planner combo preview page",
+      "elapsed_ms": 318.856,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_combo_preview_and_apply_preserves_identity",
+      "step": "configure and preview combo planner goal",
+      "elapsed_ms": 1850.535,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_combo_preview_and_apply_preserves_identity",
+      "step": "apply combo planner preview and preserve identity",
+      "elapsed_ms": 930.869,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_mixed_cross_system_plan_and_apply",
+      "step": "load mixed planner flow page",
+      "elapsed_ms": 296.925,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_mixed_cross_system_plan_and_apply",
+      "step": "configure and preview mixed cross-system planner goal",
+      "elapsed_ms": 3589.958,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_mixed_cross_system_plan_and_apply",
+      "step": "apply mixed planner preview to workbench",
+      "elapsed_ms": 764.098,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_solved_preview_omits_protected_footer_and_unaffected_equipment",
+      "step": "load solved preview omission page",
+      "elapsed_ms": 309.384,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_solved_preview_omits_protected_footer_and_unaffected_equipment",
+      "step": "preview solved plan without protected footer noise",
+      "elapsed_ms": 2358.1,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_balances_herb_liquidation_within_cohort",
+      "step": "load herb liquidation planner page",
+      "elapsed_ms": 345.328,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_balances_herb_liquidation_within_cohort",
+      "step": "preview herb liquidation within cohort",
+      "elapsed_ms": 1176.833,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_balances_gem_piece_liquidation_within_cohort",
+      "step": "load gem liquidation planner page",
+      "elapsed_ms": 307.794,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_balances_gem_piece_liquidation_within_cohort",
+      "step": "preview gem-piece liquidation within cohort",
+      "elapsed_ms": 1399.892,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_ingredient_funding_respects_reserves",
+      "step": "load reserve-respecting funding page",
+      "elapsed_ms": 297.269,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_ingredient_funding_respects_reserves",
+      "step": "preview ingredient funding with reserves",
+      "elapsed_ms": 1357.765,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_ingredient_funding_respects_reserves",
+      "step": "apply reserve-respecting planner preview",
+      "elapsed_ms": 571.93,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_pure_equipment_goal_uses_ingredient_funding",
+      "step": "load pure equipment funding page",
+      "elapsed_ms": 319.391,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_pure_equipment_goal_uses_ingredient_funding",
+      "step": "preview pure equipment goal with ingredient funding",
+      "elapsed_ms": 1494.066,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_blocked_combo_and_repurposable_disassembly",
+      "step": "load blocked combo planner page",
+      "elapsed_ms": 311.572,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_blocked_combo_and_repurposable_disassembly",
+      "step": "preview blocked combo request",
+      "elapsed_ms": 2967.522,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_blocked_combo_and_repurposable_disassembly",
+      "step": "load repurpose planner page",
+      "elapsed_ms": 259.922,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_blocked_combo_and_repurposable_disassembly",
+      "step": "compare combo preview before and after repurpose rule",
+      "elapsed_ms": 2335.908,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_rules_persist_reload_and_reset",
+      "step": "load planner rules persistence page",
+      "elapsed_ms": 306.47,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_rules_persist_reload_and_reset",
+      "step": "configure planner rules and preview before reload",
+      "elapsed_ms": 2111.882,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "planner"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_rules_persist_reload_and_reset",
+      "step": "reload planner rules page",
+      "elapsed_ms": 229.465,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "persistence"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_planner_rules_persist_reload_and_reset",
+      "step": "reload planner rules and clear them via reset and imports",
+      "elapsed_ms": 3455.557,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "persistence"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_rejects_invalid_import_json",
+      "step": "load invalid import validation page",
+      "elapsed_ms": 320.737,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_rejects_invalid_import_json",
+      "step": "reject aliased output and misbucketed inventory imports",
+      "elapsed_ms": 1370.633,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "validation"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_rejects_invalid_import_json",
+      "step": "reject malformed market equipment and socket payloads",
+      "elapsed_ms": 2015.504,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "validation"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_rejects_invalid_import_json",
+      "step": "accept valid duplicate socket import after failures",
+      "elapsed_ms": 538.982,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "validation"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_ignores_legacy_v2_saved_state",
+      "step": "load page with legacy v2 saved state present",
+      "elapsed_ms": 322.615,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_ignores_legacy_v2_saved_state",
+      "step": "ignore legacy v2 saved state",
+      "elapsed_ms": 85.485,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "validation"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_blocks_invalid_saved_state_and_can_clear",
+      "step": "load page with invalid saved state",
+      "elapsed_ms": 121.791,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_blocks_invalid_saved_state_and_can_clear",
+      "step": "show and clear invalid saved state blocker",
+      "elapsed_ms": 333.564,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "validation"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_blocks_legacy_effect_saved_state_and_can_clear",
+      "step": "load page with legacy effect saved state",
+      "elapsed_ms": 115.94,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "startup"
+      }
+    },
+    {
+      "kind": "step",
+      "test": "tests/test_index_smoke.py::test_index_blocks_legacy_effect_saved_state_and_can_clear",
+      "step": "show and clear legacy effect blocker",
+      "elapsed_ms": 280.202,
+      "status": "passed",
+      "outcome": "passed",
+      "metadata": {
+        "phase": "validation"
+      }
+    }
+  ]
+}

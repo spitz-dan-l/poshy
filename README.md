@@ -90,6 +90,14 @@ If browser behavior changed, also run the browser suite:
 
 In sandboxed environments, Playwright may need to run outside the sandbox.
 
+Optional smoke timing output:
+
+```bash
+/bin/bash -lc "UV_CACHE_DIR=.uv-cache PLAYWRIGHT_BROWSERS_PATH=.playwright-browsers uv run pytest -q tests/test_index_smoke.py --durations=0 --smoke-timing --smoke-timing-json /tmp/poshy-smoke-timing.json"
+```
+
+This keeps the normal smoke assertions intact, prints a timing summary, and writes per-test plus per-checkpoint timing data to JSON.
+
 ### 3. Change Browser UI Or Runtime Logic
 
 Typical files:
