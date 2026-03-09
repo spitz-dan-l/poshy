@@ -557,24 +557,50 @@
 
     .planner-layout {
       display: grid;
-      grid-template-columns: minmax(300px, 0.92fr) minmax(0, 1.2fr) minmax(280px, 0.88fr);
+      grid-template-columns: minmax(240px, 0.82fr) minmax(260px, 0.92fr) minmax(280px, 1.04fr) minmax(250px, 0.88fr);
       gap: 1rem;
       align-items: start;
+      min-width: 0;
     }
 
     .planner-column {
       display: grid;
       gap: 1rem;
       align-self: start;
+      min-width: 0;
     }
 
-    .planner-preview-column {
+    .planner-holdings-column,
+    .planner-goals-column,
+    .planner-preview-column,
+    .planner-side-column,
+    .planner-column > .panel {
       min-width: 0;
+    }
+
+    .planner-holdings-panel {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      min-height: 0;
+      max-height: calc(100vh - var(--action-log-sticky-top) - 1rem);
+      overflow: hidden;
+    }
+
+    .planner-preview-column,
+    .planner-side-column {
+      min-width: 0;
+    }
+
+    .planner-inspector-panel {
+      position: sticky;
+      top: var(--action-log-sticky-top);
+      z-index: 3;
+      align-self: start;
     }
 
     .mobile-planner-nav {
       display: none;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0.55rem;
     }
 
@@ -662,7 +688,8 @@
     .goal-grid,
     .meta-grid,
     .summary-grid,
-    .planner-rule-grid {
+    .planner-rule-grid,
+    .planner-picker-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0.65rem;
@@ -743,6 +770,24 @@
       align-items: start;
     }
 
+    .plan-step-copy {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .plan-step-actions {
+      grid-column: 2 / 4;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.55rem;
+      min-width: 0;
+    }
+
+    .planner-step-detail-button {
+      display: none;
+    }
+
     .step-index {
       width: 2rem;
       height: 2rem;
@@ -772,22 +817,145 @@
       color: var(--muted);
     }
 
-    .planner-rule-table .table-wrap {
-      max-height: 22rem;
+    .planner-delta-block {
+      display: grid;
+      gap: 0.85rem;
+      margin-bottom: 1rem;
     }
 
-    .planner-rule-table table {
+    .planner-delta-list,
+    .planner-rule-list {
+      display: grid;
+      gap: 0.75rem;
       min-width: 0;
     }
 
-    .planner-step-button {
+    .planner-delta-row,
+    .planner-picker,
+    .planner-picker-option {
+      border-radius: 16px;
+      border: 1px solid rgba(93, 73, 53, 0.12);
+      background: rgba(255, 255, 255, 0.6);
+      min-width: 0;
+    }
+
+    .planner-delta-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.7rem;
+      padding: 0.8rem 0.9rem;
+    }
+
+    .planner-delta-copy,
+    .planner-picker-copy,
+    .planner-picker-option-copy {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .planner-delta-actions,
+    .planner-picker-actions,
+    .planner-picker-option-actions,
+    .planner-card-actions,
+    .planner-note-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+
+    .planner-delta-actions {
+      margin-left: auto;
+    }
+
+    .delta-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 0.32rem 0.6rem;
+      font-weight: 700;
+      white-space: nowrap;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(93, 73, 53, 0.12);
+    }
+
+    .delta-pill.positive {
+      color: var(--moss);
+      border-color: rgba(54, 80, 60, 0.18);
+    }
+
+    .delta-pill.negative {
+      color: var(--ember-deep);
+      border-color: rgba(190, 90, 44, 0.18);
+    }
+
+    .planner-picker {
+      padding: 0.8rem 0.85rem;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .planner-picker-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.7rem;
+      align-items: flex-start;
+    }
+
+    .planner-picker-actions {
+      margin-left: auto;
+    }
+
+    .planner-picker-helper {
+      overflow-wrap: anywhere;
+    }
+
+    .planner-picker-search {
+      min-width: 0;
+      margin: 0;
+    }
+
+    .planner-picker-list {
+      display: grid;
+      gap: 0.6rem;
+      max-height: 16rem;
+      overflow: auto;
+      padding-right: 0.2rem;
+      min-width: 0;
+    }
+
+    .planner-picker-option {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.65rem;
+      padding: 0.75rem 0.8rem;
+    }
+
+    .planner-picker-option.selected {
+      background: rgba(247, 252, 248, 0.92);
+    }
+
+    .planner-rule-table {
+      display: grid;
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    .planner-rule-list {
+      max-height: 22rem;
+      overflow: auto;
+      padding-right: 0.2rem;
+    }
+
+    .planner-filter-field {
+      min-width: min(100%, 240px);
       width: 100%;
-      justify-content: flex-start;
-      text-align: left;
-      padding: 0;
-      background: transparent;
-      border: 0;
-      box-shadow: none;
     }
 
     .planner-mobile-sheet {
@@ -1536,6 +1704,7 @@
       }
 
       .holdings-panel,
+      .planner-holdings-panel,
       .workbench-panel,
       .workbench-side-column,
       .action-log-panel {
@@ -1544,6 +1713,7 @@
       }
 
       .holdings-panel,
+      .planner-holdings-panel,
       .workbench-panel,
       .action-log-panel {
         display: block;
@@ -1558,6 +1728,7 @@
 
       .holdings-scroll,
       .inspector-scroll,
+      .planner-rule-list,
       .workbench-panel .grid-list,
       .action-log-panel .grid-list {
         max-height: none;
@@ -1575,12 +1746,54 @@
       }
 
       .planner-layout[data-mobile-section="goals"] > .planner-preview-column,
-      .planner-layout[data-mobile-section="goals"] > .planner-rules-column,
+      .planner-layout[data-mobile-section="goals"] > .planner-holdings-column,
+      .planner-layout[data-mobile-section="goals"] > .planner-side-column,
+      .planner-layout[data-mobile-section="holdings"] > .planner-goals-column,
+      .planner-layout[data-mobile-section="holdings"] > .planner-preview-column,
+      .planner-layout[data-mobile-section="holdings"] > .planner-side-column,
+      .planner-layout[data-mobile-section="plan"] > .planner-holdings-column,
       .planner-layout[data-mobile-section="plan"] > .planner-goals-column,
-      .planner-layout[data-mobile-section="plan"] > .planner-rules-column,
+      .planner-layout[data-mobile-section="plan"] > .planner-side-column,
+      .planner-layout[data-mobile-section="rules"] > .planner-holdings-column,
       .planner-layout[data-mobile-section="rules"] > .planner-goals-column,
       .planner-layout[data-mobile-section="rules"] > .planner-preview-column {
         display: none;
+      }
+
+      .plan-step {
+        grid-template-columns: auto minmax(0, 1fr);
+      }
+
+      .plan-step .delta {
+        grid-column: 2;
+        justify-self: start;
+      }
+
+      .plan-step-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+      }
+
+      .planner-step-detail-button {
+        display: inline-flex;
+      }
+
+      .planner-picker-head,
+      .planner-picker-option,
+      .planner-delta-row,
+      .goal-line-head,
+      .planner-card-head {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .planner-picker-actions,
+      .planner-picker-option-actions,
+      .planner-delta-actions,
+      .planner-card-actions,
+      .planner-note-head {
+        justify-content: flex-start;
+        margin-left: 0;
       }
 
       .mobile-inspector {
@@ -9142,6 +9355,9 @@
         plannerLineCounter: 1,
         plannerMobileSection: "goals",
         plannerSelectedStep: -1,
+        plannerHoldingsFilter: "",
+        plannerOpenPicker: "",
+        plannerPickerQueries: {},
         mobileInspectorOpen: false,
         selectedDetail: null,
         holdingsFilter: "",
@@ -9948,6 +10164,8 @@
         ui.plannerLineCounter = 1;
         ui.plannerMobileSection = "goals";
         ui.plannerSelectedStep = -1;
+        ui.plannerOpenPicker = "";
+        ui.plannerPickerQueries = {};
       }
 
       function invalidatePlannerPreview() {
@@ -10493,6 +10711,7 @@
         }
         if (selection.type === "equipment_instance") {
           const instance = [
+            ...(ui.plannerPreview?.final_workbench?.equipment || []),
             ...(state.workbench.equipment || []),
             ...(state.scenario.inventory.equipment || [])
           ].find((entry) => entry.id === selection.id);
@@ -10563,6 +10782,83 @@
 
       function renderInspectChip(selection, label) {
         return renderInspectButton(selection, label, "inspect-chip");
+      }
+
+      function plannerPickerKey(lineId, role, slotIndex = null) {
+        const parts = [String(lineId || "").trim(), String(role || "").trim()];
+        if (slotIndex !== null && slotIndex !== undefined) {
+          parts.push(String(slotIndex));
+        }
+        return parts.filter(Boolean).join(":");
+      }
+
+      function plannerPrimaryPickerKeyForLine(line) {
+        if (!line) {
+          return "";
+        }
+        if (line.type === "equipment") {
+          return plannerPickerKey(line.id, "equipment");
+        }
+        if (line.type === "combo") {
+          return plannerPickerKey(line.id, "combo-base");
+        }
+        return plannerPickerKey(line.id, "stackable");
+      }
+
+      function plannerPickerOpen(key) {
+        return key && ui.plannerOpenPicker === key;
+      }
+
+      function plannerPickerQuery(key) {
+        return String(ui.plannerPickerQueries?.[key] || "");
+      }
+
+      function setPlannerPickerQuery(key, value) {
+        if (!key) {
+          return;
+        }
+        const nextValue = String(value || "");
+        if (nextValue) {
+          ui.plannerPickerQueries[key] = nextValue;
+        } else {
+          delete ui.plannerPickerQueries[key];
+        }
+      }
+
+      function clearPlannerPickerQueries(prefix = "") {
+        if (!prefix) {
+          ui.plannerPickerQueries = {};
+          return;
+        }
+        const next = {};
+        for (const [key, value] of Object.entries(ui.plannerPickerQueries || {})) {
+          if (!key.startsWith(prefix)) {
+            next[key] = value;
+          }
+        }
+        ui.plannerPickerQueries = next;
+      }
+
+      function formatHeldEquipmentState(baseName, gemNames = []) {
+        const gems = gemNames.filter(Boolean);
+        return gems.length ? [baseName, ...gems].join(" + ") : baseName;
+      }
+
+      function plannerEquipmentStateKey(baseName, gemNames = []) {
+        return `${String(baseName || "").trim()}\u0000${stableStringify(gemNames.filter(Boolean))}`;
+      }
+
+      function plannerEquipmentStateMeta(baseName, gemNames = []) {
+        const definition = getEquipmentDefinitionByName(baseName);
+        const gems = gemNames.filter(Boolean);
+        return {
+          key: plannerEquipmentStateKey(baseName, gems),
+          base_name: baseName,
+          gem_names: gems,
+          label: formatHeldEquipmentState(baseName, gems),
+          category: isAccessoryDefinition(definition) ? "Accessory" : "Equipment",
+          is_accessory: isAccessoryDefinition(definition)
+        };
       }
 
       function hasRecipeNameConflict(name, skipIndex = -1) {
@@ -11044,6 +11340,63 @@
         return null;
       }
 
+      function plannerGoalLinePrimarySelection(line) {
+        if (!line) {
+          return null;
+        }
+        if (line.type === "stackable") {
+          return makeOutputDetailSelection(getRecipeByName(line.name || ""));
+        }
+        if (line.type === "equipment") {
+          return makeEquipmentDefinitionDetailSelection(line.name || "");
+        }
+        const firstGem = (line.sockets || []).map((name) => String(name || "").trim()).find(Boolean);
+        return makeEquipmentDefinitionDetailSelection(line.base_name || "")
+          || (firstGem ? makeOutputDetailSelection(getRecipeByName(firstGem)) : null);
+      }
+
+      function firstPlannerHoldingsSelection(viewState = {}) {
+        if (viewState.equipment?.[0]) {
+          return makeEquipmentInstanceDetailSelection(viewState.equipment[0].id);
+        }
+        if (viewState.accessories?.[0]) {
+          return makeEquipmentInstanceDetailSelection(viewState.accessories[0].id);
+        }
+        if (viewState.potionNames?.[0]) {
+          return makeOutputDetailSelection(getRecipeByName(viewState.potionNames[0]));
+        }
+        if (viewState.gemNames?.[0]) {
+          return makeOutputDetailSelection(getRecipeByName(viewState.gemNames[0]));
+        }
+        if (viewState.herbNames?.[0]) {
+          return makeIngredientDetailSelection(viewState.herbNames[0]);
+        }
+        if (viewState.gemPieceNames?.[0]) {
+          return makeIngredientDetailSelection(viewState.gemPieceNames[0]);
+        }
+        return null;
+      }
+
+      function firstPlannerSelection(viewState = {}) {
+        const goalSelection = ui.plannerGoalLines
+          .map((line) => plannerGoalLinePrimarySelection(line))
+          .find(Boolean);
+        if (goalSelection) {
+          return goalSelection;
+        }
+        const previewSelection = (ui.plannerPreview?.item_deltas || [])
+          .map((item) => item.selection)
+          .find(Boolean);
+        if (previewSelection) {
+          return previewSelection;
+        }
+        const holdingsSelection = firstPlannerHoldingsSelection(viewState);
+        if (holdingsSelection) {
+          return holdingsSelection;
+        }
+        return null;
+      }
+
       function effectPrimaryDetailSelection(effect) {
         const updatedEquipment = effectUpdatedEquipmentItems(effect)[0];
         if (updatedEquipment) {
@@ -11084,6 +11437,22 @@
           }
         }
         return resolveDetailSelection(makeOutputDetailSelection(state.scenario.recipes.recipes[0] || null));
+      }
+
+      function selectedPlannerInspectorItem(viewState = {}) {
+        const explicit = resolveDetailSelection(ui.selectedDetail);
+        if (explicit) {
+          return explicit;
+        }
+        const firstVisible = resolveDetailSelection(firstPlannerSelection(viewState));
+        if (firstVisible) {
+          return firstVisible;
+        }
+        return resolveDetailSelection(makeOutputDetailSelection(state.scenario.recipes.recipes[0] || null));
+      }
+
+      function plannerInspectorScrollKey(selectedItem) {
+        return `planner-inspector-scroll:${selectedItem?.key || "empty"}`;
       }
 
       function recipeSearchText(recipe) {
@@ -12496,6 +12865,163 @@
           .join("");
       }
 
+      function plannerPickerSelectionForRole(role, value) {
+        if (role === "stackable" || role === "combo-gem") {
+          return makeOutputDetailSelection(getRecipeByName(value || ""));
+        }
+        if (role === "equipment" || role === "combo-base") {
+          return makeEquipmentDefinitionDetailSelection(value || "");
+        }
+        return null;
+      }
+
+      function plannerPickerMatchesQuery(role, value, query) {
+        const needle = String(query || "").trim().toLowerCase();
+        if (!needle) {
+          return true;
+        }
+        if (role === "stackable" || role === "combo-gem") {
+          const recipe = getRecipeByName(value);
+          return recipe ? recipeSearchText(recipe).includes(needle) : String(value || "").toLowerCase().includes(needle);
+        }
+        const definition = getEquipmentDefinitionByName(value);
+        return definition
+          ? equipmentDefinitionSearchText(definition).includes(needle)
+          : String(value || "").toLowerCase().includes(needle);
+      }
+
+      function plannerPickerOptionEntries(line, role, optionNames, selectedName, options = {}) {
+        const query = String(options.query || "").trim();
+        const filteredNames = optionNames.filter((name) => plannerPickerMatchesQuery(role, name, query));
+        const includeBlank = Boolean(options.includeBlank)
+          && (!query || String(options.blankLabel || "Empty").toLowerCase().includes(query.toLowerCase()));
+        return plannerSelectOptionEntries(filteredNames, selectedName, {
+          ...options,
+          includeBlank
+        })
+          .map((entry) => {
+            const selection = plannerPickerSelectionForRole(role, entry.value);
+            if (role === "stackable" || role === "combo-gem") {
+              const recipe = getRecipeByName(entry.value);
+              return {
+                ...entry,
+                selection,
+                detail: recipe
+                  ? (recipe.kind === "gem" ? "Gem" : `${subtypeLabelForRecipe(recipe)} · Potion`)
+                  : ""
+              };
+            }
+            const definition = getEquipmentDefinitionByName(entry.value);
+            return {
+              ...entry,
+              selection,
+              detail: definition
+                ? [isAccessoryDefinition(definition) ? "Accessory" : "Equipment", definition.family].filter(Boolean).join(" · ")
+                : ""
+            };
+          });
+      }
+
+      function renderPlannerPicker(line, config) {
+        const {
+          role,
+          label,
+          selectedName,
+          optionNames,
+          includeBlank = false,
+          blankLabel = "Empty",
+          slotIndex = null,
+          helperText = "",
+          selectedDetailText = ""
+        } = config;
+        const pickerKey = plannerPickerKey(line.id, role, slotIndex);
+        const open = plannerPickerOpen(pickerKey);
+        const query = plannerPickerQuery(pickerKey);
+        const optionEntries = plannerPickerOptionEntries(line, role, optionNames, selectedName, {
+          includeBlank,
+          blankLabel,
+          query
+        });
+        const selectedOption = optionEntries.find((entry) => entry.value === String(selectedName || "")) || null;
+        const selectedSelection = plannerPickerSelectionForRole(role, selectedName || "");
+        const hasSelection = Boolean(String(selectedName || "").trim());
+        const selectedLabel = selectedOption?.label || selectedName || `No ${label.toLowerCase()} selected`;
+        const listKey = `planner-picker:${pickerKey}`;
+        return `
+          <div
+            class="planner-picker ${open ? "open" : ""}"
+            data-planner-picker="${escapeHtml(pickerKey)}"
+            data-picker-role="${escapeHtml(role)}"
+            ${slotIndex === null ? "" : `data-picker-slot="${slotIndex}"`}
+          >
+            <div class="planner-picker-head">
+              <div class="planner-picker-copy">
+                <span class="label">${escapeHtml(label)}</span>
+                <strong>${escapeHtml(selectedLabel || blankLabel)}</strong>
+                ${hasSelection && (selectedDetailText || selectedOption?.detail)
+                  ? `<div class="tiny">${escapeHtml(selectedDetailText || selectedOption?.detail || "")}</div>`
+                  : ""}
+              </div>
+              <div class="planner-picker-actions">
+                ${hasSelection ? renderInspectButton(selectedSelection, "Inspect") : ""}
+                <button
+                  class="button-soft planner-picker-toggle"
+                  data-action="toggle-planner-picker"
+                  data-picker-key="${escapeHtml(pickerKey)}"
+                  aria-expanded="${open ? "true" : "false"}"
+                >
+                  ${escapeHtml(open ? "Close" : (hasSelection ? "Change" : "Browse"))}
+                </button>
+              </div>
+            </div>
+            ${helperText ? `<div class="tiny planner-picker-helper">${escapeHtml(helperText)}</div>` : ""}
+            ${open
+              ? `
+                <label class="field planner-picker-search">
+                  <span>Search</span>
+                  <input
+                    type="search"
+                    value="${escapeHtml(query)}"
+                    placeholder="Filter ${escapeHtml(label.toLowerCase())}"
+                    data-action="set-planner-picker-query"
+                    data-picker-key="${escapeHtml(pickerKey)}"
+                  >
+                </label>
+                <div class="planner-picker-list" data-preserve-scroll="${escapeHtml(listKey)}">
+                  ${optionEntries.length
+                    ? optionEntries.map((entry) => `
+                      <div class="planner-picker-option ${entry.value === String(selectedName || "") ? "selected" : ""}">
+                        <div class="planner-picker-option-copy">
+                          <strong>${escapeHtml(entry.label)}</strong>
+                          ${entry.detail ? `<div class="tiny">${escapeHtml(entry.detail)}</div>` : ""}
+                        </div>
+                        <div class="planner-picker-option-actions">
+                          ${renderInspectButton(entry.selection, "Inspect")}
+                          ${entry.value === String(selectedName || "")
+                            ? `<span class="status-pill good">Selected</span>`
+                            : `
+                              <button
+                                class="button-secondary"
+                                data-action="select-planner-picker-option"
+                                data-id="${escapeHtml(line.id)}"
+                                data-role="${escapeHtml(role)}"
+                                data-value="${escapeHtml(entry.value)}"
+                                ${slotIndex === null ? "" : `data-slot="${slotIndex}"`}
+                              >
+                                Select
+                              </button>
+                            `}
+                        </div>
+                      </div>
+                    `).join("")
+                    : `<div class="muted-box">No matching planner options.</div>`}
+                </div>
+              `
+              : ""}
+          </div>
+        `;
+      }
+
       function plannerDefaultStackableName() {
         return plannerFilteredOutputNames()[0] || getAllOutputNames()[0] || "";
       }
@@ -12516,29 +13042,25 @@
 
       function createPlannerGoalLine(type) {
         if (type === "equipment") {
-          const firstEquipment = plannerDefaultEquipmentName();
           return {
             id: nextPlannerGoalLineId(),
             type,
-            name: firstEquipment,
+            name: "",
             quantity: 1
           };
         }
         if (type === "combo") {
-          const firstAccessory = plannerDefaultComboBaseName();
-          const maxGems = Number(getEquipmentDefinitionByName(firstAccessory)?.socket_policy?.max_gems || 1);
           return {
             id: nextPlannerGoalLineId(),
             type,
-            base_name: firstAccessory,
-            sockets: Array.from({ length: maxGems }, () => "")
+            base_name: "",
+            sockets: []
           };
         }
-        const firstOutput = plannerDefaultStackableName();
         return {
           id: nextPlannerGoalLineId(),
           type: "stackable",
-          name: firstOutput,
+          name: "",
           quantity: 1
         };
       }
@@ -12548,13 +13070,70 @@
       }
 
       function addPlannerGoalLine(type) {
-        ui.plannerGoalLines.push(createPlannerGoalLine(type));
+        const line = createPlannerGoalLine(type);
+        ui.plannerGoalLines.push(line);
+        ui.plannerOpenPicker = plannerPrimaryPickerKeyForLine(line);
+        setPlannerPickerQuery(ui.plannerOpenPicker, "");
         invalidatePlannerPreview();
       }
 
       function removePlannerGoalLine(id) {
         ui.plannerGoalLines = ui.plannerGoalLines.filter((line) => line.id !== id);
+        if (ui.plannerOpenPicker.startsWith(`${id}:`)) {
+          ui.plannerOpenPicker = "";
+        }
+        clearPlannerPickerQueries(`${id}:`);
         invalidatePlannerPreview();
+      }
+
+      function setPlannerGoalLineSelection(id, role, value, slotIndex = null) {
+        const line = plannerGoalLineById(id);
+        if (!line) {
+          return false;
+        }
+        const nextValue = String(value || "").trim();
+        let nextOpenPicker = "";
+        if (role === "stackable") {
+          if (line.type !== "stackable") {
+            return false;
+          }
+          line.name = nextValue;
+        } else if (role === "equipment") {
+          if (line.type !== "equipment") {
+            return false;
+          }
+          line.name = nextValue;
+        } else if (role === "combo-base") {
+          if (line.type !== "combo") {
+            return false;
+          }
+          line.base_name = nextValue;
+          const maxGems = Number(getEquipmentDefinitionByName(line.base_name)?.socket_policy?.max_gems || 0);
+          const current = Array.isArray(line.sockets) ? line.sockets : [];
+          line.sockets = Array.from({ length: maxGems }, (_, index) => String(current[index] || "").trim());
+          if (nextValue && maxGems > 0) {
+            nextOpenPicker = plannerPickerKey(line.id, "combo-gem", 0);
+          }
+        } else if (role === "combo-gem") {
+          if (line.type !== "combo" || slotIndex === null || Number.isNaN(slotIndex) || slotIndex < 0) {
+            return false;
+          }
+          const maxGems = Number(getEquipmentDefinitionByName(line.base_name)?.socket_policy?.max_gems || 0);
+          const current = Array.isArray(line.sockets)
+            ? [...line.sockets]
+            : Array.from({ length: maxGems }, () => "");
+          current[slotIndex] = nextValue;
+          line.sockets = Array.from({ length: maxGems }, (_, index) => String(current[index] || "").trim());
+        } else {
+          return false;
+        }
+        clearPlannerPickerQueries(`${line.id}:`);
+        ui.plannerOpenPicker = nextOpenPicker;
+        if (nextOpenPicker) {
+          setPlannerPickerQuery(nextOpenPicker, "");
+        }
+        invalidatePlannerPreview();
+        return true;
       }
 
       function plannerGoalLineLabel(line) {
@@ -12608,6 +13187,10 @@
           }
 
           const baseName = String(line.base_name || "").trim();
+          if (!baseName) {
+            errors.push("Every planner line needs a selected item.");
+            continue;
+          }
           const definition = getEquipmentDefinitionByName(baseName);
           if (!definition || !isSocketableDefinition(definition)) {
             errors.push(`Unknown socketable accessory "${baseName || "blank"}".`);
@@ -13469,19 +14052,31 @@
         return protection;
       }
 
+      function plannerFundingIngredientCohortKey(candidate) {
+        return [
+          candidate.ingredient_type || "",
+          formatGoldAmount(candidate.unit_value || 0),
+          String(candidate.fanout ?? "")
+        ].join("\u0000");
+      }
+
       function plannerFundingCandidateOrder(left, right) {
         if (left.type !== right.type) {
           return left.type === "ingredient" ? -1 : 1;
         }
         if (left.type === "ingredient") {
-          if (left.surplus !== right.surplus) {
-            return right.surplus - left.surplus;
-          }
           if (left.fanout !== right.fanout) {
-            return left.fanout - right.fanout;
+            return Number(left.fanout || 0) - Number(right.fanout || 0);
           }
           if (left.unit_value !== right.unit_value) {
-            return right.unit_value - left.unit_value;
+            return Number(right.unit_value || 0) - Number(left.unit_value || 0);
+          }
+          if ((left.ingredient_type || "") !== (right.ingredient_type || "")) {
+            return String(left.ingredient_type || "").localeCompare(String(right.ingredient_type || ""), undefined, { sensitivity: "base" });
+          }
+          if (plannerFundingIngredientCohortKey(left) === plannerFundingIngredientCohortKey(right)
+            && left.remaining_after_sale !== right.remaining_after_sale) {
+            return Number(right.remaining_after_sale || 0) - Number(left.remaining_after_sale || 0);
           }
           return left.name.localeCompare(right.name, undefined, { sensitivity: "base" });
         }
@@ -13528,15 +14123,17 @@
           if (!available || unitValue === null) {
             continue;
           }
+          const ingredientType = ingredientTypeForName(name);
           const fanout = recipesUsingIngredient(name).length;
-          for (let index = 0; index < available; index += 1) {
+          for (let index = 1; index <= available; index += 1) {
             candidates.push({
               type: "ingredient",
               name,
               unit_value: unitValue,
               bucket: "ingredients",
-              surplus: available,
+              ingredient_type: ingredientType,
               fanout,
+              remaining_after_sale: available - index,
               sort_key: `${name}:${String(index).padStart(4, "0")}`
             });
           }
@@ -13599,13 +14196,15 @@
             protectedCandidates.push({
               name: instance.base_name,
               value,
-              reason: "needed for this plan"
+              reason: "needed for this plan",
+              selection: makeEquipmentInstanceDetailSelection(instance.id)
             });
           } else if (!isPlannerRepurposable(instance.id)) {
             protectedCandidates.push({
               name: instance.base_name,
               value,
-              reason: "protected by your repurpose rules"
+              reason: "protected by your repurpose rules",
+              selection: makeEquipmentInstanceDetailSelection(instance.id)
             });
           }
         }
@@ -13629,7 +14228,8 @@
           protectedCandidates.push({
             name: `${name} x${protectedCount}`,
             value: protectedCount * unitValue,
-            reason: reasons.join(", ")
+            reason: reasons.join(", "),
+            selection: makeIngredientDetailSelection(name)
           });
         }
         protectedCandidates.sort((left, right) => right.value - left.value || left.name.localeCompare(right.name, undefined, { sensitivity: "base" }));
@@ -13666,15 +14266,21 @@
               type: "ingredient",
               name: left[0],
               unit_value: getStackableSellValue("ingredients", left[0]),
-              surplus: left[1],
-              fanout: recipesUsingIngredient(left[0]).length
+              ingredient_type: ingredientTypeForName(left[0]),
+              fanout: recipesUsingIngredient(left[0]).length,
+              remaining_after_sale: Number(state.workbench.ingredients?.[left[0]] || 0)
+                - Number(protection[left[0]]?.total || 0)
+                - left[1]
             },
             {
               type: "ingredient",
               name: right[0],
               unit_value: getStackableSellValue("ingredients", right[0]),
-              surplus: right[1],
-              fanout: recipesUsingIngredient(right[0]).length
+              ingredient_type: ingredientTypeForName(right[0]),
+              fanout: recipesUsingIngredient(right[0]).length,
+              remaining_after_sale: Number(state.workbench.ingredients?.[right[0]] || 0)
+                - Number(protection[right[0]]?.total || 0)
+                - right[1]
             }
           )
         )) {
@@ -13759,7 +14365,8 @@
                   title: `Buy ${ingredient} x${count}`,
                   detail: `${ingredient} is sold this week at ${formatGoldAmount(unitPrice)}g each.`,
                   delta: -(count * unitPrice),
-                  step_action: null
+                  step_action: null,
+                  inspect_selection: makeIngredientDetailSelection(ingredient)
                 });
               }
               for (const craft of craftRun) {
@@ -13772,7 +14379,8 @@
                     4
                   )}.`,
                   delta: 0,
-                  step_action: craft
+                  step_action: craft,
+                  inspect_selection: makeOutputDetailSelection(recipe)
                 });
               }
               continue;
@@ -13799,7 +14407,8 @@
                   title: `Sell ${action.name} x${count}`,
                   detail: `Recovered ${formatGoldAmount(total)}g from surplus ingredient units.`,
                   delta: total,
-                  step_action: null
+                  step_action: null,
+                  inspect_selection: makeIngredientDetailSelection(action.name)
                 });
               } else if (action.kind === "buy_output") {
                 const recipe = getRecipeByName(action.recipe_name);
@@ -13810,7 +14419,8 @@
                   title: `Buy ${action.recipe_name}${count > 1 ? ` x${count}` : ""}`,
                   detail: `${action.recipe_name} is sold this week at ${formatGoldAmount(directPriceForRecipe(recipe) || 0)}g each.`,
                   delta: -total,
-                  step_action: null
+                  step_action: null,
+                  inspect_selection: makeOutputDetailSelection(recipe)
                 });
               } else if (action.kind === "buy_equipment") {
                 const count = grouped.length;
@@ -13820,7 +14430,8 @@
                   title: `Buy ${action.definition_name}${count > 1 ? ` x${count}` : ""}`,
                   detail: `${action.definition_name} is sold this week for ${formatGoldAmount(grouped[0].cost)}g.`,
                   delta: -total,
-                  step_action: null
+                  step_action: null,
+                  inspect_selection: makeEquipmentDefinitionDetailSelection(action.definition_name)
                 });
               } else {
                 const total = grouped.reduce((sum, entry) => sum + entry.value, 0);
@@ -13829,7 +14440,8 @@
                   title: `Sell ${action.name}${grouped.length > 1 ? ` x${grouped.length}` : ""}`,
                   detail: `Recovered ${formatGoldAmount(total)}g from repurposable equipment.`,
                   delta: total,
-                  step_action: null
+                  step_action: null,
+                  inspect_selection: makeEquipmentDefinitionDetailSelection(action.name)
                 });
               }
               continue;
@@ -13841,7 +14453,8 @@
                 title: `Assemble ${action.base_name} with ${action.gem_names.join(" + ")}`,
                 detail: `Pays the ${formatGoldAmount(action.cost)}g imbue fee and uses the selected gems.`,
                 delta: -action.cost,
-                step_action: action
+                step_action: action,
+                inspect_selection: makeEquipmentDefinitionDetailSelection(action.base_name)
               });
               index += 1;
               continue;
@@ -13856,7 +14469,8 @@
                   3
                 )} to current holdings.`,
                 delta: 0,
-                step_action: action
+                step_action: action,
+                inspect_selection: makeEquipmentDefinitionDetailSelection(action.base_name)
               });
               index += 1;
             }
@@ -13866,6 +14480,174 @@
         pushGroupedRows(fundingActions);
         pushGroupedRows(acquisitionActions);
         return rows;
+      }
+
+      function simulatePlannerPreviewEntries(applyActions = []) {
+        const simulatedWorkbench = deepClone(state.workbench);
+        const entries = [];
+        const tokenMap = new Map();
+        for (const instance of state.workbench.equipment || []) {
+          tokenMap.set(instance.id, instance.id);
+        }
+
+        for (const action of applyActions) {
+          let entry = null;
+          if (action.kind === "sell_stackable") {
+            entry = buildSellStackableActionEntry(action.bucket, action.name, simulatedWorkbench);
+          } else if (action.kind === "sell_equipment") {
+            entry = buildSellEquipmentActionEntry(tokenMap.get(action.token) || action.token, simulatedWorkbench);
+          } else if (action.kind === "craft") {
+            entry = buildCraftActionEntry(action.recipe_name, simulatedWorkbench);
+          } else if (action.kind === "buy_output") {
+            entry = buildBuyOutputActionEntry(action.recipe_name, simulatedWorkbench);
+          } else if (action.kind === "buy_equipment") {
+            entry = buildBuyEquipmentActionEntry(action.definition_name, simulatedWorkbench);
+            const added = entry?.effect?.transactions?.find((transaction) => transaction.kind === "equipment" && transaction.action === "add");
+            if (added) {
+              tokenMap.set(action.token, added.instance.id);
+            }
+          } else if (action.kind === "assemble") {
+            entry = buildAssembleAccessoryActionEntry(tokenMap.get(action.token) || action.token, action.gem_names, simulatedWorkbench);
+          } else if (action.kind === "disassemble") {
+            entry = buildDisassembleAccessoryActionEntry(tokenMap.get(action.token) || action.token, simulatedWorkbench);
+          }
+          if (!entry) {
+            return {
+              ok: false,
+              entries,
+              final_workbench: simulatedWorkbench
+            };
+          }
+          entries.push(entry);
+          simulatedWorkbench.gold = entry.after.gold;
+          simulatedWorkbench.ingredients = deepClone(entry.after.ingredients);
+          simulatedWorkbench.potions = deepClone(entry.after.potions);
+          simulatedWorkbench.gems = deepClone(entry.after.gems);
+          simulatedWorkbench.equipment = deepClone(entry.after.equipment);
+        }
+
+        return {
+          ok: true,
+          entries,
+          final_workbench: simulatedWorkbench
+        };
+      }
+
+      function collectPlannerEquipmentStateMap(instances = []) {
+        const stateMap = new Map();
+        for (const instance of instances) {
+          const meta = plannerEquipmentStateMeta(instance.base_name, socketedGemList(instance));
+          if (!stateMap.has(meta.key)) {
+            stateMap.set(meta.key, {
+              meta,
+              count: 0,
+              instances: []
+            });
+          }
+          const entry = stateMap.get(meta.key);
+          entry.count += 1;
+          entry.instances.push(instance);
+        }
+        return stateMap;
+      }
+
+      function plannerItemDeltaOrder(left, right) {
+        if (left.label !== right.label) {
+          return left.label.localeCompare(right.label, undefined, { sensitivity: "base" });
+        }
+        if (left.delta !== right.delta) {
+          return left.delta - right.delta;
+        }
+        return left.kind.localeCompare(right.kind, undefined, { sensitivity: "base" });
+      }
+
+      function buildPlannerItemDeltas(finalWorkbench) {
+        const items = [];
+        const pushDelta = (item) => {
+          if (!item || !item.delta) {
+            return;
+          }
+          items.push(item);
+        };
+        const pushStackableDeltas = (bucket, kindLabel, currentMap, nextMap, toSelection, toDetail) => {
+          const names = new Set([
+            ...Object.keys(currentMap || {}),
+            ...Object.keys(nextMap || {})
+          ]);
+          for (const name of Array.from(names).sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" }))) {
+            const delta = Number(nextMap?.[name] || 0) - Number(currentMap?.[name] || 0);
+            if (!delta) {
+              continue;
+            }
+            pushDelta({
+              key: `${bucket}:${name}`,
+              kind: kindLabel,
+              label: name,
+              detail: toDetail(name),
+              delta,
+              selection: toSelection(name)
+            });
+          }
+        };
+
+        pushStackableDeltas(
+          "ingredients",
+          "ingredient",
+          state.workbench.ingredients || {},
+          finalWorkbench?.ingredients || {},
+          (name) => makeIngredientDetailSelection(name),
+          (name) => ingredientTypeLabel(ingredientTypeForName(name))
+        );
+        pushStackableDeltas(
+          "potions",
+          "potion",
+          state.workbench.potions || {},
+          finalWorkbench?.potions || {},
+          (name) => makeOutputDetailSelection(getRecipeByName(name)),
+          (name) => {
+            const recipe = getRecipeByName(name);
+            return recipe ? `${subtypeLabelForRecipe(recipe)} · Potion` : "Potion";
+          }
+        );
+        pushStackableDeltas(
+          "gems",
+          "gem",
+          state.workbench.gems || {},
+          finalWorkbench?.gems || {},
+          (name) => makeOutputDetailSelection(getRecipeByName(name)),
+          () => "Gem"
+        );
+
+        const currentStates = collectPlannerEquipmentStateMap(state.workbench.equipment || []);
+        const finalStates = collectPlannerEquipmentStateMap(finalWorkbench?.equipment || []);
+        const stateKeys = new Set([
+          ...currentStates.keys(),
+          ...finalStates.keys()
+        ]);
+        for (const key of Array.from(stateKeys)) {
+          const currentEntry = currentStates.get(key);
+          const finalEntry = finalStates.get(key);
+          const delta = Number(finalEntry?.count || 0) - Number(currentEntry?.count || 0);
+          if (!delta) {
+            continue;
+          }
+          const meta = finalEntry?.meta || currentEntry?.meta;
+          const representative = delta > 0
+            ? (finalEntry?.instances?.[0] || null)
+            : (currentEntry?.instances?.[0] || null);
+          pushDelta({
+            key: `equipment:${meta.key}`,
+            kind: "equipment",
+            label: meta.label,
+            detail: meta.category,
+            delta,
+            selection: representative
+              ? makeEquipmentInstanceDetailSelection(representative.id)
+              : makeEquipmentDefinitionDetailSelection(meta.base_name)
+          });
+        }
+
+        return items.sort(plannerItemDeltaOrder);
       }
 
       function buildPlannerPreview() {
@@ -13901,11 +14683,12 @@
         const funding = buildPlannerFundingPlan(acquisition, normalized);
         if (funding.status === "blocked") {
           const recovered = funding.recovered || 0;
+          const rows = normalizePlannerPreviewRows(acquisition.actions, funding.actions);
           return {
             status: "blocked",
             banner_title: "Blocked",
             banner_text: `The best acquisition path still needs ${formatGoldAmount(funding.remaining_shortfall)}g after all allowed liquidation. ${funding.protected_candidates.length ? `Remaining protected candidates: ${funding.protected_candidates.map((entry) => `${entry.name} (${formatGoldAmount(entry.value)}g, ${entry.reason})`).join("; ")}` : ""}`,
-            rows: normalizePlannerPreviewRows(acquisition.actions, funding.actions),
+            rows,
             apply_actions: [],
             protected_candidates: funding.protected_candidates,
             summary: {
@@ -13913,13 +14696,32 @@
               liquidation_recovered: recovered,
               net_gold_delta: recovered - acquisition.gross_spend,
               final_gold: state.workbench.gold + recovered - acquisition.gross_spend,
-              steps: normalizePlannerPreviewRows(acquisition.actions, funding.actions).length
+              steps: rows.length
             }
           };
         }
 
         const rows = normalizePlannerPreviewRows(acquisition.actions, funding.actions);
         const recovered = funding.recovered || 0;
+        const applyActions = [...(funding.actions || []), ...acquisition.actions];
+        const simulation = simulatePlannerPreviewEntries(applyActions);
+        if (!simulation.ok) {
+          return {
+            status: "blocked",
+            banner_title: "Blocked",
+            banner_text: "The planner found a path, but the preview could not be materialized from the current run. Preview again from the latest workbench state.",
+            rows,
+            apply_actions: [],
+            protected_candidates: funding.protected_candidates,
+            summary: {
+              gross_spend: acquisition.gross_spend,
+              liquidation_recovered: recovered,
+              net_gold_delta: recovered - acquisition.gross_spend,
+              final_gold: state.workbench.gold + recovered - acquisition.gross_spend,
+              steps: rows.length
+            }
+          };
+        }
         return {
           status: "solved",
           banner_title: "Solution found",
@@ -13927,7 +14729,9 @@
             ? `The planner finds a valid sequence after recovering ${formatGoldAmount(recovered)}g from allowed liquidation.`
             : "The planner finds a valid sequence without liquidation.",
           rows,
-          apply_actions: [...(funding.actions || []), ...acquisition.actions],
+          apply_actions: applyActions,
+          final_workbench: simulation.final_workbench,
+          item_deltas: buildPlannerItemDeltas(simulation.final_workbench),
           protected_candidates: funding.protected_candidates,
           summary: {
             gross_spend: acquisition.gross_spend,
@@ -13943,49 +14747,15 @@
         if (!ui.plannerPreview || ui.plannerPreview.status !== "solved") {
           return;
         }
-        const simulatedWorkbench = deepClone(state.workbench);
-        const entries = [];
-        const tokenMap = new Map();
-        for (const instance of state.workbench.equipment || []) {
-          tokenMap.set(instance.id, instance.id);
+        const simulation = simulatePlannerPreviewEntries(ui.plannerPreview.apply_actions || []);
+        if (!simulation.ok) {
+          window.alert("The planner preview is stale and can no longer be applied. Preview again from the current run.");
+          return;
         }
 
-        for (const action of ui.plannerPreview.apply_actions || []) {
-          let entry = null;
-          if (action.kind === "sell_stackable") {
-            entry = buildSellStackableActionEntry(action.bucket, action.name, simulatedWorkbench);
-          } else if (action.kind === "sell_equipment") {
-            entry = buildSellEquipmentActionEntry(tokenMap.get(action.token) || action.token, simulatedWorkbench);
-          } else if (action.kind === "craft") {
-            entry = buildCraftActionEntry(action.recipe_name, simulatedWorkbench);
-          } else if (action.kind === "buy_output") {
-            entry = buildBuyOutputActionEntry(action.recipe_name, simulatedWorkbench);
-          } else if (action.kind === "buy_equipment") {
-            entry = buildBuyEquipmentActionEntry(action.definition_name, simulatedWorkbench);
-            const added = entry?.effect?.transactions?.find((transaction) => transaction.kind === "equipment" && transaction.action === "add");
-            if (added) {
-              tokenMap.set(action.token, added.instance.id);
-            }
-          } else if (action.kind === "assemble") {
-            entry = buildAssembleAccessoryActionEntry(tokenMap.get(action.token) || action.token, action.gem_names, simulatedWorkbench);
-          } else if (action.kind === "disassemble") {
-            entry = buildDisassembleAccessoryActionEntry(tokenMap.get(action.token) || action.token, simulatedWorkbench);
-          }
-          if (!entry) {
-            window.alert("The planner preview is stale and can no longer be applied. Preview again from the current run.");
-            return;
-          }
-          entries.push(entry);
-          simulatedWorkbench.gold = entry.after.gold;
-          simulatedWorkbench.ingredients = deepClone(entry.after.ingredients);
-          simulatedWorkbench.potions = deepClone(entry.after.potions);
-          simulatedWorkbench.gems = deepClone(entry.after.gems);
-          simulatedWorkbench.equipment = deepClone(entry.after.equipment);
-        }
-
-        commitWorkbenchEntries(entries, {
+        commitWorkbenchEntries(simulation.entries, {
           title: "Applied plan",
-          summary: `${entries.length} ordinary simulator actions`
+          summary: `${simulation.entries.length} ordinary simulator actions`
         });
       }
 
@@ -13999,12 +14769,17 @@
         ];
       }
 
-      function renderMobilePlannerNav(normalizedGoals) {
+      function renderMobilePlannerNav(normalizedGoals, holdingsRowCount = 0) {
         const sections = [
           {
             id: "goals",
             label: "Goals",
             meta: `${normalizedGoals.total_lines || 0} lines`
+          },
+          {
+            id: "holdings",
+            label: "Holdings",
+            meta: `${holdingsRowCount} rows`
           },
           {
             id: "plan",
@@ -14034,7 +14809,7 @@
         `;
       }
 
-      function renderPlannerRunBar(normalizedGoals) {
+      function renderPlannerRunBar(normalizedGoals, holdingsRowCount = 0) {
         return `
           <div class="run-bar">
             <div class="run-bar-panel">
@@ -14048,7 +14823,7 @@
                   `)
                   .join("")}
               </div>
-              ${renderMobilePlannerNav(normalizedGoals)}
+              ${renderMobilePlannerNav(normalizedGoals, holdingsRowCount)}
             </div>
           </div>
         `;
@@ -14065,13 +14840,14 @@
                 <span class="goal-type">Stackable</span>
                 <button class="button-danger" data-action="remove-planner-line" data-id="${escapeHtml(line.id)}">Remove</button>
               </div>
-              <div class="goal-grid">
-                <label class="field">
-                  <span>Output</span>
-                  <select data-action="set-planner-stackable-name" data-id="${escapeHtml(line.id)}">
-                    ${renderPlannerSelectOptions(optionNames, line.name)}
-                  </select>
-                </label>
+              <div class="stack" style="gap:0.8rem;">
+                ${renderPlannerPicker(line, {
+                  role: "stackable",
+                  label: "Output",
+                  selectedName: line.name,
+                  optionNames,
+                  selectedDetailText: recipe ? (recipe.kind === "gem" ? "Gem" : `${subtypeLabelForRecipe(recipe)} · Potion`) : ""
+                })}
                 <label class="field">
                   <span>Quantity</span>
                   <input
@@ -14104,13 +14880,16 @@
                 <span class="goal-type">Equipment</span>
                 <button class="button-danger" data-action="remove-planner-line" data-id="${escapeHtml(line.id)}">Remove</button>
               </div>
-              <div class="goal-grid">
-                <label class="field">
-                  <span>Definition</span>
-                  <select data-action="set-planner-equipment-name" data-id="${escapeHtml(line.id)}">
-                    ${renderPlannerSelectOptions(optionNames, line.name)}
-                  </select>
-                </label>
+              <div class="stack" style="gap:0.8rem;">
+                ${renderPlannerPicker(line, {
+                  role: "equipment",
+                  label: "Definition",
+                  selectedName: line.name,
+                  optionNames,
+                  selectedDetailText: definition
+                    ? [isAccessoryDefinition(definition) ? "Accessory" : "Equipment", definition.family].filter(Boolean).join(" · ")
+                    : ""
+                })}
                 <label class="field">
                   <span>Quantity</span>
                   <input
@@ -14134,7 +14913,7 @@
         }
 
         const definition = getEquipmentDefinitionByName(line.base_name || "");
-        const maxGems = Number(definition?.socket_policy?.max_gems || 1);
+        const maxGems = Number(definition?.socket_policy?.max_gems || 0);
         const exactMatches = definition
           ? (state.workbench.equipment || []).filter((instance) =>
             instance.base_name === definition.name
@@ -14149,25 +14928,39 @@
               <span class="goal-type">Combo</span>
               <button class="button-danger" data-action="remove-planner-line" data-id="${escapeHtml(line.id)}">Remove</button>
             </div>
-            <div class="goal-grid">
-              <label class="field">
-                <span>Accessory</span>
-                <select data-action="set-planner-combo-base" data-id="${escapeHtml(line.id)}">
-                  ${renderPlannerSelectOptions(baseOptionNames, line.base_name)}
-                </select>
-              </label>
+            <div class="stack" style="gap:0.8rem;">
+              ${renderPlannerPicker(line, {
+                role: "combo-base",
+                label: "Accessory",
+                selectedName: line.base_name,
+                optionNames: baseOptionNames,
+                selectedDetailText: definition ? `Socket policy · ${formatSocketPolicy(definition.socket_policy)}` : ""
+              })}
+            </div>
+            <div class="goal-grid" style="margin-top:0.8rem;">
               <div class="mini-field"><span class="label">Exact Matches</span>${escapeHtml(String(exactMatches))}</div>
+              <div class="mini-field"><span class="label">Socket Rule</span>${escapeHtml(
+                definition ? formatSocketPolicy(definition.socket_policy) : "Choose an accessory"
+              )}</div>
             </div>
-            <div class="planner-rule-grid">
-              ${Array.from({ length: maxGems }, (_, index) => `
-                <label class="field">
-                  <span>Socket ${index + 1}</span>
-                  <select data-action="set-planner-combo-gem" data-id="${escapeHtml(line.id)}" data-slot="${index}">
-                    ${renderPlannerSelectOptions(gemOptionNames, (line.sockets || [])[index] || "", { includeBlank: true })}
-                  </select>
-                </label>
-              `).join("")}
-            </div>
+            ${definition
+              ? `
+                <div class="planner-picker-grid">
+                  ${Array.from({ length: maxGems }, (_, index) => `
+                    ${renderPlannerPicker(line, {
+                      role: "combo-gem",
+                      label: `Socket ${index + 1}`,
+                      selectedName: (line.sockets || [])[index] || "",
+                      optionNames: gemOptionNames,
+                      includeBlank: true,
+                      blankLabel: "Empty",
+                      slotIndex: index,
+                      helperText: "Fill combo slots from left to right."
+                    })}
+                  `).join("")}
+                </div>
+              `
+              : `<div class="muted-box" style="margin-top:0.8rem;">Choose an accessory before selecting socket gems.</div>`}
           </article>
         `;
       }
@@ -14219,6 +15012,35 @@
         `;
       }
 
+      function renderPlannerDeltaSummary(preview) {
+        const items = preview?.status === "solved" ? (preview.item_deltas || []) : [];
+        if (!items.length) {
+          return "";
+        }
+        return `
+          <div class="planner-delta-block">
+            <div class="subsection-head">
+              <h3>Net Item Deltas</h3>
+              <div class="subtle">${items.length} changed item types</div>
+            </div>
+            <div class="planner-delta-list">
+              ${items.map((item) => `
+                <div class="planner-delta-row" data-planner-delta="${escapeHtml(item.key)}">
+                  <div class="planner-delta-copy">
+                    <strong>${escapeHtml(item.label)}</strong>
+                    <div class="tiny">${escapeHtml(item.detail || "Item")}</div>
+                  </div>
+                  <div class="planner-delta-actions">
+                    <span class="delta-pill ${item.delta > 0 ? "positive" : "negative"}">${escapeHtml(item.delta > 0 ? `+${item.delta}` : String(item.delta))}</span>
+                    ${renderInspectButton(item.selection, "Inspect")}
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }
+
       function renderPlannerPreviewRows(preview) {
         const rows = preview?.rows || [];
         if (!rows.length) {
@@ -14227,22 +15049,26 @@
         return `
           <div class="plan-steps">
             ${rows.map((row, index) => `
-              <button
-                class="planner-step-button"
-                data-action="select-planner-step"
-                data-step-index="${index}"
-              >
-                <div class="plan-step" data-planner-step="${index}">
-                  <span class="step-index">${index + 1}</span>
-                  <div>
-                    <strong>${escapeHtml(row.title)}</strong>
-                    <div class="tiny">${escapeHtml(row.detail)}</div>
-                  </div>
-                  <span class="delta ${row.delta > 0 ? "positive" : (row.delta < 0 ? "negative" : "zero")}">${escapeHtml(
-                    row.delta > 0 ? `+${formatGoldAmount(row.delta)}g` : (row.delta < 0 ? `${formatGoldAmount(row.delta)}g` : "0g")
-                  )}</span>
+              <article class="plan-step" data-planner-step="${index}">
+                <span class="step-index">${index + 1}</span>
+                <div class="plan-step-copy">
+                  <strong>${escapeHtml(row.title)}</strong>
+                  <div class="tiny">${escapeHtml(row.detail)}</div>
                 </div>
-              </button>
+                <span class="delta ${row.delta > 0 ? "positive" : (row.delta < 0 ? "negative" : "zero")}">${escapeHtml(
+                  row.delta > 0 ? `+${formatGoldAmount(row.delta)}g` : (row.delta < 0 ? `${formatGoldAmount(row.delta)}g` : "0g")
+                )}</span>
+                <div class="plan-step-actions">
+                  ${renderInspectButton(row.inspect_selection, "Inspect")}
+                  <button
+                    class="button-soft planner-step-detail-button"
+                    data-action="select-planner-step"
+                    data-step-index="${index}"
+                  >
+                    Details
+                  </button>
+                </div>
+              </article>
             `).join("")}
           </div>
         `;
@@ -14300,13 +15126,17 @@
               <div class="summary-stat"><strong>Final Gold</strong><span>${escapeHtml(`${formatGoldAmount(summary.final_gold)}g`)}</span></div>
               <div class="summary-stat"><strong>Steps</strong><span>${escapeHtml(String(summary.steps))}</span></div>
             </div>
+            ${renderPlannerDeltaSummary(preview)}
             ${renderPlannerPreviewRows(preview)}
-            ${preview?.protected_candidates?.length
+            ${preview?.status === "blocked" && preview?.protected_candidates?.length
               ? `
                 <div class="note-stack" style="margin-top:1rem;">
                   ${preview.protected_candidates.map((entry) => `
                     <div class="plan-note">
-                      <strong>${escapeHtml(entry.name)}</strong>
+                      <div class="planner-note-head">
+                        <strong>${escapeHtml(entry.name)}</strong>
+                        ${renderInspectButton(entry.selection, "Inspect")}
+                      </div>
                       <div class="tiny">${escapeHtml(`${formatGoldAmount(entry.value)}g protected · ${entry.reason}`)}</div>
                     </div>
                   `).join("")}
@@ -14322,129 +15152,140 @@
         `;
       }
 
+      function renderPlannerReserveCards(items, options = {}) {
+        const {
+          preserveKey = "",
+          emptyText = "No planner reserve rows."
+        } = options;
+        return `
+          <div class="planner-rule-list" data-preserve-scroll="${escapeHtml(preserveKey)}">
+            ${items.length ? items.join("") : `<div class="muted-box">${escapeHtml(emptyText)}</div>`}
+          </div>
+        `;
+      }
+
       function renderPlannerRulesPanel() {
         const ownedInstances = sortedEquipmentInstances(state.workbench.equipment || []);
         const ingredientNames = getAllIngredientNames().filter((name) => ingredientTypeForName(name));
         const outputNames = getAllOutputNames().sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" }));
         return `
-          <div class="planner-column planner-rules-column">
-            <div class="panel">
-              <div class="planner-head">
-                <div>
-                  <h3>Equipment Repurpose Rules</h3>
-                  <div class="section-meta">Owned gear stays protected unless you explicitly allow the planner to repurpose it.</div>
-                </div>
-                <span class="status-pill good">Per Run</span>
+          <div class="panel planner-rules-panel">
+            <div class="planner-head">
+              <div>
+                <h3>Equipment Repurpose Rules</h3>
+                <div class="section-meta">Owned gear stays protected unless you explicitly allow the planner to repurpose it.</div>
               </div>
-              <div class="goal-list">
-                ${ownedInstances.length
-                  ? ownedInstances.map((instance) => {
-                    const definition = getEquipmentDefinitionByName(instance.base_name);
-                    const sellValue = getEquipmentSellValue(instance);
-                    const repurposable = isPlannerRepurposable(instance.id);
-                    return `
-                      <div class="planner-rule-card" data-planner-rule="${escapeHtml(instance.id)}">
-                        <div class="planner-card-head">
-                          <div>
-                            <strong>${escapeHtml(instance.base_name)}</strong>
-                            <div class="pill-row" style="margin-top:0.45rem;">
-                              ${definition?.family ? `<span class="pill">${escapeHtml(definition.family)}</span>` : ""}
-                              <span class="pill">${escapeHtml(sellValue === null ? "N/A" : `Sell ${formatGoldAmount(sellValue)}g`)}</span>
-                            </div>
+              <span class="status-pill good">Per Run</span>
+            </div>
+            <div class="goal-list">
+              ${ownedInstances.length
+                ? ownedInstances.map((instance) => {
+                  const definition = getEquipmentDefinitionByName(instance.base_name);
+                  const sellValue = getEquipmentSellValue(instance);
+                  const repurposable = isPlannerRepurposable(instance.id);
+                  return `
+                    <div class="planner-rule-card" data-planner-rule="${escapeHtml(instance.id)}">
+                      <div class="planner-card-head">
+                        <div>
+                          <strong>${escapeHtml(instance.base_name)}</strong>
+                          <div class="pill-row" style="margin-top:0.45rem;">
+                            ${definition?.family ? `<span class="pill">${escapeHtml(definition.family)}</span>` : ""}
+                            <span class="pill">${escapeHtml(sellValue === null ? "N/A" : `Sell ${formatGoldAmount(sellValue)}g`)}</span>
                           </div>
+                        </div>
+                        <div class="planner-card-actions">
+                          ${renderInspectButton(makeEquipmentInstanceDetailSelection(instance.id), "Inspect")}
                           <span class="status-pill ${repurposable ? "good" : "review"}">${repurposable ? "Allow Repurpose" : "Protected"}</span>
                         </div>
-                        <label class="pill">
-                          <input type="checkbox" data-action="toggle-planner-repurpose" data-id="${escapeHtml(instance.id)}" ${repurposable ? "checked" : ""}>
-                          ${escapeHtml(socketedGemList(instance).length ? "Allow planner to repurpose this combo" : "Allow planner to repurpose this item")}
+                      </div>
+                      <label class="pill">
+                        <input type="checkbox" data-action="toggle-planner-repurpose" data-id="${escapeHtml(instance.id)}" ${repurposable ? "checked" : ""}>
+                        ${escapeHtml(socketedGemList(instance).length ? "Allow planner to repurpose this combo" : "Allow planner to repurpose this item")}
+                      </label>
+                    </div>
+                  `;
+                }).join("")
+                : `<div class="muted-box">No owned equipment is available for planner rules yet.</div>`}
+            </div>
+          </div>
+          <div class="panel planner-rules-panel">
+            <div class="planner-head">
+              <div>
+                <h3>Ingredient Reserves</h3>
+                <div class="section-meta">Keep floors and pinned outputs protect future craft options during funding fallback.</div>
+              </div>
+            </div>
+            <div class="planner-rule-table">
+              <div class="subsection">
+                <div class="subsection-head">
+                  <h3>Keep Floors</h3>
+                  <div class="subtle">${ingredientNames.length} ingredients</div>
+                </div>
+                ${renderPlannerReserveCards(
+                  ingredientNames.map((name) => `
+                    <div class="planner-rule-card">
+                      <div class="planner-card-head">
+                        <div>
+                          <strong>${escapeHtml(name)}</strong>
+                          <div class="tiny">${escapeHtml(ingredientTypeLabel(ingredientTypeForName(name)))}</div>
+                        </div>
+                        ${renderInspectButton(makeIngredientDetailSelection(name), "Inspect")}
+                      </div>
+                      <label class="field">
+                        <span>Keep At Least</span>
+                        <input
+                          type="number"
+                          min="0"
+                          step="1"
+                          value="${plannerIngredientKeepCount(name)}"
+                          data-action="set-planner-keep-count"
+                          data-name="${escapeHtml(name)}"
+                        >
+                      </label>
+                    </div>
+                  `),
+                  {
+                    preserveKey: "planner-keep-floor-list",
+                    emptyText: "No ingredients are available for keep floors."
+                  }
+                )}
+              </div>
+              <div class="subsection">
+                <div class="subsection-head">
+                  <h3>Pinned Output Reserves</h3>
+                  <div class="subtle">${outputNames.length} outputs</div>
+                </div>
+                ${renderPlannerReserveCards(
+                  outputNames.map((name) => {
+                    const recipe = getRecipeByName(name);
+                    return `
+                      <div class="planner-rule-card">
+                        <div class="planner-card-head">
+                          <div>
+                            <strong>${escapeHtml(name)}</strong>
+                            <div class="tiny">${escapeHtml(recipe?.kind === "gem" ? "Gem" : "Potion")}</div>
+                          </div>
+                          ${renderInspectButton(makeOutputDetailSelection(recipe), "Inspect")}
+                        </div>
+                        <label class="field">
+                          <span>Reserve Count</span>
+                          <input
+                            type="number"
+                            min="0"
+                            step="1"
+                            value="${plannerPinnedOutputReserve(name)}"
+                            data-action="set-planner-pinned-output"
+                            data-name="${escapeHtml(name)}"
+                          >
                         </label>
                       </div>
                     `;
-                  }).join("")
-                  : `<div class="muted-box">No owned equipment is available for planner rules yet.</div>`}
-              </div>
-            </div>
-            <div class="panel">
-              <div class="planner-head">
-                <div>
-                  <h3>Ingredient Reserves</h3>
-                  <div class="section-meta">Keep floors and pinned outputs protect future craft options during funding fallback.</div>
-                </div>
-              </div>
-              <div class="planner-rule-table">
-                <div class="subsection">
-                  <div class="subsection-head">
-                    <h3>Keep Floors</h3>
-                    <div class="subtle">${ingredientNames.length} ingredients</div>
-                  </div>
-                  <div class="table-wrap" data-preserve-scroll="planner-keep-floor-table">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Ingredient</th>
-                          <th>Type</th>
-                          <th>Keep At Least</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        ${ingredientNames.map((name) => `
-                          <tr>
-                            <td>${escapeHtml(name)}</td>
-                            <td>${escapeHtml(ingredientTypeLabel(ingredientTypeForName(name)))}</td>
-                            <td>
-                              <input
-                                type="number"
-                                min="0"
-                                step="1"
-                                value="${plannerIngredientKeepCount(name)}"
-                                data-action="set-planner-keep-count"
-                                data-name="${escapeHtml(name)}"
-                              >
-                            </td>
-                          </tr>
-                        `).join("")}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div class="subsection">
-                  <div class="subsection-head">
-                    <h3>Pinned Output Reserves</h3>
-                    <div class="subtle">${outputNames.length} outputs</div>
-                  </div>
-                  <div class="table-wrap" data-preserve-scroll="planner-pinned-output-table">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Output</th>
-                          <th>Type</th>
-                          <th>Reserve Count</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        ${outputNames.map((name) => {
-                          const recipe = getRecipeByName(name);
-                          return `
-                            <tr>
-                              <td>${escapeHtml(name)}</td>
-                              <td>${escapeHtml(recipe?.kind === "gem" ? "Gem" : "Potion")}</td>
-                              <td>
-                                <input
-                                  type="number"
-                                  min="0"
-                                  step="1"
-                                  value="${plannerPinnedOutputReserve(name)}"
-                                  data-action="set-planner-pinned-output"
-                                  data-name="${escapeHtml(name)}"
-                                >
-                              </td>
-                            </tr>
-                          `;
-                        }).join("")}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+                  }),
+                  {
+                    preserveKey: "planner-pinned-output-list",
+                    emptyText: "No outputs are available for pinned reserves."
+                  }
+                )}
               </div>
             </div>
           </div>
@@ -14479,6 +15320,7 @@
                   <div class="tiny" style="margin-top:0.75rem;">${escapeHtml(row.detail)}</div>
                 </div>
                 <div class="button-row">
+                  ${renderInspectButton(row.inspect_selection, "Inspect")}
                   <button class="button-primary" data-action="apply-planner-plan" ${preview.status === "solved" ? "" : "disabled"}>Apply Plan</button>
                   <button class="button-secondary" data-action="view-planner-rules">View Rules</button>
                 </div>
@@ -14488,22 +15330,87 @@
         `;
       }
 
+      function renderPlannerHoldingsPanel() {
+        return `
+          <div class="planner-column planner-holdings-column">
+            <div class="panel holdings-block planner-holdings-panel">
+              <div class="section-head">
+                <h2>Current Holdings</h2>
+                <div class="field planner-filter-field">
+                  <label for="planner-holdings-filter">Filter holdings</label>
+                  <input
+                    id="planner-holdings-filter"
+                    type="text"
+                    value="${escapeHtml(ui.plannerHoldingsFilter)}"
+                    placeholder="Search planner holdings"
+                    data-action="set-planner-holdings-filter"
+                  >
+                </div>
+              </div>
+              ${renderHoldingsSections({
+                filterValue: ui.plannerHoldingsFilter,
+                interactive: false,
+                preservePrefix: "planner-holdings",
+                cardDataAttr: "data-planner-holdings-gear-card"
+              })}
+            </div>
+          </div>
+        `;
+      }
+
       function renderPlannerTab() {
         const normalizedGoals = normalizePlannerGoalLines();
+        const plannerFilter = ui.plannerHoldingsFilter.trim().toLowerCase();
+        const ingredientNames = sortedEntries(state.workbench.ingredients)
+          .filter(([, value]) => value > 0)
+          .map(([name]) => name);
+        const ingredientGroups = splitIngredientNames(ingredientNames);
+        const equipmentInstances = sortedEquipmentInstances(state.workbench.equipment || []);
+        const holdingsViewState = {
+          herbNames: ingredientGroups.herbs.filter((name) => !plannerFilter || ingredientSearchText(name).includes(plannerFilter)),
+          gemPieceNames: ingredientGroups.gems.filter((name) => !plannerFilter || ingredientSearchText(name).includes(plannerFilter)),
+          potionNames: sortedEntries(state.workbench.potions).filter(([, value]) => value > 0).map(([name]) => name)
+            .filter((name) => !plannerFilter || name.toLowerCase().includes(plannerFilter)),
+          gemNames: sortedEntries(state.workbench.gems).filter(([, value]) => value > 0).map(([name]) => name)
+            .filter((name) => !plannerFilter || name.toLowerCase().includes(plannerFilter)),
+          equipment: equipmentInstances
+            .filter((instance) => !isAccessoryInstance(instance))
+            .filter((instance) => !plannerFilter || equipmentInstanceSearchText(instance).includes(plannerFilter)),
+          accessories: equipmentInstances
+            .filter((instance) => isAccessoryInstance(instance))
+            .filter((instance) => !plannerFilter || equipmentInstanceSearchText(instance).includes(plannerFilter))
+        };
+        const holdingsRowCount = holdingsViewState.herbNames.length
+          + holdingsViewState.gemPieceNames.length
+          + holdingsViewState.potionNames.length
+          + holdingsViewState.gemNames.length
+          + holdingsViewState.equipment.length
+          + holdingsViewState.accessories.length;
+        const selectedItem = selectedPlannerInspectorItem(holdingsViewState);
         return `
           <section class="tab-panel ${ui.activeTab === "planner" ? "active" : ""}" data-tab-panel="planner">
             <div class="stack">
-              ${renderPlannerRunBar(normalizedGoals)}
+              ${renderPlannerRunBar(normalizedGoals, holdingsRowCount)}
               <div class="planner-layout" data-mobile-section="${escapeHtml(ui.plannerMobileSection)}">
+                ${renderPlannerHoldingsPanel()}
                 <div class="planner-column planner-goals-column">
                   ${renderPlannerGoalsPanel(normalizedGoals)}
                 </div>
                 <div class="planner-column planner-preview-column">
                   ${renderPlannerPreviewPanel(normalizedGoals)}
                 </div>
-                ${renderPlannerRulesPanel()}
+                <div class="planner-column planner-side-column">
+                  <div class="panel inspector-panel planner-inspector-panel" data-selected-detail-key="${escapeHtml(selectedItem?.key || "")}">
+                    <div class="section-head">
+                      <h2>Item Details</h2>
+                    </div>
+                    <div class="inspector-scroll" data-preserve-scroll="${escapeHtml(plannerInspectorScrollKey(selectedItem))}">${renderInspectorCard(selectedItem)}</div>
+                  </div>
+                  ${renderPlannerRulesPanel()}
+                </div>
               </div>
               ${renderMobilePlannerStepSheet(ui.plannerPreview)}
+              ${renderMobileInspector(selectedItem, "mobile-inspector-sheet-planner")}
             </div>
           </section>
         `;
@@ -14632,14 +15539,14 @@
         `;
       }
 
-      function renderMobileInspector(selectedItem) {
+      function renderMobileInspector(selectedItem, preserveKey = "mobile-inspector-sheet") {
         if (!ui.mobileInspectorOpen || !selectedItem) {
           return "";
         }
         return `
           <div class="mobile-inspector" data-role="mobile-inspector">
             <button class="mobile-inspector-backdrop" data-action="close-mobile-inspector" aria-label="Close item details"></button>
-            <div class="mobile-inspector-sheet" data-preserve-scroll="mobile-inspector-sheet" role="dialog" aria-modal="true" aria-label="Item details">
+            <div class="mobile-inspector-sheet" data-preserve-scroll="${escapeHtml(preserveKey)}" role="dialog" aria-modal="true" aria-label="Item details">
               <div class="mobile-inspector-handle"></div>
               <div class="mobile-inspector-head">
                 <div class="mobile-inspector-copy">
@@ -14691,8 +15598,12 @@
         `;
       }
 
-      function renderHoldingsOutputTable(names, map, emptyText, preserveKey) {
-        const filter = ui.holdingsFilter.trim().toLowerCase();
+      function renderHoldingsOutputTable(names, map, emptyText, preserveKey, options = {}) {
+        const {
+          filterValue = ui.holdingsFilter,
+          interactive = true
+        } = options;
+        const filter = String(filterValue || "").trim().toLowerCase();
         const rows = names
           .map((name) => [name, Number(map[name] || 0)])
           .filter(([, value]) => value > 0)
@@ -14708,9 +15619,13 @@
                 <td class="count-column" data-label="Count">${value}</td>
                 <td class="value-column" data-label="Sell Value">${escapeHtml(sell.possible ? `${formatGoldAmount(sell.value)}g` : "N/A")}</td>
                 <td class="inspect-column" data-label="Inspect">${renderInspectButton(selection, "Inspect")}</td>
-                <td class="action-column" data-label="Action">
-                  <button class="button-secondary" data-action="sell-stackable" data-bucket="${escapeHtml(bucket)}" data-name="${escapeHtml(name)}" ${sell.possible ? "" : "disabled"}>Sell</button>
-                </td>
+                ${interactive
+                  ? `
+                    <td class="action-column" data-label="Action">
+                      <button class="button-secondary" data-action="sell-stackable" data-bucket="${escapeHtml(bucket)}" data-name="${escapeHtml(name)}" ${sell.possible ? "" : "disabled"}>Sell</button>
+                    </td>
+                  `
+                  : ""}
               </tr>
             `;
           })
@@ -14725,19 +15640,23 @@
                   <th class="count-column">Count</th>
                   <th class="value-column">Sell Value</th>
                   <th class="inspect-column">Inspect</th>
-                  <th class="action-column">Action</th>
+                  ${interactive ? `<th class="action-column">Action</th>` : ""}
                 </tr>
               </thead>
               <tbody>
-                ${rows || `<tr><td colspan="5" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+                ${rows || `<tr><td colspan="${interactive ? "5" : "4"}" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
               </tbody>
             </table>
           </div>
         `;
       }
 
-      function renderIngredientHoldingsTable(names, map, emptyText, preserveKey) {
-        const filter = ui.holdingsFilter.trim().toLowerCase();
+      function renderIngredientHoldingsTable(names, map, emptyText, preserveKey, options = {}) {
+        const {
+          filterValue = ui.holdingsFilter,
+          interactive = true
+        } = options;
+        const filter = String(filterValue || "").trim().toLowerCase();
         const rows = names
           .map((name) => [name, Number(map[name] || 0)])
           .filter(([, value]) => value > 0)
@@ -14751,9 +15670,13 @@
                 <td class="count-column" data-label="Count">${value}</td>
                 <td class="value-column" data-label="Sell Value">${escapeHtml(sell.possible ? `${formatGoldAmount(sell.value)}g` : "N/A")}</td>
                 <td class="inspect-column" data-label="Inspect">${renderInspectButton(selection, "Inspect")}</td>
-                <td class="action-column" data-label="Action">
-                  <button class="button-secondary" data-action="sell-stackable" data-bucket="ingredients" data-name="${escapeHtml(name)}" ${sell.possible ? "" : "disabled"}>Sell</button>
-                </td>
+                ${interactive
+                  ? `
+                    <td class="action-column" data-label="Action">
+                      <button class="button-secondary" data-action="sell-stackable" data-bucket="ingredients" data-name="${escapeHtml(name)}" ${sell.possible ? "" : "disabled"}>Sell</button>
+                    </td>
+                  `
+                  : ""}
               </tr>
             `;
           })
@@ -14768,19 +15691,24 @@
                   <th class="count-column">Count</th>
                   <th class="value-column">Sell Value</th>
                   <th class="inspect-column">Inspect</th>
-                  <th class="action-column">Action</th>
+                  ${interactive ? `<th class="action-column">Action</th>` : ""}
                 </tr>
               </thead>
               <tbody>
-                ${rows || `<tr><td colspan="5" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+                ${rows || `<tr><td colspan="${interactive ? "5" : "4"}" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
               </tbody>
             </table>
           </div>
         `;
       }
 
-      function renderEquipmentHoldingsCards(instances, emptyText) {
-        const filter = ui.holdingsFilter.trim().toLowerCase();
+      function renderEquipmentHoldingsCards(instances, emptyText, options = {}) {
+        const {
+          filterValue = ui.holdingsFilter,
+          interactive = true,
+          cardDataAttr = "data-holdings-gear-card"
+        } = options;
+        const filter = String(filterValue || "").trim().toLowerCase();
         const cards = sortedEquipmentInstances(instances)
           .filter((instance) => !filter || equipmentInstanceSearchText(instance).includes(filter))
           .map((instance) => {
@@ -14796,7 +15724,7 @@
             return `
               <article
                 class="gear-card ${selectionMatches(selection) ? "selected" : ""}"
-                data-holdings-gear-card="${escapeHtml(instance.id)}"
+                ${escapeHtml(cardDataAttr)}="${escapeHtml(instance.id)}"
               >
                 <div class="gear-card-head">
                   <div class="gear-card-title">
@@ -14807,7 +15735,9 @@
                 </div>
                 <div class="gear-card-actions">
                   ${renderInspectButton(selection, "Inspect")}
-                  <button class="button-secondary" data-action="sell-equipment" data-id="${escapeHtml(instance.id)}" ${sellValue === null ? "disabled" : ""}>Sell</button>
+                  ${interactive
+                    ? `<button class="button-secondary" data-action="sell-equipment" data-id="${escapeHtml(instance.id)}" ${sellValue === null ? "disabled" : ""}>Sell</button>`
+                    : ""}
                 </div>
               </article>
             `;
@@ -15008,7 +15938,13 @@
         `;
       }
 
-      function renderHoldingsSections() {
+      function renderHoldingsSections(options = {}) {
+        const {
+          filterValue = ui.holdingsFilter,
+          interactive = true,
+          preservePrefix = "holdings",
+          cardDataAttr = "data-holdings-gear-card"
+        } = options;
         const ingredientNames = sortedEntries(state.workbench.ingredients)
           .filter(([, value]) => value > 0)
           .map(([name]) => name);
@@ -15024,48 +15960,48 @@
         const equipment = equipmentInstances.filter((instance) => !isAccessoryInstance(instance));
 
         return `
-          <div class="holdings-scroll" data-preserve-scroll="holdings-scroll">
+          <div class="holdings-scroll" data-preserve-scroll="${escapeHtml(`${preservePrefix}-scroll`)}">
           <div class="subsection">
             <div class="subsection-head">
               <h3>Equipment</h3>
               <div class="subtle">${equipment.length} rows</div>
             </div>
-            ${renderEquipmentHoldingsCards(equipment, "No matching equipment.")}
+            ${renderEquipmentHoldingsCards(equipment, "No matching equipment.", { filterValue, interactive, cardDataAttr })}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Accessories</h3>
               <div class="subtle">${accessories.length} rows</div>
             </div>
-            ${renderEquipmentHoldingsCards(accessories, "No matching accessories.")}
+            ${renderEquipmentHoldingsCards(accessories, "No matching accessories.", { filterValue, interactive, cardDataAttr })}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Potions</h3>
               <div class="subtle">${potionNames.length} rows</div>
             </div>
-            ${renderHoldingsOutputTable(potionNames, state.workbench.potions, "No matching potions.", "holdings-potions-table")}
+            ${renderHoldingsOutputTable(potionNames, state.workbench.potions, "No matching potions.", `${preservePrefix}-potions-table`, { filterValue, interactive })}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Gems</h3>
               <div class="subtle">${gemNames.length} rows</div>
             </div>
-            ${renderHoldingsOutputTable(gemNames, state.workbench.gems, "No matching gems.", "holdings-gems-table")}
+            ${renderHoldingsOutputTable(gemNames, state.workbench.gems, "No matching gems.", `${preservePrefix}-gems-table`, { filterValue, interactive })}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Herbs</h3>
               <div class="subtle">${groups.herbs.length} rows</div>
             </div>
-            ${renderIngredientHoldingsTable(groups.herbs, state.workbench.ingredients, "No matching herbs.", "holdings-herbs-table")}
+            ${renderIngredientHoldingsTable(groups.herbs, state.workbench.ingredients, "No matching herbs.", `${preservePrefix}-herbs-table`, { filterValue, interactive })}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Gem Pieces</h3>
               <div class="subtle">${groups.gems.length} rows</div>
             </div>
-            ${renderIngredientHoldingsTable(groups.gems, state.workbench.ingredients, "No matching gem pieces.", "holdings-gem-pieces-table")}
+            ${renderIngredientHoldingsTable(groups.gems, state.workbench.ingredients, "No matching gem pieces.", `${preservePrefix}-gem-pieces-table`, { filterValue, interactive })}
           </div>
           </div>
         `;
@@ -15548,7 +16484,7 @@
                   </div>
                 </div>
               </div>
-              ${renderMobileInspector(selectedItem)}
+              ${renderMobileInspector(selectedItem, "mobile-inspector-sheet-workbench")}
             </div>
           </section>
         `;
@@ -16564,8 +17500,8 @@
         });
       }
 
-      function flashInspectorPanel() {
-        const panel = document.querySelector(".inspector-panel");
+      function flashInspectorPanel(selector = ".workbench-side-column .inspector-panel") {
+        const panel = document.querySelector(selector) || document.querySelector(".inspector-panel");
         if (!panel) {
           return;
         }
@@ -16703,6 +17639,7 @@
             break;
           case "set-planner-goal-scope":
             ui.plannerGoalScope = element.dataset.scope === "all" ? "all" : "actionable";
+            ui.plannerOpenPicker = "";
             renderApp();
             break;
           case "set-workbench-mobile-section":
@@ -16734,7 +17671,9 @@
             }
             renderApp();
             if (!isCompactWorkbenchViewport()) {
-              flashInspectorPanel();
+              flashInspectorPanel(ui.activeTab === "planner"
+                ? ".planner-inspector-panel"
+                : ".workbench-side-column .inspector-panel");
             }
             break;
           }
@@ -16800,7 +17739,27 @@
             removePlannerGoalLine(element.dataset.id || "");
             renderApp();
             break;
+          case "toggle-planner-picker": {
+            const key = element.dataset.pickerKey || "";
+            ui.plannerOpenPicker = ui.plannerOpenPicker === key ? "" : key;
+            renderApp();
+            break;
+          }
+          case "select-planner-picker-option": {
+            const slotIndex = element.dataset.slot === undefined ? null : Number(element.dataset.slot);
+            if (!setPlannerGoalLineSelection(
+              element.dataset.id || "",
+              element.dataset.role || "",
+              element.dataset.value || "",
+              slotIndex
+            )) {
+              return;
+            }
+            renderApp();
+            break;
+          }
           case "preview-plan":
+            ui.plannerOpenPicker = "";
             ui.plannerPreview = buildPlannerPreview();
             ui.plannerSelectedStep = -1;
             renderApp();
@@ -17091,6 +18050,14 @@
             ui.shopFilter = element.value;
             renderApp();
             break;
+          case "set-planner-holdings-filter":
+            ui.plannerHoldingsFilter = element.value;
+            renderApp();
+            break;
+          case "set-planner-picker-query":
+            setPlannerPickerQuery(element.dataset.pickerKey || "", element.value);
+            renderApp();
+            break;
           case "set-recipe-filter":
             ui.recipeFilter = element.value;
             renderApp();
@@ -17106,49 +18073,48 @@
             break;
           }
           case "set-planner-stackable-name": {
-            const line = plannerGoalLineById(element.dataset.id || "");
-            if (!line || line.type !== "stackable") {
+            if (!setPlannerGoalLineSelection(
+              element.dataset.id || "",
+              "stackable",
+              element.value
+            )) {
               return;
             }
-            line.name = element.value.trim();
-            invalidatePlannerPreview();
             renderApp();
             break;
           }
           case "set-planner-equipment-name": {
-            const line = plannerGoalLineById(element.dataset.id || "");
-            if (!line || line.type !== "equipment") {
+            if (!setPlannerGoalLineSelection(
+              element.dataset.id || "",
+              "equipment",
+              element.value
+            )) {
               return;
             }
-            line.name = element.value.trim();
-            invalidatePlannerPreview();
             renderApp();
             break;
           }
           case "set-planner-combo-base": {
-            const line = plannerGoalLineById(element.dataset.id || "");
-            if (!line || line.type !== "combo") {
+            if (!setPlannerGoalLineSelection(
+              element.dataset.id || "",
+              "combo-base",
+              element.value
+            )) {
               return;
             }
-            line.base_name = element.value.trim();
-            const maxGems = Number(getEquipmentDefinitionByName(line.base_name)?.socket_policy?.max_gems || 1);
-            const current = Array.isArray(line.sockets) ? line.sockets : [];
-            line.sockets = Array.from({ length: maxGems }, (_, index) => String(current[index] || "").trim());
-            invalidatePlannerPreview();
             renderApp();
             break;
           }
           case "set-planner-combo-gem": {
-            const line = plannerGoalLineById(element.dataset.id || "");
             const slotIndex = Number(element.dataset.slot);
-            if (!line || line.type !== "combo" || Number.isNaN(slotIndex) || slotIndex < 0) {
+            if (!setPlannerGoalLineSelection(
+              element.dataset.id || "",
+              "combo-gem",
+              element.value,
+              slotIndex
+            )) {
               return;
             }
-            const maxGems = Number(getEquipmentDefinitionByName(line.base_name)?.socket_policy?.max_gems || 1);
-            const current = Array.isArray(line.sockets) ? [...line.sockets] : Array.from({ length: maxGems }, () => "");
-            current[slotIndex] = element.value.trim();
-            line.sockets = Array.from({ length: maxGems }, (_, index) => String(current[index] || "").trim());
-            invalidatePlannerPreview();
             renderApp();
             break;
           }
@@ -17546,6 +18512,8 @@
         if ([
           "set-potion-filter",
           "set-holdings-filter",
+          "set-planner-holdings-filter",
+          "set-planner-picker-query",
           "set-inventory-filter",
           "set-shop-filter",
           "set-recipe-filter",

@@ -73,6 +73,14 @@ def build_saved_state(
     }
 
 
+def keep_all_ingredients_except(workbench: dict, allowed_names: set[str]) -> dict[str, int]:
+    return {
+        name: count
+        for name, count in workbench["ingredients"].items()
+        if count > 0 and name not in allowed_names
+    }
+
+
 def seed_local_storage(context, payload: dict | str, *, key: str = STORAGE_KEY) -> None:
     raw = payload if isinstance(payload, str) else json.dumps(payload)
     context.add_init_script(
@@ -103,7 +111,7 @@ def click_workbench_category(page, category: str) -> None:
 
 
 def inspector_item(page, key: str):
-    return page.locator(f'[data-inspector-item="{key}"]')
+    return page.locator(f'[data-inspector-item="{key}"]:visible')
 
 
 def accessory_holdings_section(page):
@@ -245,7 +253,15 @@ def planner_summary_value(page, label: str) -> str:
 
 
 def planner_step_texts(page) -> list[str]:
-    return [text.strip() for text in page.locator(".plan-step").all_inner_texts()]
+    return page.locator(".plan-step").evaluate_all(
+        """(steps) => steps.map((step) => {
+            const index = step.querySelector(".step-index")?.textContent?.trim() || "";
+            const title = step.querySelector(".plan-step-copy strong")?.textContent?.trim() || "";
+            const detail = step.querySelector(".plan-step-copy .tiny")?.textContent?.trim() || "";
+            const delta = step.querySelector(".delta")?.textContent?.trim() || "";
+            return [index, title, detail, delta].filter(Boolean).join("\\n");
+        })"""
+    )
 
 
 def set_number_input(locator, value: int | float | str) -> None:
@@ -265,8 +281,99 @@ def planner_scope_button(page, scope: str):
     )
 
 
+def planner_picker(line, role: str, slot: int | None = None):
+    selector = f'.planner-picker[data-picker-role="{role}"]'
+    if slot is not None:
+        selector += f'[data-picker-slot="{slot}"]'
+    return line.locator(selector).first
+
+
+def open_planner_picker(line, role: str, slot: int | None = None):
+    picker = planner_picker(line, role, slot)
+    toggle = picker.locator('button[data-action="toggle-planner-picker"]')
+    if toggle.get_attribute("aria-expanded") != "true":
+        toggle.click()
+    return picker
+
+
+def planner_picker_selected_text(line, role: str, slot: int | None = None) -> str:
+    return planner_picker(line, role, slot).locator(".planner-picker-copy strong").inner_text().strip()
+
+
+def planner_picker_search_input(line, role: str, slot: int | None = None):
+    return planner_picker(line, role, slot).locator(
+        'input[data-action="set-planner-picker-query"]'
+    )
+
+
+def set_planner_picker_search(
+    line, role: str, value: str, slot: int | None = None
+) -> None:
+    picker = open_planner_picker(line, role, slot)
+    planner_picker_search_input(line, role, slot).fill(value)
+    expect(picker.locator(".planner-picker-list")).to_be_visible()
+
+
+def planner_picker_option_labels(line, role: str, slot: int | None = None) -> list[str]:
+    picker = open_planner_picker(line, role, slot)
+    return [text.strip() for text in picker.locator(".planner-picker-option-copy strong").all_inner_texts()]
+
+
+def select_planner_picker_option(line, role: str, value: str, slot: int | None = None) -> None:
+    picker = open_planner_picker(line, role, slot)
+    button = picker.locator(
+        f'button[data-action="select-planner-picker-option"][data-value="{value}"]'
+    )
+    if button.count() == 0:
+        assert planner_picker_selected_text(line, role, slot).startswith(value)
+        return
+    button.click()
+
+
+def planner_delta_texts(page) -> list[str]:
+    return page.locator(".planner-delta-row").evaluate_all(
+        """(rows) => rows.map((row) => {
+            const label = row.querySelector(".planner-delta-copy strong")?.textContent?.trim() || "";
+            const detail = row.querySelector(".planner-delta-copy .tiny")?.textContent?.trim() || "";
+            const delta = row.querySelector(".delta-pill")?.textContent?.trim() || "";
+            return [label, detail, delta].filter(Boolean).join("\\n");
+        })"""
+    )
+
+
 def select_option_texts(locator) -> list[str]:
     return [text.strip() for text in locator.locator("option").all_inner_texts()]
+
+
+def assert_page_has_no_horizontal_overflow(page, *, label: str) -> None:
+    metrics = page.evaluate(
+        """() => ({
+            innerWidth: Math.round(window.innerWidth),
+            scrollWidth: Math.round(document.documentElement.scrollWidth)
+        })"""
+    )
+    assert metrics["scrollWidth"] <= metrics["innerWidth"] + 1, (
+        f"{label} should not overflow horizontally "
+        f"(innerWidth={metrics['innerWidth']}, scrollWidth={metrics['scrollWidth']})"
+    )
+
+
+def assert_locators_fit_width(locator, *, label: str) -> None:
+    metrics = locator.evaluate_all(
+        """(elements) => elements
+            .filter((element) => element && (element.offsetWidth || element.offsetHeight || element.getClientRects().length))
+            .map((element, index) => ({
+                index,
+                clientWidth: Math.round(element.clientWidth),
+                scrollWidth: Math.round(element.scrollWidth)
+            }))
+            .filter((entry) => entry.clientWidth > 0)"""
+    )
+    for entry in metrics:
+        assert entry["scrollWidth"] <= entry["clientWidth"] + 1, (
+            f"{label} [{entry['index']}] should not overflow horizontally "
+            f"(clientWidth={entry['clientWidth']}, scrollWidth={entry['scrollWidth']})"
+        )
 
 
 def test_index_smoke() -> None:
@@ -327,10 +434,12 @@ def test_index_smoke() -> None:
         expect(agate_inspector).to_contain_text("Violet")
         expect(agate_inspector).to_contain_text("golem +")
         expect(agate_inspector).to_contain_text("gain 2MP every turn you don't cast a spell")
-        expect(page.locator(".inspector-panel")).to_have_attribute(
+        expect(page.locator(".workbench-side-column .inspector-panel")).to_have_attribute(
             "data-selected-detail-key", "output:gem:Agate"
         )
-        expect(page.locator(".inspector-panel")).not_to_contain_text("Inspecting")
+        expect(page.locator(".workbench-side-column .inspector-panel")).not_to_contain_text(
+            "Inspecting"
+        )
 
         click_workbench_category(page, "potions")
         workbench_content = page.locator(".workbench-panel .workbench-content")
@@ -727,7 +836,7 @@ def test_index_smoke() -> None:
         expect(mobile.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
         expect(mobile.get_by_role("heading", name="Current Holdings")).not_to_be_visible()
         expect(mobile.get_by_role("heading", name="Action Log")).not_to_be_visible()
-        expect(mobile.locator('[data-role="mobile-inspector"]')).to_have_count(0)
+        expect(mobile.locator('[data-role="mobile-inspector"]:visible')).to_have_count(0)
 
         mobile_holdings_button.click()
         expect(mobile.get_by_role("heading", name="Current Holdings")).to_be_visible()
@@ -740,7 +849,7 @@ def test_index_smoke() -> None:
         mobile_workbench_button.click()
         mobile_holdings_button.click()
         holdings_gear_card(mobile, "boots-leather-1").get_by_role("button", name="Inspect").click()
-        mobile_sheet = mobile.locator('[data-role="mobile-inspector"]')
+        mobile_sheet = mobile.locator('[data-role="mobile-inspector"]:visible')
         expect(mobile_sheet).to_be_visible()
         expect(mobile.get_by_role("heading", name="Current Holdings")).to_be_visible()
         expect(mobile_sheet).to_contain_text("Leather Shoes")
@@ -749,7 +858,7 @@ def test_index_smoke() -> None:
         )
         expect(mobile_sheet).not_to_contain_text("boots-leather-1")
         mobile_sheet.get_by_role("button", name="Close", exact=True).click()
-        expect(mobile.locator('[data-role="mobile-inspector"]')).to_have_count(0)
+        expect(mobile.locator('[data-role="mobile-inspector"]:visible')).to_have_count(0)
 
         hero_toggle.click()
         expect(hero_toggle).to_have_text("Hide Intro")
@@ -781,7 +890,9 @@ def test_index_planner_tab_and_mobile_sections() -> None:
 
         page.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
         expect(page.get_by_role("heading", name="Goal Builder")).to_be_visible()
+        expect(page.get_by_role("heading", name="Current Holdings")).to_be_visible()
         expect(page.get_by_role("heading", name="Plan Preview")).to_be_visible()
+        expect(page.get_by_role("heading", name="Item Details")).to_be_visible()
         expect(page.get_by_role("heading", name="Equipment Repurpose Rules")).to_be_visible()
         expect(page.locator('[data-planner-status="draft"]')).to_contain_text("No plan yet")
         expect(planner_scope_button(page, "actionable")).to_be_visible()
@@ -802,6 +913,9 @@ def test_index_planner_tab_and_mobile_sections() -> None:
         goals_button = mobile.locator(
             'button[data-action="set-planner-mobile-section"][data-section="goals"]'
         )
+        holdings_button = mobile.locator(
+            'button[data-action="set-planner-mobile-section"][data-section="holdings"]'
+        )
         plan_button = mobile.locator(
             'button[data-action="set-planner-mobile-section"][data-section="plan"]'
         )
@@ -809,16 +923,29 @@ def test_index_planner_tab_and_mobile_sections() -> None:
             'button[data-action="set-planner-mobile-section"][data-section="rules"]'
         )
         expect(goals_button).to_be_visible()
+        expect(holdings_button).to_be_visible()
         expect(plan_button).to_be_visible()
         expect(rules_button).to_be_visible()
         expect(planner_scope_button(mobile, "actionable")).to_be_visible()
         expect(planner_scope_button(mobile, "all")).to_be_visible()
 
+        holdings_button.click()
+        mobile.locator('[data-planner-holdings-gear-card="ring-bronze-1"]').get_by_role(
+            "button", name="Inspect"
+        ).click()
+        planner_mobile_sheet = mobile.locator('[data-role="mobile-inspector"]:visible')
+        expect(planner_mobile_sheet).to_be_visible()
+        expect(planner_mobile_sheet).to_contain_text("Bronze ring")
+        planner_mobile_sheet.get_by_role("button", name="Close", exact=True).click()
+        expect(mobile.locator('[data-role="mobile-inspector"]:visible')).to_have_count(0)
+
+        goals_button.click()
         mobile.get_by_role("button", name="Add Stackable Line").click()
         line = mobile.locator("[data-planner-line]").first
-        line.locator('select[data-action="set-planner-stackable-name"]').select_option(
-            "Blessed medicine"
-        )
+        expect(planner_picker(line, "stackable").locator(".planner-picker-list")).to_be_visible()
+        expect(planner_picker_search_input(line, "stackable")).to_be_visible()
+        assert planner_picker_selected_text(line, "stackable") == "No output selected"
+        select_planner_picker_option(line, "stackable", "Blessed medicine")
         set_number_input(line.locator('input[data-action="set-planner-line-quantity"]'), 3)
 
         plan_button.click()
@@ -849,32 +976,34 @@ def test_index_planner_goal_builder_scope_filters_and_preserves_selection() -> N
         page.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
 
         page.get_by_role("button", name="Add Equipment Line").click()
-        equipment_select = page.locator(
-            '[data-planner-line] select[data-action="set-planner-equipment-name"]'
-        ).first
-        actionable_equipment_options = select_option_texts(equipment_select)
+        equipment_line = page.locator("[data-planner-line]").first
+        actionable_equipment_options = planner_picker_option_labels(
+            equipment_line, "equipment"
+        )
         assert "Basic Iron Shield" in actionable_equipment_options
         assert "Bronze necklace" not in actionable_equipment_options
 
         page.get_by_role("button", name="Add Combo Line").click()
-        combo_select = page.locator(
-            '[data-planner-line] select[data-action="set-planner-combo-base"]'
-        ).first
-        actionable_combo_options = select_option_texts(combo_select)
+        combo_line = page.locator("[data-planner-line]").nth(1)
+        actionable_combo_options = planner_picker_option_labels(
+            combo_line, "combo-base"
+        )
         assert "Bronze ring" in actionable_combo_options
         assert "Bronze necklace" not in actionable_combo_options
 
         planner_scope_button(page, "all").click()
-        assert "Bronze necklace" in select_option_texts(equipment_select)
-        assert "Bronze necklace" in select_option_texts(combo_select)
+        assert "Bronze necklace" in planner_picker_option_labels(equipment_line, "equipment")
+        assert "Bronze necklace" in planner_picker_option_labels(combo_line, "combo-base")
 
-        equipment_select.select_option("Bronze necklace")
+        select_planner_picker_option(equipment_line, "equipment", "Bronze necklace")
         planner_scope_button(page, "actionable").click()
 
-        expect(equipment_select).to_have_value("Bronze necklace")
-        preserved_options = select_option_texts(equipment_select)
+        assert planner_picker_selected_text(equipment_line, "equipment").startswith(
+            "Bronze necklace"
+        )
+        preserved_options = planner_picker_option_labels(equipment_line, "equipment")
         assert preserved_options[0] == "Bronze necklace (outside current filter)"
-        assert "Bronze necklace" not in select_option_texts(combo_select)
+        assert "Bronze necklace" not in planner_picker_option_labels(combo_line, "combo-base")
 
         context.close()
         browser.close()
@@ -897,18 +1026,53 @@ def test_index_planner_actionable_filter_ignores_current_gold() -> None:
         page.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
 
         page.get_by_role("button", name="Add Stackable Line").click()
-        stackable_select = page.locator(
-            '[data-planner-line] select[data-action="set-planner-stackable-name"]'
-        ).first
-        stackable_options = select_option_texts(stackable_select)
+        stackable_line = page.locator("[data-planner-line]").first
+        stackable_options = planner_picker_option_labels(stackable_line, "stackable")
         assert "Blessed medicine" in stackable_options
 
         page.get_by_role("button", name="Add Combo Line").click()
-        gem_select = page.locator(
-            '[data-planner-line] select[data-action="set-planner-combo-gem"][data-slot="0"]'
-        ).first
-        gem_options = select_option_texts(gem_select)
+        combo_line = page.locator("[data-planner-line]").nth(1)
+        select_planner_picker_option(combo_line, "combo-base", "Bronze ring")
+        gem_options = planner_picker_option_labels(combo_line, "combo-gem", slot=0)
         assert "Sapphire" in gem_options
+
+        context.close()
+        browser.close()
+
+
+def test_index_planner_new_lines_open_empty_and_search_first() -> None:
+    index_url = (REPO_ROOT / "index.html").resolve().as_uri()
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        context = browser.new_context()
+        page = context.new_page()
+
+        page.goto(index_url, wait_until="domcontentloaded")
+        page.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
+
+        page.get_by_role("button", name="Add Stackable Line").click()
+        stackable_line = page.locator("[data-planner-line]").first
+        expect(planner_picker_search_input(stackable_line, "stackable")).to_be_visible()
+        assert planner_picker_selected_text(stackable_line, "stackable") == "No output selected"
+        set_planner_picker_search(stackable_line, "stackable", "blessed")
+        assert planner_picker_option_labels(stackable_line, "stackable") == [
+            "Blessed medicine"
+        ]
+        select_planner_picker_option(stackable_line, "stackable", "Blessed medicine")
+        expect(planner_picker_search_input(stackable_line, "stackable")).to_have_count(0)
+        assert planner_picker_selected_text(stackable_line, "stackable") == "Blessed medicine"
+
+        page.get_by_role("button", name="Add Combo Line").click()
+        combo_line = page.locator("[data-planner-line]").nth(1)
+        expect(planner_picker_search_input(combo_line, "combo-base")).to_be_visible()
+        expect(
+            combo_line.locator('.planner-picker[data-picker-role="combo-gem"][data-picker-slot="0"]')
+        ).to_have_count(0)
+        set_planner_picker_search(combo_line, "combo-base", "bronze ring")
+        select_planner_picker_option(combo_line, "combo-base", "Bronze ring")
+        expect(planner_picker(combo_line, "combo-gem", slot=0)).to_be_visible()
+        expect(planner_picker_search_input(combo_line, "combo-gem", slot=0)).to_be_visible()
 
         context.close()
         browser.close()
@@ -938,19 +1102,18 @@ def test_index_planner_actionable_equipment_scope_includes_repurposable_socketed
         page.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
         page.get_by_role("button", name="Add Equipment Line").click()
 
-        equipment_select = page.locator(
-            '[data-planner-line] select[data-action="set-planner-equipment-name"]'
-        ).first
-        assert "Bronze necklace" not in select_option_texts(equipment_select)
+        equipment_line = page.locator("[data-planner-line]").first
+        assert "Bronze necklace" not in planner_picker_option_labels(
+            equipment_line, "equipment"
+        )
 
         page.locator(
             'input[data-action="toggle-planner-repurpose"][data-id="bronze-necklace-1"]'
         ).check()
 
-        equipment_select = page.locator(
-            '[data-planner-line] select[data-action="set-planner-equipment-name"]'
-        ).first
-        assert "Bronze necklace" in select_option_texts(equipment_select)
+        assert "Bronze necklace" in planner_picker_option_labels(
+            equipment_line, "equipment"
+        )
 
         context.close()
         browser.close()
@@ -968,9 +1131,7 @@ def test_index_planner_goal_scope_toggle_does_not_invalidate_preview() -> None:
         page.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
         page.get_by_role("button", name="Add Stackable Line").click()
         line = page.locator("[data-planner-line]").first
-        line.locator('select[data-action="set-planner-stackable-name"]').select_option(
-            "Blessed medicine"
-        )
+        select_planner_picker_option(line, "stackable", "Blessed medicine")
         set_number_input(line.locator('input[data-action="set-planner-line-quantity"]'), 3)
         page.get_by_role("button", name="Preview Plan").click()
 
@@ -984,6 +1145,169 @@ def test_index_planner_goal_scope_toggle_does_not_invalidate_preview() -> None:
         planner_scope_button(page, "actionable").click()
         expect(page.locator('[data-planner-status="solved"]')).to_contain_text("Solution found")
         assert planner_summary_value(page, "Steps") == "3"
+
+        context.close()
+        browser.close()
+
+
+def test_index_planner_wrap_overflow_and_scroll_guards() -> None:
+    index_url = (REPO_ROOT / "index.html").resolve().as_uri()
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+
+        desktop_context = browser.new_context(viewport={"width": 1440, "height": 900})
+        desktop = desktop_context.new_page()
+        desktop.goto(index_url, wait_until="domcontentloaded")
+        desktop.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
+        desktop.get_by_role("button", name="Add Stackable Line").click()
+        desktop_line = desktop.locator("[data-planner-line]").first
+        select_planner_picker_option(desktop_line, "stackable", "Blessed medicine")
+        set_number_input(
+            desktop_line.locator('input[data-action="set-planner-line-quantity"]'),
+            3,
+        )
+        desktop.get_by_role("button", name="Preview Plan").click()
+
+        assert_page_has_no_horizontal_overflow(desktop, label="desktop planner page")
+        assert_locators_fit_width(
+            desktop.locator(
+                ".planner-holdings-panel, .goal-line, .planner-picker, .planner-delta-row, .plan-step, .planner-rules-panel, .planner-rule-card"
+            ),
+            label="desktop planner panels",
+        )
+        assert_scroll_preserved(
+            desktop,
+            desktop.locator(".planner-holdings-panel .holdings-scroll"),
+            lambda: desktop.locator(
+                '[data-planner-holdings-gear-card="ring-bronze-1"] button[data-action="inspect-item"]'
+            ).dispatch_event("click"),
+            label="planner holdings scroll",
+            requested_position=420,
+        )
+        assert_scroll_preserved(
+            desktop,
+            desktop.locator(".planner-rule-list").first,
+            lambda: set_number_input(
+                desktop.locator(
+                    'input[data-action="set-planner-keep-count"][data-name="Batta berry"]'
+                ),
+                3,
+            ),
+            label="planner reserve scroll",
+            requested_position=320,
+        )
+        assert_scroll_preserved(
+            desktop,
+            desktop.locator(".planner-rule-list").first,
+            lambda: set_number_input(
+                desktop.locator(
+                    'input[data-action="set-planner-keep-count"][data-name="Batta berry"]'
+                ),
+                4,
+            ),
+            label="planner reserve scroll at bottom",
+            requested_position=9999,
+        )
+
+        mobile_context = browser.new_context(
+            viewport={"width": 430, "height": 932},
+            is_mobile=True,
+            device_scale_factor=2,
+        )
+        mobile = mobile_context.new_page()
+        mobile.goto(index_url, wait_until="domcontentloaded")
+        mobile.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
+        mobile.get_by_role("button", name="Add Stackable Line").click()
+        mobile_line = mobile.locator("[data-planner-line]").first
+        select_planner_picker_option(mobile_line, "stackable", "Blessed medicine")
+        set_number_input(
+            mobile_line.locator('input[data-action="set-planner-line-quantity"]'),
+            3,
+        )
+        mobile.locator(
+            'button[data-action="set-planner-mobile-section"][data-section="holdings"]'
+        ).click()
+        assert_page_has_no_horizontal_overflow(mobile, label="mobile planner holdings page")
+        assert_locators_fit_width(
+            mobile.locator(".planner-holdings-panel, [data-planner-holdings-gear-card]"),
+            label="mobile planner holdings",
+        )
+        assert_window_scroll_preserved(
+            mobile,
+            lambda: mobile.locator(
+                '[data-planner-holdings-gear-card="ring-bronze-1"] button[data-action="inspect-item"]'
+            ).dispatch_event("click"),
+            label="mobile planner holdings page",
+            requested_top=320,
+        )
+        mobile.locator('[data-role="mobile-inspector"]:visible').get_by_role(
+            "button", name="Close", exact=True
+        ).click()
+
+        mobile.locator(
+            'button[data-action="set-planner-mobile-section"][data-section="plan"]'
+        ).click()
+        mobile.get_by_role("button", name="Preview Plan").click()
+        assert_page_has_no_horizontal_overflow(mobile, label="mobile planner plan page")
+        assert_locators_fit_width(
+            mobile.locator(".planner-delta-row, .plan-step"),
+            label="mobile planner plan rows",
+        )
+
+        mobile.locator(
+            'button[data-action="set-planner-mobile-section"][data-section="rules"]'
+        ).click()
+        assert_page_has_no_horizontal_overflow(mobile, label="mobile planner rules page")
+        assert_locators_fit_width(
+            mobile.locator(".planner-rules-panel, .planner-rule-card"),
+            label="mobile planner rule cards",
+        )
+
+        mobile_context.close()
+        desktop_context.close()
+        browser.close()
+
+
+def test_index_planner_inspector_stays_visible_and_resets_scroll() -> None:
+    index_url = (REPO_ROOT / "index.html").resolve().as_uri()
+    scenario = load_seed_scenario()
+    modified_scenario = json.loads(json.dumps(scenario))
+    modified_scenario["equipment"]["definitions"]["Bronze ring"]["effects"].extend(
+        [f"Planner inspector filler effect {index}" for index in range(1, 19)]
+    )
+    saved_state = build_saved_state(modified_scenario)
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        context = browser.new_context(viewport={"width": 1440, "height": 900})
+        seed_local_storage(context, saved_state)
+        page = context.new_page()
+
+        page.goto(index_url, wait_until="domcontentloaded")
+        page.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
+
+        page.locator('[data-planner-holdings-gear-card="ring-bronze-1"]').get_by_role(
+            "button", name="Inspect"
+        ).click()
+        inspector_scroll = page.locator(".planner-inspector-panel .inspector-scroll")
+        expect(inspector_scroll).to_be_visible()
+        assert set_scroll_position(inspector_scroll, 9999) > 0
+
+        assert set_window_scroll_y(page, 900) > 0
+        page.locator('[data-planner-rule="talisman-silver-1"]').get_by_role(
+            "button", name="Inspect"
+        ).click()
+
+        expect(page.locator(".planner-inspector-panel")).to_be_visible()
+        panel_top = page.locator(".planner-inspector-panel").evaluate(
+            "el => Math.round(el.getBoundingClientRect().top)"
+        )
+        assert 0 <= panel_top <= 180
+        reset_scroll = page.locator(".planner-inspector-panel .inspector-scroll").evaluate(
+            "el => Math.round(el.scrollTop)"
+        )
+        assert reset_scroll <= 4
 
         context.close()
         browser.close()
@@ -1039,7 +1363,7 @@ def test_index_preserves_scroll_positions() -> None:
         expect(inspector_item(page, "equipment_instance:ring-bronze-1")).to_be_visible()
         assert_scroll_preserved(
             page,
-            page.locator(".inspector-panel .inspector-scroll"),
+            page.locator(".workbench-side-column .inspector-panel .inspector-scroll"),
             lambda: page.locator(
                 'button[data-action="sell-stackable"][data-bucket="ingredients"][data-name="Lune stone"]'
             ).dispatch_event("click"),
@@ -1093,7 +1417,7 @@ def test_index_preserves_scroll_positions() -> None:
         expect(holdings_button).to_be_visible()
         holdings_button.click()
         holdings_gear_card(page, "ring-bronze-1").get_by_role("button", name="Inspect").click()
-        mobile_sheet = page.locator(".mobile-inspector-sheet")
+        mobile_sheet = page.locator(".mobile-inspector-sheet:visible")
         expect(mobile_sheet).to_be_visible()
         assert_scroll_preserved(
             page,
@@ -1458,9 +1782,7 @@ def test_index_planner_stackable_preview_and_apply() -> None:
         page.get_by_role("button", name="Add Stackable Line").click()
 
         line = page.locator("[data-planner-line]").first
-        line.locator('select[data-action="set-planner-stackable-name"]').select_option(
-            "Blessed medicine"
-        )
+        select_planner_picker_option(line, "stackable", "Blessed medicine")
         set_number_input(line.locator('input[data-action="set-planner-line-quantity"]'), 3)
 
         page.get_by_role("button", name="Preview Plan").click()
@@ -1470,6 +1792,10 @@ def test_index_planner_stackable_preview_and_apply() -> None:
         assert planner_summary_value(page, "Liquidation Recovered") == "0g"
         assert planner_summary_value(page, "Final Gold") == "219g"
         assert planner_summary_value(page, "Steps") == "3"
+        assert planner_delta_texts(page) == [
+            "Blessed medicine\nMedicine · Potion\n+2",
+            "Runic bone\nHerb\n-2",
+        ]
         assert planner_step_texts(page) == [
             "1\nBuy Holy water x6\nHoly water is sold this week at 20g each.\n-120g",
             "2\nCraft Blessed medicine\nConsumes Holy water x3, Runic bone x1.\n0g",
@@ -1506,10 +1832,8 @@ def test_index_planner_combo_preview_and_apply_preserves_identity() -> None:
         page.get_by_role("button", name="Add Combo Line").click()
 
         line = page.locator("[data-planner-line]").first
-        line.locator('select[data-action="set-planner-combo-base"]').select_option("Bronze ring")
-        line.locator(
-            'select[data-action="set-planner-combo-gem"][data-slot="0"]'
-        ).select_option("Sapphire")
+        select_planner_picker_option(line, "combo-base", "Bronze ring")
+        select_planner_picker_option(line, "combo-gem", "Sapphire", slot=0)
 
         page.get_by_role("button", name="Preview Plan").click()
 
@@ -1517,10 +1841,20 @@ def test_index_planner_combo_preview_and_apply_preserves_identity() -> None:
         assert planner_summary_value(page, "Gross Spend") == "50g"
         assert planner_summary_value(page, "Final Gold") == "289g"
         assert planner_summary_value(page, "Steps") == "2"
+        assert planner_delta_texts(page) == [
+            "Bronze ring\nAccessory\n-1",
+            "Bronze ring + Sapphire\nAccessory\n+1",
+            "Sapphire piece\nGem Piece\n-5",
+        ]
         assert planner_step_texts(page) == [
             "1\nCraft Sapphire\nConsumes Sapphire piece x5.\n0g",
             "2\nAssemble Bronze ring with Sapphire\nPays the 50g imbue fee and uses the selected gems.\n-50g",
         ]
+        page.locator(".planner-delta-row").filter(
+            has=page.locator("strong", has_text="Bronze ring + Sapphire")
+        ).first.get_by_role("button", name="Inspect").click()
+        expect(page.locator(".planner-inspector-panel")).to_contain_text("Bronze ring")
+        expect(page.locator(".planner-inspector-panel")).to_contain_text("Sapphire")
 
         page.get_by_role("button", name="Apply Plan To Workbench").click()
 
@@ -1575,15 +1909,11 @@ def test_index_planner_mixed_cross_system_plan_and_apply() -> None:
 
         page.get_by_role("button", name="Add Equipment Line").click()
         equipment_line = page.locator("[data-planner-line]").nth(0)
-        equipment_line.locator(
-            'select[data-action="set-planner-equipment-name"]'
-        ).select_option("Basic Iron Shield")
+        select_planner_picker_option(equipment_line, "equipment", "Basic Iron Shield")
 
         page.get_by_role("button", name="Add Stackable Line").click()
         stackable_line = page.locator("[data-planner-line]").nth(1)
-        stackable_line.locator(
-            'select[data-action="set-planner-stackable-name"]'
-        ).select_option("Super potion")
+        select_planner_picker_option(stackable_line, "stackable", "Super potion")
         set_number_input(
             stackable_line.locator('input[data-action="set-planner-line-quantity"]'),
             2,
@@ -1591,12 +1921,8 @@ def test_index_planner_mixed_cross_system_plan_and_apply() -> None:
 
         page.get_by_role("button", name="Add Combo Line").click()
         combo_line = page.locator("[data-planner-line]").nth(2)
-        combo_line.locator('select[data-action="set-planner-combo-base"]').select_option(
-            "Bronze ring"
-        )
-        combo_line.locator(
-            'select[data-action="set-planner-combo-gem"][data-slot="0"]'
-        ).select_option("Moonstone")
+        select_planner_picker_option(combo_line, "combo-base", "Bronze ring")
+        select_planner_picker_option(combo_line, "combo-gem", "Moonstone", slot=0)
 
         page.get_by_role("button", name="Preview Plan").click()
 
@@ -1604,6 +1930,13 @@ def test_index_planner_mixed_cross_system_plan_and_apply() -> None:
         assert planner_summary_value(page, "Gross Spend") == "350g"
         liquidation_recovered = planner_summary_value(page, "Liquidation Recovered")
         assert float(liquidation_recovered.removesuffix("g")) > 0
+        delta_rows = planner_delta_texts(page)
+        assert "Basic Iron Shield\nEquipment\n+1" in delta_rows
+        assert "Bronze ring\nAccessory\n-1" in delta_rows
+        assert "Bronze ring + Moonstone\nAccessory\n+1" in delta_rows
+        assert "Moonstone piece\nGem Piece\n-5" in delta_rows
+        assert "Super potion\nPotion · Potion\n+2" in delta_rows
+        assert not any(row.startswith("Silver Talisman\n") for row in delta_rows)
         steps = planner_step_texts(page)
         assert any(step.startswith("1\nSell ") or "\nSell " in step for step in steps)
         assert all("Sell Leather Shoes" not in step for step in steps)
@@ -1652,6 +1985,137 @@ def test_index_planner_mixed_cross_system_plan_and_apply() -> None:
         browser.close()
 
 
+def test_index_planner_solved_preview_omits_protected_footer_and_unaffected_equipment() -> None:
+    index_url = (REPO_ROOT / "index.html").resolve().as_uri()
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        context = browser.new_context()
+        page = context.new_page()
+
+        page.goto(index_url, wait_until="domcontentloaded")
+        page.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
+
+        page.get_by_role("button", name="Add Equipment Line").click()
+        equipment_line = page.locator("[data-planner-line]").nth(0)
+        select_planner_picker_option(equipment_line, "equipment", "Leather Shoes")
+        set_number_input(
+            equipment_line.locator('input[data-action="set-planner-line-quantity"]'),
+            8,
+        )
+
+        page.get_by_role("button", name="Add Stackable Line").click()
+        stackable_line = page.locator("[data-planner-line]").nth(1)
+        select_planner_picker_option(stackable_line, "stackable", "Brew of the Master")
+
+        page.get_by_role("button", name="Preview Plan").click()
+
+        expect(page.locator('[data-planner-status="solved"]')).to_contain_text("Solution found")
+        expect(page.locator(".note-stack")).to_have_count(0)
+        delta_rows = planner_delta_texts(page)
+        assert "Leather Shoes\nEquipment\n+7" in delta_rows
+        assert "Brew of the Master\nBrew · Potion\n+1" in delta_rows
+        assert not any(row.startswith("Silver Talisman\n") for row in delta_rows)
+        assert not any(row.startswith("Bronze ring\n") for row in delta_rows)
+        assert not any(row.startswith("Basic Iron Shield\n") for row in delta_rows)
+
+        context.close()
+        browser.close()
+
+
+def test_index_planner_balances_herb_liquidation_within_cohort() -> None:
+    index_url = (REPO_ROOT / "index.html").resolve().as_uri()
+    scenario = load_seed_scenario()
+    workbench = default_workbench_state(scenario)
+    workbench["gold"] = 0
+    workbench["equipment"] = [
+        instance
+        for instance in workbench["equipment"]
+        if instance["base_name"] != "Silver Talisman"
+    ]
+    saved_state = build_saved_state(
+        scenario,
+        workbench=workbench,
+        planner={
+            "repurposable_equipment_ids": {},
+            "ingredient_keep_counts": keep_all_ingredients_except(
+                workbench, {"Lune stone", "Nappa grass"}
+            ),
+            "pinned_output_reserves": {},
+        },
+    )
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        context = browser.new_context()
+        seed_local_storage(context, saved_state)
+        page = context.new_page()
+
+        page.goto(index_url, wait_until="domcontentloaded")
+        page.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
+        page.get_by_role("button", name="Add Equipment Line").click()
+        line = page.locator("[data-planner-line]").first
+        select_planner_picker_option(line, "equipment", "Silver Talisman")
+
+        page.get_by_role("button", name="Preview Plan").click()
+
+        expect(page.locator('[data-planner-status="solved"]')).to_contain_text("Solution found")
+        steps = planner_step_texts(page)
+        assert any("Sell Lune stone x16" in step for step in steps)
+        assert any("Sell Nappa grass x10" in step for step in steps)
+        assert all("Sell Lune stone x26" not in step for step in steps)
+        assert all("Sell Yon nut" not in step for step in steps)
+
+        context.close()
+        browser.close()
+
+
+def test_index_planner_balances_gem_piece_liquidation_within_cohort() -> None:
+    index_url = (REPO_ROOT / "index.html").resolve().as_uri()
+    scenario = load_seed_scenario()
+    workbench = default_workbench_state(scenario)
+    workbench["gold"] = 0
+    saved_state = build_saved_state(
+        scenario,
+        workbench=workbench,
+        planner={
+            "repurposable_equipment_ids": {},
+            "ingredient_keep_counts": keep_all_ingredients_except(
+                workbench, {"Alexandrite piece", "Moonstone piece"}
+            ),
+            "pinned_output_reserves": {},
+        },
+    )
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        context = browser.new_context()
+        seed_local_storage(context, saved_state)
+        page = context.new_page()
+
+        page.goto(index_url, wait_until="domcontentloaded")
+        page.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
+        page.get_by_role("button", name="Add Equipment Line").click()
+        line = page.locator("[data-planner-line]").first
+        select_planner_picker_option(line, "equipment", "Leather Shoes")
+        set_number_input(
+            line.locator('input[data-action="set-planner-line-quantity"]'),
+            3,
+        )
+
+        page.get_by_role("button", name="Preview Plan").click()
+
+        expect(page.locator('[data-planner-status="solved"]')).to_contain_text("Solution found")
+        steps = planner_step_texts(page)
+        assert any("Sell Alexandrite piece x6" in step for step in steps)
+        assert any("Sell Moonstone piece x4" in step for step in steps)
+        assert all("Sell Moonstone piece x10" not in step for step in steps)
+        assert all("Sell Garnet piece" not in step for step in steps)
+
+        context.close()
+        browser.close()
+
+
 def test_index_planner_ingredient_funding_respects_reserves() -> None:
     index_url = (REPO_ROOT / "index.html").resolve().as_uri()
     scenario = load_seed_scenario()
@@ -1683,9 +2147,7 @@ def test_index_planner_ingredient_funding_respects_reserves() -> None:
         page.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
         page.get_by_role("button", name="Add Equipment Line").click()
         line = page.locator("[data-planner-line]").first
-        line.locator('select[data-action="set-planner-equipment-name"]').select_option(
-            "Silver Talisman"
-        )
+        select_planner_picker_option(line, "equipment", "Silver Talisman")
 
         page.get_by_role("button", name="Preview Plan").click()
 
@@ -1693,6 +2155,10 @@ def test_index_planner_ingredient_funding_respects_reserves() -> None:
         assert planner_summary_value(page, "Gross Spend") == "130g"
         assert planner_summary_value(page, "Liquidation Recovered") == "50g"
         assert planner_summary_value(page, "Final Gold") == "2g"
+        delta_rows = planner_delta_texts(page)
+        assert "Silver Talisman\nAccessory\n+1" in delta_rows
+        assert all("Batta berry" not in row for row in delta_rows)
+        assert all("Moonstone piece" not in row for row in delta_rows)
         steps = planner_step_texts(page)
         assert steps
         assert steps[0].startswith("1\nSell ")
@@ -1701,8 +2167,7 @@ def test_index_planner_ingredient_funding_respects_reserves() -> None:
         assert steps[-1].endswith(
             "Buy Silver Talisman\nSilver Talisman is sold this week for 130g.\n-130g"
         )
-        expect(page.locator(".note-stack")).to_contain_text("Moonstone piece x5")
-        expect(page.locator(".note-stack")).to_contain_text("Batta berry x5")
+        expect(page.locator(".note-stack")).to_have_count(0)
 
         page.get_by_role("button", name="Apply Plan To Workbench").click()
 
@@ -1727,9 +2192,7 @@ def test_index_planner_pure_equipment_goal_uses_ingredient_funding() -> None:
         page.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
         page.get_by_role("button", name="Add Equipment Line").click()
         line = page.locator("[data-planner-line]").first
-        line.locator('select[data-action="set-planner-equipment-name"]').select_option(
-            "Leather Shoes"
-        )
+        select_planner_picker_option(line, "equipment", "Leather Shoes")
         set_number_input(
             line.locator('input[data-action="set-planner-line-quantity"]'),
             11,
@@ -1767,18 +2230,10 @@ def test_index_planner_blocked_combo_and_repurposable_disassembly() -> None:
         blocked.get_by_role("button", name="Add Combo Line").click()
         planner_scope_button(blocked, "all").click()
         blocked_line = blocked.locator("[data-planner-line]").first
-        blocked_line.locator(
-            'select[data-action="set-planner-combo-base"]'
-        ).select_option("Bronze necklace")
-        blocked_line.locator(
-            'select[data-action="set-planner-combo-gem"][data-slot="0"]'
-        ).select_option("Ruby")
-        blocked_line.locator(
-            'select[data-action="set-planner-combo-gem"][data-slot="1"]'
-        ).select_option("Sapphire")
-        blocked_line.locator(
-            'select[data-action="set-planner-combo-gem"][data-slot="2"]'
-        ).select_option("Moonstone")
+        select_planner_picker_option(blocked_line, "combo-base", "Bronze necklace")
+        select_planner_picker_option(blocked_line, "combo-gem", "Ruby", slot=0)
+        select_planner_picker_option(blocked_line, "combo-gem", "Sapphire", slot=1)
+        select_planner_picker_option(blocked_line, "combo-gem", "Moonstone", slot=2)
         blocked.get_by_role("button", name="Preview Plan").click()
         expect(blocked.locator('[data-planner-status="blocked"]')).to_contain_text(
             "Bronze necklace is blocked because the base accessory is neither owned nor sold this week."
@@ -1803,12 +2258,8 @@ def test_index_planner_blocked_combo_and_repurposable_disassembly() -> None:
         repurpose.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
         repurpose.get_by_role("button", name="Add Combo Line").click()
         repurpose_line = repurpose.locator("[data-planner-line]").first
-        repurpose_line.locator(
-            'select[data-action="set-planner-combo-base"]'
-        ).select_option("Bronze ring")
-        repurpose_line.locator(
-            'select[data-action="set-planner-combo-gem"][data-slot="0"]'
-        ).select_option("Moonstone")
+        select_planner_picker_option(repurpose_line, "combo-base", "Bronze ring")
+        select_planner_picker_option(repurpose_line, "combo-gem", "Moonstone", slot=0)
         repurpose.get_by_role("button", name="Preview Plan").click()
 
         assert planner_summary_value(repurpose, "Gross Spend") == "90g"
@@ -1844,9 +2295,7 @@ def test_index_planner_rules_persist_reload_and_reset() -> None:
         page.locator('button[data-action="switch-tab"][data-tab="planner"]').click()
         page.get_by_role("button", name="Add Stackable Line").click()
         line = page.locator("[data-planner-line]").first
-        line.locator('select[data-action="set-planner-stackable-name"]').select_option(
-            "Blessed medicine"
-        )
+        select_planner_picker_option(line, "stackable", "Blessed medicine")
         set_number_input(line.locator('input[data-action="set-planner-line-quantity"]'), 3)
         page.locator(
             'input[data-action="toggle-planner-repurpose"][data-id="ring-bronze-1"]'
