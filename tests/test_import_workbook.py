@@ -129,7 +129,7 @@ def test_import_workbook_generates_expected_schema(tmp_path: Path) -> None:
     assert equipment["Bronze ring"] == {
         "name": "Bronze ring",
         "family": "ring",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 40,
         "max_hp": None,
@@ -145,7 +145,7 @@ def test_import_workbook_generates_expected_schema(tmp_path: Path) -> None:
     assert equipment["Bronze necklace"] == {
         "name": "Bronze necklace",
         "family": "necklace",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 150,
         "max_hp": None,
@@ -159,12 +159,13 @@ def test_import_workbook_generates_expected_schema(tmp_path: Path) -> None:
         },
     }
     assert equipment["Basic Iron Shield"]["family"] == "shield"
+    assert equipment["Basic Iron Shield"]["category"] == "equipment"
     assert equipment["Basic Iron Shield"]["max_hp"] == 7
     assert equipment["Basic Iron Shield"]["effects"][:2] == ["Shield block", "Increases shield by 1"]
     assert equipment["Silver Talisman"] == {
         "name": "Silver Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "C",
         "buy_price": 130,
         "max_hp": None,
@@ -172,6 +173,9 @@ def test_import_workbook_generates_expected_schema(tmp_path: Path) -> None:
         "effects": ["1/6 chance of preventiing damage"],
         "optimizer_auto_sell": False,
     }
+    assert "source_sheet" not in equipment["Bronze ring"]
+    assert "source_sheet" not in equipment["Basic Iron Shield"]
+    assert "source_sheet" not in equipment["Silver Talisman"]
 
 
 def test_import_workbook_rejects_unknown_resource_names(tmp_path: Path) -> None:

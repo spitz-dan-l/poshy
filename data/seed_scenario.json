@@ -317,7 +317,7 @@
       "Ape": {
         "name": "Ape",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 5,
@@ -344,7 +344,7 @@
       "Apprentice's Hat": {
         "name": "Apprentice's Hat",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 4,
@@ -361,7 +361,7 @@
       "Aqua walkers": {
         "name": "Aqua walkers",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 8,
@@ -382,7 +382,7 @@
       "Basic Iron Shield": {
         "name": "Basic Iron Shield",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 7,
@@ -398,7 +398,7 @@
       "Basic Legs": {
         "name": "Basic Legs",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 10,
@@ -415,7 +415,7 @@
       "Basic Silver Shield": {
         "name": "Basic Silver Shield",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 90,
         "max_hp": 11,
@@ -430,7 +430,7 @@
       "Basic Steel Shield": {
         "name": "Basic Steel Shield",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 60,
         "max_hp": 7,
@@ -446,7 +446,7 @@
       "Basic Turban": {
         "name": "Basic Turban",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 8,
@@ -462,7 +462,7 @@
       "Basic Work Hat": {
         "name": "Basic Work Hat",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 6,
@@ -478,7 +478,7 @@
       "Bear": {
         "name": "Bear",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 9,
@@ -509,7 +509,7 @@
       "Bear Hide": {
         "name": "Bear Hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 20,
@@ -525,7 +525,7 @@
       "Bear Hide Shoes": {
         "name": "Bear Hide Shoes",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 10,
@@ -545,7 +545,7 @@
       "Beetle Scale Mask": {
         "name": "Beetle Scale Mask",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 4,
@@ -562,7 +562,7 @@
       "Bishop Robe": {
         "name": "Bishop Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 12,
@@ -578,7 +578,7 @@
       "Black Orb": {
         "name": "Black Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -597,7 +597,7 @@
       "Blaze Rune": {
         "name": "Blaze Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -616,7 +616,7 @@
       "Blaze walkers": {
         "name": "Blaze walkers",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 10,
@@ -637,7 +637,7 @@
       "Blessed Silver Talisman": {
         "name": "Blessed Silver Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "B",
         "buy_price": 160,
         "max_hp": null,
@@ -651,7 +651,7 @@
       "Blue Orb": {
         "name": "Blue Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
@@ -670,7 +670,7 @@
       "Boar Hide": {
         "name": "Boar Hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 16,
@@ -684,7 +684,7 @@
       "Bone mail Helm": {
         "name": "Bone mail Helm",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
@@ -700,7 +700,7 @@
       "Bone Talisman": {
         "name": "Bone Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "C",
         "buy_price": 130,
         "max_hp": null,
@@ -713,7 +713,7 @@
       "Brain Carapace": {
         "name": "Brain Carapace",
         "family": "golem_armor",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
@@ -731,7 +731,7 @@
       "Brain Core": {
         "name": "Brain Core",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 4,
@@ -748,7 +748,7 @@
       "Bronze necklace": {
         "name": "Bronze necklace",
         "family": "necklace",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 150,
         "max_hp": null,
@@ -767,7 +767,7 @@
       "Bronze Orb": {
         "name": "Bronze Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -787,7 +787,7 @@
       "Bronze ring": {
         "name": "Bronze ring",
         "family": "ring",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 40,
         "max_hp": null,
@@ -806,7 +806,7 @@
       "Brown Orb": {
         "name": "Brown Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -826,7 +826,7 @@
       "Cat": {
         "name": "Cat",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 3,
@@ -852,7 +852,7 @@
       "Charmer's Turban": {
         "name": "Charmer's Turban",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 8,
@@ -869,7 +869,7 @@
       "Clay Legs": {
         "name": "Clay Legs",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 11,
@@ -888,7 +888,7 @@
       "Clear Orb": {
         "name": "Clear Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -908,7 +908,7 @@
       "Clergy Robe": {
         "name": "Clergy Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 4,
@@ -924,7 +924,7 @@
       "Cloud walkers": {
         "name": "Cloud walkers",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 12,
@@ -942,7 +942,7 @@
       "Common Carapace": {
         "name": "Common Carapace",
         "family": "golem_armor",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
@@ -960,7 +960,7 @@
       "Common Chassis": {
         "name": "Common Chassis",
         "family": "golem_armor",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 12,
@@ -978,7 +978,7 @@
       "Common Core": {
         "name": "Common Core",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
@@ -993,7 +993,7 @@
       "Common eye": {
         "name": "Common eye",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 4,
@@ -1008,7 +1008,7 @@
       "Common head": {
         "name": "Common head",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 4,
@@ -1024,7 +1024,7 @@
       "Common shell": {
         "name": "Common shell",
         "family": "golem_armor",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 8,
@@ -1042,7 +1042,7 @@
       "Coon Hide": {
         "name": "Coon Hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 8,
@@ -1056,7 +1056,7 @@
       "Cord-Rigged Gauntlets": {
         "name": "Cord-Rigged Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 10,
@@ -1074,7 +1074,7 @@
       "Cougar Hide": {
         "name": "Cougar Hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 12,
@@ -1091,7 +1091,7 @@
       "Crocodile": {
         "name": "Crocodile",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 6,
@@ -1119,7 +1119,7 @@
       "Crystal Legs": {
         "name": "Crystal Legs",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 7,
@@ -1139,7 +1139,7 @@
       "Crystal Orb": {
         "name": "Crystal Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -1159,7 +1159,7 @@
       "Dew Rune": {
         "name": "Dew Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
@@ -1177,7 +1177,7 @@
       "Dragon Bone Talisman": {
         "name": "Dragon Bone Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "B",
         "buy_price": 160,
         "max_hp": null,
@@ -1191,7 +1191,7 @@
       "Dragon Scale Mail": {
         "name": "Dragon Scale Mail",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
@@ -1208,7 +1208,7 @@
       "Dragon Scale mask": {
         "name": "Dragon Scale mask",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
@@ -1223,7 +1223,7 @@
       "Eagle": {
         "name": "Eagle",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 5,
@@ -1252,7 +1252,7 @@
       "Echanted Leather Shoes": {
         "name": "Echanted Leather Shoes",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 11,
@@ -1268,7 +1268,7 @@
       "Elder Composite Bow": {
         "name": "Elder Composite Bow",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
@@ -1285,7 +1285,7 @@
       "Elder Glaive": {
         "name": "Elder Glaive",
         "family": "spear",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -1302,7 +1302,7 @@
       "Elder Mirror Shield": {
         "name": "Elder Mirror Shield",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 90,
         "max_hp": 10,
@@ -1318,7 +1318,7 @@
       "Elder Nun-chuks": {
         "name": "Elder Nun-chuks",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -1338,7 +1338,7 @@
       "Elder Orbed Staff": {
         "name": "Elder Orbed Staff",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
@@ -1358,7 +1358,7 @@
       "Elder Snow Shoes": {
         "name": "Elder Snow Shoes",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 12,
@@ -1376,7 +1376,7 @@
       "Elder Staff": {
         "name": "Elder Staff",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -1394,7 +1394,7 @@
       "Elder Talisman": {
         "name": "Elder Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "C",
         "buy_price": 130,
         "max_hp": null,
@@ -1407,7 +1407,7 @@
       "Elder Wand": {
         "name": "Elder Wand",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 14,
@@ -1427,7 +1427,7 @@
       "Elegant Hat": {
         "name": "Elegant Hat",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 2,
@@ -1442,7 +1442,7 @@
       "Ember Rune": {
         "name": "Ember Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
@@ -1459,7 +1459,7 @@
       "Enchanted Crystal Talisman": {
         "name": "Enchanted Crystal Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 190,
         "max_hp": null,
@@ -1474,7 +1474,7 @@
       "Enchanted Hat": {
         "name": "Enchanted Hat",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 6,
@@ -1490,7 +1490,7 @@
       "Enchanted Leather Armor": {
         "name": "Enchanted Leather Armor",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 14,
@@ -1506,7 +1506,7 @@
       "Enchanted Leather Buckler": {
         "name": "Enchanted Leather Buckler",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 90,
         "max_hp": 14,
@@ -1521,7 +1521,7 @@
       "Enchanted Leather Cap": {
         "name": "Enchanted Leather Cap",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 6,
@@ -1537,7 +1537,7 @@
       "Enchanted Leather Gauntlets": {
         "name": "Enchanted Leather Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 13,
@@ -1555,7 +1555,7 @@
       "Enchanted Robe": {
         "name": "Enchanted Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 10,
@@ -1572,7 +1572,7 @@
       "Enchanted Silver Talisman": {
         "name": "Enchanted Silver Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 190,
         "max_hp": null,
@@ -1587,7 +1587,7 @@
       "Enchanter's Turban": {
         "name": "Enchanter's Turban",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
@@ -1605,7 +1605,7 @@
       "Engineer Carapace": {
         "name": "Engineer Carapace",
         "family": "golem_armor",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
@@ -1622,7 +1622,7 @@
       "Engineer Core": {
         "name": "Engineer Core",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
@@ -1638,7 +1638,7 @@
       "Engineer eye": {
         "name": "Engineer eye",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 4,
@@ -1654,7 +1654,7 @@
       "Engineer head": {
         "name": "Engineer head",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 4,
@@ -1669,7 +1669,7 @@
       "Engineer shell": {
         "name": "Engineer shell",
         "family": "golem_armor",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 8,
@@ -1685,7 +1685,7 @@
       "Explorer Carapace": {
         "name": "Explorer Carapace",
         "family": "golem_armor",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
@@ -1702,7 +1702,7 @@
       "Explorer Chassis": {
         "name": "Explorer Chassis",
         "family": "golem_armor",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 14,
@@ -1719,7 +1719,7 @@
       "Explorer Core": {
         "name": "Explorer Core",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
@@ -1734,7 +1734,7 @@
       "Explorer head": {
         "name": "Explorer head",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 8,
@@ -1749,7 +1749,7 @@
       "Extravagant Hat": {
         "name": "Extravagant Hat",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
@@ -1765,7 +1765,7 @@
       "Extravagant Robe": {
         "name": "Extravagant Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 12,
@@ -1782,7 +1782,7 @@
       "Flame Rune": {
         "name": "Flame Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -1800,7 +1800,7 @@
       "Focus Band": {
         "name": "Focus Band",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 6,
@@ -1816,7 +1816,7 @@
       "Fox Hide": {
         "name": "Fox Hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 8,
@@ -1833,7 +1833,7 @@
       "FulI Iron Helm": {
         "name": "FulI Iron Helm",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 8,
@@ -1849,7 +1849,7 @@
       "Full Plate Helm": {
         "name": "Full Plate Helm",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
@@ -1864,7 +1864,7 @@
       "Full Runed Helm": {
         "name": "Full Runed Helm",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 16,
@@ -1880,7 +1880,7 @@
       "Full Silver Helm": {
         "name": "Full Silver Helm",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 16,
@@ -1896,7 +1896,7 @@
       "Full Steel Helm": {
         "name": "Full Steel Helm",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 12,
@@ -1912,7 +1912,7 @@
       "Full Studded Helm": {
         "name": "Full Studded Helm",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 8,
@@ -1927,7 +1927,7 @@
       "Gilded Robe": {
         "name": "Gilded Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 14,
@@ -1944,7 +1944,7 @@
       "Glow Legs": {
         "name": "Glow Legs",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 9,
@@ -1964,7 +1964,7 @@
       "Goat Hide": {
         "name": "Goat Hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 12,
@@ -1978,7 +1978,7 @@
       "Gold necklace": {
         "name": "Gold necklace",
         "family": "necklace",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 150,
         "max_hp": null,
@@ -1997,7 +1997,7 @@
       "Gold Orb": {
         "name": "Gold Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -2017,7 +2017,7 @@
       "Gold ring": {
         "name": "Gold ring",
         "family": "ring",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 40,
         "max_hp": null,
@@ -2036,7 +2036,7 @@
       "Green Orb": {
         "name": "Green Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -2056,7 +2056,7 @@
       "Griffin hide": {
         "name": "Griffin hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
@@ -2074,7 +2074,7 @@
       "Hare Hide": {
         "name": "Hare Hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 4,
@@ -2090,7 +2090,7 @@
       "Hare Hide Shoes": {
         "name": "Hare Hide Shoes",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 4,
@@ -2104,7 +2104,7 @@
       "Hawk": {
         "name": "Hawk",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 3,
@@ -2129,7 +2129,7 @@
       "Heavy Robe": {
         "name": "Heavy Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 14,
@@ -2146,7 +2146,7 @@
       "Holy Silver Talisman": {
         "name": "Holy Silver Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 190,
         "max_hp": null,
@@ -2161,7 +2161,7 @@
       "Hooded Robe": {
         "name": "Hooded Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 10,
@@ -2177,7 +2177,7 @@
       "Hooked Gauntlets": {
         "name": "Hooked Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 4,
@@ -2193,7 +2193,7 @@
       "Human Skull Mask": {
         "name": "Human Skull Mask",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 10,
@@ -2210,7 +2210,7 @@
       "Indigo Orb": {
         "name": "Indigo Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -2229,7 +2229,7 @@
       "Insulated Muck Boots": {
         "name": "Insulated Muck Boots",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 9,
@@ -2246,7 +2246,7 @@
       "Insulated Robe": {
         "name": "Insulated Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
@@ -2263,7 +2263,7 @@
       "Iron Axe": {
         "name": "Iron Axe",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
@@ -2278,7 +2278,7 @@
       "Iron Battle Helm": {
         "name": "Iron Battle Helm",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 12,
@@ -2293,7 +2293,7 @@
       "Iron Chain Helm": {
         "name": "Iron Chain Helm",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 8,
@@ -2308,7 +2308,7 @@
       "Iron Chain Mail": {
         "name": "Iron Chain Mail",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 8,
@@ -2322,7 +2322,7 @@
       "Iron Coat of Arms": {
         "name": "Iron Coat of Arms",
         "family": "heavy_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 12,
@@ -2338,7 +2338,7 @@
       "Iron Knife": {
         "name": "Iron Knife",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 4,
@@ -2356,7 +2356,7 @@
       "Iron Mace": {
         "name": "Iron Mace",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 12,
@@ -2373,7 +2373,7 @@
       "Iron Partisan": {
         "name": "Iron Partisan",
         "family": "spear",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 4,
@@ -2390,7 +2390,7 @@
       "Iron Pike": {
         "name": "Iron Pike",
         "family": "spear",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
@@ -2405,7 +2405,7 @@
       "Iron Plate Armor": {
         "name": "Iron Plate Armor",
         "family": "heavy_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 12,
@@ -2419,7 +2419,7 @@
       "Iron Plate Mail": {
         "name": "Iron Plate Mail",
         "family": "heavy_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 12,
@@ -2435,7 +2435,7 @@
       "Iron Rune": {
         "name": "Iron Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
@@ -2452,7 +2452,7 @@
       "Iron Scale Mail": {
         "name": "Iron Scale Mail",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 12,
@@ -2468,7 +2468,7 @@
       "Iron Scimitar": {
         "name": "Iron Scimitar",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
@@ -2485,7 +2485,7 @@
       "Iron Scythe": {
         "name": "Iron Scythe",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
@@ -2502,7 +2502,7 @@
       "Iron Short Sword": {
         "name": "Iron Short Sword",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 12,
@@ -2517,7 +2517,7 @@
       "Iron Spear": {
         "name": "Iron Spear",
         "family": "spear",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 4,
@@ -2532,7 +2532,7 @@
       "Leather Buckler": {
         "name": "Leather Buckler",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 6,
@@ -2547,7 +2547,7 @@
       "Leather Cap": {
         "name": "Leather Cap",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 4,
@@ -2560,7 +2560,7 @@
       "Leather Cuirass": {
         "name": "Leather Cuirass",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 12,
@@ -2576,7 +2576,7 @@
       "Leather Gauntlets": {
         "name": "Leather Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 6,
@@ -2593,7 +2593,7 @@
       "Leather Shoes": {
         "name": "Leather Shoes",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 7,
@@ -2609,7 +2609,7 @@
       "Leather Treads": {
         "name": "Leather Treads",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 6,
@@ -2625,7 +2625,7 @@
       "Lightning Rune": {
         "name": "Lightning Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -2645,7 +2645,7 @@
       "Lightning walkers": {
         "name": "Lightning walkers",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 9,
@@ -2663,7 +2663,7 @@
       "Magma walkers": {
         "name": "Magma walkers",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 11,
@@ -2682,7 +2682,7 @@
       "Merchant Robe": {
         "name": "Merchant Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
@@ -2698,7 +2698,7 @@
       "Metal walkers": {
         "name": "Metal walkers",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 14,
@@ -2716,7 +2716,7 @@
       "Mind Band": {
         "name": "Mind Band",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 10,
@@ -2733,7 +2733,7 @@
       "Mirror plate mask": {
         "name": "Mirror plate mask",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
@@ -2750,7 +2750,7 @@
       "Monks Robe": {
         "name": "Monks Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 12,
@@ -2766,7 +2766,7 @@
       "Moon Rune": {
         "name": "Moon Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 20,
@@ -2785,7 +2785,7 @@
       "Moose Hide": {
         "name": "Moose Hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
@@ -2802,7 +2802,7 @@
       "Moth": {
         "name": "Moth",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 3,
@@ -2834,7 +2834,7 @@
       "Mountain Elder Talisman": {
         "name": "Mountain Elder Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "B",
         "buy_price": 160,
         "max_hp": null,
@@ -2848,7 +2848,7 @@
       "Null Carapace": {
         "name": "Null Carapace",
         "family": "golem_armor",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
@@ -2862,7 +2862,7 @@
       "Null Chassis": {
         "name": "Null Chassis",
         "family": "golem_armor",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 12,
@@ -2876,7 +2876,7 @@
       "Null Core": {
         "name": "Null Core",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
@@ -2891,7 +2891,7 @@
       "Null eye": {
         "name": "Null eye",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 4,
@@ -2906,7 +2906,7 @@
       "Null head": {
         "name": "Null head",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 8,
@@ -2921,7 +2921,7 @@
       "Null shell": {
         "name": "Null shell",
         "family": "golem_armor",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 8,
@@ -2935,7 +2935,7 @@
       "Oaken Long Bow": {
         "name": "Oaken Long Bow",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
@@ -2950,7 +2950,7 @@
       "Oaken Shield": {
         "name": "Oaken Shield",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 4,
@@ -2964,7 +2964,7 @@
       "Oaken Short Bow": {
         "name": "Oaken Short Bow",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
@@ -2979,7 +2979,7 @@
       "Oaken Sling": {
         "name": "Oaken Sling",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 12,
@@ -2996,7 +2996,7 @@
       "Oaken Staff": {
         "name": "Oaken Staff",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 10,
@@ -3013,7 +3013,7 @@
       "Oaken Wand": {
         "name": "Oaken Wand",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
@@ -3032,7 +3032,7 @@
       "Octopod": {
         "name": "Octopod",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 4,
@@ -3065,7 +3065,7 @@
       "Orange Orb": {
         "name": "Orange Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -3084,7 +3084,7 @@
       "Orbed Bone Talisman": {
         "name": "Orbed Bone Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 190,
         "max_hp": null,
@@ -3099,7 +3099,7 @@
       "Orbed Elder Talisman": {
         "name": "Orbed Elder Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 190,
         "max_hp": null,
@@ -3114,7 +3114,7 @@
       "Owl": {
         "name": "Owl",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 4,
@@ -3138,7 +3138,7 @@
       "Ox hide": {
         "name": "Ox hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 20,
@@ -3152,7 +3152,7 @@
       "Padded Leather Cap": {
         "name": "Padded Leather Cap",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 8,
@@ -3167,7 +3167,7 @@
       "Pilgrim Robe": {
         "name": "Pilgrim Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 12,
@@ -3183,7 +3183,7 @@
       "Plated Chain mail": {
         "name": "Plated Chain mail",
         "family": "heavy_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
@@ -3199,7 +3199,7 @@
       "Plated Hiking Treads": {
         "name": "Plated Hiking Treads",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 11,
@@ -3216,7 +3216,7 @@
       "Plated Leather Buckler": {
         "name": "Plated Leather Buckler",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 90,
         "max_hp": 14,
@@ -3231,7 +3231,7 @@
       "Plated Leather Cap": {
         "name": "Plated Leather Cap",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
@@ -3244,7 +3244,7 @@
       "Plated Leather Cuirass": {
         "name": "Plated Leather Cuirass",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 20,
@@ -3260,7 +3260,7 @@
       "Plated Leather Gauntlets": {
         "name": "Plated Leather Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 12,
@@ -3277,7 +3277,7 @@
       "Plated Leather Treads": {
         "name": "Plated Leather Treads",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 10,
@@ -3293,7 +3293,7 @@
       "Plated Work Hat": {
         "name": "Plated Work Hat",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 10,
@@ -3308,7 +3308,7 @@
       "Poplar Composite Bow": {
         "name": "Poplar Composite Bow",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 8,
@@ -3325,7 +3325,7 @@
       "Poplar Long Bow": {
         "name": "Poplar Long Bow",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -3340,7 +3340,7 @@
       "Poplar Orbed Staff": {
         "name": "Poplar Orbed Staff",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 8,
@@ -3360,7 +3360,7 @@
       "Poplar Short Bow": {
         "name": "Poplar Short Bow",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -3375,7 +3375,7 @@
       "Poplar Sling": {
         "name": "Poplar Sling",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 16,
@@ -3392,7 +3392,7 @@
       "Poplar Snow Shoes": {
         "name": "Poplar Snow Shoes",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 8,
@@ -3409,7 +3409,7 @@
       "Poplar Staff": {
         "name": "Poplar Staff",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -3427,7 +3427,7 @@
       "Poplar Target Shield": {
         "name": "Poplar Target Shield",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 60,
         "max_hp": 4,
@@ -3441,7 +3441,7 @@
       "Poplar Wand": {
         "name": "Poplar Wand",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 10,
@@ -3461,7 +3461,7 @@
       "Priest Robe": {
         "name": "Priest Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 8,
@@ -3477,7 +3477,7 @@
       "Prized Camel": {
         "name": "Prized Camel",
         "family": "mount",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 9,
@@ -3503,7 +3503,7 @@
       "Prized Stallion": {
         "name": "Prized Stallion",
         "family": "mount",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 8,
@@ -3526,7 +3526,7 @@
       "Purple Orb": {
         "name": "Purple Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -3545,7 +3545,7 @@
       "Rain Rune": {
         "name": "Rain Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -3563,7 +3563,7 @@
       "Raptor hide": {
         "name": "Raptor hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 14,
@@ -3581,7 +3581,7 @@
       "Red Orb": {
         "name": "Red Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
@@ -3599,7 +3599,7 @@
       "Reinforced Coat of arms": {
         "name": "Reinforced Coat of arms",
         "family": "heavy_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 22,
@@ -3617,7 +3617,7 @@
       "Reinforced Leather Cap": {
         "name": "Reinforced Leather Cap",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
@@ -3632,7 +3632,7 @@
       "Reinforced Leather Gauntlets": {
         "name": "Reinforced Leather Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 8,
@@ -3649,7 +3649,7 @@
       "Reinforced Leather Shoes": {
         "name": "Reinforced Leather Shoes",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 7,
@@ -3665,7 +3665,7 @@
       "Reinforced Muck Boots": {
         "name": "Reinforced Muck Boots",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 13,
@@ -3683,7 +3683,7 @@
       "Reinforced Tower Shield": {
         "name": "Reinforced Tower Shield",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 90,
         "max_hp": 13,
@@ -3700,7 +3700,7 @@
       "Reinforced Under Cuirass": {
         "name": "Reinforced Under Cuirass",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 14,
@@ -3716,7 +3716,7 @@
       "Reinforced Work Hat": {
         "name": "Reinforced Work Hat",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 6,
@@ -3731,7 +3731,7 @@
       "Rune Studded Gauntlets": {
         "name": "Rune Studded Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 9,
@@ -3749,7 +3749,7 @@
       "Runed bone Mail": {
         "name": "Runed bone Mail",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 12,
@@ -3765,7 +3765,7 @@
       "Runed Chain Mail": {
         "name": "Runed Chain Mail",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
@@ -3781,7 +3781,7 @@
       "Runed Cloth slippers": {
         "name": "Runed Cloth slippers",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 9,
@@ -3799,7 +3799,7 @@
       "Runed Crown": {
         "name": "Runed Crown",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
@@ -3815,7 +3815,7 @@
       "Runed Elder Talisman": {
         "name": "Runed Elder Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 190,
         "max_hp": null,
@@ -3830,7 +3830,7 @@
       "Runed Gauntlets": {
         "name": "Runed Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 5,
@@ -3847,7 +3847,7 @@
       "Runed Leather Armor": {
         "name": "Runed Leather Armor",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
@@ -3863,7 +3863,7 @@
       "Runed Leather Boots": {
         "name": "Runed Leather Boots",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 10,
@@ -3880,7 +3880,7 @@
       "Runed Leather Buckler": {
         "name": "Runed Leather Buckler",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 60,
         "max_hp": 6,
@@ -3895,7 +3895,7 @@
       "Runed Leather Cap": {
         "name": "Runed Leather Cap",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 10,
@@ -3911,7 +3911,7 @@
       "Runed Leather Gauntlets": {
         "name": "Runed Leather Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 9,
@@ -3929,7 +3929,7 @@
       "Salamander": {
         "name": "Salamander",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
@@ -3959,7 +3959,7 @@
       "Sand Rune": {
         "name": "Sand Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 8,
@@ -3978,7 +3978,7 @@
       "sasquad": {
         "name": "sasquad",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 7,
@@ -4007,7 +4007,7 @@
       "Sea Crystal Talisman": {
         "name": "Sea Crystal Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "B",
         "buy_price": 160,
         "max_hp": null,
@@ -4021,7 +4021,7 @@
       "Sea Rune": {
         "name": "Sea Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -4039,7 +4039,7 @@
       "Seal Hide": {
         "name": "Seal Hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 14,
@@ -4056,7 +4056,7 @@
       "Seal Hide Slippers": {
         "name": "Seal Hide Slippers",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 8,
@@ -4072,7 +4072,7 @@
       "Sentinel Jets": {
         "name": "Sentinel Jets",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 4,
@@ -4089,7 +4089,7 @@
       "Serpent": {
         "name": "Serpent",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 6,
@@ -4120,7 +4120,7 @@
       "Shadow legs": {
         "name": "Shadow legs",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 8,
@@ -4138,7 +4138,7 @@
       "Shamanic Robe": {
         "name": "Shamanic Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
@@ -4154,7 +4154,7 @@
       "Shell Mask": {
         "name": "Shell Mask",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 4,
@@ -4171,7 +4171,7 @@
       "Silver Axe": {
         "name": "Silver Axe",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -4186,7 +4186,7 @@
       "Silver Battle Helm": {
         "name": "Silver Battle Helm",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
@@ -4201,7 +4201,7 @@
       "Silver Battle Shield": {
         "name": "Silver Battle Shield",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 90,
         "max_hp": 12,
@@ -4217,7 +4217,7 @@
       "Silver Battle Staff": {
         "name": "Silver Battle Staff",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 18,
@@ -4234,7 +4234,7 @@
       "Silver Bladed Gauntlets": {
         "name": "Silver Bladed Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 7,
@@ -4252,7 +4252,7 @@
       "Silver Broad Sword": {
         "name": "Silver Broad Sword",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 20,
@@ -4267,7 +4267,7 @@
       "Silver Chain Boots": {
         "name": "Silver Chain Boots",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 13,
@@ -4284,7 +4284,7 @@
       "Silver Chain Helm": {
         "name": "Silver Chain Helm",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 16,
@@ -4299,7 +4299,7 @@
       "Silver Chain Mail": {
         "name": "Silver Chain Mail",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
@@ -4313,7 +4313,7 @@
       "Silver Coat of Arms": {
         "name": "Silver Coat of Arms",
         "family": "heavy_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 20,
@@ -4329,7 +4329,7 @@
       "Silver Cross Bow": {
         "name": "Silver Cross Bow",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -4344,7 +4344,7 @@
       "Silver Flail": {
         "name": "Silver Flail",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
@@ -4361,7 +4361,7 @@
       "Silver Halberd": {
         "name": "Silver Halberd",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -4376,7 +4376,7 @@
       "Silver Hand Cannon": {
         "name": "Silver Hand Cannon",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -4393,7 +4393,7 @@
       "Silver Heavy Boots": {
         "name": "Silver Heavy Boots",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 11,
@@ -4412,7 +4412,7 @@
       "Silver Hooked Gauntlets": {
         "name": "Silver Hooked Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 8,
@@ -4430,7 +4430,7 @@
       "Silver Javelin": {
         "name": "Silver Javelin",
         "family": "spear",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
@@ -4445,7 +4445,7 @@
       "Silver Knife": {
         "name": "Silver Knife",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
@@ -4463,7 +4463,7 @@
       "Silver Lance": {
         "name": "Silver Lance",
         "family": "spear",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
@@ -4478,7 +4478,7 @@
       "Silver Mace": {
         "name": "Silver Mace",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 20,
@@ -4495,7 +4495,7 @@
       "Silver Morning star": {
         "name": "Silver Morning star",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
@@ -4512,7 +4512,7 @@
       "Silver necklace": {
         "name": "Silver necklace",
         "family": "necklace",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 150,
         "max_hp": null,
@@ -4528,7 +4528,7 @@
       "Silver Orb": {
         "name": "Silver Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -4548,7 +4548,7 @@
       "Silver Orbed Gauntlets": {
         "name": "Silver Orbed Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 11,
@@ -4566,7 +4566,7 @@
       "Silver Partisan": {
         "name": "Silver Partisan",
         "family": "spear",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
@@ -4583,7 +4583,7 @@
       "Silver Pike": {
         "name": "Silver Pike",
         "family": "spear",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -4598,7 +4598,7 @@
       "Silver Plate Armor": {
         "name": "Silver Plate Armor",
         "family": "heavy_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 20,
@@ -4612,7 +4612,7 @@
       "Silver Plate Mail": {
         "name": "Silver Plate Mail",
         "family": "heavy_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 20,
@@ -4628,7 +4628,7 @@
       "Silver Rapier": {
         "name": "Silver Rapier",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
@@ -4645,7 +4645,7 @@
       "Silver ring": {
         "name": "Silver ring",
         "family": "ring",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 40,
         "max_hp": null,
@@ -4661,7 +4661,7 @@
       "Silver Rune": {
         "name": "Silver Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -4678,7 +4678,7 @@
       "Silver Runed Plate": {
         "name": "Silver Runed Plate",
         "family": "heavy_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
@@ -4695,7 +4695,7 @@
       "Silver Saber": {
         "name": "Silver Saber",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -4712,7 +4712,7 @@
       "Silver Scale Armor": {
         "name": "Silver Scale Armor",
         "family": "heavy_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
@@ -4729,7 +4729,7 @@
       "Silver Scale Helm": {
         "name": "Silver Scale Helm",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
@@ -4745,7 +4745,7 @@
       "Silver Scale Mail": {
         "name": "Silver Scale Mail",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 20,
@@ -4761,7 +4761,7 @@
       "Silver Scepter": {
         "name": "Silver Scepter",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 14,
@@ -4780,7 +4780,7 @@
       "Silver Scimitar": {
         "name": "Silver Scimitar",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -4797,7 +4797,7 @@
       "Silver Scythe": {
         "name": "Silver Scythe",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -4814,7 +4814,7 @@
       "Silver Short Sword": {
         "name": "Silver Short Sword",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 20,
@@ -4829,7 +4829,7 @@
       "Silver Shuriken": {
         "name": "Silver Shuriken",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -4847,7 +4847,7 @@
       "Silver Spear": {
         "name": "Silver Spear",
         "family": "spear",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
@@ -4862,7 +4862,7 @@
       "Silver Spiked Treads": {
         "name": "Silver Spiked Treads",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 10,
@@ -4879,7 +4879,7 @@
       "Silver Talisman": {
         "name": "Silver Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "C",
         "buy_price": 130,
         "max_hp": null,
@@ -4892,7 +4892,7 @@
       "Silver Tomahawk": {
         "name": "Silver Tomahawk",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -4907,7 +4907,7 @@
       "Silver Trident": {
         "name": "Silver Trident",
         "family": "spear",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 8,
@@ -4924,7 +4924,7 @@
       "Silver War Boots": {
         "name": "Silver War Boots",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 12,
@@ -4938,7 +4938,7 @@
       "Silver War Hammer": {
         "name": "Silver War Hammer",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 20,
@@ -4955,7 +4955,7 @@
       "Soldier Carapace": {
         "name": "Soldier Carapace",
         "family": "golem_armor",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
@@ -4973,7 +4973,7 @@
       "Soldier Chassis": {
         "name": "Soldier Chassis",
         "family": "golem_armor",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 14,
@@ -4991,7 +4991,7 @@
       "Soldier Core": {
         "name": "Soldier Core",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
@@ -5008,7 +5008,7 @@
       "Soldier head": {
         "name": "Soldier head",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 4,
@@ -5025,7 +5025,7 @@
       "Sorceror's Hat": {
         "name": "Sorceror's Hat",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 4,
@@ -5041,7 +5041,7 @@
       "Spell Band": {
         "name": "Spell Band",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 6,
@@ -5057,7 +5057,7 @@
       "Spellbinder's Turban": {
         "name": "Spellbinder's Turban",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
@@ -5074,7 +5074,7 @@
       "Spider": {
         "name": "Spider",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 2,
@@ -5102,7 +5102,7 @@
       "Spiked Elder Club": {
         "name": "Spiked Elder Club",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 10,
@@ -5119,7 +5119,7 @@
       "Spiked Oaken Club": {
         "name": "Spiked Oaken Club",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
@@ -5134,7 +5134,7 @@
       "Spiked Yew Treads": {
         "name": "Spiked Yew Treads",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 13,
@@ -5150,7 +5150,7 @@
       "Spirit Band": {
         "name": "Spirit Band",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 10,
@@ -5167,7 +5167,7 @@
       "Spirit Carapace": {
         "name": "Spirit Carapace",
         "family": "golem_armor",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
@@ -5185,7 +5185,7 @@
       "Spirit Core": {
         "name": "Spirit Core",
         "family": "golem_head",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 130,
         "max_hp": 4,
@@ -5201,7 +5201,7 @@
       "Stag Hide": {
         "name": "Stag Hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 12,
@@ -5217,7 +5217,7 @@
       "Steel Axe": {
         "name": "Steel Axe",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -5232,7 +5232,7 @@
       "Steel Battle Helm": {
         "name": "Steel Battle Helm",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 12,
@@ -5247,7 +5247,7 @@
       "Steel Battle Shield": {
         "name": "Steel Battle Shield",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 60,
         "max_hp": 8,
@@ -5262,7 +5262,7 @@
       "Steel Battle Staff": {
         "name": "Steel Battle Staff",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 14,
@@ -5279,7 +5279,7 @@
       "Steel Broad Sword": {
         "name": "Steel Broad Sword",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 16,
@@ -5294,7 +5294,7 @@
       "Steel Chain Boots": {
         "name": "Steel Chain Boots",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 10,
@@ -5310,7 +5310,7 @@
       "Steel Chain Helm": {
         "name": "Steel Chain Helm",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 12,
@@ -5325,7 +5325,7 @@
       "Steel Chain Mail": {
         "name": "Steel Chain Mail",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 12,
@@ -5339,7 +5339,7 @@
       "Steel Coat of Arms": {
         "name": "Steel Coat of Arms",
         "family": "heavy_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 16,
@@ -5355,7 +5355,7 @@
       "Steel Cross Bow": {
         "name": "Steel Cross Bow",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -5370,7 +5370,7 @@
       "Steel Halberd": {
         "name": "Steel Halberd",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -5385,7 +5385,7 @@
       "Steel Heavy Boots": {
         "name": "Steel Heavy Boots",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 7,
@@ -5404,7 +5404,7 @@
       "Steel Hooked Gauntlets": {
         "name": "Steel Hooked Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 5,
@@ -5421,7 +5421,7 @@
       "Steel Knife": {
         "name": "Steel Knife",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 8,
@@ -5439,7 +5439,7 @@
       "Steel Mace": {
         "name": "Steel Mace",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 16,
@@ -5456,7 +5456,7 @@
       "Steel Orbed Gauntlets": {
         "name": "Steel Orbed Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 7,
@@ -5474,7 +5474,7 @@
       "Steel Plate Armor": {
         "name": "Steel Plate Armor",
         "family": "heavy_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 16,
@@ -5488,7 +5488,7 @@
       "Steel Plate Mail": {
         "name": "Steel Plate Mail",
         "family": "heavy_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 16,
@@ -5504,7 +5504,7 @@
       "Steel Rune": {
         "name": "Steel Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -5521,7 +5521,7 @@
       "Steel Saber": {
         "name": "Steel Saber",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -5538,7 +5538,7 @@
       "Steel Scale Armor": {
         "name": "Steel Scale Armor",
         "family": "heavy_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 14,
@@ -5555,7 +5555,7 @@
       "Steel Scale Helm": {
         "name": "Steel Scale Helm",
         "family": "heavy_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 8,
@@ -5571,7 +5571,7 @@
       "Steel Scale Mail": {
         "name": "Steel Scale Mail",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 16,
@@ -5587,7 +5587,7 @@
       "Steel Scimitar": {
         "name": "Steel Scimitar",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -5604,7 +5604,7 @@
       "Steel Scythe": {
         "name": "Steel Scythe",
         "family": "staff_orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -5621,7 +5621,7 @@
       "Steel Short Sword": {
         "name": "Steel Short Sword",
         "family": "sword",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 16,
@@ -5636,7 +5636,7 @@
       "Steel Studded Gauntlets": {
         "name": "Steel Studded Gauntlets",
         "family": "gauntlet",
-        "source_sheet": "Golem&Gauntlet",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 6,
@@ -5653,7 +5653,7 @@
       "Steel War Boots": {
         "name": "Steel War Boots",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 8,
@@ -5667,7 +5667,7 @@
       "Steel War Hammer": {
         "name": "Steel War Hammer",
         "family": "axe",
-        "source_sheet": "Axes&Spears",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 16,
@@ -5684,7 +5684,7 @@
       "Stone Rune": {
         "name": "Stone Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
@@ -5703,7 +5703,7 @@
       "Stone walkers": {
         "name": "Stone walkers",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 13,
@@ -5721,7 +5721,7 @@
       "Studded Hiking Treads": {
         "name": "Studded Hiking Treads",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 7,
@@ -5738,7 +5738,7 @@
       "Studded Leather Buckler": {
         "name": "Studded Leather Buckler",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 60,
         "max_hp": 6,
@@ -5753,7 +5753,7 @@
       "Studded Leather Cap": {
         "name": "Studded Leather Cap",
         "family": "light_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 8,
@@ -5766,7 +5766,7 @@
       "Studded Leather Cuirass": {
         "name": "Studded Leather Cuirass",
         "family": "light_armor",
-        "source_sheet": "Light&Heavy",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 16,
@@ -5782,7 +5782,7 @@
       "Studded Leather Treads": {
         "name": "Studded Leather Treads",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 6,
@@ -5798,7 +5798,7 @@
       "Sun Rune": {
         "name": "Sun Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 20,
@@ -5818,7 +5818,7 @@
       "Swamp Elder Talisman": {
         "name": "Swamp Elder Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "B",
         "buy_price": 160,
         "max_hp": null,
@@ -5832,7 +5832,7 @@
       "Toad": {
         "name": "Toad",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 40,
         "max_hp": 2,
@@ -5863,7 +5863,7 @@
       "Trained Camel": {
         "name": "Trained Camel",
         "family": "mount",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 9,
@@ -5889,7 +5889,7 @@
       "Trained Donkey": {
         "name": "Trained Donkey",
         "family": "mount",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 7,
@@ -5914,7 +5914,7 @@
       "Trained Griffin": {
         "name": "Trained Griffin",
         "family": "mount",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 7,
@@ -5938,7 +5938,7 @@
       "Trained Horse": {
         "name": "Trained Horse",
         "family": "mount",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 8,
@@ -5961,7 +5961,7 @@
       "Trained Mule": {
         "name": "Trained Mule",
         "family": "mount",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 9,
@@ -5986,7 +5986,7 @@
       "Trained Raptor": {
         "name": "Trained Raptor",
         "family": "mount",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 8,
@@ -6011,7 +6011,7 @@
       "Traveling Robe": {
         "name": "Traveling Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 50,
         "max_hp": 8,
@@ -6027,7 +6027,7 @@
       "Tundra walkers": {
         "name": "Tundra walkers",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 9,
@@ -6048,7 +6048,7 @@
       "Unholy Bone Talisman": {
         "name": "Unholy Bone Talisman",
         "family": "talisman",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 190,
         "max_hp": null,
@@ -6063,7 +6063,7 @@
       "Veiled Robe": {
         "name": "Veiled Robe",
         "family": "robe_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 14,
@@ -6082,7 +6082,7 @@
       "Walrus hide": {
         "name": "Walrus hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
@@ -6099,7 +6099,7 @@
       "Walrus Hide Slippers": {
         "name": "Walrus Hide Slippers",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 8,
@@ -6116,7 +6116,7 @@
       "War Elephant": {
         "name": "War Elephant",
         "family": "mount",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 10,
@@ -6143,7 +6143,7 @@
       "War Horse": {
         "name": "War Horse",
         "family": "mount",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 8,
@@ -6166,7 +6166,7 @@
       "White Orb": {
         "name": "White Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -6185,7 +6185,7 @@
       "Wild Elephant": {
         "name": "Wild Elephant",
         "family": "mount",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 10,
@@ -6212,7 +6212,7 @@
       "Wild Stallion": {
         "name": "Wild Stallion",
         "family": "mount",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 8,
@@ -6235,7 +6235,7 @@
       "Wind Rune": {
         "name": "Wind Rune",
         "family": "runestone",
-        "source_sheet": "Runestones",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
@@ -6254,7 +6254,7 @@
       "Wizard's Hat": {
         "name": "Wizard's Hat",
         "family": "mage_helm",
-        "source_sheet": "Headware",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 4,
@@ -6271,7 +6271,7 @@
       "Wolf": {
         "name": "Wolf",
         "family": "familiar",
-        "source_sheet": "Familiars",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 80,
         "max_hp": 4,
@@ -6298,7 +6298,7 @@
       "Wolf Hide": {
         "name": "Wolf Hide",
         "family": "hide_armor",
-        "source_sheet": "Robe&Hide",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 100,
         "max_hp": 16,
@@ -6314,7 +6314,7 @@
       "Wolf Hide Shoes": {
         "name": "Wolf Hide Shoes",
         "family": "footwear",
-        "source_sheet": "Footwear",
+        "category": "equipment",
         "rank": "B",
         "buy_price": 90,
         "max_hp": 6,
@@ -6331,7 +6331,7 @@
       "Wood walkers": {
         "name": "Wood walkers",
         "family": "golem_legs",
-        "source_sheet": "Mounts&Legs",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 140,
         "max_hp": 12,
@@ -6351,7 +6351,7 @@
       "Yellow Orb": {
         "name": "Yellow Orb",
         "family": "orb",
-        "source_sheet": "Staves&Orbs",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
@@ -6370,7 +6370,7 @@
       "Yew Long Bow": {
         "name": "Yew Long Bow",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -6385,7 +6385,7 @@
       "Yew Recurve Bow": {
         "name": "Yew Recurve Bow",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
@@ -6400,7 +6400,7 @@
       "Yew Short Bow": {
         "name": "Yew Short Bow",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
@@ -6415,7 +6415,7 @@
       "Yew Sling": {
         "name": "Yew Sling",
         "family": "bow",
-        "source_sheet": "Swords&Bows",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 110,
         "max_hp": 20,
@@ -6432,7 +6432,7 @@
       "Yew Target Shield": {
         "name": "Yew Target Shield",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "A",
         "buy_price": 90,
         "max_hp": 8,

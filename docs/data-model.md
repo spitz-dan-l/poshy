@@ -121,7 +121,7 @@ The importer now consumes all gear sheets:
 - `Swords&Bows`
 - `Staves&Orbs`
 - `Runestones`
-- `Light&Heavy ` from the workbook, emitted as `source_sheet = "Light&Heavy"`
+- `Light&Heavy ` from the workbook, emitted as `category = "equipment"`
 - `Robe&Hide`
 - `Golem&Gauntlet`
 - `Headware`
@@ -272,7 +272,7 @@ interface EquipmentSocketPolicy {
 interface EquipmentDefinition {
   name: string;
   family: string;
-  source_sheet: string;
+  category: "equipment" | "accessory";
   rank: string;
   buy_price: number;
   max_hp: number | null;
@@ -347,7 +347,7 @@ The importer currently normalizes every equipment definition to:
 {
   "name": "Bronze ring",
   "family": "ring",
-  "source_sheet": "Accessories",
+  "category": "accessory",
   "rank": "A",
   "buy_price": 40,
   "max_hp": null,
@@ -365,7 +365,7 @@ The importer currently normalizes every equipment definition to:
 Conventions already enforced by the importer and runtime validator:
 
 - `name` must match the definition-map key.
-- `source_sheet` is trimmed workbook tab text.
+- `category` is `"accessory"` for rings, necklaces, and talismans, otherwise `"equipment"`.
 - `rank` is normalized to the leading workbook tier letter.
 - `buy_price` and `max_hp` are numeric in canonical JSON.
 - `max_hp` is `null` for items such as rings, necklaces, and talismans.
@@ -422,7 +422,7 @@ Representative fragment from the current generated seed:
       "Bronze ring": {
         "name": "Bronze ring",
         "family": "ring",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "A",
         "buy_price": 40,
         "max_hp": null,
@@ -438,7 +438,7 @@ Representative fragment from the current generated seed:
       "Basic Iron Shield": {
         "name": "Basic Iron Shield",
         "family": "shield",
-        "source_sheet": "Accessories",
+        "category": "equipment",
         "rank": "C",
         "buy_price": 30,
         "max_hp": 7,
@@ -527,7 +527,7 @@ The single-file browser app now exposes runtime state in these places:
 - Workbench category tabs: `Potions`, `Gems`, `Herbs`, `Gem Pieces`, `Equipment`, and `Accessories`.
 - Workbench recipe tabs: potion and gem cards still use the shared craft/buy simulator and focus-chip filtering.
 - Workbench ingredient tabs: weekly sold herbs and gem pieces can be bought directly into the live run.
-- Workbench equipment tabs: equipment and accessory listings are split by `source_sheet`, with accessories defined as every catalog entry imported from the workbook `Accessories` sheet.
+- Workbench equipment tabs: equipment and accessory listings are split by explicit `category`, with rings, necklaces, and talismans in `Accessories` and shields in `Equipment`.
 - Workbench holdings: standalone gear is split into `Equipment` and `Accessories`, rendered as compact cards without visible instance ids, with socket summaries for assembled combos and sell actions that include socketed gem value.
 - Item inspector: outputs, ingredients, equipment definitions, and owned equipment instances can all be inspected from the workbench, holdings, and action log.
 - Workbench accessory cards: owned rings and necklaces can assemble or disassemble combos directly in the `Accessories` tab, while the inspector remains read-only for current sockets and sell-value breakdowns.
@@ -580,7 +580,7 @@ The importer and runtime already reject these important failure cases:
 - Preserve `EquipmentInstance.id` as stable instance identity; do not derive gameplay meaning from it beyond uniqueness.
 - Treat `socketed_gems` as runtime-authored combo state; do not extend `data/starting_resources.toml` with it unless the importer is also updated.
 - Runtime gold can become fractional after HP-aware equipment sells; format it for display instead of assuming integers.
-- If you need the browser definition of an accessory, use `source_sheet === "Accessories"` rather than maintaining a separate family allowlist.
+- If you need the browser definition of an accessory, use `category === "accessory"` rather than workbook-sheet inference or a family allowlist.
 - If you add new equipment behavior, decide first whether it belongs in:
   - workbook import,
   - `data/starting_resources.toml`,

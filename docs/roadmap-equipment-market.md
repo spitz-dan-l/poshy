@@ -74,7 +74,7 @@ Shipped scope:
 - Emit workbook-derived `equipment.definitions` with:
   - `name`
   - `family`
-  - `source_sheet`
+  - `category`
   - `rank`
   - `buy_price`
   - `max_hp`
@@ -150,7 +150,7 @@ Goal:
 Shipped scope:
 
 - split the Workbench center panel into `Potions`, `Gems`, `Herbs`, `Gem Pieces`, `Equipment`, and `Accessories`,
-- treat every definition imported from workbook `source_sheet = "Accessories"` as an accessory for Workbench and holdings grouping,
+- treat imported `category = "accessory"` as the source of truth for Workbench and holdings grouping,
 - generalize the inspector so it can render:
   - potion outputs,
   - gem outputs,
@@ -167,7 +167,7 @@ Done means:
 - Workbench no longer mixes recipes, ingredients, and gear in one central list,
 - herbs and gem pieces can be bought directly from the Workbench when sold this week,
 - every item class visible in holdings, Workbench, or history can be inspected,
-- accessory grouping is driven by the imported `Accessories` sheet instead of a hand-maintained family list,
+- accessory grouping is driven by imported `category` instead of a workbook-sheet check or hand-maintained family list,
 - docs and browser tests reflect the shipped UI.
 
 ### Phase 4: Ring And Necklace Combo Assembly

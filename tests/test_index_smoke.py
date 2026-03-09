@@ -162,6 +162,12 @@ def test_index_smoke() -> None:
         accessories_holdings = page.locator(".holdings-panel .subsection").filter(
             has=page.get_by_role("heading", name="Accessories")
         ).first
+        equipment_holdings = page.locator(".holdings-panel .subsection").filter(
+            has=page.get_by_role("heading", name="Equipment")
+        ).first
+        expect(accessories_holdings).to_contain_text("Silver Talisman")
+        expect(accessories_holdings).not_to_contain_text("Basic Iron Shield")
+        expect(equipment_holdings).to_contain_text("Basic Iron Shield")
         bronze_ring_holdings = holdings_gear_card(page, "ring-bronze-1")
         expect(bronze_ring_holdings).to_be_visible()
         expect(bronze_ring_holdings).not_to_contain_text("ring-bronze-1")
@@ -169,6 +175,16 @@ def test_index_smoke() -> None:
         expect(inspector_item(page, "equipment_instance:ring-bronze-1")).to_be_visible()
         expect(inspector_item(page, "equipment_instance:ring-bronze-1")).to_contain_text("0-1 gems @ 50g")
         expect(inspector_item(page, "equipment_instance:ring-bronze-1")).not_to_contain_text("ring-bronze-1")
+        expect(inspector_item(page, "equipment_instance:ring-bronze-1")).to_contain_text("+1 STR cap")
+        expect(inspector_item(page, "equipment_instance:ring-bronze-1")).not_to_contain_text("Sapphire:")
+
+        shield_holdings = holdings_gear_card(page, "shield-basic-1")
+        expect(shield_holdings).to_be_visible()
+        shield_holdings.get_by_role("button", name="Inspect").click()
+        shield_inspector = inspector_item(page, "equipment_instance:shield-basic-1")
+        expect(shield_inspector).to_be_visible()
+        expect(shield_inspector).to_contain_text("Equipment")
+        expect(shield_inspector).not_to_contain_text("Source Sheet")
 
         ancient_card = page.locator('[data-recipe-card="Ancient medicine"]')
         expect(ancient_card).to_be_visible()
@@ -181,18 +197,21 @@ def test_index_smoke() -> None:
         click_workbench_category(page, "equipment")
         expect(page.locator(".workbench-panel").get_by_role("heading", name="Equipment")).to_be_visible()
         expect(page.locator('button[data-action="buy-equipment"][data-name="Leather Shoes"]')).to_be_visible()
+        expect(page.locator('button[data-action="buy-equipment"][data-name="Basic Iron Shield"]')).to_be_visible()
         click_workbench_category(page, "accessories")
         expect(page.locator(".workbench-panel").get_by_role("heading", name="Owned Accessories")).to_be_visible()
         expect(page.locator(".workbench-panel").get_by_role("heading", name="Weekly Listings")).to_be_visible()
         expect(owned_accessory_card(page, "ring-bronze-1")).to_be_visible()
         expect(page.locator('button[data-action="buy-equipment"][data-name="Bronze ring"]')).to_be_visible()
         expect(page.locator('button[data-action="buy-equipment"][data-name="Bronze necklace"]')).to_have_count(0)
+        expect(page.locator('button[data-action="buy-equipment"][data-name="Silver Talisman"]')).to_be_visible()
+        expect(page.locator('button[data-action="buy-equipment"][data-name="Basic Iron Shield"]')).to_have_count(0)
         page.locator(".workbench-panel tr").filter(
             has=page.locator("td", has_text="Bronze ring")
         ).first.get_by_role("button", name="Inspect").click()
         expect(inspector_item(page, "equipment_definition:Bronze ring")).to_be_visible()
         expect(inspector_item(page, "equipment_definition:Bronze ring")).to_contain_text("Accessory")
-        expect(inspector_item(page, "equipment_definition:Bronze ring")).to_contain_text("Accessories")
+        expect(inspector_item(page, "equipment_definition:Bronze ring")).not_to_contain_text("Source Sheet")
 
         initial_gold = stat_value(page, "Gold")
 
@@ -602,6 +621,9 @@ def test_index_accessory_combo_assembly() -> None:
             'button[data-action="assemble-accessory"][data-id="ring-bronze-1"]'
         )
         expect(assemble_ring_button).to_be_disabled()
+        expect(ring_inspector).to_contain_text("+1 STR cap")
+        expect(ring_inspector).to_contain_text("-1 SKI cap")
+        expect(ring_inspector).not_to_contain_text("Sapphire: Increases FAB by 1")
         ring_card.locator(
             'select[data-action="set-accessory-combo-slot"][data-id="ring-bronze-1"][data-slot="0"]'
         ).select_option("Sapphire")
@@ -616,6 +638,10 @@ def test_index_accessory_combo_assembly() -> None:
         expect(ring_holdings).to_contain_text("Sockets: Sapphire")
         expect(ring_holdings).to_contain_text("70g")
         expect(ring_inspector).to_contain_text("Sell Breakdown")
+        expect(ring_inspector).to_contain_text("+1 STR cap")
+        expect(ring_inspector).to_contain_text("-1 SKI cap")
+        expect(ring_inspector).to_contain_text("Sapphire: Increases FAB by 1")
+        expect(ring_inspector).to_contain_text("Sapphire: Increases vision by 2")
         expect(ring_inspector).to_contain_text("Sapphire")
         expect(ring_inspector).to_contain_text("Total")
         expect(ring_inspector).to_contain_text("70g")
@@ -738,7 +764,7 @@ def test_index_rejects_invalid_import_json() -> None:
     bad_inventory_equipment_payload["equipment"]["definitions"]["Traveler ring"] = {
         "name": "Traveler ring",
         "family": "ring",
-        "source_sheet": "Accessories",
+        "category": "accessory",
         "rank": "",
         "buy_price": 40,
         "max_hp": None,
@@ -812,7 +838,7 @@ def test_index_rejects_invalid_import_json() -> None:
 
         set_data_json(page, bad_equipment_payload)
         page.locator('button[data-action="import-scenario-json"]').click()
-        assert 'missing "optimizer_auto_sell"' in dialog_messages[-1]
+        assert 'missing "category"' in dialog_messages[-1]
         expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
 
         set_data_json(page, bad_inventory_equipment_payload)

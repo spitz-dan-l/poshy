@@ -61,6 +61,7 @@ POTION_SUBTYPE_LABELS = {
 }
 
 VALID_TIERS = {"A", "B", "C", "D", "X"}
+VALID_EQUIPMENT_CATEGORIES = {"equipment", "accessory"}
 
 
 class ImportErrorWithContext(RuntimeError):
@@ -163,11 +164,17 @@ def parse_max_hp(raw_value: str, context: str, *, allow_null_markers: bool = Fal
     return int(value)
 
 
+def infer_equipment_category(family: str, source_sheet: str) -> str:
+    if source_sheet.strip() != ACCESSORIES_SHEET:
+        return "equipment"
+    return "accessory" if family in {"ring", "necklace", "talisman"} else "equipment"
+
+
 def build_equipment_definition(
     *,
     name: str,
     family: str,
-    source_sheet: str,
+    category: str,
     rank: str,
     buy_price: int,
     max_hp: int | None,
@@ -178,7 +185,7 @@ def build_equipment_definition(
     definition: dict[str, object] = {
         "name": collapse_space(name),
         "family": family,
-        "source_sheet": source_sheet.strip(),
+        "category": category,
         "rank": normalize_tier(rank) if collapse_space(rank) else "",
         "buy_price": buy_price,
         "max_hp": max_hp,
@@ -379,7 +386,7 @@ def parse_standard_equipment_block(
             build_equipment_definition(
                 name=raw_name,
                 family=family,
-                source_sheet=sheet_name,
+                category=infer_equipment_category(family, sheet_name),
                 rank=rank,
                 buy_price=current_price,
                 max_hp=max_hp,
@@ -456,7 +463,7 @@ def parse_familiars_sheet(rows: list[dict[str, str]]) -> list[dict[str, object]]
             definition = build_equipment_definition(
                 name=raw_name,
                 family="familiar",
-                source_sheet="Familiars",
+                category="equipment",
                 rank=rank,
                 buy_price=current_price,
                 max_hp=parse_max_hp(row.get(spec["hp_col"], ""), f"{context} HP"),
@@ -537,7 +544,7 @@ def parse_accessory_base_definitions(rows: list[dict[str, str]]) -> list[dict[st
             build_equipment_definition(
                 name=item["name"],
                 family=item["family"],
-                source_sheet=ACCESSORIES_SHEET,
+                category=infer_equipment_category(item["family"], ACCESSORIES_SHEET),
                 rank=item["rank"],
                 buy_price=item["buy_price"],
                 max_hp=None,
@@ -581,7 +588,7 @@ def parse_accessory_right_side(rows: list[dict[str, str]]) -> list[dict[str, obj
             build_equipment_definition(
                 name=name,
                 family=current_family,
-                source_sheet=ACCESSORIES_SHEET,
+                category=infer_equipment_category(current_family, ACCESSORIES_SHEET),
                 rank=rank,
                 buy_price=current_price,
                 max_hp=parse_max_hp(row.get("J", ""), f"{context} HP", allow_null_markers=True),
