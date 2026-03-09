@@ -13514,8 +13514,14 @@
 
         const protection = plannerIngredientProtection(acquisitionResult.actions);
         const candidates = [];
-        for (const [name, entry] of Object.entries(protection)) {
-          const owned = Number(state.workbench.ingredients?.[name] || 0);
+        for (const [name, ownedCount] of Object.entries(state.workbench.ingredients || {})) {
+          const owned = Number(ownedCount || 0);
+          const entry = protection[name] || {
+            total: 0,
+            needed_for_plan: 0,
+            pinned: 0,
+            keep_floor: 0
+          };
           const protectedCount = Number(entry.total || 0);
           const available = Math.max(0, owned - protectedCount);
           const unitValue = getStackableSellValue("ingredients", name);
