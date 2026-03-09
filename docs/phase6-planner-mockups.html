@@ -939,7 +939,7 @@
           <span class="eyebrow">Phase 6 Review Package</span>
           <div>
             <h1>Planner Mockups</h1>
-            <p>Static review screens for the future planner tab, built to match the shipped Poshy shell without changing <code>index.html</code>. Every visible price, sell value, and socket rule comes from the current seed data. The only curated deviations are planner-local review states that demonstrate sell rules and ingredient reserves.</p>
+            <p>Static review screens captured during phase-6 implementation. They match the shipped Poshy shell and keep the same seed-driven prices, sell values, and socket rules. The only curated deviations are planner-local review states that demonstrate repurpose rules and ingredient reserves.</p>
           </div>
           <div class="hero-mini-list">
             <span class="hero-mini">New top-level tab order: Workbench, Planner, Inventory, For Sale, Catalog, Data Studio</span>
@@ -1089,7 +1089,7 @@
               </div>
               <div class="status-banner review">
                 <strong>No plan yet</strong>
-                <div>Start by adding one or more request lines. The planner evaluates the current workbench, player-owned sell permissions, keep floors, and pinned reserves before previewing a sequence.</div>
+                <div>Start by adding one or more request lines. The planner evaluates the current workbench, player-owned repurpose rules, keep floors, and pinned reserves before previewing a sequence.</div>
               </div>
               <div class="summary-grid">
                 <div class="summary-stat"><strong>Gross Spend</strong><span>0g</span></div>
@@ -1112,8 +1112,8 @@
               </div>
               <div class="note-stack">
                 <div class="plan-note">
-                  <strong>Equipment sell permissions</strong>
-                  <p>Owned gear can be marked <code>Allow planner to sell</code> or <code>Protect from planner</code> without changing Catalog definitions.</p>
+                  <strong>Equipment repurpose rules</strong>
+                  <p>Owned gear can be marked <code>Allow planner to repurpose</code> or <code>Protect from planner</code> without changing Catalog definitions.</p>
                 </div>
                 <div class="plan-note">
                   <strong>Ingredient reserves</strong>
@@ -1593,7 +1593,7 @@
                   <span class="step-index">1</span>
                   <div>
                     <strong>Sell Leather Shoes</strong>
-                    <p>Allowed only because planner rules mark the owned pair as sellable. Current sell value is 25g.</p>
+                    <p>Allowed only because planner rules mark the owned pair as repurposable. Current sell value is 25g.</p>
                   </div>
                   <span class="delta positive">+25g</span>
                 </div>
@@ -2150,7 +2150,7 @@
               <div class="phone-card">
                 <strong>Rules snapshot</strong>
                 <div class="chip-stack">
-                  <span class="chip">Leather Shoes: sellable</span>
+                  <span class="chip">Leather Shoes: repurposable</span>
                   <span class="chip">Batta berry floor: 5</span>
                   <span class="chip">Pinned: Moonstone x1</span>
                 </div>

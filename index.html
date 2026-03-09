@@ -555,6 +555,245 @@
       align-items: start;
     }
 
+    .planner-layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.92fr) minmax(0, 1.2fr) minmax(280px, 0.88fr);
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .planner-column {
+      display: grid;
+      gap: 1rem;
+      align-self: start;
+    }
+
+    .planner-preview-column {
+      min-width: 0;
+    }
+
+    .mobile-planner-nav {
+      display: none;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.55rem;
+    }
+
+    .planner-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .planner-head h3 {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+    }
+
+    .goal-list,
+    .plan-steps,
+    .note-stack,
+    .warning-list {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .goal-line,
+    .plan-note,
+    .warning-row,
+    .plan-step,
+    .planner-rule-card {
+      border-radius: 18px;
+      padding: 0.95rem;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(93, 73, 53, 0.12);
+    }
+
+    .goal-line-head,
+    .planner-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .goal-type,
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      border-radius: 999px;
+      padding: 0.35rem 0.65rem;
+      font-size: 0.76rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 700;
+      background: rgba(54, 80, 60, 0.1);
+      color: var(--moss);
+      border: 1px solid rgba(54, 80, 60, 0.12);
+    }
+
+    .status-pill.review {
+      background: rgba(255, 255, 255, 0.68);
+      color: var(--muted);
+      border-color: rgba(93, 73, 53, 0.12);
+    }
+
+    .status-pill.good {
+      background: rgba(54, 80, 60, 0.12);
+      color: var(--moss);
+      border-color: rgba(54, 80, 60, 0.18);
+    }
+
+    .status-pill.warn {
+      background: rgba(190, 90, 44, 0.13);
+      color: var(--ember-deep);
+      border-color: rgba(190, 90, 44, 0.18);
+    }
+
+    .status-pill.bad {
+      background: rgba(161, 58, 47, 0.12);
+      color: var(--danger);
+      border-color: rgba(161, 58, 47, 0.18);
+    }
+
+    .goal-grid,
+    .meta-grid,
+    .summary-grid,
+    .planner-rule-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem;
+    }
+
+    .summary-grid {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      margin: 1rem 0;
+    }
+
+    .mini-field,
+    .summary-stat {
+      padding: 0.75rem 0.8rem;
+      border-radius: 16px;
+      background: rgba(255, 248, 232, 0.78);
+      border: 1px solid rgba(93, 73, 53, 0.1);
+      min-width: 0;
+    }
+
+    .mini-field span,
+    .summary-stat strong {
+      display: block;
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.28rem;
+    }
+
+    .summary-stat span {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.12rem;
+      line-height: 1.1;
+    }
+
+    .status-banner {
+      border-radius: 18px;
+      padding: 0.95rem 1rem;
+      border: 1px solid rgba(93, 73, 53, 0.12);
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .status-banner strong {
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .status-banner.good {
+      background: rgba(54, 80, 60, 0.1);
+      border-color: rgba(54, 80, 60, 0.18);
+    }
+
+    .status-banner.review {
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .status-banner.bad {
+      background: rgba(161, 58, 47, 0.08);
+      border-color: rgba(161, 58, 47, 0.18);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 0.9rem;
+    }
+
+    .button-row > * {
+      flex: 1 1 10rem;
+    }
+
+    .plan-step {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 0.85rem;
+      align-items: start;
+    }
+
+    .step-index {
+      width: 2rem;
+      height: 2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: rgba(54, 80, 60, 0.12);
+      color: var(--moss);
+      font-weight: 700;
+    }
+
+    .delta {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .delta.positive {
+      color: var(--moss);
+    }
+
+    .delta.negative {
+      color: var(--ember-deep);
+    }
+
+    .delta.zero {
+      color: var(--muted);
+    }
+
+    .planner-rule-table .table-wrap {
+      max-height: 22rem;
+    }
+
+    .planner-rule-table table {
+      min-width: 0;
+    }
+
+    .planner-step-button {
+      width: 100%;
+      justify-content: flex-start;
+      text-align: left;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+
+    .planner-mobile-sheet {
+      display: none;
+    }
+
     .section-head {
       display: flex;
       flex-wrap: wrap;
@@ -1278,7 +1517,8 @@
       .hero-grid,
       .split,
       .triple,
-      .workbench-layout {
+      .workbench-layout,
+      .planner-layout {
         grid-template-columns: 1fr;
       }
 
@@ -1286,7 +1526,8 @@
         grid-template-columns: 1fr;
       }
 
-      .mobile-workbench-nav {
+      .mobile-workbench-nav,
+      .mobile-planner-nav {
         display: grid;
       }
 
@@ -1330,6 +1571,15 @@
       .workbench-layout[data-mobile-section="holdings"] > .workbench-side-column,
       .workbench-layout[data-mobile-section="log"] > .workbench-panel,
       .workbench-layout[data-mobile-section="log"] > .holdings-panel {
+        display: none;
+      }
+
+      .planner-layout[data-mobile-section="goals"] > .planner-preview-column,
+      .planner-layout[data-mobile-section="goals"] > .planner-rules-column,
+      .planner-layout[data-mobile-section="plan"] > .planner-goals-column,
+      .planner-layout[data-mobile-section="plan"] > .planner-rules-column,
+      .planner-layout[data-mobile-section="rules"] > .planner-goals-column,
+      .planner-layout[data-mobile-section="rules"] > .planner-preview-column {
         display: none;
       }
 
@@ -1447,6 +1697,19 @@
       .mobile-inspector-body .inspector-copy {
         line-height: 1.38;
       }
+
+      .planner-mobile-sheet {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 33;
+        pointer-events: none;
+      }
+
+      .planner-mobile-sheet .mobile-inspector-backdrop,
+      .planner-mobile-sheet .mobile-inspector-sheet {
+        pointer-events: auto;
+      }
     }
 
     @media (max-width: 720px) {
@@ -1540,7 +1803,8 @@
         padding: 0.65rem;
       }
 
-      .mobile-workbench-nav {
+      .mobile-workbench-nav,
+      .mobile-planner-nav {
         gap: 0.45rem;
       }
 
@@ -1564,6 +1828,24 @@
 
       .mobile-section-button span {
         font-size: 0.76rem;
+      }
+
+      .goal-grid,
+      .meta-grid,
+      .planner-rule-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .plan-step {
+        grid-template-columns: auto minmax(0, 1fr);
+      }
+
+      .plan-step .delta {
+        grid-column: 2;
+      }
+
+      .button-row > * {
+        flex: 1 1 calc(50% - 0.7rem);
       }
 
       .run-stat {
@@ -8824,11 +9106,12 @@
 
   <script>
     (() => {
-      const STORAGE_KEY = "poshy.single-file.lab.v2";
+      const STORAGE_KEY = "poshy.single-file.lab.v3";
       const seedData = JSON.parse(document.getElementById("seed-data").textContent);
 
       const tabs = [
         { id: "workbench", label: "Workbench" },
+        { id: "planner", label: "Planner" },
         { id: "inventory", label: "Inventory" },
         { id: "shop", label: "For Sale" },
         { id: "recipes", label: "Catalog" },
@@ -8853,6 +9136,12 @@
         workbenchCategory: "potions",
         workbenchScope: "actionable",
         workbenchMobileSection: "workbench",
+        plannerGoalScope: "actionable",
+        plannerGoalLines: [],
+        plannerPreview: null,
+        plannerLineCounter: 1,
+        plannerMobileSection: "goals",
+        plannerSelectedStep: -1,
         mobileInspectorOpen: false,
         selectedDetail: null,
         holdingsFilter: "",
@@ -8944,6 +9233,14 @@
         const amount = expectFiniteNumber(value, context);
         if (amount < 0) {
           throw new Error(`${context} must not be negative.`);
+        }
+        return amount;
+      }
+
+      function expectNonNegativeInteger(value, context) {
+        const amount = expectNonNegativeNumber(value, context);
+        if (!Number.isInteger(amount)) {
+          throw new Error(`${context} must be a whole number.`);
         }
         return amount;
       }
@@ -9525,6 +9822,54 @@
         );
       }
 
+      function createDefaultPlannerState() {
+        return {
+          repurposable_equipment_ids: {},
+          ingredient_keep_counts: {},
+          pinned_output_reserves: {}
+        };
+      }
+
+      function validatePlannerCounterMap(raw, context, knownNames) {
+        const source = expectPlainObject(raw, context);
+        const output = {};
+        for (const [name, count] of Object.entries(source)) {
+          const key = expectTrimmedString(name, `${context} key`);
+          if (!knownNames.has(key)) {
+            throw new Error(`${context} references unknown name "${key}".`);
+          }
+          const amount = expectNonNegativeInteger(count, `${context}.${key}`);
+          if (amount > 0) {
+            output[key] = amount;
+          }
+        }
+        return output;
+      }
+
+      function validatePlannerState(raw, catalog) {
+        const planner = validateExactKeys(
+          raw,
+          ["repurposable_equipment_ids", "ingredient_keep_counts", "pinned_output_reserves"],
+          "Saved planner"
+        );
+        return {
+          repurposable_equipment_ids: validateTrueFlagMap(
+            planner.repurposable_equipment_ids,
+            "planner.repurposable_equipment_ids"
+          ),
+          ingredient_keep_counts: validatePlannerCounterMap(
+            planner.ingredient_keep_counts,
+            "planner.ingredient_keep_counts",
+            catalog.ingredientNames
+          ),
+          pinned_output_reserves: validatePlannerCounterMap(
+            planner.pinned_output_reserves,
+            "planner.pinned_output_reserves",
+            catalog.recipeNames
+          )
+        };
+      }
+
       function createWorkbenchFromScenario(scenario) {
         return {
           gold: scenario.inventory.gold,
@@ -9542,19 +9887,21 @@
           workbench: createWorkbenchFromScenario(scenario),
           history: [],
           redo: [],
+          planner: createDefaultPlannerState(),
           loadError: null
         };
       }
 
       function validatePersistedState(raw) {
-        const saved = validateExactKeys(raw, ["scenario", "workbench", "history", "redo"], "Saved state");
+        const saved = validateExactKeys(raw, ["scenario", "workbench", "history", "redo", "planner"], "Saved state");
         const scenario = validateScenario(saved.scenario);
         const catalog = buildScenarioCatalog(scenario);
         return {
           scenario,
           workbench: validateWorkbenchState(saved.workbench, catalog, "Saved workbench"),
           history: validateHistoryArray(saved.history, catalog, "Saved history"),
-          redo: validateHistoryArray(saved.redo, catalog, "Saved redo")
+          redo: validateHistoryArray(saved.redo, catalog, "Saved redo"),
+          planner: validatePlannerState(saved.planner, catalog)
         };
       }
 
@@ -9588,9 +9935,29 @@
             scenario: state.scenario,
             workbench: state.workbench,
             history: state.history,
-            redo: state.redo
+            redo: state.redo,
+            planner: state.planner
           })
         );
+      }
+
+      function resetPlannerUi() {
+        ui.plannerGoalScope = "actionable";
+        ui.plannerGoalLines = [];
+        ui.plannerPreview = null;
+        ui.plannerLineCounter = 1;
+        ui.plannerMobileSection = "goals";
+        ui.plannerSelectedStep = -1;
+      }
+
+      function invalidatePlannerPreview() {
+        ui.plannerPreview = null;
+        ui.plannerSelectedStep = -1;
+      }
+
+      function resetPlannerState() {
+        state.planner = createDefaultPlannerState();
+        resetPlannerUi();
       }
 
       function sortedEntries(map, options = {}) {
@@ -9811,11 +10178,11 @@
           .replace(/^-+|-+$/g, "") || "equipment";
       }
 
-      function nextEquipmentInstanceId(baseName) {
+      function nextEquipmentInstanceId(baseName, workbench = state.workbench) {
         const prefix = slugifyEquipmentId(baseName);
         const usedIds = new Set([
           ...(state.scenario.inventory.equipment || []).map((instance) => instance.id),
-          ...(state.workbench.equipment || []).map((instance) => instance.id)
+          ...(workbench.equipment || []).map((instance) => instance.id)
         ]);
         let counter = 1;
         while (usedIds.has(`${prefix}-${counter}`)) {
@@ -9824,13 +10191,13 @@
         return `${prefix}-${counter}`;
       }
 
-      function buildBaseEquipmentInstance(baseName) {
+      function buildBaseEquipmentInstance(baseName, workbench = state.workbench) {
         const definition = getEquipmentDefinitionByName(baseName);
         if (!definition) {
           return null;
         }
         return {
-          id: nextEquipmentInstanceId(baseName),
+          id: nextEquipmentInstanceId(baseName, workbench),
           base_name: definition.name,
           current_hp: defaultCurrentHpForDefinition(definition)
         };
@@ -9926,7 +10293,7 @@
         };
       }
 
-      function assessAccessoryAssembly(instance, gemNames = selectedComboDraftGems(instance)) {
+      function assessAccessoryAssembly(instance, gemNames = selectedComboDraftGems(instance), workbench = state.workbench) {
         const definition = getEquipmentDefinitionByName(instance?.base_name);
         const policy = definition?.socket_policy || null;
         const selectedGems = gemNames.map((name) => String(name || "").trim()).filter(Boolean);
@@ -9971,7 +10338,7 @@
           };
         }
         const shortfalls = sortedEntries(buildGemCountMap(selectedGems), { zeroLast: false })
-          .map(([name, required]) => ({ name, required, owned: Number(state.workbench.gems?.[name] || 0) }))
+          .map(([name, required]) => ({ name, required, owned: Number(workbench.gems?.[name] || 0) }))
           .filter((entry) => entry.owned < entry.required);
         if (shortfalls.length) {
           return {
@@ -9983,7 +10350,7 @@
             selected_gems: selectedGems
           };
         }
-        if (state.workbench.gold < fee) {
+        if (workbench.gold < fee) {
           return {
             possible: false,
             reason: `Need ${formatGoldAmount(fee)}g to pay the imbue fee.`,
@@ -10977,8 +11344,8 @@
         return buyPrice === null ? null : buyPrice * state.scenario.market.sell_markdown;
       }
 
-      function assessStackableSell(bucket, name) {
-        const owned = Number(stackableMapForBucket(state.workbench, bucket)?.[name] || 0);
+      function assessStackableSell(bucket, name, workbench = state.workbench) {
+        const owned = Number(stackableMapForBucket(workbench, bucket)?.[name] || 0);
         if (owned <= 0) {
           return { possible: false, reason: "Not owned" };
         }
@@ -11565,6 +11932,8 @@
         state.workbench = createWorkbenchFromScenario(state.scenario);
         state.history = [];
         state.redo = [];
+        state.planner = createDefaultPlannerState();
+        resetPlannerUi();
         persistState();
         renderApp();
       }
@@ -11622,14 +11991,14 @@
         renderApp();
       }
 
-      function assessCraft(recipe) {
+      function assessCraft(recipe, workbench = state.workbench) {
         const uses = [];
         const buys = [];
         const missing = [];
         let extraCost = 0;
 
         for (const [ingredient, needed] of sortedEntries(recipe.ingredients || {}, { zeroLast: false })) {
-          const owned = Number(state.workbench.ingredients[ingredient] || 0);
+          const owned = Number(workbench.ingredients[ingredient] || 0);
           const used = Math.min(owned, needed);
           const shortfall = needed - used;
           if (used > 0) {
@@ -11657,10 +12026,10 @@
           };
         }
 
-        if (extraCost > state.workbench.gold) {
+        if (extraCost > workbench.gold) {
           return {
             possible: false,
-            reason: `Need ${extraCost}g but only have ${state.workbench.gold}g`,
+            reason: `Need ${extraCost}g but only have ${workbench.gold}g`,
             uses,
             buys,
             missing,
@@ -11677,7 +12046,7 @@
         };
       }
 
-      function assessBuy(recipe) {
+      function assessBuy(recipe, workbench = state.workbench) {
         const price = directPriceForRecipe(recipe);
         if (price === null) {
           return { possible: false, reason: "No direct buy price" };
@@ -11685,30 +12054,30 @@
         if (!isOutputSoldOnLevel(recipe.name)) {
           return { possible: false, reason: "Not sold on this level", price };
         }
-        if (price > state.workbench.gold) {
-          return { possible: false, reason: `Need ${price}g but only have ${state.workbench.gold}g`, price };
+        if (price > workbench.gold) {
+          return { possible: false, reason: `Need ${price}g but only have ${workbench.gold}g`, price };
         }
         return { possible: true, price };
       }
 
-      function assessEquipmentBuy(definition) {
+      function assessEquipmentBuy(definition, workbench = state.workbench) {
         if (!definition) {
           return { possible: false, reason: "Unknown equipment definition" };
         }
         if (!isEquipmentSoldOnLevel(definition.name)) {
           return { possible: false, reason: "Not sold on this level", price: definition.buy_price };
         }
-        if (definition.buy_price > state.workbench.gold) {
+        if (definition.buy_price > workbench.gold) {
           return {
             possible: false,
-            reason: `Need ${formatGoldAmount(definition.buy_price)}g but only have ${formatGoldAmount(state.workbench.gold)}g`,
+            reason: `Need ${formatGoldAmount(definition.buy_price)}g but only have ${formatGoldAmount(workbench.gold)}g`,
             price: definition.buy_price
           };
         }
         return { possible: true, price: definition.buy_price };
       }
 
-      function assessIngredientBuy(name) {
+      function assessIngredientBuy(name, workbench = state.workbench) {
         const price = ingredientPriceForName(name);
         if (price === null) {
           return { possible: false, reason: "No ingredient price" };
@@ -11716,10 +12085,10 @@
         if (!isIngredientSoldOnLevel(name)) {
           return { possible: false, reason: "Not sold on this level", price };
         }
-        if (price > state.workbench.gold) {
+        if (price > workbench.gold) {
           return {
             possible: false,
-            reason: `Need ${formatGoldAmount(price)}g but only have ${formatGoldAmount(state.workbench.gold)}g`,
+            reason: `Need ${formatGoldAmount(price)}g but only have ${formatGoldAmount(workbench.gold)}g`,
             price
           };
         }
@@ -11771,16 +12140,38 @@
           });
       }
 
-      function craftOnce(recipeName) {
+      function commitWorkbenchEntries(entries, options = {}) {
+        const validEntries = entries.filter(Boolean);
+        if (!validEntries.length) {
+          return;
+        }
+        for (const entry of validEntries) {
+          rememberWorkbenchAction(entry);
+        }
+        invalidatePlannerPreview();
+        const defaultTitle = validEntries.length === 1 ? validEntries[0].label : `Applied ${validEntries.length} actions`;
+        const defaultSummary = validEntries.length === 1
+          ? effectSummary(validEntries[0], "forward")
+          : `${validEntries.length} ordinary simulator actions`;
+        showToast(
+          options.title || defaultTitle,
+          options.summary || defaultSummary,
+          options.tone || "good"
+        );
+        persistState();
+        renderApp();
+      }
+
+      function buildCraftActionEntry(recipeName, workbench = state.workbench) {
         const recipe = getRecipeByName(recipeName);
         if (!recipe) {
-          return;
+          return null;
         }
-        const craft = assessCraft(recipe);
+        const craft = assessCraft(recipe, workbench);
         if (!craft.possible) {
-          return;
+          return null;
         }
-        const before = deepClone(state.workbench);
+        const before = deepClone(workbench);
         const transactions = [];
         for (const step of craft.buys) {
           transactions.push(
@@ -11800,164 +12191,2316 @@
         transactions.push(
           createStackableTransaction(outputStoreKey(recipe.kind), recipe.name, 1, "craft output")
         );
-        const entry = buildWorkbenchAction(`Crafted ${recipe.name}`, before, transactions);
-        rememberWorkbenchAction(entry);
-        showToast(entry.label, effectSummary(entry, "forward"), "good");
-        persistState();
-        renderApp();
+        return buildWorkbenchAction(`Crafted ${recipe.name}`, before, transactions);
       }
 
-      function buyIngredient(name) {
+      function buildBuyIngredientActionEntry(name, workbench = state.workbench) {
         const ingredientType = ingredientTypeForName(name);
         if (!ingredientType) {
-          return;
+          return null;
         }
-        const buy = assessIngredientBuy(name);
+        const buy = assessIngredientBuy(name, workbench);
         if (!buy.possible) {
-          return;
+          return null;
         }
-        const before = deepClone(state.workbench);
-        const entry = buildWorkbenchAction(`Bought ${name}`, before, [
+        const before = deepClone(workbench);
+        return buildWorkbenchAction(`Bought ${name}`, before, [
           createGoldTransaction(-buy.price, `Buy ${name}`),
           createStackableTransaction("ingredients", name, 1, "buy ingredient", {
             unit_price: buy.price
           })
         ]);
-        rememberWorkbenchAction(entry);
-        showToast(entry.label, effectSummary(entry, "forward"), "good");
-        persistState();
-        renderApp();
       }
 
-      function buyOnce(recipeName) {
+      function buildBuyOutputActionEntry(recipeName, workbench = state.workbench) {
         const recipe = getRecipeByName(recipeName);
         if (!recipe) {
-          return;
+          return null;
         }
-        const buy = assessBuy(recipe);
+        const buy = assessBuy(recipe, workbench);
         if (!buy.possible) {
-          return;
+          return null;
         }
-        const before = deepClone(state.workbench);
-        const entry = buildWorkbenchAction(`Bought ${recipe.name}`, before, [
+        const before = deepClone(workbench);
+        return buildWorkbenchAction(`Bought ${recipe.name}`, before, [
           createGoldTransaction(-buy.price, `Buy ${recipe.name}`),
           createStackableTransaction(outputStoreKey(recipe.kind), recipe.name, 1, "buy output", {
             unit_price: buy.price
           })
         ]);
-        rememberWorkbenchAction(entry);
-        showToast(entry.label, effectSummary(entry, "forward"), "good");
-        persistState();
-        renderApp();
       }
 
-      function buyEquipment(definitionName) {
+      function buildBuyEquipmentActionEntry(definitionName, workbench = state.workbench) {
         const definition = getEquipmentDefinitionByName(definitionName);
         if (!definition) {
-          return;
+          return null;
         }
-        const buy = assessEquipmentBuy(definition);
+        const buy = assessEquipmentBuy(definition, workbench);
         if (!buy.possible) {
-          return;
+          return null;
         }
-        const instance = buildBaseEquipmentInstance(definition.name);
+        const instance = buildBaseEquipmentInstance(definition.name, workbench);
         if (!instance) {
-          return;
+          return null;
         }
-        const before = deepClone(state.workbench);
-        const entry = buildWorkbenchAction(`Bought ${definition.name}`, before, [
+        const before = deepClone(workbench);
+        return buildWorkbenchAction(`Bought ${definition.name}`, before, [
           createGoldTransaction(-buy.price, `Buy ${definition.name}`),
           createEquipmentTransaction("add", instance, "buy equipment")
         ]);
-        rememberWorkbenchAction(entry);
-        showToast(entry.label, effectSummary(entry, "forward"), "good");
-        persistState();
-        renderApp();
       }
 
-      function sellStackable(bucket, name) {
-        const sell = assessStackableSell(bucket, name);
+      function buildSellStackableActionEntry(bucket, name, workbench = state.workbench) {
+        const sell = assessStackableSell(bucket, name, workbench);
         if (!sell.possible) {
-          return;
+          return null;
         }
-        const before = deepClone(state.workbench);
-        const entry = buildWorkbenchAction(`Sold ${name}`, before, [
+        const before = deepClone(workbench);
+        return buildWorkbenchAction(`Sold ${name}`, before, [
           createStackableTransaction(bucket, name, -1, bucket === "ingredients" ? "sell ingredient" : "sell output"),
           createGoldTransaction(sell.value, `Sell ${name}`)
         ]);
-        rememberWorkbenchAction(entry);
-        showToast(entry.label, effectSummary(entry, "forward"), "good");
-        persistState();
-        renderApp();
       }
 
-      function sellEquipment(instanceId) {
-        const instance = (state.workbench.equipment || []).find((entry) => entry.id === instanceId);
+      function buildSellEquipmentActionEntry(instanceId, workbench = state.workbench) {
+        const instance = (workbench.equipment || []).find((entry) => entry.id === instanceId);
         if (!instance) {
-          return;
+          return null;
         }
         const sellValue = getEquipmentSellValue(instance);
         if (sellValue === null) {
-          return;
+          return null;
         }
-        const before = deepClone(state.workbench);
-        const entry = buildWorkbenchAction(`Sold ${instance.base_name}`, before, [
+        const before = deepClone(workbench);
+        return buildWorkbenchAction(`Sold ${instance.base_name}`, before, [
           createEquipmentTransaction("remove", instance, "sell equipment"),
           createGoldTransaction(sellValue, `Sell ${instance.base_name}`)
         ]);
-        rememberWorkbenchAction(entry);
-        showToast(entry.label, effectSummary(entry, "forward"), "good");
-        persistState();
-        renderApp();
       }
 
-      function assembleAccessory(instanceId) {
-        const instance = (state.workbench.equipment || []).find((entry) => entry.id === instanceId);
+      function buildAssembleAccessoryActionEntry(instanceId, gemNames = null, workbench = state.workbench) {
+        const instance = (workbench.equipment || []).find((entry) => entry.id === instanceId);
         if (!instance) {
-          return;
+          return null;
         }
-        const assessment = assessAccessoryAssembly(instance);
+        const assessment = assessAccessoryAssembly(
+          instance,
+          gemNames === null ? selectedComboDraftGems(instance) : gemNames,
+          workbench
+        );
         if (!assessment.possible) {
-          return;
+          return null;
         }
         const nextInstance = buildSocketedEquipmentInstance(instance, assessment.selected_gems);
         const gemTransactions = sortedEntries(buildGemCountMap(assessment.selected_gems), { zeroLast: false })
           .map(([name, count]) => createStackableTransaction("gems", name, -count, "assemble accessory"));
-        ui.comboDrafts[instance.id] = [...assessment.selected_gems];
-        const before = deepClone(state.workbench);
-        const entry = buildWorkbenchAction(`Assembled ${instance.base_name}`, before, [
+        const before = deepClone(workbench);
+        return buildWorkbenchAction(`Assembled ${instance.base_name}`, before, [
           ...gemTransactions,
           ...(assessment.fee > 0 ? [createGoldTransaction(-assessment.fee, `Imbue ${instance.base_name}`)] : []),
           createEquipmentTransaction("update", nextInstance, "assemble accessory", { previous: instance })
         ]);
-        rememberWorkbenchAction(entry);
-        showToast(entry.label, effectSummary(entry, "forward"), "good");
-        persistState();
-        renderApp();
+      }
+
+      function buildDisassembleAccessoryActionEntry(instanceId, workbench = state.workbench) {
+        const instance = (workbench.equipment || []).find((entry) => entry.id === instanceId);
+        if (!instance) {
+          return null;
+        }
+        const currentGems = socketedGemList(instance);
+        if (!currentGems.length) {
+          return null;
+        }
+        const nextInstance = buildSocketedEquipmentInstance(instance, []);
+        const gemTransactions = sortedEntries(buildGemCountMap(currentGems), { zeroLast: false })
+          .map(([name, count]) => createStackableTransaction("gems", name, count, "disassemble accessory"));
+        const before = deepClone(workbench);
+        return buildWorkbenchAction(`Disassembled ${instance.base_name}`, before, [
+          createEquipmentTransaction("update", nextInstance, "disassemble accessory", { previous: instance }),
+          ...gemTransactions
+        ]);
+      }
+
+      function craftOnce(recipeName) {
+        commitWorkbenchEntries([buildCraftActionEntry(recipeName)]);
+      }
+
+      function buyIngredient(name) {
+        commitWorkbenchEntries([buildBuyIngredientActionEntry(name)]);
+      }
+
+      function buyOnce(recipeName) {
+        commitWorkbenchEntries([buildBuyOutputActionEntry(recipeName)]);
+      }
+
+      function buyEquipment(definitionName) {
+        commitWorkbenchEntries([buildBuyEquipmentActionEntry(definitionName)]);
+      }
+
+      function sellStackable(bucket, name) {
+        commitWorkbenchEntries([buildSellStackableActionEntry(bucket, name)]);
+      }
+
+      function sellEquipment(instanceId) {
+        commitWorkbenchEntries([buildSellEquipmentActionEntry(instanceId)]);
+      }
+
+      function assembleAccessory(instanceId) {
+        const instance = (state.workbench.equipment || []).find((entry) => entry.id === instanceId);
+        if (instance) {
+          ui.comboDrafts[instance.id] = [...selectedComboDraftGems(instance)];
+        }
+        commitWorkbenchEntries([buildAssembleAccessoryActionEntry(instanceId)]);
       }
 
       function disassembleAccessory(instanceId) {
         const instance = (state.workbench.equipment || []).find((entry) => entry.id === instanceId);
-        if (!instance) {
+        if (instance) {
+          ui.comboDrafts[instance.id] = [...socketedGemList(instance)];
+        }
+        commitWorkbenchEntries([buildDisassembleAccessoryActionEntry(instanceId)]);
+      }
+
+      function getSocketableDefinitionNames() {
+        return getAllEquipmentDefinitionNames()
+          .filter((name) => isSocketableDefinition(getEquipmentDefinitionByName(name)));
+      }
+
+      function plannerGoalScopeUsesActionableFilter() {
+        return ui.plannerGoalScope !== "all";
+      }
+
+      function plannerActionableCraftSnapshot() {
+        return {
+          ingredients: state.workbench.ingredients || {},
+          potions: state.workbench.potions || {},
+          gems: state.workbench.gems || {},
+          equipment: []
+        };
+      }
+
+      function plannerHasRepurposableSameBaseAccessory(baseName) {
+        return (state.workbench.equipment || []).some((instance) =>
+          instance.base_name === baseName
+          && socketedGemList(instance).length
+          && isPlannerRepurposable(instance.id)
+        );
+      }
+
+      function plannerHasOwnedComboBase(baseName) {
+        return (state.workbench.equipment || []).some((instance) => instance.base_name === baseName);
+      }
+
+      function plannerOwnedStandaloneEquipmentCount(definition) {
+        if (!definition) {
+          return 0;
+        }
+        if (isSocketableDefinition(definition)) {
+          return (state.workbench.equipment || []).filter((instance) =>
+            instance.base_name === definition.name && socketedGemList(instance).length === 0
+          ).length;
+        }
+        return (state.workbench.equipment || []).filter((instance) => instance.base_name === definition.name).length;
+      }
+
+      function plannerOutputNameActionable(name) {
+        const recipe = getRecipeByName(name);
+        if (!recipe) {
+          return false;
+        }
+        return outputCount(state.workbench, recipe.kind, recipe.name) > 0
+          || Boolean(plannerCanBuyOutput(recipe))
+          || Boolean(plannerCanCraftRecipe(recipe, plannerActionableCraftSnapshot()));
+      }
+
+      function plannerEquipmentNameActionable(name) {
+        const definition = getEquipmentDefinitionByName(name);
+        if (!definition) {
+          return false;
+        }
+        return plannerOwnedStandaloneEquipmentCount(definition) > 0
+          || (isSocketableDefinition(definition) && plannerHasRepurposableSameBaseAccessory(definition.name))
+          || Boolean(plannerCanBuyEquipment(definition.name));
+      }
+
+      function plannerComboBaseNameActionable(name) {
+        const definition = getEquipmentDefinitionByName(name);
+        if (!definition || !isSocketableDefinition(definition)) {
+          return false;
+        }
+        return plannerHasOwnedComboBase(definition.name)
+          || plannerHasRepurposableSameBaseAccessory(definition.name)
+          || Boolean(plannerCanBuyEquipment(definition.name));
+      }
+
+      function plannerFilteredOutputNames(kind = null) {
+        const names = getAllOutputNames(kind);
+        if (!plannerGoalScopeUsesActionableFilter()) {
+          return names;
+        }
+        return names.filter((name) => plannerOutputNameActionable(name));
+      }
+
+      function plannerFilteredEquipmentDefinitionNames() {
+        const names = getAllEquipmentDefinitionNames();
+        if (!plannerGoalScopeUsesActionableFilter()) {
+          return names;
+        }
+        return names.filter((name) => plannerEquipmentNameActionable(name));
+      }
+
+      function plannerFilteredComboBaseNames() {
+        const names = getSocketableDefinitionNames();
+        if (!plannerGoalScopeUsesActionableFilter()) {
+          return names;
+        }
+        return names.filter((name) => plannerComboBaseNameActionable(name));
+      }
+
+      function plannerSelectOptionEntries(optionNames, selectedName, options = {}) {
+        const includeBlank = Boolean(options.includeBlank);
+        const blankLabel = options.blankLabel || "Empty";
+        const entries = [];
+        const currentValue = String(selectedName || "").trim();
+        if (currentValue && !optionNames.includes(currentValue)) {
+          entries.push({
+            value: currentValue,
+            label: `${currentValue} (outside current filter)`
+          });
+        }
+        if (includeBlank) {
+          entries.push({
+            value: "",
+            label: blankLabel
+          });
+        }
+        for (const name of optionNames) {
+          if (entries.some((entry) => entry.value === name)) {
+            continue;
+          }
+          entries.push({
+            value: name,
+            label: name
+          });
+        }
+        return entries;
+      }
+
+      function renderPlannerSelectOptions(optionNames, selectedName, options = {}) {
+        return plannerSelectOptionEntries(optionNames, selectedName, options)
+          .map((entry) => `
+            <option value="${escapeHtml(entry.value)}" ${entry.value === String(selectedName || "") ? "selected" : ""}>
+              ${escapeHtml(entry.label)}
+            </option>
+          `)
+          .join("");
+      }
+
+      function plannerDefaultStackableName() {
+        return plannerFilteredOutputNames()[0] || getAllOutputNames()[0] || "";
+      }
+
+      function plannerDefaultEquipmentName() {
+        return plannerFilteredEquipmentDefinitionNames()[0] || getAllEquipmentDefinitionNames()[0] || "";
+      }
+
+      function plannerDefaultComboBaseName() {
+        return plannerFilteredComboBaseNames()[0] || getSocketableDefinitionNames()[0] || "";
+      }
+
+      function nextPlannerGoalLineId() {
+        const id = `planner-line-${ui.plannerLineCounter}`;
+        ui.plannerLineCounter += 1;
+        return id;
+      }
+
+      function createPlannerGoalLine(type) {
+        if (type === "equipment") {
+          const firstEquipment = plannerDefaultEquipmentName();
+          return {
+            id: nextPlannerGoalLineId(),
+            type,
+            name: firstEquipment,
+            quantity: 1
+          };
+        }
+        if (type === "combo") {
+          const firstAccessory = plannerDefaultComboBaseName();
+          const maxGems = Number(getEquipmentDefinitionByName(firstAccessory)?.socket_policy?.max_gems || 1);
+          return {
+            id: nextPlannerGoalLineId(),
+            type,
+            base_name: firstAccessory,
+            sockets: Array.from({ length: maxGems }, () => "")
+          };
+        }
+        const firstOutput = plannerDefaultStackableName();
+        return {
+          id: nextPlannerGoalLineId(),
+          type: "stackable",
+          name: firstOutput,
+          quantity: 1
+        };
+      }
+
+      function plannerGoalLineById(id) {
+        return ui.plannerGoalLines.find((line) => line.id === id) || null;
+      }
+
+      function addPlannerGoalLine(type) {
+        ui.plannerGoalLines.push(createPlannerGoalLine(type));
+        invalidatePlannerPreview();
+      }
+
+      function removePlannerGoalLine(id) {
+        ui.plannerGoalLines = ui.plannerGoalLines.filter((line) => line.id !== id);
+        invalidatePlannerPreview();
+      }
+
+      function plannerGoalLineLabel(line) {
+        if (!line) {
+          return "Goal";
+        }
+        if (line.type === "equipment") {
+          return line.name || "Equipment";
+        }
+        if (line.type === "combo") {
+          const gems = (line.sockets || []).map((name) => String(name || "").trim()).filter(Boolean);
+          return [line.base_name || "Accessory", ...gems].join(" + ");
+        }
+        return line.name || "Output";
+      }
+
+      function normalizePlannerGoalLines() {
+        const errors = [];
+        const stackableTargets = {};
+        const equipmentTargets = {};
+        const comboLines = [];
+
+        for (const line of ui.plannerGoalLines) {
+          if (line.type === "stackable" || line.type === "equipment") {
+            const name = String(line.name || "").trim();
+            const quantity = Math.max(0, Math.floor(Number(line.quantity) || 0));
+            if (!name) {
+              errors.push("Every planner line needs a selected item.");
+              continue;
+            }
+            if (quantity <= 0) {
+              errors.push(`${plannerGoalLineLabel(line)} needs a quantity of at least 1.`);
+              continue;
+            }
+            if (line.type === "stackable") {
+              const recipe = getRecipeByName(name);
+              if (!recipe) {
+                errors.push(`Unknown output "${name}".`);
+                continue;
+              }
+              stackableTargets[name] = Number(stackableTargets[name] || 0) + quantity;
+            } else {
+              const definition = getEquipmentDefinitionByName(name);
+              if (!definition) {
+                errors.push(`Unknown equipment "${name}".`);
+                continue;
+              }
+              equipmentTargets[name] = Number(equipmentTargets[name] || 0) + quantity;
+            }
+            continue;
+          }
+
+          const baseName = String(line.base_name || "").trim();
+          const definition = getEquipmentDefinitionByName(baseName);
+          if (!definition || !isSocketableDefinition(definition)) {
+            errors.push(`Unknown socketable accessory "${baseName || "blank"}".`);
+            continue;
+          }
+          const sockets = Array.isArray(line.sockets) ? line.sockets : [];
+          const gemNames = [];
+          let sawGap = false;
+          for (const rawName of sockets) {
+            const gemName = String(rawName || "").trim();
+            if (!gemName) {
+              sawGap = true;
+              continue;
+            }
+            if (sawGap) {
+              errors.push(`${baseName} combo slots must be filled from left to right.`);
+              gemNames.length = 0;
+              break;
+            }
+            const recipe = getRecipeByName(gemName);
+            if (!recipe || recipe.kind !== "gem") {
+              errors.push(`Unknown gem "${gemName}" in ${baseName}.`);
+              gemNames.length = 0;
+              break;
+            }
+            gemNames.push(gemName);
+          }
+          if (!gemNames.length) {
+            errors.push(`${baseName} needs at least 1 socketed gem.`);
+            continue;
+          }
+          if (gemNames.length < definition.socket_policy.min_gems) {
+            errors.push(`${baseName} needs at least ${definition.socket_policy.min_gems} gems.`);
+            continue;
+          }
+          if (gemNames.length > definition.socket_policy.max_gems) {
+            errors.push(`${baseName} supports at most ${definition.socket_policy.max_gems} gems.`);
+            continue;
+          }
+          comboLines.push({
+            id: line.id,
+            type: "combo",
+            base_name: baseName,
+            gem_names: gemNames
+          });
+        }
+
+        return {
+          errors,
+          stackable_targets: stackableTargets,
+          equipment_targets: equipmentTargets,
+          combo_lines: comboLines,
+          total_lines: ui.plannerGoalLines.length,
+          has_lines: ui.plannerGoalLines.length > 0,
+          valid: ui.plannerGoalLines.length > 0 && errors.length === 0
+        };
+      }
+
+      function isPlannerRepurposable(instanceId) {
+        return Boolean(state.planner.repurposable_equipment_ids?.[instanceId]);
+      }
+
+      function setPlannerRepurposable(instanceId, enabled) {
+        if (!instanceId) {
           return;
         }
-        const currentGems = socketedGemList(instance);
-        if (!currentGems.length) {
+        if (enabled) {
+          state.planner.repurposable_equipment_ids[instanceId] = true;
+        } else {
+          delete state.planner.repurposable_equipment_ids[instanceId];
+        }
+        invalidatePlannerPreview();
+      }
+
+      function plannerIngredientKeepCount(name) {
+        return Number(state.planner.ingredient_keep_counts?.[name] || 0);
+      }
+
+      function setPlannerIngredientKeepCount(name, value) {
+        const amount = Math.max(0, Math.floor(Number(value) || 0));
+        if (!name) {
           return;
         }
-        ui.comboDrafts[instance.id] = [...currentGems];
-        const nextInstance = buildSocketedEquipmentInstance(instance, []);
-        const gemTransactions = sortedEntries(buildGemCountMap(currentGems), { zeroLast: false })
-          .map(([name, count]) => createStackableTransaction("gems", name, count, "disassemble accessory"));
-        const before = deepClone(state.workbench);
-        const entry = buildWorkbenchAction(`Disassembled ${instance.base_name}`, before, [
-          createEquipmentTransaction("update", nextInstance, "disassemble accessory", { previous: instance }),
-          ...gemTransactions
+        if (amount > 0) {
+          state.planner.ingredient_keep_counts[name] = amount;
+        } else {
+          delete state.planner.ingredient_keep_counts[name];
+        }
+        invalidatePlannerPreview();
+      }
+
+      function plannerPinnedOutputReserve(name) {
+        return Number(state.planner.pinned_output_reserves?.[name] || 0);
+      }
+
+      function setPlannerPinnedOutputReserve(name, value) {
+        const amount = Math.max(0, Math.floor(Number(value) || 0));
+        if (!name) {
+          return;
+        }
+        if (amount > 0) {
+          state.planner.pinned_output_reserves[name] = amount;
+        } else {
+          delete state.planner.pinned_output_reserves[name];
+        }
+        invalidatePlannerPreview();
+      }
+
+      function isSyntheticPlannerToken(token) {
+        return String(token || "").startsWith("planner-buy:");
+      }
+
+      function plannerRepurposePriority(token) {
+        if (isSyntheticPlannerToken(token)) {
+          return 0;
+        }
+        return isPlannerRepurposable(token) ? 2 : 1;
+      }
+
+      function plannerReservePriority(token) {
+        if (isSyntheticPlannerToken(token)) {
+          return 0;
+        }
+        return isPlannerRepurposable(token) ? 2 : 1;
+      }
+
+      function plannerTokenSorter(left, right) {
+        const leftPriority = plannerRepurposePriority(left.token || left.id || "");
+        const rightPriority = plannerRepurposePriority(right.token || right.id || "");
+        if (leftPriority !== rightPriority) {
+          return leftPriority - rightPriority;
+        }
+        return String(left.token || left.id || "").localeCompare(String(right.token || right.id || ""), undefined, {
+          sensitivity: "base"
+        });
+      }
+
+      function normalizePlannerEquipmentList(instances = []) {
+        return [...instances]
+          .map((instance) => ({
+            token: String(instance.token || instance.id || "").trim(),
+            base_name: String(instance.base_name || "").trim(),
+            ...(socketedGemList(instance).length ? { socketed_gems: socketedGemList(instance) } : {})
+          }))
+          .filter((instance) => instance.token && instance.base_name)
+          .sort(plannerTokenSorter);
+      }
+
+      function normalizePlannerSnapshot(snapshot) {
+        return {
+          ingredients: normalizeSparseCounterMap(snapshot.ingredients || {}),
+          potions: normalizeSparseCounterMap(snapshot.potions || {}),
+          gems: normalizeSparseCounterMap(snapshot.gems || {}),
+          equipment: normalizePlannerEquipmentList(snapshot.equipment || [])
+        };
+      }
+
+      function plannerSnapshotKey(snapshot) {
+        return stableStringify(normalizePlannerSnapshot(snapshot));
+      }
+
+      function plannerStackableCount(snapshot, kind, name) {
+        const store = kind === "gem" ? snapshot.gems : snapshot.potions;
+        return Number(store?.[name] || 0);
+      }
+
+      function plannerAllEquipmentInstances(snapshot, baseName) {
+        return (snapshot.equipment || []).filter((instance) => instance.base_name === baseName);
+      }
+
+      function plannerUnsocketedEquipmentInstances(snapshot, baseName) {
+        return plannerAllEquipmentInstances(snapshot, baseName)
+          .filter((instance) => socketedGemList(instance).length === 0);
+      }
+
+      function plannerExactComboInstances(snapshot, baseName, gemNames) {
+        const signature = stableStringify(gemNames);
+        return plannerAllEquipmentInstances(snapshot, baseName)
+          .filter((instance) => stableStringify(socketedGemList(instance)) === signature);
+      }
+
+      function plannerComboMatches(snapshot, comboLines) {
+        const available = new Map();
+        for (const instance of snapshot.equipment || []) {
+          const key = `${instance.base_name}\u0000${stableStringify(socketedGemList(instance))}`;
+          if (!available.has(key)) {
+            available.set(key, []);
+          }
+          available.get(key).push(instance);
+        }
+        for (const values of available.values()) {
+          values.sort((left, right) => plannerReservePriority(left.token) - plannerReservePriority(right.token)
+            || String(left.token).localeCompare(String(right.token), undefined, { sensitivity: "base" }));
+        }
+        const matchedGoalTokens = new Map();
+        const unmatched = [];
+        for (const line of comboLines) {
+          const key = `${line.base_name}\u0000${stableStringify(line.gem_names)}`;
+          const pool = available.get(key) || [];
+          const match = pool.shift() || null;
+          if (match) {
+            matchedGoalTokens.set(line.id, match.token);
+          } else {
+            unmatched.push(line);
+          }
+        }
+        return { matched_goal_tokens: matchedGoalTokens, unmatched };
+      }
+
+      function collectPlannerRelevance(goals) {
+        const stackableNames = new Set(Object.keys(goals.stackable_targets || {}));
+        const comboGemNames = new Set();
+        const requiredBaseNames = new Set(Object.keys(goals.equipment_targets || {}));
+        const ingredientNames = new Set();
+
+        for (const line of goals.combo_lines || []) {
+          requiredBaseNames.add(line.base_name);
+          for (const gemName of line.gem_names) {
+            comboGemNames.add(gemName);
+          }
+        }
+
+        for (const name of [...stackableNames, ...comboGemNames]) {
+          const recipe = getRecipeByName(name);
+          for (const ingredient of Object.keys(recipe?.ingredients || {})) {
+            ingredientNames.add(ingredient);
+          }
+        }
+
+        return {
+          stackable_names: Array.from(stackableNames).sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" })),
+          combo_gem_names: Array.from(comboGemNames).sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" })),
+          required_base_names: Array.from(requiredBaseNames).sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" })),
+          ingredient_names: Array.from(ingredientNames).sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" }))
+        };
+      }
+
+      function plannerSearchEquipmentRelevant(instance, relevance) {
+        if (relevance.required_base_names.includes(instance.base_name)) {
+          return true;
+        }
+        if (!isPlannerRepurposable(instance.id)) {
+          return false;
+        }
+        return socketedGemList(instance).some((name) => relevance.combo_gem_names.includes(name));
+      }
+
+      function createPlannerSearchSnapshot(goals, relevance) {
+        const snapshot = {
+          ingredients: {},
+          potions: {},
+          gems: {},
+          equipment: []
+        };
+        for (const name of relevance.ingredient_names) {
+          const count = Number(state.workbench.ingredients?.[name] || 0);
+          if (count > 0) {
+            snapshot.ingredients[name] = count;
+          }
+        }
+        for (const name of relevance.stackable_names) {
+          const recipe = getRecipeByName(name);
+          if (!recipe) {
+            continue;
+          }
+          const store = recipe.kind === "gem" ? snapshot.gems : snapshot.potions;
+          const count = Number(outputCount(state.workbench, recipe.kind, name) || 0);
+          if (count > 0) {
+            store[name] = count;
+          }
+        }
+        for (const name of relevance.combo_gem_names) {
+          const count = Number(state.workbench.gems?.[name] || 0);
+          if (count > 0) {
+            snapshot.gems[name] = count;
+          }
+        }
+        snapshot.equipment = normalizePlannerEquipmentList(
+          (state.workbench.equipment || [])
+            .filter((instance) => plannerSearchEquipmentRelevant(instance, relevance))
+            .map((instance) => ({
+              token: instance.id,
+              base_name: instance.base_name,
+              ...(socketedGemList(instance).length ? { socketed_gems: socketedGemList(instance) } : {})
+            }))
+        );
+        return normalizePlannerSnapshot(snapshot);
+      }
+
+      function plannerGoalsSatisfied(snapshot, goals) {
+        for (const [name, target] of Object.entries(goals.stackable_targets || {})) {
+          const recipe = getRecipeByName(name);
+          if (!recipe || plannerStackableCount(snapshot, recipe.kind, name) < target) {
+            return false;
+          }
+        }
+        for (const [name, target] of Object.entries(goals.equipment_targets || {})) {
+          const definition = getEquipmentDefinitionByName(name);
+          const count = isSocketableDefinition(definition)
+            ? plannerUnsocketedEquipmentInstances(snapshot, name).length
+            : plannerAllEquipmentInstances(snapshot, name).length;
+          if (count < target) {
+            return false;
+          }
+        }
+        return plannerComboMatches(snapshot, goals.combo_lines || []).unmatched.length === 0;
+      }
+
+      function plannerNeededBaseCounts(goals) {
+        const counts = {};
+        for (const [name, quantity] of Object.entries(goals.equipment_targets || {})) {
+          counts[name] = Number(counts[name] || 0) + Number(quantity || 0);
+        }
+        for (const line of goals.combo_lines || []) {
+          counts[line.base_name] = Number(counts[line.base_name] || 0) + 1;
+        }
+        return counts;
+      }
+
+      function plannerNeededUnsocketedCounts(goals) {
+        const counts = {};
+        for (const [name, quantity] of Object.entries(goals.equipment_targets || {})) {
+          counts[name] = Number(counts[name] || 0) + Number(quantity || 0);
+        }
+        for (const line of goals.combo_lines || []) {
+          counts[line.base_name] = Number(counts[line.base_name] || 0) + 1;
+        }
+        return counts;
+      }
+
+      function plannerComboGemDemand(snapshot, goals) {
+        const demand = {};
+        const matchResult = plannerComboMatches(snapshot, goals.combo_lines || []);
+        for (const line of matchResult.unmatched) {
+          for (const gemName of line.gem_names) {
+            demand[gemName] = Number(demand[gemName] || 0) + 1;
+          }
+        }
+        return demand;
+      }
+
+      function plannerCanCraftRecipe(recipe, snapshot) {
+        if (!recipe) {
+          return null;
+        }
+        const autoBuys = [];
+        let cost = 0;
+        for (const [ingredient, needed] of sortedEntries(recipe.ingredients || {}, { zeroLast: false })) {
+          const owned = Number(snapshot.ingredients?.[ingredient] || 0);
+          const shortfall = Math.max(0, needed - owned);
+          if (shortfall <= 0) {
+            continue;
+          }
+          const price = ingredientPriceForName(ingredient);
+          if (!isIngredientSoldOnLevel(ingredient) || price === null) {
+            return null;
+          }
+          autoBuys.push({ ingredient, count: shortfall, price });
+          cost += shortfall * price;
+        }
+        return { cost, auto_buys: autoBuys };
+      }
+
+      function plannerCanBuyOutput(recipe) {
+        const price = directPriceForRecipe(recipe);
+        if (price === null || !isOutputSoldOnLevel(recipe.name)) {
+          return null;
+        }
+        return { cost: price };
+      }
+
+      function plannerCanBuyEquipment(definitionName) {
+        const definition = getEquipmentDefinitionByName(definitionName);
+        if (!definition || !isEquipmentSoldOnLevel(definition.name)) {
+          return null;
+        }
+        return { cost: definition.buy_price };
+      }
+
+      function plannerHasFreeGems(snapshot, gemNames) {
+        const counts = buildGemCountMap(gemNames);
+        return Object.entries(counts).every(([name, needed]) => Number(snapshot.gems?.[name] || 0) >= needed);
+      }
+
+      function plannerPreferredUnsocketedInstance(snapshot, baseName) {
+        const candidates = plannerUnsocketedEquipmentInstances(snapshot, baseName);
+        if (!candidates.length) {
+          return null;
+        }
+        return [...candidates].sort((left, right) => plannerTokenSorter(left, right))[0];
+      }
+
+      function nextPlannerBoughtToken(baseName, snapshot) {
+        const prefix = `planner-buy:${slugifyEquipmentId(baseName)}:`;
+        const used = new Set((snapshot.equipment || []).map((instance) => instance.token));
+        let counter = 1;
+        while (used.has(`${prefix}${counter}`)) {
+          counter += 1;
+        }
+        return `${prefix}${counter}`;
+      }
+
+      function applyPlannerActionToSnapshot(snapshot, action) {
+        const next = normalizePlannerSnapshot(deepClone(snapshot));
+        if (action.kind === "craft") {
+          const recipe = getRecipeByName(action.recipe_name);
+          for (const [ingredient, needed] of Object.entries(recipe.ingredients || {})) {
+            next.ingredients[ingredient] = Math.max(0, Number(next.ingredients?.[ingredient] || 0) - needed);
+            if (next.ingredients[ingredient] <= 0) {
+              delete next.ingredients[ingredient];
+            }
+          }
+          const store = recipe.kind === "gem" ? next.gems : next.potions;
+          store[recipe.name] = Number(store[recipe.name] || 0) + 1;
+          return next;
+        }
+        if (action.kind === "buy_output") {
+          const recipe = getRecipeByName(action.recipe_name);
+          const store = recipe.kind === "gem" ? next.gems : next.potions;
+          store[recipe.name] = Number(store[recipe.name] || 0) + 1;
+          return next;
+        }
+        if (action.kind === "buy_equipment") {
+          next.equipment.push({
+            token: action.token,
+            base_name: action.definition_name
+          });
+          next.equipment = normalizePlannerEquipmentList(next.equipment);
+          return next;
+        }
+        if (action.kind === "assemble") {
+          const index = next.equipment.findIndex((instance) => instance.token === action.token);
+          if (index === -1) {
+            return next;
+          }
+          next.equipment[index] = {
+            ...next.equipment[index],
+            socketed_gems: [...action.gem_names]
+          };
+          for (const [name, count] of Object.entries(buildGemCountMap(action.gem_names))) {
+            next.gems[name] = Number(next.gems?.[name] || 0) - count;
+            if (next.gems[name] <= 0) {
+              delete next.gems[name];
+            }
+          }
+          next.equipment = normalizePlannerEquipmentList(next.equipment);
+          return next;
+        }
+        if (action.kind === "disassemble") {
+          const index = next.equipment.findIndex((instance) => instance.token === action.token);
+          if (index === -1) {
+            return next;
+          }
+          const currentGems = socketedGemList(next.equipment[index]);
+          next.equipment[index] = {
+            token: next.equipment[index].token,
+            base_name: next.equipment[index].base_name
+          };
+          for (const [name, count] of Object.entries(buildGemCountMap(currentGems))) {
+            next.gems[name] = Number(next.gems?.[name] || 0) + count;
+          }
+          next.equipment = normalizePlannerEquipmentList(next.equipment);
+          return next;
+        }
+        return next;
+      }
+
+      function plannerUsefulDisassembly(snapshot, instance, goals) {
+        const unsocketedNeeds = plannerNeededUnsocketedCounts(goals);
+        const currentUnsocketed = plannerUnsocketedEquipmentInstances(snapshot, instance.base_name).length;
+        if (Number(unsocketedNeeds[instance.base_name] || 0) > currentUnsocketed) {
+          return true;
+        }
+        const demand = plannerComboGemDemand(snapshot, goals);
+        return socketedGemList(instance).some((name) => Number(demand[name] || 0) > Number(snapshot.gems?.[name] || 0));
+      }
+
+      function plannerSearchActions(snapshot, goals) {
+        const actions = [];
+        for (const name of Object.keys(goals.stackable_targets || {}).sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" }))) {
+          const target = Number(goals.stackable_targets[name] || 0);
+          const recipe = getRecipeByName(name);
+          if (!recipe || plannerStackableCount(snapshot, recipe.kind, name) >= target) {
+            continue;
+          }
+          const craft = plannerCanCraftRecipe(recipe, snapshot);
+          if (craft) {
+            actions.push({
+              kind: "craft",
+              recipe_name: recipe.name,
+              cost: craft.cost,
+              auto_buys: craft.auto_buys,
+              sort_key: `1:craft:${recipe.name}`
+            });
+          }
+          const buy = plannerCanBuyOutput(recipe);
+          if (buy) {
+            actions.push({
+              kind: "buy_output",
+              recipe_name: recipe.name,
+              cost: buy.cost,
+              sort_key: `2:buy-output:${recipe.name}`
+            });
+          }
+        }
+
+        const gemDemand = plannerComboGemDemand(snapshot, goals);
+        for (const gemName of Object.keys(gemDemand).sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" }))) {
+          const recipe = getRecipeByName(gemName);
+          if (!recipe || plannerStackableCount(snapshot, "gem", gemName) >= Number(gemDemand[gemName] || 0)) {
+            continue;
+          }
+          const craft = plannerCanCraftRecipe(recipe, snapshot);
+          if (craft) {
+            actions.push({
+              kind: "craft",
+              recipe_name: recipe.name,
+              cost: craft.cost,
+              auto_buys: craft.auto_buys,
+              sort_key: `1:craft:${recipe.name}`
+            });
+          }
+          const buy = plannerCanBuyOutput(recipe);
+          if (buy) {
+            actions.push({
+              kind: "buy_output",
+              recipe_name: recipe.name,
+              cost: buy.cost,
+              sort_key: `2:buy-output:${recipe.name}`
+            });
+          }
+        }
+
+        const baseNeeds = plannerNeededBaseCounts(goals);
+        const comboMatchResult = plannerComboMatches(snapshot, goals.combo_lines || []);
+        const matchedComboCounts = {};
+        for (const line of goals.combo_lines || []) {
+          if (comboMatchResult.matched_goal_tokens.has(line.id)) {
+            matchedComboCounts[line.base_name] = Number(matchedComboCounts[line.base_name] || 0) + 1;
+          }
+        }
+        for (const baseName of Object.keys(baseNeeds).sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" }))) {
+          const unsocketedCount = plannerUnsocketedEquipmentInstances(snapshot, baseName).length;
+          const repurposableSocketed = plannerAllEquipmentInstances(snapshot, baseName)
+            .filter((instance) => socketedGemList(instance).length && isPlannerRepurposable(instance.token))
+            .length;
+          const usableCount = unsocketedCount + Number(matchedComboCounts[baseName] || 0) + repurposableSocketed;
+          if (usableCount >= Number(baseNeeds[baseName] || 0)) {
+            continue;
+          }
+          const buy = plannerCanBuyEquipment(baseName);
+          if (buy) {
+            actions.push({
+              kind: "buy_equipment",
+              definition_name: baseName,
+              token: nextPlannerBoughtToken(baseName, snapshot),
+              cost: buy.cost,
+              sort_key: `3:buy-equipment:${baseName}`
+            });
+          }
+        }
+
+        const unmatchedCombos = plannerComboMatches(snapshot, goals.combo_lines || []).unmatched;
+        const seenAssemblies = new Set();
+        for (const line of unmatchedCombos) {
+          const candidate = plannerPreferredUnsocketedInstance(snapshot, line.base_name);
+          if (!candidate || !plannerHasFreeGems(snapshot, line.gem_names)) {
+            continue;
+          }
+          const key = `${candidate.token}\u0000${stableStringify(line.gem_names)}`;
+          if (seenAssemblies.has(key)) {
+            continue;
+          }
+          seenAssemblies.add(key);
+          const fee = Number(getEquipmentDefinitionByName(line.base_name)?.socket_policy?.imbue_fee || 0);
+          actions.push({
+            kind: "assemble",
+            token: candidate.token,
+            base_name: line.base_name,
+            gem_names: [...line.gem_names],
+            cost: fee,
+            sort_key: `4:assemble:${line.base_name}:${candidate.token}:${line.gem_names.join("+")}`
+          });
+        }
+
+        for (const instance of normalizePlannerEquipmentList(snapshot.equipment || [])) {
+          if (!isPlannerRepurposable(instance.token) || !socketedGemList(instance).length) {
+            continue;
+          }
+          if (!plannerUsefulDisassembly(snapshot, instance, goals)) {
+            continue;
+          }
+          actions.push({
+            kind: "disassemble",
+            token: instance.token,
+            base_name: instance.base_name,
+            gem_names: socketedGemList(instance),
+            cost: 0,
+            sort_key: `0:disassemble:${instance.base_name}:${instance.token}`
+          });
+        }
+
+        return actions.sort((left, right) => left.sort_key.localeCompare(right.sort_key, undefined, { sensitivity: "base" }));
+      }
+
+      function plannerCompareSearchState(left, right) {
+        if (left.cost !== right.cost) {
+          return left.cost - right.cost;
+        }
+        if (left.steps !== right.steps) {
+          return left.steps - right.steps;
+        }
+        return left.sort_key.localeCompare(right.sort_key, undefined, { sensitivity: "base" });
+      }
+
+      function solvePlannerAcquisition(goals) {
+        const relevance = collectPlannerRelevance(goals);
+        const initialSnapshot = createPlannerSearchSnapshot(goals, relevance);
+        const initialNode = {
+          snapshot: initialSnapshot,
+          cost: 0,
+          steps: 0,
+          sort_key: "",
+          actions: []
+        };
+        const frontier = [initialNode];
+        const bestByKey = new Map([[plannerSnapshotKey(initialSnapshot), { cost: 0, steps: 0, sort_key: "" }]]);
+        let expansions = 0;
+
+        while (frontier.length) {
+          frontier.sort(plannerCompareSearchState);
+          const node = frontier.shift();
+          if (plannerGoalsSatisfied(node.snapshot, goals)) {
+            return {
+              status: "solved",
+              actions: node.actions,
+              gross_spend: node.cost,
+              final_snapshot: node.snapshot
+            };
+          }
+          expansions += 1;
+          if (expansions > 6000) {
+            break;
+          }
+          for (const action of plannerSearchActions(node.snapshot, goals)) {
+            const nextSnapshot = applyPlannerActionToSnapshot(node.snapshot, action);
+            const nextNode = {
+              snapshot: nextSnapshot,
+              cost: node.cost + action.cost,
+              steps: node.steps + 1,
+              sort_key: node.sort_key ? `${node.sort_key}\n${action.sort_key}` : action.sort_key,
+              actions: [...node.actions, action]
+            };
+            const key = plannerSnapshotKey(nextSnapshot);
+            const best = bestByKey.get(key);
+            if (best && plannerCompareSearchState(nextNode, best) >= 0) {
+              continue;
+            }
+            bestByKey.set(key, {
+              cost: nextNode.cost,
+              steps: nextNode.steps,
+              sort_key: nextNode.sort_key
+            });
+            frontier.push(nextNode);
+          }
+        }
+
+        return {
+          status: "blocked",
+          actions: [],
+          gross_spend: 0,
+          final_snapshot: initialSnapshot
+        };
+      }
+
+      function plannerSingleCraftBlocker(recipe) {
+        if (!recipe) {
+          return "Unknown recipe.";
+        }
+        const missing = [];
+        for (const [ingredient, needed] of sortedEntries(recipe.ingredients || {}, { zeroLast: false })) {
+          const owned = Number(state.workbench.ingredients?.[ingredient] || 0);
+          if (owned >= needed) {
+            continue;
+          }
+          if (!isIngredientSoldOnLevel(ingredient)) {
+            missing.push(`${ingredient} is not sold this week`);
+          } else if (ingredientPriceForName(ingredient) === null) {
+            missing.push(`${ingredient} has no price`);
+          }
+        }
+        return missing.length ? missing.join("; ") : "";
+      }
+
+      function plannerAcquisitionBlocker(goals) {
+        for (const line of ui.plannerGoalLines) {
+          if (line.type === "stackable") {
+            const recipe = getRecipeByName(line.name || "");
+            if (!recipe) {
+              return `Unknown output "${line.name || "blank"}".`;
+            }
+            const target = Math.max(0, Math.floor(Number(line.quantity) || 0));
+            if (plannerStackableCount(state.workbench, recipe.kind, recipe.name) >= target) {
+              continue;
+            }
+            if (plannerCanBuyOutput(recipe) || plannerCanCraftRecipe(recipe, {
+              ingredients: state.workbench.ingredients || {},
+              potions: state.workbench.potions || {},
+              gems: state.workbench.gems || {},
+              equipment: []
+            })) {
+              continue;
+            }
+            const blocker = plannerSingleCraftBlocker(recipe);
+            if (directPriceForRecipe(recipe) === null) {
+              return `${recipe.name} is blocked because it has no direct buy path and cannot be crafted from currently owned or sold ingredients.${blocker ? ` ${blocker}` : ""}`;
+            }
+            return `${recipe.name} is not sold this week and cannot be crafted from currently owned or sold ingredients.${blocker ? ` ${blocker}` : ""}`;
+          }
+
+          if (line.type === "equipment") {
+            const definition = getEquipmentDefinitionByName(line.name || "");
+            if (!definition) {
+              return `Unknown equipment "${line.name || "blank"}".`;
+            }
+            const quantity = Math.max(0, Math.floor(Number(line.quantity) || 0));
+            const count = isSocketableDefinition(definition)
+              ? plannerUnsocketedEquipmentInstances({
+                equipment: (state.workbench.equipment || []).map((instance) => ({
+                  token: instance.id,
+                  base_name: instance.base_name,
+                  ...(socketedGemList(instance).length ? { socketed_gems: socketedGemList(instance) } : {})
+                }))
+              }, definition.name).length
+              : (state.workbench.equipment || []).filter((instance) => instance.base_name === definition.name).length;
+            const repurposableSameBase = (state.workbench.equipment || []).some((instance) =>
+              instance.base_name === definition.name
+              && socketedGemList(instance).length
+              && isPlannerRepurposable(instance.id)
+            );
+            if (count >= quantity || repurposableSameBase || isEquipmentSoldOnLevel(definition.name)) {
+              continue;
+            }
+            return `${definition.name} is blocked because no standalone copy is owned and it is not sold this week.`;
+          }
+
+          const baseName = String(line.base_name || "").trim();
+          const definition = getEquipmentDefinitionByName(baseName);
+          if (!definition || !isSocketableDefinition(definition)) {
+            return `Unknown socketable accessory "${baseName || "blank"}".`;
+          }
+          const desiredGems = (line.sockets || []).map((name) => String(name || "").trim()).filter(Boolean);
+          const ownedBaseCount = (state.workbench.equipment || []).filter((instance) => instance.base_name === baseName).length;
+          const repurposableSameBase = (state.workbench.equipment || []).some((instance) =>
+            instance.base_name === baseName
+            && socketedGemList(instance).length
+            && isPlannerRepurposable(instance.id)
+          );
+          if (ownedBaseCount === 0 && !repurposableSameBase && !isEquipmentSoldOnLevel(baseName)) {
+            return `${baseName} is blocked because the base accessory is neither owned nor sold this week.`;
+          }
+          for (const gemName of desiredGems) {
+            const recipe = getRecipeByName(gemName);
+            if (Number(state.workbench.gems?.[gemName] || 0) > 0) {
+              continue;
+            }
+            if (plannerCanCraftRecipe(recipe, {
+              ingredients: state.workbench.ingredients || {},
+              potions: state.workbench.potions || {},
+              gems: state.workbench.gems || {},
+              equipment: []
+            })) {
+              continue;
+            }
+            return `${baseName} is blocked because ${gemName} cannot be sourced from current holdings or sold ingredients.`;
+          }
+        }
+        return "No valid acquisition path was found for the current request lines.";
+      }
+
+      function plannerReserveGoalTokens(finalSnapshot, goals) {
+        const reserved = new Set();
+        const comboMatches = plannerComboMatches(finalSnapshot, goals.combo_lines || []);
+        for (const token of comboMatches.matched_goal_tokens.values()) {
+          reserved.add(token);
+        }
+        const availableByBase = new Map();
+        for (const instance of finalSnapshot.equipment || []) {
+          if (reserved.has(instance.token)) {
+            continue;
+          }
+          if (!availableByBase.has(instance.base_name)) {
+            availableByBase.set(instance.base_name, []);
+          }
+          availableByBase.get(instance.base_name).push(instance);
+        }
+        for (const instances of availableByBase.values()) {
+          instances.sort((left, right) => plannerReservePriority(left.token) - plannerReservePriority(right.token)
+            || String(left.token).localeCompare(String(right.token), undefined, { sensitivity: "base" }));
+        }
+        for (const [name, quantity] of Object.entries(goals.equipment_targets || {}).sort((left, right) => left[0].localeCompare(right[0], undefined, { sensitivity: "base" }))) {
+          const definition = getEquipmentDefinitionByName(name);
+          const pool = (availableByBase.get(name) || [])
+            .filter((instance) => !isSocketableDefinition(definition) || socketedGemList(instance).length === 0);
+          for (let index = 0; index < quantity && index < pool.length; index += 1) {
+            reserved.add(pool[index].token);
+          }
+        }
+        return reserved;
+      }
+
+      function plannerIngredientUsageForActions(actions) {
+        const usage = {};
+        for (const action of actions) {
+          if (action.kind !== "craft") {
+            continue;
+          }
+          const recipe = getRecipeByName(action.recipe_name);
+          for (const [ingredient, count] of Object.entries(recipe?.ingredients || {})) {
+            usage[ingredient] = Number(usage[ingredient] || 0) + count;
+          }
+        }
+        return usage;
+      }
+
+      function plannerPinnedReserveUsage() {
+        const usage = {};
+        for (const [name, quantity] of Object.entries(state.planner.pinned_output_reserves || {})) {
+          const recipe = getRecipeByName(name);
+          if (!recipe) {
+            continue;
+          }
+          for (const [ingredient, count] of Object.entries(recipe.ingredients || {})) {
+            usage[ingredient] = Number(usage[ingredient] || 0) + (count * quantity);
+          }
+        }
+        return usage;
+      }
+
+      function plannerIngredientProtection(actions) {
+        const planUsage = plannerIngredientUsageForActions(actions);
+        const pinnedUsage = plannerPinnedReserveUsage();
+        const protection = {};
+        const names = new Set([
+          ...Object.keys(planUsage),
+          ...Object.keys(pinnedUsage),
+          ...Object.keys(state.planner.ingredient_keep_counts || {})
         ]);
-        rememberWorkbenchAction(entry);
-        showToast(entry.label, effectSummary(entry, "forward"), "good");
-        persistState();
-        renderApp();
+        for (const name of names) {
+          protection[name] = {
+            total: Number(planUsage[name] || 0)
+              + Number(pinnedUsage[name] || 0)
+              + Number(state.planner.ingredient_keep_counts?.[name] || 0),
+            needed_for_plan: Number(planUsage[name] || 0),
+            pinned: Number(pinnedUsage[name] || 0),
+            keep_floor: Number(state.planner.ingredient_keep_counts?.[name] || 0)
+          };
+        }
+        return protection;
+      }
+
+      function plannerFundingCandidateOrder(left, right) {
+        if (left.type !== right.type) {
+          return left.type === "ingredient" ? -1 : 1;
+        }
+        if (left.type === "ingredient") {
+          if (left.surplus !== right.surplus) {
+            return right.surplus - left.surplus;
+          }
+          if (left.fanout !== right.fanout) {
+            return left.fanout - right.fanout;
+          }
+          if (left.unit_value !== right.unit_value) {
+            return right.unit_value - left.unit_value;
+          }
+          return left.name.localeCompare(right.name, undefined, { sensitivity: "base" });
+        }
+        if (left.unit_value !== right.unit_value) {
+          return left.unit_value - right.unit_value;
+        }
+        return left.name.localeCompare(right.name, undefined, { sensitivity: "base" });
+      }
+
+      function buildPlannerFundingPlan(acquisitionResult, goals) {
+        const shortfall = Math.max(0, acquisitionResult.gross_spend - state.workbench.gold);
+        if (shortfall <= 0) {
+          return {
+            status: "not_needed",
+            shortfall,
+            actions: [],
+            recovered: 0,
+            protection: plannerIngredientProtection(acquisitionResult.actions),
+            reserved_tokens: plannerReserveGoalTokens(acquisitionResult.final_snapshot, goals),
+            protected_candidates: []
+          };
+        }
+
+        const reservedTokens = plannerReserveGoalTokens(acquisitionResult.final_snapshot, goals);
+        for (const action of acquisitionResult.actions) {
+          if (action.token && !isSyntheticPlannerToken(action.token)) {
+            reservedTokens.add(action.token);
+          }
+        }
+
+        const protection = plannerIngredientProtection(acquisitionResult.actions);
+        const candidates = [];
+        for (const [name, entry] of Object.entries(protection)) {
+          const owned = Number(state.workbench.ingredients?.[name] || 0);
+          const protectedCount = Number(entry.total || 0);
+          const available = Math.max(0, owned - protectedCount);
+          const unitValue = getStackableSellValue("ingredients", name);
+          if (!available || unitValue === null) {
+            continue;
+          }
+          const fanout = recipesUsingIngredient(name).length;
+          for (let index = 0; index < available; index += 1) {
+            candidates.push({
+              type: "ingredient",
+              name,
+              unit_value: unitValue,
+              bucket: "ingredients",
+              surplus: available,
+              fanout,
+              sort_key: `${name}:${String(index).padStart(4, "0")}`
+            });
+          }
+        }
+
+        for (const instance of state.workbench.equipment || []) {
+          if (!isPlannerRepurposable(instance.id) || reservedTokens.has(instance.id)) {
+            continue;
+          }
+          const value = getEquipmentSellValue(instance);
+          if (value === null) {
+            continue;
+          }
+          candidates.push({
+            type: "equipment",
+            name: instance.base_name,
+            token: instance.id,
+            unit_value: value,
+            sort_key: `${instance.base_name}:${instance.id}`
+          });
+        }
+
+        candidates.sort(plannerFundingCandidateOrder);
+        const scaledCandidates = candidates.map((candidate, index) => ({
+          ...candidate,
+          index,
+          cents: Math.round(candidate.unit_value * 100)
+        }));
+        const shortfallCents = Math.round(shortfall * 100);
+        const dp = new Map([[0, { picks: [] }]]);
+
+        for (const candidate of scaledCandidates) {
+          const sums = Array.from(dp.keys()).sort((left, right) => right - left);
+          for (const sum of sums) {
+            const nextSum = sum + candidate.cents;
+            if (dp.has(nextSum)) {
+              continue;
+            }
+            dp.set(nextSum, {
+              picks: [...dp.get(sum).picks, candidate]
+            });
+          }
+        }
+
+        let bestSum = null;
+        for (const sum of Array.from(dp.keys()).sort((left, right) => left - right)) {
+          if (sum >= shortfallCents) {
+            bestSum = sum;
+            break;
+          }
+        }
+
+        const protectedCandidates = [];
+        for (const instance of state.workbench.equipment || []) {
+          const value = getEquipmentSellValue(instance);
+          if (value === null) {
+            continue;
+          }
+          if (reservedTokens.has(instance.id)) {
+            protectedCandidates.push({
+              name: instance.base_name,
+              value,
+              reason: "needed for this plan"
+            });
+          } else if (!isPlannerRepurposable(instance.id)) {
+            protectedCandidates.push({
+              name: instance.base_name,
+              value,
+              reason: "protected by your repurpose rules"
+            });
+          }
+        }
+        for (const [name, entry] of Object.entries(protection)) {
+          const owned = Number(state.workbench.ingredients?.[name] || 0);
+          const protectedCount = Math.min(owned, Number(entry.total || 0));
+          const unitValue = getStackableSellValue("ingredients", name);
+          if (!protectedCount || unitValue === null) {
+            continue;
+          }
+          const reasons = [];
+          if (entry.needed_for_plan > 0) {
+            reasons.push("needed for this plan");
+          }
+          if (entry.pinned > 0) {
+            reasons.push("reserved for pinned crafts");
+          }
+          if (entry.keep_floor > 0) {
+            reasons.push("kept because of your floor");
+          }
+          protectedCandidates.push({
+            name: `${name} x${protectedCount}`,
+            value: protectedCount * unitValue,
+            reason: reasons.join(", ")
+          });
+        }
+        protectedCandidates.sort((left, right) => right.value - left.value || left.name.localeCompare(right.name, undefined, { sensitivity: "base" }));
+
+        if (bestSum === null) {
+          const recovered = Array.from(dp.keys()).sort((left, right) => right - left)[0] || 0;
+          return {
+            status: "blocked",
+            shortfall,
+            recovered: recovered / 100,
+            remaining_shortfall: Math.max(0, shortfall - (recovered / 100)),
+            actions: [],
+            protection,
+            reserved_tokens: reservedTokens,
+            protected_candidates: protectedCandidates.slice(0, 4)
+          };
+        }
+
+        const picks = dp.get(bestSum).picks;
+        const countsByIngredient = new Map();
+        const equipmentTokens = [];
+        for (const candidate of picks) {
+          if (candidate.type === "ingredient") {
+            countsByIngredient.set(candidate.name, Number(countsByIngredient.get(candidate.name) || 0) + 1);
+          } else {
+            equipmentTokens.push(candidate.token);
+          }
+        }
+
+        const actions = [];
+        for (const [name, count] of Array.from(countsByIngredient.entries()).sort((left, right) =>
+          plannerFundingCandidateOrder(
+            {
+              type: "ingredient",
+              name: left[0],
+              unit_value: getStackableSellValue("ingredients", left[0]),
+              surplus: left[1],
+              fanout: recipesUsingIngredient(left[0]).length
+            },
+            {
+              type: "ingredient",
+              name: right[0],
+              unit_value: getStackableSellValue("ingredients", right[0]),
+              surplus: right[1],
+              fanout: recipesUsingIngredient(right[0]).length
+            }
+          )
+        )) {
+          for (let index = 0; index < count; index += 1) {
+            actions.push({
+              kind: "sell_stackable",
+              bucket: "ingredients",
+              name,
+              value: getStackableSellValue("ingredients", name)
+            });
+          }
+        }
+        for (const token of equipmentTokens.sort((left, right) => {
+          const leftInstance = (state.workbench.equipment || []).find((item) => item.id === left);
+          const rightInstance = (state.workbench.equipment || []).find((item) => item.id === right);
+          return plannerFundingCandidateOrder(
+            {
+              type: "equipment",
+              name: leftInstance?.base_name || left,
+              unit_value: getEquipmentSellValue(leftInstance) || 0
+            },
+            {
+              type: "equipment",
+              name: rightInstance?.base_name || right,
+              unit_value: getEquipmentSellValue(rightInstance) || 0
+            }
+          );
+        })) {
+          const instance = (state.workbench.equipment || []).find((item) => item.id === token);
+          if (!instance) {
+            continue;
+          }
+          actions.push({
+            kind: "sell_equipment",
+            token,
+            name: instance.base_name,
+            value: getEquipmentSellValue(instance)
+          });
+        }
+
+        return {
+          status: "solved",
+          shortfall,
+          recovered: bestSum / 100,
+          actions,
+          protection,
+          reserved_tokens: reservedTokens,
+          protected_candidates: protectedCandidates.slice(0, 4)
+        };
+      }
+
+      function normalizePlannerPreviewRows(acquisitionActions, fundingActions = []) {
+        const rows = [];
+        const pushGroupedRows = (groupActions) => {
+          let index = 0;
+          while (index < groupActions.length) {
+            const action = groupActions[index];
+            if (action.kind === "craft") {
+              const craftRun = [];
+              while (index < groupActions.length && groupActions[index].kind === "craft") {
+                craftRun.push(groupActions[index]);
+                index += 1;
+              }
+              const autoBuyOrder = [];
+              const autoBuyCounts = new Map();
+              for (const craft of craftRun) {
+                for (const autoBuy of craft.auto_buys || []) {
+                  if (!autoBuyCounts.has(autoBuy.ingredient)) {
+                    autoBuyOrder.push(autoBuy.ingredient);
+                  }
+                  autoBuyCounts.set(autoBuy.ingredient, (autoBuyCounts.get(autoBuy.ingredient) || 0) + autoBuy.count);
+                }
+              }
+              for (const ingredient of autoBuyOrder) {
+                const count = Number(autoBuyCounts.get(ingredient) || 0);
+                if (!count) {
+                  continue;
+                }
+                const unitPrice = ingredientPriceForName(ingredient) || 0;
+                rows.push({
+                  kind: "buy_ingredient",
+                  title: `Buy ${ingredient} x${count}`,
+                  detail: `${ingredient} is sold this week at ${formatGoldAmount(unitPrice)}g each.`,
+                  delta: -(count * unitPrice),
+                  step_action: null
+                });
+              }
+              for (const craft of craftRun) {
+                const recipe = getRecipeByName(craft.recipe_name);
+                rows.push({
+                  kind: "craft",
+                  title: `Craft ${craft.recipe_name}`,
+                  detail: `Consumes ${listCounts(
+                    sortedEntries(recipe.ingredients || {}, { zeroLast: false }).map(([name, count]) => ({ name, count })),
+                    4
+                  )}.`,
+                  delta: 0,
+                  step_action: craft
+                });
+              }
+              continue;
+            }
+
+            if (action.kind === "sell_stackable" || action.kind === "buy_output" || action.kind === "buy_equipment" || action.kind === "sell_equipment") {
+              const grouped = [action];
+              index += 1;
+              while (index < groupActions.length) {
+                const next = groupActions[index];
+                const sameKind = next.kind === action.kind;
+                const sameName = (next.name || next.recipe_name || next.definition_name) === (action.name || action.recipe_name || action.definition_name);
+                if (!sameKind || !sameName) {
+                  break;
+                }
+                grouped.push(next);
+                index += 1;
+              }
+              if (action.kind === "sell_stackable") {
+                const count = grouped.length;
+                const total = grouped.reduce((sum, entry) => sum + entry.value, 0);
+                rows.push({
+                  kind: "sell_stackable",
+                  title: `Sell ${action.name} x${count}`,
+                  detail: `Recovered ${formatGoldAmount(total)}g from surplus ingredient units.`,
+                  delta: total,
+                  step_action: null
+                });
+              } else if (action.kind === "buy_output") {
+                const recipe = getRecipeByName(action.recipe_name);
+                const count = grouped.length;
+                const total = grouped.reduce((sum, entry) => sum + entry.cost, 0);
+                rows.push({
+                  kind: "buy_output",
+                  title: `Buy ${action.recipe_name}${count > 1 ? ` x${count}` : ""}`,
+                  detail: `${action.recipe_name} is sold this week at ${formatGoldAmount(directPriceForRecipe(recipe) || 0)}g each.`,
+                  delta: -total,
+                  step_action: null
+                });
+              } else if (action.kind === "buy_equipment") {
+                const count = grouped.length;
+                const total = grouped.reduce((sum, entry) => sum + entry.cost, 0);
+                rows.push({
+                  kind: "buy_equipment",
+                  title: `Buy ${action.definition_name}${count > 1 ? ` x${count}` : ""}`,
+                  detail: `${action.definition_name} is sold this week for ${formatGoldAmount(grouped[0].cost)}g.`,
+                  delta: -total,
+                  step_action: null
+                });
+              } else {
+                const total = grouped.reduce((sum, entry) => sum + entry.value, 0);
+                rows.push({
+                  kind: "sell_equipment",
+                  title: `Sell ${action.name}${grouped.length > 1 ? ` x${grouped.length}` : ""}`,
+                  detail: `Recovered ${formatGoldAmount(total)}g from repurposable equipment.`,
+                  delta: total,
+                  step_action: null
+                });
+              }
+              continue;
+            }
+
+            if (action.kind === "assemble") {
+              rows.push({
+                kind: "assemble",
+                title: `Assemble ${action.base_name} with ${action.gem_names.join(" + ")}`,
+                detail: `Pays the ${formatGoldAmount(action.cost)}g imbue fee and uses the selected gems.`,
+                delta: -action.cost,
+                step_action: action
+              });
+              index += 1;
+              continue;
+            }
+
+            if (action.kind === "disassemble") {
+              rows.push({
+                kind: "disassemble",
+                title: `Disassemble ${action.base_name}`,
+                detail: `Returns ${listCounts(
+                  sortedEntries(buildGemCountMap(action.gem_names), { zeroLast: false }).map(([name, count]) => ({ name, count })),
+                  3
+                )} to current holdings.`,
+                delta: 0,
+                step_action: action
+              });
+              index += 1;
+            }
+          }
+        };
+
+        pushGroupedRows(fundingActions);
+        pushGroupedRows(acquisitionActions);
+        return rows;
+      }
+
+      function buildPlannerPreview() {
+        const normalized = normalizePlannerGoalLines();
+        if (!normalized.has_lines) {
+          return null;
+        }
+        if (normalized.errors.length) {
+          return {
+            status: "invalid",
+            errors: normalized.errors
+          };
+        }
+
+        const acquisition = solvePlannerAcquisition(normalized);
+        if (acquisition.status !== "solved") {
+          return {
+            status: "blocked",
+            banner_title: "Blocked",
+            banner_text: plannerAcquisitionBlocker(normalized),
+            rows: [],
+            apply_actions: [],
+            summary: {
+              gross_spend: 0,
+              liquidation_recovered: 0,
+              net_gold_delta: 0,
+              final_gold: state.workbench.gold,
+              steps: 0
+            }
+          };
+        }
+
+        const funding = buildPlannerFundingPlan(acquisition, normalized);
+        if (funding.status === "blocked") {
+          const recovered = funding.recovered || 0;
+          return {
+            status: "blocked",
+            banner_title: "Blocked",
+            banner_text: `The best acquisition path still needs ${formatGoldAmount(funding.remaining_shortfall)}g after all allowed liquidation. ${funding.protected_candidates.length ? `Remaining protected candidates: ${funding.protected_candidates.map((entry) => `${entry.name} (${formatGoldAmount(entry.value)}g, ${entry.reason})`).join("; ")}` : ""}`,
+            rows: normalizePlannerPreviewRows(acquisition.actions, funding.actions),
+            apply_actions: [],
+            protected_candidates: funding.protected_candidates,
+            summary: {
+              gross_spend: acquisition.gross_spend,
+              liquidation_recovered: recovered,
+              net_gold_delta: recovered - acquisition.gross_spend,
+              final_gold: state.workbench.gold + recovered - acquisition.gross_spend,
+              steps: normalizePlannerPreviewRows(acquisition.actions, funding.actions).length
+            }
+          };
+        }
+
+        const rows = normalizePlannerPreviewRows(acquisition.actions, funding.actions);
+        const recovered = funding.recovered || 0;
+        return {
+          status: "solved",
+          banner_title: "Solution found",
+          banner_text: recovered > 0
+            ? `The planner finds a valid sequence after recovering ${formatGoldAmount(recovered)}g from allowed liquidation.`
+            : "The planner finds a valid sequence without liquidation.",
+          rows,
+          apply_actions: [...(funding.actions || []), ...acquisition.actions],
+          protected_candidates: funding.protected_candidates,
+          summary: {
+            gross_spend: acquisition.gross_spend,
+            liquidation_recovered: recovered,
+            net_gold_delta: recovered - acquisition.gross_spend,
+            final_gold: state.workbench.gold + recovered - acquisition.gross_spend,
+            steps: rows.length
+          }
+        };
+      }
+
+      function applyPlannerPreview() {
+        if (!ui.plannerPreview || ui.plannerPreview.status !== "solved") {
+          return;
+        }
+        const simulatedWorkbench = deepClone(state.workbench);
+        const entries = [];
+        const tokenMap = new Map();
+        for (const instance of state.workbench.equipment || []) {
+          tokenMap.set(instance.id, instance.id);
+        }
+
+        for (const action of ui.plannerPreview.apply_actions || []) {
+          let entry = null;
+          if (action.kind === "sell_stackable") {
+            entry = buildSellStackableActionEntry(action.bucket, action.name, simulatedWorkbench);
+          } else if (action.kind === "sell_equipment") {
+            entry = buildSellEquipmentActionEntry(tokenMap.get(action.token) || action.token, simulatedWorkbench);
+          } else if (action.kind === "craft") {
+            entry = buildCraftActionEntry(action.recipe_name, simulatedWorkbench);
+          } else if (action.kind === "buy_output") {
+            entry = buildBuyOutputActionEntry(action.recipe_name, simulatedWorkbench);
+          } else if (action.kind === "buy_equipment") {
+            entry = buildBuyEquipmentActionEntry(action.definition_name, simulatedWorkbench);
+            const added = entry?.effect?.transactions?.find((transaction) => transaction.kind === "equipment" && transaction.action === "add");
+            if (added) {
+              tokenMap.set(action.token, added.instance.id);
+            }
+          } else if (action.kind === "assemble") {
+            entry = buildAssembleAccessoryActionEntry(tokenMap.get(action.token) || action.token, action.gem_names, simulatedWorkbench);
+          } else if (action.kind === "disassemble") {
+            entry = buildDisassembleAccessoryActionEntry(tokenMap.get(action.token) || action.token, simulatedWorkbench);
+          }
+          if (!entry) {
+            window.alert("The planner preview is stale and can no longer be applied. Preview again from the current run.");
+            return;
+          }
+          entries.push(entry);
+          simulatedWorkbench.gold = entry.after.gold;
+          simulatedWorkbench.ingredients = deepClone(entry.after.ingredients);
+          simulatedWorkbench.potions = deepClone(entry.after.potions);
+          simulatedWorkbench.gems = deepClone(entry.after.gems);
+          simulatedWorkbench.equipment = deepClone(entry.after.equipment);
+        }
+
+        commitWorkbenchEntries(entries, {
+          title: "Applied plan",
+          summary: `${entries.length} ordinary simulator actions`
+        });
+      }
+
+      function plannerRunSummaryStats(normalizedGoals) {
+        return [
+          { label: "Gold", value: `${formatGoldAmount(state.workbench.gold)}g` },
+          { label: "Potions", value: String(totalCount(state.workbench.potions)) },
+          { label: "Gems", value: String(totalCount(state.workbench.gems)) },
+          { label: "Equipment", value: String((state.workbench.equipment || []).length) },
+          { label: "Planner Lines", value: String(normalizedGoals.total_lines || 0) }
+        ];
+      }
+
+      function renderMobilePlannerNav(normalizedGoals) {
+        const sections = [
+          {
+            id: "goals",
+            label: "Goals",
+            meta: `${normalizedGoals.total_lines || 0} lines`
+          },
+          {
+            id: "plan",
+            label: "Plan",
+            meta: ui.plannerPreview?.summary?.steps ? `${ui.plannerPreview.summary.steps} steps` : "No preview yet"
+          },
+          {
+            id: "rules",
+            label: "Rules",
+            meta: `${Object.keys(state.planner.repurposable_equipment_ids || {}).length} repurposable`
+          }
+        ];
+        return `
+          <div class="mobile-planner-nav" aria-label="Planner sections">
+            ${sections.map((section) => `
+              <button
+                class="mobile-section-button ${ui.plannerMobileSection === section.id ? "active" : ""}"
+                data-action="set-planner-mobile-section"
+                data-section="${escapeHtml(section.id)}"
+                aria-pressed="${ui.plannerMobileSection === section.id ? "true" : "false"}"
+              >
+                <strong>${escapeHtml(section.label)}</strong>
+                <span>${escapeHtml(section.meta)}</span>
+              </button>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function renderPlannerRunBar(normalizedGoals) {
+        return `
+          <div class="run-bar">
+            <div class="run-bar-panel">
+              <div class="run-summary-grid">
+                ${plannerRunSummaryStats(normalizedGoals)
+                  .map((item) => `
+                    <div class="run-stat" data-planner-run-stat="${escapeHtml(item.label)}">
+                      <strong>${escapeHtml(item.label)}</strong>
+                      <span>${escapeHtml(item.value)}</span>
+                    </div>
+                  `)
+                  .join("")}
+              </div>
+              ${renderMobilePlannerNav(normalizedGoals)}
+            </div>
+          </div>
+        `;
+      }
+
+      function renderPlannerGoalLine(line) {
+        if (line.type === "stackable") {
+          const recipe = getRecipeByName(line.name || "");
+          const currentCount = recipe ? outputCount(state.workbench, recipe.kind, recipe.name) : 0;
+          const optionNames = plannerFilteredOutputNames();
+          return `
+            <article class="goal-line" data-planner-line="${escapeHtml(line.id)}">
+              <div class="goal-line-head">
+                <span class="goal-type">Stackable</span>
+                <button class="button-danger" data-action="remove-planner-line" data-id="${escapeHtml(line.id)}">Remove</button>
+              </div>
+              <div class="goal-grid">
+                <label class="field">
+                  <span>Output</span>
+                  <select data-action="set-planner-stackable-name" data-id="${escapeHtml(line.id)}">
+                    ${renderPlannerSelectOptions(optionNames, line.name)}
+                  </select>
+                </label>
+                <label class="field">
+                  <span>Quantity</span>
+                  <input
+                    type="number"
+                    min="1"
+                    step="1"
+                    value="${Math.max(1, Number(line.quantity) || 1)}"
+                    data-action="set-planner-line-quantity"
+                    data-id="${escapeHtml(line.id)}"
+                  >
+                </label>
+              </div>
+              <div class="meta-grid">
+                <div class="mini-field"><span class="label">Currently Owned</span>${escapeHtml(String(currentCount))}</div>
+                <div class="mini-field"><span class="label">Line Type</span>Stackable output</div>
+              </div>
+            </article>
+          `;
+        }
+
+        if (line.type === "equipment") {
+          const definition = getEquipmentDefinitionByName(line.name || "");
+          const currentCount = definition && isSocketableDefinition(definition)
+            ? (state.workbench.equipment || []).filter((instance) => instance.base_name === definition.name && socketedGemList(instance).length === 0).length
+            : (state.workbench.equipment || []).filter((instance) => instance.base_name === line.name).length;
+          const optionNames = plannerFilteredEquipmentDefinitionNames();
+          return `
+            <article class="goal-line" data-planner-line="${escapeHtml(line.id)}">
+              <div class="goal-line-head">
+                <span class="goal-type">Equipment</span>
+                <button class="button-danger" data-action="remove-planner-line" data-id="${escapeHtml(line.id)}">Remove</button>
+              </div>
+              <div class="goal-grid">
+                <label class="field">
+                  <span>Definition</span>
+                  <select data-action="set-planner-equipment-name" data-id="${escapeHtml(line.id)}">
+                    ${renderPlannerSelectOptions(optionNames, line.name)}
+                  </select>
+                </label>
+                <label class="field">
+                  <span>Quantity</span>
+                  <input
+                    type="number"
+                    min="1"
+                    step="1"
+                    value="${Math.max(1, Number(line.quantity) || 1)}"
+                    data-action="set-planner-line-quantity"
+                    data-id="${escapeHtml(line.id)}"
+                  >
+                </label>
+              </div>
+              <div class="meta-grid">
+                <div class="mini-field"><span class="label">Currently Owned</span>${escapeHtml(String(currentCount))}</div>
+                <div class="mini-field"><span class="label">Standalone Rule</span>${escapeHtml(
+                  definition && isSocketableDefinition(definition) ? "Socketed copies do not count" : "Any owned copy counts"
+                )}</div>
+              </div>
+            </article>
+          `;
+        }
+
+        const definition = getEquipmentDefinitionByName(line.base_name || "");
+        const maxGems = Number(definition?.socket_policy?.max_gems || 1);
+        const exactMatches = definition
+          ? (state.workbench.equipment || []).filter((instance) =>
+            instance.base_name === definition.name
+            && stableStringify(socketedGemList(instance)) === stableStringify((line.sockets || []).map((name) => String(name || "").trim()).filter(Boolean))
+          ).length
+          : 0;
+        const baseOptionNames = plannerFilteredComboBaseNames();
+        const gemOptionNames = plannerFilteredOutputNames("gem");
+        return `
+          <article class="goal-line" data-planner-line="${escapeHtml(line.id)}">
+            <div class="goal-line-head">
+              <span class="goal-type">Combo</span>
+              <button class="button-danger" data-action="remove-planner-line" data-id="${escapeHtml(line.id)}">Remove</button>
+            </div>
+            <div class="goal-grid">
+              <label class="field">
+                <span>Accessory</span>
+                <select data-action="set-planner-combo-base" data-id="${escapeHtml(line.id)}">
+                  ${renderPlannerSelectOptions(baseOptionNames, line.base_name)}
+                </select>
+              </label>
+              <div class="mini-field"><span class="label">Exact Matches</span>${escapeHtml(String(exactMatches))}</div>
+            </div>
+            <div class="planner-rule-grid">
+              ${Array.from({ length: maxGems }, (_, index) => `
+                <label class="field">
+                  <span>Socket ${index + 1}</span>
+                  <select data-action="set-planner-combo-gem" data-id="${escapeHtml(line.id)}" data-slot="${index}">
+                    ${renderPlannerSelectOptions(gemOptionNames, (line.sockets || [])[index] || "", { includeBlank: true })}
+                  </select>
+                </label>
+              `).join("")}
+            </div>
+          </article>
+        `;
+      }
+
+      function renderPlannerGoalsPanel(normalizedGoals) {
+        const scopeButtons = [
+          ["actionable", "Actionable"],
+          ["all", "All"]
+        ]
+          .map(([scope, label]) => `
+            <button
+              class="scope-button ${ui.plannerGoalScope === scope ? "active" : ""}"
+              data-action="set-planner-goal-scope"
+              data-scope="${escapeHtml(scope)}"
+              aria-pressed="${ui.plannerGoalScope === scope ? "true" : "false"}"
+            >
+              ${escapeHtml(label)}
+            </button>
+          `)
+          .join("");
+        return `
+          <div class="panel">
+            <div class="planner-head">
+              <div>
+                <h3>Goal Builder</h3>
+                <div class="section-meta">Compose exact end-state requests from stackables, standalone gear, and combo lines.</div>
+              </div>
+              <span class="status-pill ${normalizedGoals.total_lines ? "good" : "review"}">${escapeHtml(`${normalizedGoals.total_lines || 0} Lines`)}</span>
+            </div>
+            <div class="pill-row" style="margin-bottom:0.9rem;">
+              ${scopeButtons}
+            </div>
+            <div class="tiny" data-planner-goal-scope-copy>
+              ${escapeHtml(ui.plannerGoalScope === "actionable"
+                ? "Showing only targets the planner can legally source from the current run."
+                : "Showing the full target catalog, including items outside the current actionable set.")}
+            </div>
+            <div class="goal-list">
+              ${ui.plannerGoalLines.length
+                ? ui.plannerGoalLines.map((line) => renderPlannerGoalLine(line)).join("")
+                : `<div class="muted-box">Add one or more request lines to start planning from the current run.</div>`}
+            </div>
+            <div class="button-row">
+              <button class="button-soft" data-action="add-planner-line" data-type="stackable">Add Stackable Line</button>
+              <button class="button-soft" data-action="add-planner-line" data-type="equipment">Add Equipment Line</button>
+              <button class="button-soft" data-action="add-planner-line" data-type="combo">Add Combo Line</button>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderPlannerPreviewRows(preview) {
+        const rows = preview?.rows || [];
+        if (!rows.length) {
+          return `<div class="muted-box">Start by adding request lines, then preview a deterministic sequence from the current workbench.</div>`;
+        }
+        return `
+          <div class="plan-steps">
+            ${rows.map((row, index) => `
+              <button
+                class="planner-step-button"
+                data-action="select-planner-step"
+                data-step-index="${index}"
+              >
+                <div class="plan-step" data-planner-step="${index}">
+                  <span class="step-index">${index + 1}</span>
+                  <div>
+                    <strong>${escapeHtml(row.title)}</strong>
+                    <div class="tiny">${escapeHtml(row.detail)}</div>
+                  </div>
+                  <span class="delta ${row.delta > 0 ? "positive" : (row.delta < 0 ? "negative" : "zero")}">${escapeHtml(
+                    row.delta > 0 ? `+${formatGoldAmount(row.delta)}g` : (row.delta < 0 ? `${formatGoldAmount(row.delta)}g` : "0g")
+                  )}</span>
+                </div>
+              </button>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function renderPlannerPreviewPanel(normalizedGoals) {
+        const preview = ui.plannerPreview;
+        const hasDraftLines = normalizedGoals.total_lines > 0;
+        let bannerTone = "review";
+        let bannerTitle = "No plan yet";
+        let bannerText = "Start by adding one or more request lines. The planner evaluates the current workbench, player-owned repurpose rules, keep floors, and pinned reserves before previewing a sequence.";
+
+        if (normalizedGoals.errors.length) {
+          bannerTone = "bad";
+          bannerTitle = "Fix request lines";
+          bannerText = normalizedGoals.errors.join(" ");
+        } else if (preview?.status === "solved") {
+          bannerTone = "good";
+          bannerTitle = preview.banner_title;
+          bannerText = preview.banner_text;
+        } else if (preview?.status === "blocked") {
+          bannerTone = "bad";
+          bannerTitle = preview.banner_title;
+          bannerText = preview.banner_text;
+        } else if (hasDraftLines) {
+          bannerTitle = "Preview required";
+          bannerText = "The current planner lines or rules changed after the last preview. Preview again to compute a fresh deterministic sequence.";
+        }
+
+        const summary = preview?.summary || {
+          gross_spend: 0,
+          liquidation_recovered: 0,
+          net_gold_delta: 0,
+          final_gold: state.workbench.gold,
+          steps: 0
+        };
+
+        return `
+          <div class="panel">
+            <div class="planner-head">
+              <div>
+                <h3>Plan Preview</h3>
+                <div class="section-meta">Deterministic output only. Apply expands back into ordinary simulator actions.</div>
+              </div>
+              <span class="status-pill ${escapeHtml(bannerTone)}">${escapeHtml(bannerTitle)}</span>
+            </div>
+            <div class="status-banner ${escapeHtml(bannerTone)}" data-planner-status="${escapeHtml(preview?.status || "draft")}">
+              <strong>${escapeHtml(bannerTitle)}</strong>
+              <div>${escapeHtml(bannerText)}</div>
+            </div>
+            <div class="summary-grid">
+              <div class="summary-stat"><strong>Gross Spend</strong><span>${escapeHtml(`${formatGoldAmount(summary.gross_spend)}g`)}</span></div>
+              <div class="summary-stat"><strong>Liquidation Recovered</strong><span>${escapeHtml(`${formatGoldAmount(summary.liquidation_recovered)}g`)}</span></div>
+              <div class="summary-stat"><strong>Net Gold Delta</strong><span>${escapeHtml(`${formatGoldAmount(summary.net_gold_delta)}g`)}</span></div>
+              <div class="summary-stat"><strong>Final Gold</strong><span>${escapeHtml(`${formatGoldAmount(summary.final_gold)}g`)}</span></div>
+              <div class="summary-stat"><strong>Steps</strong><span>${escapeHtml(String(summary.steps))}</span></div>
+            </div>
+            ${renderPlannerPreviewRows(preview)}
+            ${preview?.protected_candidates?.length
+              ? `
+                <div class="note-stack" style="margin-top:1rem;">
+                  ${preview.protected_candidates.map((entry) => `
+                    <div class="plan-note">
+                      <strong>${escapeHtml(entry.name)}</strong>
+                      <div class="tiny">${escapeHtml(`${formatGoldAmount(entry.value)}g protected · ${entry.reason}`)}</div>
+                    </div>
+                  `).join("")}
+                </div>
+              `
+              : ""}
+            <div class="button-row">
+              <button class="button-primary" data-action="preview-plan" ${normalizedGoals.valid ? "" : "disabled"}>Preview Plan</button>
+              <button class="button-secondary" data-action="apply-planner-plan" ${preview?.status === "solved" ? "" : "disabled"}>Apply Plan To Workbench</button>
+              <button class="button-soft" data-action="clear-planner-lines" ${hasDraftLines ? "" : "disabled"}>Clear Lines</button>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderPlannerRulesPanel() {
+        const ownedInstances = sortedEquipmentInstances(state.workbench.equipment || []);
+        const ingredientNames = getAllIngredientNames().filter((name) => ingredientTypeForName(name));
+        const outputNames = getAllOutputNames().sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" }));
+        return `
+          <div class="planner-column planner-rules-column">
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Equipment Repurpose Rules</h3>
+                  <div class="section-meta">Owned gear stays protected unless you explicitly allow the planner to repurpose it.</div>
+                </div>
+                <span class="status-pill good">Per Run</span>
+              </div>
+              <div class="goal-list">
+                ${ownedInstances.length
+                  ? ownedInstances.map((instance) => {
+                    const definition = getEquipmentDefinitionByName(instance.base_name);
+                    const sellValue = getEquipmentSellValue(instance);
+                    const repurposable = isPlannerRepurposable(instance.id);
+                    return `
+                      <div class="planner-rule-card" data-planner-rule="${escapeHtml(instance.id)}">
+                        <div class="planner-card-head">
+                          <div>
+                            <strong>${escapeHtml(instance.base_name)}</strong>
+                            <div class="pill-row" style="margin-top:0.45rem;">
+                              ${definition?.family ? `<span class="pill">${escapeHtml(definition.family)}</span>` : ""}
+                              <span class="pill">${escapeHtml(sellValue === null ? "N/A" : `Sell ${formatGoldAmount(sellValue)}g`)}</span>
+                            </div>
+                          </div>
+                          <span class="status-pill ${repurposable ? "good" : "review"}">${repurposable ? "Allow Repurpose" : "Protected"}</span>
+                        </div>
+                        <label class="pill">
+                          <input type="checkbox" data-action="toggle-planner-repurpose" data-id="${escapeHtml(instance.id)}" ${repurposable ? "checked" : ""}>
+                          ${escapeHtml(socketedGemList(instance).length ? "Allow planner to repurpose this combo" : "Allow planner to repurpose this item")}
+                        </label>
+                      </div>
+                    `;
+                  }).join("")
+                  : `<div class="muted-box">No owned equipment is available for planner rules yet.</div>`}
+              </div>
+            </div>
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Ingredient Reserves</h3>
+                  <div class="section-meta">Keep floors and pinned outputs protect future craft options during funding fallback.</div>
+                </div>
+              </div>
+              <div class="planner-rule-table">
+                <div class="subsection">
+                  <div class="subsection-head">
+                    <h3>Keep Floors</h3>
+                    <div class="subtle">${ingredientNames.length} ingredients</div>
+                  </div>
+                  <div class="table-wrap" data-preserve-scroll="planner-keep-floor-table">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Ingredient</th>
+                          <th>Type</th>
+                          <th>Keep At Least</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${ingredientNames.map((name) => `
+                          <tr>
+                            <td>${escapeHtml(name)}</td>
+                            <td>${escapeHtml(ingredientTypeLabel(ingredientTypeForName(name)))}</td>
+                            <td>
+                              <input
+                                type="number"
+                                min="0"
+                                step="1"
+                                value="${plannerIngredientKeepCount(name)}"
+                                data-action="set-planner-keep-count"
+                                data-name="${escapeHtml(name)}"
+                              >
+                            </td>
+                          </tr>
+                        `).join("")}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="subsection">
+                  <div class="subsection-head">
+                    <h3>Pinned Output Reserves</h3>
+                    <div class="subtle">${outputNames.length} outputs</div>
+                  </div>
+                  <div class="table-wrap" data-preserve-scroll="planner-pinned-output-table">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Output</th>
+                          <th>Type</th>
+                          <th>Reserve Count</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${outputNames.map((name) => {
+                          const recipe = getRecipeByName(name);
+                          return `
+                            <tr>
+                              <td>${escapeHtml(name)}</td>
+                              <td>${escapeHtml(recipe?.kind === "gem" ? "Gem" : "Potion")}</td>
+                              <td>
+                                <input
+                                  type="number"
+                                  min="0"
+                                  step="1"
+                                  value="${plannerPinnedOutputReserve(name)}"
+                                  data-action="set-planner-pinned-output"
+                                  data-name="${escapeHtml(name)}"
+                                >
+                              </td>
+                            </tr>
+                          `;
+                        }).join("")}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderMobilePlannerStepSheet(preview) {
+        if (!preview?.rows?.length || ui.plannerSelectedStep < 0 || !preview.rows[ui.plannerSelectedStep]) {
+          return "";
+        }
+        const row = preview.rows[ui.plannerSelectedStep];
+        return `
+          <div class="planner-mobile-sheet" data-role="planner-mobile-sheet">
+            <button class="mobile-inspector-backdrop" data-action="close-planner-step-sheet" aria-label="Close planner step details"></button>
+            <div class="mobile-inspector-sheet" role="dialog" aria-modal="true" aria-label="Planner step details">
+              <div class="mobile-inspector-handle"></div>
+              <div class="mobile-inspector-head">
+                <div class="mobile-inspector-copy">
+                  <div class="label">Planner Step</div>
+                  <h2>${escapeHtml(`Step ${ui.plannerSelectedStep + 1}`)}</h2>
+                </div>
+                <button class="button-soft" data-action="close-planner-step-sheet">Close</button>
+              </div>
+              <div class="mobile-inspector-body">
+                <div class="goal-line">
+                  <strong>${escapeHtml(row.title)}</strong>
+                  <div class="chip-stack" style="margin-top:0.65rem;">
+                    <span class="chip">${escapeHtml(
+                      row.delta > 0 ? `Delta +${formatGoldAmount(row.delta)}g` : (row.delta < 0 ? `Delta ${formatGoldAmount(row.delta)}g` : "Delta 0g")
+                    )}</span>
+                  </div>
+                  <div class="tiny" style="margin-top:0.75rem;">${escapeHtml(row.detail)}</div>
+                </div>
+                <div class="button-row">
+                  <button class="button-primary" data-action="apply-planner-plan" ${preview.status === "solved" ? "" : "disabled"}>Apply Plan</button>
+                  <button class="button-secondary" data-action="view-planner-rules">View Rules</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderPlannerTab() {
+        const normalizedGoals = normalizePlannerGoalLines();
+        return `
+          <section class="tab-panel ${ui.activeTab === "planner" ? "active" : ""}" data-tab-panel="planner">
+            <div class="stack">
+              ${renderPlannerRunBar(normalizedGoals)}
+              <div class="planner-layout" data-mobile-section="${escapeHtml(ui.plannerMobileSection)}">
+                <div class="planner-column planner-goals-column">
+                  ${renderPlannerGoalsPanel(normalizedGoals)}
+                </div>
+                <div class="planner-column planner-preview-column">
+                  ${renderPlannerPreviewPanel(normalizedGoals)}
+                </div>
+                ${renderPlannerRulesPanel()}
+              </div>
+              ${renderMobilePlannerStepSheet(ui.plannerPreview)}
+            </div>
+          </section>
+        `;
       }
 
       function renderTabs() {
@@ -13865,6 +16408,7 @@
         const panels = document.getElementById("tab-panels");
         panels.innerHTML = `
           ${renderWorkbenchTab()}
+          ${renderPlannerTab()}
           ${renderInventoryTab()}
           ${renderShopTab()}
           ${renderRecipeTab()}
@@ -14136,6 +16680,9 @@
             if (ui.activeTab !== "workbench") {
               ui.mobileInspectorOpen = false;
             }
+            if (ui.activeTab !== "planner") {
+              ui.plannerSelectedStep = -1;
+            }
             renderApp();
             break;
           case "set-workbench-category":
@@ -14148,13 +16695,26 @@
             ui.workbenchScope = element.dataset.scope || "actionable";
             renderApp();
             break;
+          case "set-planner-goal-scope":
+            ui.plannerGoalScope = element.dataset.scope === "all" ? "all" : "actionable";
+            renderApp();
+            break;
           case "set-workbench-mobile-section":
             ui.workbenchMobileSection = element.dataset.section || "workbench";
             ui.mobileInspectorOpen = false;
             renderApp();
             break;
+          case "set-planner-mobile-section":
+            ui.plannerMobileSection = element.dataset.section || "goals";
+            ui.plannerSelectedStep = -1;
+            renderApp();
+            break;
           case "close-mobile-inspector":
             ui.mobileInspectorOpen = false;
+            renderApp();
+            break;
+          case "close-planner-step-sheet":
+            ui.plannerSelectedStep = -1;
             renderApp();
             break;
           case "inspect-item": {
@@ -14183,11 +16743,13 @@
             state.workbench = freshState.workbench;
             state.history = freshState.history;
             state.redo = freshState.redo;
+            state.planner = freshState.planner;
             state.loadError = null;
             ui.mobileInspectorOpen = false;
             ui.selectedDetail = null;
             ui.comboDrafts = {};
             ui.exportText = JSON.stringify(state.scenario, null, 2);
+            resetPlannerUi();
             persistState();
             renderApp();
             break;
@@ -14213,14 +16775,45 @@
               state.workbench = createWorkbenchFromScenario(state.scenario);
               state.history = [];
               state.redo = [];
+              state.planner = createDefaultPlannerState();
               state.loadError = null;
               ui.mobileInspectorOpen = false;
               ui.selectedDetail = null;
               ui.comboDrafts = {};
               ui.exportText = JSON.stringify(state.scenario, null, 2);
+              resetPlannerUi();
               persistState();
               renderApp();
             }
+            break;
+          case "add-planner-line":
+            addPlannerGoalLine(element.dataset.type || "stackable");
+            renderApp();
+            break;
+          case "remove-planner-line":
+            removePlannerGoalLine(element.dataset.id || "");
+            renderApp();
+            break;
+          case "preview-plan":
+            ui.plannerPreview = buildPlannerPreview();
+            ui.plannerSelectedStep = -1;
+            renderApp();
+            break;
+          case "clear-planner-lines":
+            resetPlannerUi();
+            renderApp();
+            break;
+          case "apply-planner-plan":
+            applyPlannerPreview();
+            break;
+          case "select-planner-step":
+            ui.plannerSelectedStep = Number(element.dataset.stepIndex || -1);
+            renderApp();
+            break;
+          case "view-planner-rules":
+            ui.plannerMobileSection = "rules";
+            ui.plannerSelectedStep = -1;
+            renderApp();
             break;
           case "craft-once":
             craftOnce(element.dataset.recipe);
@@ -14457,10 +17050,12 @@
               state.workbench = createWorkbenchFromScenario(imported);
               state.history = [];
               state.redo = [];
+              state.planner = createDefaultPlannerState();
               state.loadError = null;
               ui.mobileInspectorOpen = false;
               ui.selectedDetail = null;
               ui.comboDrafts = {};
+              resetPlannerUi();
               persistState();
               renderApp();
             } catch (error) {
@@ -14492,6 +17087,78 @@
             break;
           case "set-recipe-filter":
             ui.recipeFilter = element.value;
+            renderApp();
+            break;
+          case "set-planner-line-quantity": {
+            const line = plannerGoalLineById(element.dataset.id || "");
+            if (!line) {
+              return;
+            }
+            line.quantity = Math.max(1, Math.floor(Number(element.value) || 1));
+            invalidatePlannerPreview();
+            renderApp();
+            break;
+          }
+          case "set-planner-stackable-name": {
+            const line = plannerGoalLineById(element.dataset.id || "");
+            if (!line || line.type !== "stackable") {
+              return;
+            }
+            line.name = element.value.trim();
+            invalidatePlannerPreview();
+            renderApp();
+            break;
+          }
+          case "set-planner-equipment-name": {
+            const line = plannerGoalLineById(element.dataset.id || "");
+            if (!line || line.type !== "equipment") {
+              return;
+            }
+            line.name = element.value.trim();
+            invalidatePlannerPreview();
+            renderApp();
+            break;
+          }
+          case "set-planner-combo-base": {
+            const line = plannerGoalLineById(element.dataset.id || "");
+            if (!line || line.type !== "combo") {
+              return;
+            }
+            line.base_name = element.value.trim();
+            const maxGems = Number(getEquipmentDefinitionByName(line.base_name)?.socket_policy?.max_gems || 1);
+            const current = Array.isArray(line.sockets) ? line.sockets : [];
+            line.sockets = Array.from({ length: maxGems }, (_, index) => String(current[index] || "").trim());
+            invalidatePlannerPreview();
+            renderApp();
+            break;
+          }
+          case "set-planner-combo-gem": {
+            const line = plannerGoalLineById(element.dataset.id || "");
+            const slotIndex = Number(element.dataset.slot);
+            if (!line || line.type !== "combo" || Number.isNaN(slotIndex) || slotIndex < 0) {
+              return;
+            }
+            const maxGems = Number(getEquipmentDefinitionByName(line.base_name)?.socket_policy?.max_gems || 1);
+            const current = Array.isArray(line.sockets) ? [...line.sockets] : Array.from({ length: maxGems }, () => "");
+            current[slotIndex] = element.value.trim();
+            line.sockets = Array.from({ length: maxGems }, (_, index) => String(current[index] || "").trim());
+            invalidatePlannerPreview();
+            renderApp();
+            break;
+          }
+          case "toggle-planner-repurpose":
+            setPlannerRepurposable(element.dataset.id || "", element.checked);
+            persistState();
+            renderApp();
+            break;
+          case "set-planner-keep-count":
+            setPlannerIngredientKeepCount(element.dataset.name || "", element.value);
+            persistState();
+            renderApp();
+            break;
+          case "set-planner-pinned-output":
+            setPlannerPinnedOutputReserve(element.dataset.name || "", element.value);
+            persistState();
             renderApp();
             break;
           case "toggle-zero-inventory":

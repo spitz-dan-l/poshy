@@ -2,7 +2,7 @@
 
 ## Summary
 
-This roadmap now reflects shipped work through phase 5 as of March 9, 2026.
+This roadmap now reflects shipped work through phase 6 as of March 9, 2026.
 
 Recommended delivery order remains:
 
@@ -21,7 +21,7 @@ Current status:
 - The post-phase-3 UI passes are implemented.
 - Phase 4 is implemented.
 - Phase 5 is implemented.
-- Phase 6 is still future work.
+- Phase 6 is implemented.
 
 ## Phase Breakdown
 
@@ -237,13 +237,13 @@ Done means:
 
 Status:
 
-- Not started.
+- Implemented on March 9, 2026.
 
 Goal:
 
 - Add a player-owned planner surface that computes exact minimum-net-cost sequences over the shipped manual action set.
 
-Planned scope:
+Shipped scope:
 
 - request lines for:
   - `Stackable`: target output plus quantity,
@@ -254,6 +254,7 @@ Planned scope:
 - craft-vs-buy choice for outputs and gem acquisition for combo assembly;
 - liquidation only as a fallback funding mechanism when a valid plan is otherwise short on gold;
 - plan preview and plan apply through the same simulator path as manual actions.
+- deterministic funding fallback that liquidates only player-approved gear or surplus ingredients when acquisition alone is short on gold.
 
 Planner UX:
 
@@ -272,13 +273,14 @@ Planner UX:
   - funding section when liquidation is used,
   - summary metrics for gross spend, liquidation recovered, net gold delta, and steps.
 - `Apply Plan` should expand the normalized preview back into ordinary simulator transactions and ordinary action-log rows. Planner rule edits themselves are not history entries.
+- Preview step counts now track normalized planner rows, while apply still lands as ordinary manual-equivalent history entries.
 
 Planner Rules:
 
 - Delete the obsolete `optimizer_auto_sell` field from the canonical equipment definition schema and do not support it in scenario import JSON.
-- Sell permissions are player-owned per-run planner state, not scenario/admin metadata.
+- Repurpose permissions are player-owned per-run planner state, not scenario/admin metadata.
 - Rules should be split into two explicit groups:
-  - `Equipment Sell Permissions`: allow or protect owned equipment instances from planner liquidation;
+  - `Equipment Repurpose Rules`: allow or protect owned equipment instances from planner liquidation, and allow socketed accessories to be disassembled when repurposing is enabled;
   - `Ingredient Reserves`: keep floors for herbs and gem pieces plus pinned output reserves such as “keep enough for Blessed medicine x1”.
 - The planner should surface liquidation reasons in player language:
   - needed for this plan,
@@ -289,11 +291,11 @@ Persistence:
 
 - Add planner state outside `Scenario`, stored alongside `workbench`, `history`, and `redo`.
 - Minimum planner state shape:
-  - `sellable_equipment_ids: Record<string, true>`
+  - `repurposable_equipment_ids: Record<string, true>`
   - `ingredient_keep_counts: Record<string, number>`
   - `pinned_output_reserves: Record<string, number>`
 - Planner state persists with the current run, resets with `Reset Run` and `Seed From Base`, and is ignored by undo/redo.
-- When phase 6 lands, bump the browser storage key so old local saved runs are ignored instead of failing to load against the stricter schema.
+- The browser storage key is now `poshy.single-file.lab.v3`, so old `v2` local saved runs are ignored instead of failing to load against the stricter schema.
 
 Liquidation Policy:
 
@@ -307,8 +309,8 @@ Liquidation Policy:
   - gem outputs,
   - any ingredient units protected by current-goal needs, pinned reserves, or keep floors.
 - Protected ingredient count should cover:
-  - current planner goals,
-  - pinned output reserves,
+  - chosen-plan ingredient consumption,
+  - pinned output reserve recipe inputs,
   - explicit player keep floors.
 - Candidate selection must be deterministic and reviewable. Prefer:
   - larger surplus above protection,
@@ -339,6 +341,7 @@ Future work should assume these facts are already true:
 - `socketed_gems` can now appear on persisted ring and necklace instances, including base state copied from the workbench.
 - holdings and history already understand equipment `update` transactions for combo lifecycle actions.
 - Base Inventory still does not provide a dedicated socket editor and no longer shows visible instance ids.
+- Planner ships as a top-level tab immediately after `Workbench`, solves from the live workbench state, and applies plans through the existing simulator/history path.
 
 ## Public Interfaces Already Shipped
 
@@ -349,24 +352,13 @@ Future work should assume these facts are already true:
 - `EquipmentInstance.socketed_gems?: string[]`
 - transaction-based `HistoryEntry.effect.transactions`
 
-## Remaining Test Plan
+## Further Test Extensions
 
-Future phases should extend the current shipped coverage with:
+Future phases can extend the current shipped coverage with:
 
-- schema and import tests that reject the removed `optimizer_auto_sell` field;
-- planner-state persistence tests for defaulting, reset, and storage-key rollover;
-- planner-rule tests covering:
-  - approved equipment liquidation,
-  - protected equipment,
-  - herb and gem-piece keep floors,
-  - pinned output reserves,
-  - current-goal inputs never being sold away;
-- funding behavior tests covering:
-  - liquidation only after a non-liquidation shortfall,
-  - deterministic ingredient candidate ranking,
-  - selling only enough allowed inventory to cover the gap,
-  - blocked plans that report the remaining shortfall and the limiting rules;
-- planner tests over mixed stackable, equipment, and combo requests.
+- deeper solver tie-break coverage for equal-cost acquisition plans;
+- additional funding edge cases where multiple liquidation sets cover the same shortfall;
+- larger mixed-goal planner regressions beyond the currently shipped smoke coverage.
 
 ## Assumptions
 
@@ -375,6 +367,6 @@ Future phases should extend the current shipped coverage with:
 - Assembled combos are created from components, not imported as separate shop stock.
 - Imbue fees remain sunk costs and are not recovered on resale.
 - No backward compatibility is planned for `optimizer_auto_sell` in scenario/import data.
-- Planner sell permissions are player-owned and persist per run.
+- Planner repurpose rules are player-owned and persist per run.
 - V1 automatic liquidation covers approved equipment plus herbs and gem pieces only.
 - Manual herb and gem-piece buys shipped before the rest of the stackable sell-side phase.

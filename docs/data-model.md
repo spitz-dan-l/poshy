@@ -472,7 +472,10 @@ Phase 4 does not change the generated seed fragment above. Runtime-authored or i
 - imported scenario JSON,
 - locally persisted `scenario`,
 - locally persisted `workbench`,
+- locally persisted `planner`,
 - persisted history transaction payloads.
+
+Browser run state now lives under the `localStorage` key `poshy.single-file.lab.v3`.
 
 Workbench state still mirrors inventory shape:
 
@@ -487,6 +490,16 @@ Workbench state still mirrors inventory shape:
 ```
 
 History entries still use `before`, `after`, and `effect.transactions`.
+
+Planner rule state is persisted outside `Scenario` with this shape:
+
+```json
+{
+  "repurposable_equipment_ids": {},
+  "ingredient_keep_counts": {},
+  "pinned_output_reserves": {}
+}
+```
 
 Validated transaction kinds remain:
 
@@ -515,7 +528,7 @@ Runtime rules for `socketed_gems` now enforced by the browser validator:
 
 Because phase 4 combo state lives on the existing `EquipmentInstance` shape, saved browser state, exported/imported JSON, and `Set Base From Workbench` all preserve assembled accessories without schema changes.
 
-## Browser Surfaces Shipped Through Phase 5
+## Browser Surfaces Shipped Through Phase 6
 
 The single-file browser app now exposes runtime state in these places:
 
@@ -532,10 +545,10 @@ The single-file browser app now exposes runtime state in these places:
 - Base Inventory tab: add, edit, remove standalone equipment instances without exposing generated instance ids.
 - Shop tab: toggle weekly `for_sale.equipment` availability.
 - Catalog tab: read-only equipment definition details.
+- Planner tab: build stackable, equipment, and combo goals from the live workbench state; preview deterministic plans; configure per-run repurpose rules and ingredient reserves; and apply plans back through ordinary history entries.
 
 This shipped UI still does not yet expose:
 
-- planner/optimization tools,
 - dedicated Base Inventory or Shop editors for `socketed_gems`.
 
 ## Validation And Failure Modes
@@ -564,6 +577,7 @@ The importer and runtime already reject these important failure cases:
 - invalid `for_sale.equipment` names,
 - malformed equipment definitions in imported JSON,
 - malformed equipment instances in imported or persisted JSON,
+- malformed persisted planner rule state,
 - imported browser JSON using alias names or misbucketed outputs,
 - persisted browser history using legacy pre-transaction `effect` payloads.
 

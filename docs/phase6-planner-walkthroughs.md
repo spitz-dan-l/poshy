@@ -1,6 +1,6 @@
 # Phase 6 Planner Walkthroughs
 
-Use this alongside [phase6-planner-mockups.html](./phase6-planner-mockups.html). Each flow below references the exact mock-state sections so review stays grounded in the screens instead of drifting into implementation details.
+Use this alongside [phase6-planner-mockups.html](./phase6-planner-mockups.html). The mockups were the implementation review package; the flow notes below now match the shipped phase-6 planner behavior and keep the anchored screen references for auditability.
 
 ## Review Notes
 
@@ -103,7 +103,7 @@ Input lines:
 
 Curated review-state assumptions called out in the mock:
 
-- `Leather Shoes` is explicitly marked `Allow planner to sell` in planner rules
+- `Leather Shoes` is explicitly marked `Allow planner to repurpose` in planner rules
 - `Silver Talisman` remains protected
 - `Bronze ring` is still owned
 - `Leather Shoes` is still owned

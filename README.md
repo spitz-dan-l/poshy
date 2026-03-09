@@ -12,7 +12,7 @@ This README is written primarily for coding agents working in this repo.
 - Phase 4 is complete: ring and necklace combo assembly/disassembly ship, persist through scenario state, and are driven from the `Accessories` workbench tab.
 - Phase 5 is complete: manual per-unit sells for ingredients, potions, and gems now ship from `Current Holdings`, including sell-value inspector details and undo/redo-safe history.
 - The March 9, 2026 equipment UI cleanup is also shipped: holdings gear now renders as readable cards, equipment ids stay internal, and workbook ranks are normalized to single-letter tiers.
-- Phase 6 is still future work: planner/optimization.
+- Phase 6 is complete: the planner/optimization tab ships with goal lines, deterministic previews, player-owned repurpose rules, funding fallback, and apply-through-history behavior.
 
 The live baseline is:
 
@@ -279,7 +279,7 @@ Do not accidentally implement future roadmap work without saying so.
 
 Still out of scope today:
 
-- planner/optimization tab
+- dedicated Base Inventory or Shop editors for `socketed_gems`
 
 If a requested change crosses one of those boundaries, check the roadmap first and either:
 
