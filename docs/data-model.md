@@ -1,6 +1,6 @@
 # Poshy Data Model
 
-This document describes the shipped data model after phase 4 was implemented on March 8, 2026.
+This document describes the shipped data model after phase 5 was implemented on March 9, 2026.
 
 The authoritative implementations are:
 
@@ -499,7 +499,7 @@ Validated transaction kinds remain:
 - `stackable`
 - `equipment`
 
-Ingredient market buys still use `stackable` transactions with `bucket = "ingredients"` and `unit_price`; the browser distinguishes manual buys from craft auto-buys by the transaction `reason` string rather than by a new persisted transaction shape.
+Ingredient market buys still use `stackable` transactions with `bucket = "ingredients"` and `unit_price`; the browser distinguishes manual buys from craft auto-buys by the transaction `reason` string rather than by a new persisted transaction shape. Phase 5 stackable sells likewise stay on `stackable` transactions and use `reason = "sell ingredient"` or `reason = "sell output"` instead of adding another transaction kind.
 
 Equipment instances in persisted scenario and workbench state must always carry canonical JSON shape:
 
@@ -520,7 +520,7 @@ Runtime rules for `socketed_gems` now enforced by the browser validator:
 
 Because phase 4 combo state lives on the existing `EquipmentInstance` shape, saved browser state, exported/imported JSON, and `Set Base From Workbench` all preserve assembled accessories without schema changes.
 
-## Browser Surfaces Shipped Through Phase 4
+## Browser Surfaces Shipped Through Phase 5
 
 The single-file browser app now exposes runtime state in these places:
 
@@ -528,10 +528,11 @@ The single-file browser app now exposes runtime state in these places:
 - Workbench recipe tabs: potion and gem cards still use the shared craft/buy simulator and focus-chip filtering.
 - Workbench ingredient tabs: weekly sold herbs and gem pieces can be bought directly into the live run.
 - Workbench equipment tabs: equipment and accessory listings are split by explicit `category`, with rings, necklaces, and talismans in `Accessories` and shields in `Equipment`.
+- Workbench holdings tables for herbs, gem pieces, potions, and gems now show sell values and per-unit sell actions, with a stacked mobile row layout at narrow widths instead of a cramped five-column table.
 - Workbench holdings: standalone gear is split into `Equipment` and `Accessories`, rendered as compact cards without visible instance ids, with socket summaries for assembled combos and sell actions that include socketed gem value.
-- Item inspector: outputs, ingredients, equipment definitions, and owned equipment instances can all be inspected from the workbench, holdings, and action log.
+- Item inspector: outputs, ingredients, equipment definitions, and owned equipment instances can all be inspected from the workbench, holdings, and action log, and stackable detail cards now show current sell value.
 - Workbench accessory cards: owned rings and necklaces can assemble or disassemble combos directly in the `Accessories` tab, while the inspector remains read-only for current sockets and sell-value breakdowns.
-- Action log: transaction history exposes inspect links for outputs, ingredients, and equipment definitions, including accessory combo `equipment update` actions.
+- Action log: transaction history exposes inspect links for outputs, ingredients, and equipment definitions, including stackable sell actions and accessory combo `equipment update` actions.
 - Run summary stats: equipment count is shown alongside gold, ingredients, potions, and gems.
 - Base Inventory tab: add, edit, remove standalone equipment instances without exposing generated instance ids.
 - Shop tab: toggle weekly `for_sale.equipment` availability.
@@ -539,7 +540,7 @@ The single-file browser app now exposes runtime state in these places:
 
 This shipped UI still does not yet expose:
 
-- manual ingredient, potion, or gem sell actions,
+- planner/optimization tools,
 - dedicated Base Inventory or Shop editors for `socketed_gems`.
 
 ## Validation And Failure Modes

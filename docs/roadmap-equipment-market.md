@@ -2,7 +2,7 @@
 
 ## Summary
 
-This roadmap now reflects shipped work through phase 4 as of March 9, 2026.
+This roadmap now reflects shipped work through phase 5 as of March 9, 2026.
 
 Recommended delivery order remains:
 
@@ -20,7 +20,8 @@ Current status:
 - Phase 3 is implemented.
 - The post-phase-3 UI passes are implemented.
 - Phase 4 is implemented.
-- Phases 5 and 6 are still future work.
+- Phase 5 is implemented.
+- Phase 6 is still future work.
 
 ## Phase Breakdown
 
@@ -210,19 +211,30 @@ Explicit non-goals:
 
 Status:
 
-- Not started.
+- Implemented on March 9, 2026.
 
 Goal:
 
 - Finish sell-side manual market coverage for stackable items.
 
-Planned scope:
+Shipped scope:
 
 - add manual sell actions for ingredients,
 - add manual sell actions for potion outputs,
 - add manual sell actions for gem outputs,
 - reuse one shared value helper for all stackable sell flows,
-- keep behavior consistent with existing transaction-based history and undo/redo.
+- keep behavior consistent with existing transaction-based history and undo/redo,
+- surface stackable sell values and sell actions in Current Holdings,
+- add sell-value details for ingredients, potions, and gems in the inspector,
+- keep mobile holdings usable by collapsing stackable rows into labeled two-column cards at narrow widths.
+
+Done means:
+
+- owned herbs, gem pieces, potions, and gems can be sold one unit at a time from Current Holdings,
+- stackable sells use the same persisted `stackable` transaction shape plus gold transactions instead of a new history schema,
+- potion sell value still prefers direct buy price when present and otherwise falls back to recipe input cost,
+- gem sell value still uses recipe input cost,
+- history, toasts, inspect links, undo, redo, persistence, docs, and browser tests all reflect stackable sell actions.
 
 ### Phase 6: Planner And Optimization
 
@@ -253,7 +265,7 @@ Future work should assume these facts are already true:
 - Workbench uses category tabs for outputs, ingredients, equipment, and accessories.
 - Workbench holdings split standalone gear into `Equipment` and `Accessories` using compact cards without visible instance ids.
 - Workbench exposes manual herb and gem-piece buys plus the existing manual equipment market driven by `for_sale.equipment`.
-- workbench holdings expose per-instance sell controls and summary stats expose equipment counts.
+- workbench holdings expose per-unit stackable sell controls, per-instance equipment sell controls, and summary stats expose equipment counts.
 - Shop exposes weekly equipment sale toggles.
 - Catalog already exposes imported equipment definitions and the `optimizer_auto_sell` toggle.
 - rings and necklaces already exist as base definitions with socket policy metadata.
@@ -275,7 +287,6 @@ Future work should assume these facts are already true:
 
 Future phases should extend the current shipped coverage with:
 
-- browser tests for ingredient, potion, and gem sell flows,
 - planner tests over mixed stackable/equipment/combo requests.
 
 ## Assumptions
@@ -285,4 +296,4 @@ Future phases should extend the current shipped coverage with:
 - Assembled combos are created from components, not imported as separate shop stock.
 - Imbue fees remain sunk costs and are not recovered on resale.
 - `optimizer_auto_sell` stays catalog-owned metadata, not per-instance state.
-- Manual herb and gem-piece buys are already shipped ahead of the remaining sell-side roadmap work.
+- Manual herb and gem-piece buys shipped before the rest of the stackable sell-side phase.

@@ -1032,10 +1032,87 @@
 
     .holdings-table th.count-column,
     .holdings-table td.count-column,
+    .holdings-table th.value-column,
+    .holdings-table td.value-column,
     .holdings-table th.inspect-column,
-    .holdings-table td.inspect-column {
+    .holdings-table td.inspect-column,
+    .holdings-table th.action-column,
+    .holdings-table td.action-column {
       white-space: nowrap;
       width: 1%;
+    }
+
+    .stackable-holdings-table thead {
+      display: none;
+    }
+
+    .stackable-holdings-table tbody tr {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.55rem 0.7rem;
+      padding: 0.8rem 0.9rem;
+      border-bottom: 1px solid rgba(93, 73, 53, 0.1);
+    }
+
+    .stackable-holdings-table tbody tr:last-child {
+      border-bottom: 0;
+    }
+
+    .stackable-holdings-table tbody tr.selected-row {
+      background: rgba(247, 252, 248, 0.92);
+    }
+
+    .stackable-holdings-table tbody tr.selected-row td {
+      background: transparent;
+      border-color: transparent;
+    }
+
+    .stackable-holdings-table tbody td {
+      display: grid;
+      gap: 0.18rem;
+      padding: 0;
+      border: 0;
+      min-width: 0;
+    }
+
+    .stackable-holdings-table tbody td::before {
+      content: attr(data-label);
+      color: var(--muted);
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .stackable-holdings-table tbody td.name-cell {
+      grid-column: 1 / -1;
+    }
+
+    .stackable-holdings-table tbody td.name-cell::before {
+      display: none;
+    }
+
+    .stackable-holdings-table tbody td.name-cell strong {
+      font-size: 0.98rem;
+      line-height: 1.3;
+    }
+
+    .stackable-holdings-table tbody td[colspan] {
+      grid-column: 1 / -1;
+    }
+
+    .stackable-holdings-table tbody td[colspan]::before {
+      display: none;
+    }
+
+    .stackable-holdings-table tbody td.inspect-column,
+    .stackable-holdings-table tbody td.action-column {
+      align-content: start;
+    }
+
+    .stackable-holdings-table tbody td.inspect-column button,
+    .stackable-holdings-table tbody td.action-column button {
+      width: 100%;
     }
 
     .workbench-panel {
@@ -10698,6 +10775,7 @@
         if (item.type === "ingredient") {
           const owned = Number(state.workbench.ingredients[item.name] || 0);
           const price = ingredientPriceForName(item.name);
+          const sellValue = getStackableSellValue("ingredients", item.name);
           const sold = isIngredientSoldOnLevel(item.name);
           return `
             <article class="potion-card inspector-card" data-inspector-item="${escapeHtml(item.key)}">
@@ -10720,6 +10798,10 @@
                 <div class="inspector-field">
                   <span class="label">Buy Price</span>
                   <div>${escapeHtml(price === null ? "No base price" : `${formatGoldAmount(price)}g`)}</div>
+                </div>
+                <div class="inspector-field">
+                  <span class="label">Sell Value</span>
+                  <div>${escapeHtml(sellValue === null ? "N/A" : `${formatGoldAmount(sellValue)}g`)}</div>
                 </div>
                 <div class="inspector-field">
                   <span class="label">Availability</span>
@@ -10820,6 +10902,7 @@
 
         const recipe = item.recipe;
         const owned = outputCount(state.workbench, recipe.kind, recipe.name);
+        const sellValue = getStackableSellValue(outputStoreKey(recipe.kind), recipe.name);
         const metaPills = recipe.kind === "gem"
           ? ["Gem", `${owned} owned`]
           : [subtypeLabelForRecipe(recipe), `Tier ${recipe.tier}`, `${owned} owned`];
@@ -10845,6 +10928,14 @@
                 <div class="inspector-field">
                   <span class="label">God</span>
                   <div>${escapeHtml(gemMeta.god || "Unknown")}</div>
+                </div>
+                <div class="inspector-field">
+                  <span class="label">Owned</span>
+                  <div>${escapeHtml(String(owned))}</div>
+                </div>
+                <div class="inspector-field">
+                  <span class="label">Sell Value</span>
+                  <div>${escapeHtml(sellValue === null ? "N/A" : `${formatGoldAmount(sellValue)}g`)}</div>
                 </div>
               </div>
               <div class="inspector-section">
@@ -10891,11 +10982,19 @@
               </div>
               <div class="inspector-field">
                 <span class="label">Direct Buy</span>
-                <div>${escapeHtml(directPrice === null ? "Recipe only" : `${directPrice}g`)}</div>
+                <div>${escapeHtml(directPrice === null ? "Recipe only" : `${formatGoldAmount(directPrice)}g`)}</div>
               </div>
               <div class="inspector-field">
                 <span class="label">Availability</span>
                 <div>${escapeHtml(availability)}</div>
+              </div>
+              <div class="inspector-field">
+                <span class="label">Owned</span>
+                <div>${escapeHtml(String(owned))}</div>
+              </div>
+              <div class="inspector-field">
+                <span class="label">Sell Value</span>
+                <div>${escapeHtml(sellValue === null ? "N/A" : `${formatGoldAmount(sellValue)}g`)}</div>
               </div>
             </div>
             <div class="inspector-section">
@@ -10937,12 +11036,13 @@
         if (updatedEquipment) {
           return makeEquipmentDefinitionDetailSelection(updatedEquipment.name);
         }
-        const output = effectOutputItems(effect)[0];
+        const output = effectOutputItems(effect)[0] || effectSoldOutputItems(effect)[0];
         if (output) {
           return makeOutputDetailSelection(getRecipeByName(output.name));
         }
         const ingredient = effectManualBoughtIngredientItems(effect)[0]
           || effectAutoBoughtIngredientItems(effect)[0]
+          || effectSoldIngredientItems(effect)[0]
           || effectConsumedIngredientItems(effect)[0];
         if (ingredient) {
           return makeIngredientDetailSelection(ingredient.name);
@@ -11090,17 +11190,39 @@
         );
       }
 
+      function effectSoldOutputItems(effect) {
+        return collectEffectStackableItems(
+          effect,
+          (transaction) => (transaction.bucket === "potions" || transaction.bucket === "gems")
+            && transaction.delta < 0
+            && transaction.reason === "sell output"
+        );
+      }
+
       function effectConsumedIngredientItems(effect) {
         return collectEffectStackableItems(
           effect,
-          (transaction) => transaction.bucket === "ingredients" && transaction.delta < 0
+          (transaction) => transaction.bucket === "ingredients"
+            && transaction.delta < 0
+            && transaction.reason === "craft ingredient"
+        );
+      }
+
+      function effectSoldIngredientItems(effect) {
+        return collectEffectStackableItems(
+          effect,
+          (transaction) => transaction.bucket === "ingredients"
+            && transaction.delta < 0
+            && transaction.reason === "sell ingredient"
         );
       }
 
       function effectConsumedGemItems(effect) {
         return collectEffectStackableItems(
           effect,
-          (transaction) => transaction.bucket === "gems" && transaction.delta < 0
+          (transaction) => transaction.bucket === "gems"
+            && transaction.delta < 0
+            && transaction.reason === "assemble accessory"
         );
       }
 
@@ -11153,10 +11275,16 @@
 
       function effectKinds(effect) {
         const order = { potion: 0, gem: 1, ingredient: 2, equipment: 3 };
-        const kinds = new Set(effectOutputItems(effect).map((item) => item.kind));
-        if (!kinds.size && effectTransactions(effect).some((transaction) =>
-          transaction.kind === "stackable" && transaction.bucket === "ingredients"
-        )) {
+        const kinds = new Set([
+          ...effectOutputItems(effect),
+          ...effectSoldOutputItems(effect)
+        ].map((item) => item.kind));
+        if (
+          effectConsumedIngredientItems(effect).length
+          || effectSoldIngredientItems(effect).length
+          || effectAutoBoughtIngredientItems(effect).length
+          || effectManualBoughtIngredientItems(effect).length
+        ) {
           kinds.add("ingredient");
         }
         if (effectTransactions(effect).some((transaction) => transaction.kind === "equipment")) {
@@ -11166,7 +11294,7 @@
       }
 
       function effectPrimaryOutputName(effect) {
-        return effectOutputItems(effect)[0]?.name || "";
+        return effectOutputItems(effect)[0]?.name || effectSoldOutputItems(effect)[0]?.name || "";
       }
 
       function getRecipeInputCost(recipe) {
@@ -11203,6 +11331,18 @@
         return buyPrice === null ? null : buyPrice * state.scenario.market.sell_markdown;
       }
 
+      function assessStackableSell(bucket, name) {
+        const owned = Number(stackableMapForBucket(state.workbench, bucket)?.[name] || 0);
+        if (owned <= 0) {
+          return { possible: false, reason: "Not owned" };
+        }
+        const value = getStackableSellValue(bucket, name);
+        if (value === null) {
+          return { possible: false, reason: "No sell value" };
+        }
+        return { possible: true, value };
+      }
+
       function getEquipmentDefinitionByName(name) {
         return state.scenario.equipment?.definitions?.[name] || null;
       }
@@ -11232,7 +11372,9 @@
         }
         const segments = [];
         const outputs = effectOutputItems(effect);
+        const soldOutputs = effectSoldOutputItems(effect);
         const used = effectConsumedIngredientItems(effect);
+        const soldIngredients = effectSoldIngredientItems(effect);
         const usedGems = effectConsumedGemItems(effect);
         const autoBought = effectAutoBoughtIngredientItems(effect);
         const boughtIngredients = effectManualBoughtIngredientItems(effect);
@@ -11247,8 +11389,14 @@
           if (outputs.length) {
             segments.push(`+ ${listCounts(outputs, 2)}`);
           }
+          if (soldOutputs.length) {
+            segments.push(`sell ${listCounts(soldOutputs, 2)}`);
+          }
           if (used.length) {
             segments.push(`use ${listCounts(used, 2)}`);
+          }
+          if (soldIngredients.length) {
+            segments.push(`sell ${listCounts(soldIngredients, 2)}`);
           }
           if (usedGems.length) {
             segments.push(`socket ${listCounts(usedGems, 2)}`);
@@ -11278,11 +11426,20 @@
           if (outputs.length) {
             segments.push(`remove ${listCounts(outputs, 2)}`);
           }
+          if (soldOutputs.length) {
+            segments.push(`restore ${listCounts(soldOutputs, 2)}`);
+          }
           if (used.length) {
             segments.push(`restore ${listCounts(used, 2)}`);
           }
+          if (soldIngredients.length) {
+            segments.push(`restore ${listCounts(soldIngredients, 2)}`);
+          }
           if (usedGems.length) {
             segments.push(`restore ${listCounts(usedGems, 2)}`);
+          }
+          if (autoBought.length) {
+            segments.push(`remove ${listCounts(autoBought, 2)}`);
           }
           if (boughtIngredients.length) {
             segments.push(`remove ${listCounts(boughtIngredients, 2)}`);
@@ -12072,6 +12229,22 @@
         renderApp();
       }
 
+      function sellStackable(bucket, name) {
+        const sell = assessStackableSell(bucket, name);
+        if (!sell.possible) {
+          return;
+        }
+        const before = deepClone(state.workbench);
+        const entry = buildWorkbenchAction(`Sold ${name}`, before, [
+          createStackableTransaction(bucket, name, -1, bucket === "ingredients" ? "sell ingredient" : "sell output"),
+          createGoldTransaction(sell.value, `Sell ${name}`)
+        ]);
+        rememberWorkbenchAction(entry);
+        showToast(entry.label, effectSummary(entry, "forward"), "good");
+        persistState();
+        renderApp();
+      }
+
       function sellEquipment(instanceId) {
         const instance = (state.workbench.equipment || []).find((entry) => entry.id === instanceId);
         if (!instance) {
@@ -12271,7 +12444,7 @@
         return `
           <div class="mobile-inspector" data-role="mobile-inspector">
             <button class="mobile-inspector-backdrop" data-action="close-mobile-inspector" aria-label="Close item details"></button>
-            <div class="mobile-inspector-sheet" role="dialog" aria-modal="true" aria-label="Item details">
+            <div class="mobile-inspector-sheet" data-preserve-scroll="mobile-inspector-sheet" role="dialog" aria-modal="true" aria-label="Item details">
               <div class="mobile-inspector-handle"></div>
               <div class="mobile-inspector-head">
                 <div class="mobile-inspector-copy">
@@ -12323,7 +12496,7 @@
         `;
       }
 
-      function renderHoldingsOutputTable(names, map, emptyText) {
+      function renderHoldingsOutputTable(names, map, emptyText, preserveKey) {
         const filter = ui.holdingsFilter.trim().toLowerCase();
         const rows = names
           .map((name) => [name, Number(map[name] || 0)])
@@ -12331,65 +12504,80 @@
           .filter(([name]) => !filter || name.toLowerCase().includes(filter))
           .map(([name, value]) => {
             const recipe = getRecipeByName(name);
+            const bucket = outputStoreKey(recipe.kind);
+            const sell = assessStackableSell(bucket, name);
             const selection = makeOutputDetailSelection(recipe);
             return `
               <tr class="${selectionMatches(selection) ? "selected-row" : ""}">
-                <td>${escapeHtml(name)}</td>
-                <td>${value}</td>
-                <td>${renderInspectButton(selection, "Inspect")}</td>
+                <td class="name-cell" data-label="Name"><strong>${escapeHtml(name)}</strong></td>
+                <td class="count-column" data-label="Count">${value}</td>
+                <td class="value-column" data-label="Sell Value">${escapeHtml(sell.possible ? `${formatGoldAmount(sell.value)}g` : "N/A")}</td>
+                <td class="inspect-column" data-label="Inspect">${renderInspectButton(selection, "Inspect")}</td>
+                <td class="action-column" data-label="Action">
+                  <button class="button-secondary" data-action="sell-stackable" data-bucket="${escapeHtml(bucket)}" data-name="${escapeHtml(name)}" ${sell.possible ? "" : "disabled"}>Sell</button>
+                </td>
               </tr>
             `;
           })
           .join("");
 
         return `
-          <div class="table-wrap">
-            <table class="holdings-table">
+          <div class="table-wrap" data-preserve-scroll="${escapeHtml(preserveKey)}">
+            <table class="holdings-table stackable-holdings-table">
               <thead>
                 <tr>
                   <th>Name</th>
                   <th class="count-column">Count</th>
+                  <th class="value-column">Sell Value</th>
                   <th class="inspect-column">Inspect</th>
+                  <th class="action-column">Action</th>
                 </tr>
               </thead>
               <tbody>
-                ${rows || `<tr><td colspan="3" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+                ${rows || `<tr><td colspan="5" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
               </tbody>
             </table>
           </div>
         `;
       }
 
-      function renderIngredientHoldingsTable(names, map, emptyText) {
+      function renderIngredientHoldingsTable(names, map, emptyText, preserveKey) {
         const filter = ui.holdingsFilter.trim().toLowerCase();
         const rows = names
           .map((name) => [name, Number(map[name] || 0)])
           .filter(([, value]) => value > 0)
           .filter(([name]) => !filter || ingredientSearchText(name).includes(filter))
           .map(([name, value]) => {
+            const sell = assessStackableSell("ingredients", name);
             const selection = makeIngredientDetailSelection(name);
             return `
               <tr class="${selectionMatches(selection) ? "selected-row" : ""}">
-                <td>${escapeHtml(name)}</td>
-                <td>${value}</td>
-                <td>${renderInspectButton(selection, "Inspect")}</td>
+                <td class="name-cell" data-label="Name"><strong>${escapeHtml(name)}</strong></td>
+                <td class="count-column" data-label="Count">${value}</td>
+                <td class="value-column" data-label="Sell Value">${escapeHtml(sell.possible ? `${formatGoldAmount(sell.value)}g` : "N/A")}</td>
+                <td class="inspect-column" data-label="Inspect">${renderInspectButton(selection, "Inspect")}</td>
+                <td class="action-column" data-label="Action">
+                  <button class="button-secondary" data-action="sell-stackable" data-bucket="ingredients" data-name="${escapeHtml(name)}" ${sell.possible ? "" : "disabled"}>Sell</button>
+                </td>
               </tr>
             `;
           })
           .join("");
 
         return `
-          <div class="table-wrap">
-            <table class="holdings-table">
+          <div class="table-wrap" data-preserve-scroll="${escapeHtml(preserveKey)}">
+            <table class="holdings-table stackable-holdings-table">
               <thead>
                 <tr>
                   <th>Name</th>
                   <th class="count-column">Count</th>
+                  <th class="value-column">Sell Value</th>
                   <th class="inspect-column">Inspect</th>
+                  <th class="action-column">Action</th>
                 </tr>
               </thead>
               <tbody>
-                ${rows || `<tr><td colspan="3" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
+                ${rows || `<tr><td colspan="5" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
               </tbody>
             </table>
           </div>
@@ -12542,7 +12730,7 @@
           : `<div class="muted-box">${escapeHtml(emptyText)}</div>`;
       }
 
-      function renderEquipmentMarketTable(definitions, emptyText) {
+      function renderEquipmentMarketTable(definitions, emptyText, preserveKey) {
         const rows = definitions
           .map((definition) => {
             const buy = assessEquipmentBuy(definition);
@@ -12561,7 +12749,7 @@
           .join("");
 
         return `
-          <div class="table-wrap">
+          <div class="table-wrap" data-preserve-scroll="${escapeHtml(preserveKey)}">
             <table class="holdings-table">
               <thead>
                 <tr>
@@ -12586,7 +12774,7 @@
           .filter((name) => !filter || ingredientSearchText(name).includes(filter));
       }
 
-      function renderIngredientMarketTable(names, emptyText) {
+      function renderIngredientMarketTable(names, emptyText, preserveKey) {
         const rows = names
           .map((name) => {
             const buy = assessIngredientBuy(name);
@@ -12606,7 +12794,7 @@
           .join("");
 
         return `
-          <div class="table-wrap">
+          <div class="table-wrap" data-preserve-scroll="${escapeHtml(preserveKey)}">
             <table class="holdings-table">
               <thead>
                 <tr>
@@ -12641,7 +12829,7 @@
         const equipment = equipmentInstances.filter((instance) => !isAccessoryInstance(instance));
 
         return `
-          <div class="holdings-scroll">
+          <div class="holdings-scroll" data-preserve-scroll="holdings-scroll">
           <div class="subsection">
             <div class="subsection-head">
               <h3>Equipment</h3>
@@ -12661,28 +12849,28 @@
               <h3>Potions</h3>
               <div class="subtle">${potionNames.length} rows</div>
             </div>
-            ${renderHoldingsOutputTable(potionNames, state.workbench.potions, "No matching potions.")}
+            ${renderHoldingsOutputTable(potionNames, state.workbench.potions, "No matching potions.", "holdings-potions-table")}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Gems</h3>
               <div class="subtle">${gemNames.length} rows</div>
             </div>
-            ${renderHoldingsOutputTable(gemNames, state.workbench.gems, "No matching gems.")}
+            ${renderHoldingsOutputTable(gemNames, state.workbench.gems, "No matching gems.", "holdings-gems-table")}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Herbs</h3>
               <div class="subtle">${groups.herbs.length} rows</div>
             </div>
-            ${renderIngredientHoldingsTable(groups.herbs, state.workbench.ingredients, "No matching herbs.")}
+            ${renderIngredientHoldingsTable(groups.herbs, state.workbench.ingredients, "No matching herbs.", "holdings-herbs-table")}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Gem Pieces</h3>
               <div class="subtle">${groups.gems.length} rows</div>
             </div>
-            ${renderIngredientHoldingsTable(groups.gems, state.workbench.ingredients, "No matching gem pieces.")}
+            ${renderIngredientHoldingsTable(groups.gems, state.workbench.ingredients, "No matching gem pieces.", "holdings-gem-pieces-table")}
           </div>
           </div>
         `;
@@ -12888,7 +13076,16 @@
       }
 
       function renderHistoryOutputDetails(entry) {
-        const outputs = effectOutputItems(entry.effect);
+        const grouped = new Map();
+        for (const item of [...effectOutputItems(entry.effect), ...effectSoldOutputItems(entry.effect)]) {
+          const key = `${item.kind}:${item.name}`;
+          if (!grouped.has(key)) {
+            grouped.set(key, { ...item });
+          } else {
+            grouped.get(key).count += item.count;
+          }
+        }
+        const outputs = Array.from(grouped.values());
         const details = outputs
           .map((item) => {
             const recipe = getRecipeByName(item.name);
@@ -12909,6 +13106,7 @@
         const grouped = new Map();
         for (const item of [
           ...effectConsumedIngredientItems(entry.effect),
+          ...effectSoldIngredientItems(entry.effect),
           ...effectAutoBoughtIngredientItems(entry.effect),
           ...effectManualBoughtIngredientItems(entry.effect)
         ]) {
@@ -12956,10 +13154,11 @@
             );
         }
         const touchedSelections = [
-          ...effectOutputItems(entry.effect)
+          ...[...effectOutputItems(entry.effect), ...effectSoldOutputItems(entry.effect)]
             .map((item) => makeOutputDetailSelection(getRecipeByName(item.name))),
           ...[
             ...effectConsumedIngredientItems(entry.effect),
+            ...effectSoldIngredientItems(entry.effect),
             ...effectAutoBoughtIngredientItems(entry.effect),
             ...effectManualBoughtIngredientItems(entry.effect)
           ].map((item) => makeIngredientDetailSelection(item.name)),
@@ -13036,7 +13235,7 @@
                 <h3>Herbs</h3>
                 <div class="subtle">${viewState.herbNames.length} listings</div>
               </div>
-              ${renderIngredientMarketTable(viewState.herbNames, "No herbs match the current filter or weekly sale list.")}
+              ${renderIngredientMarketTable(viewState.herbNames, "No herbs match the current filter or weekly sale list.", "workbench-herb-listings-table")}
             </div>
           `;
         }
@@ -13047,7 +13246,7 @@
                 <h3>Gem Pieces</h3>
                 <div class="subtle">${viewState.gemPieceNames.length} listings</div>
               </div>
-              ${renderIngredientMarketTable(viewState.gemPieceNames, "No gem pieces match the current filter or weekly sale list.")}
+              ${renderIngredientMarketTable(viewState.gemPieceNames, "No gem pieces match the current filter or weekly sale list.", "workbench-gem-piece-listings-table")}
             </div>
           `;
         }
@@ -13058,7 +13257,7 @@
                 <h3>Equipment</h3>
                 <div class="subtle">${viewState.equipmentDefinitions.length} listings</div>
               </div>
-              ${renderEquipmentMarketTable(viewState.equipmentDefinitions, "No equipment matches the current filter or weekly sale list.")}
+              ${renderEquipmentMarketTable(viewState.equipmentDefinitions, "No equipment matches the current filter or weekly sale list.", "workbench-equipment-listings-table")}
             </div>
           `;
         }
@@ -13084,7 +13283,7 @@
                 <h3>Weekly Listings</h3>
                 <div class="subtle">${viewState.accessoryDefinitions.length} listings</div>
               </div>
-              ${renderEquipmentMarketTable(viewState.accessoryDefinitions, "No accessories match the current filter or weekly sale list.")}
+              ${renderEquipmentMarketTable(viewState.accessoryDefinitions, "No accessories match the current filter or weekly sale list.", "workbench-accessory-listings-table")}
             </div>
           </div>
         `;
@@ -13132,7 +13331,7 @@
                     </div>
                   </div>
                   ${renderWorkbenchTools(viewState)}
-                  <div class="workbench-content">
+                  <div class="workbench-content" data-preserve-scroll="workbench-content">
                     ${renderWorkbenchCategoryBody(viewState)}
                   </div>
                 </div>
@@ -13141,7 +13340,7 @@
                     <div class="section-head">
                       <h2>Item Details</h2>
                     </div>
-                    <div class="inspector-scroll">${renderInspectorCard(selectedItem)}</div>
+                    <div class="inspector-scroll" data-preserve-scroll="inspector-scroll">${renderInspectorCard(selectedItem)}</div>
                   </div>
                   <div class="panel action-log-panel">
                     <div class="section-head">
@@ -13150,7 +13349,7 @@
                         <button class="button-soft" data-action="reset-workbench">Reset Run</button>
                       </div>
                     </div>
-                    <div class="grid-list">${renderHistory(selectedItem)}</div>
+                    <div class="grid-list" data-preserve-scroll="action-log-list">${renderHistory(selectedItem)}</div>
                   </div>
                 </div>
               </div>
@@ -13335,7 +13534,7 @@
                         <h3>Herbs</h3>
                         <div class="subtle">${ingredientGroups.herbs.length} names</div>
                       </div>
-                      <div class="table-wrap">
+                      <div class="table-wrap" data-preserve-scroll="inventory-herbs-table">
                         <table>
                           <thead>
                             <tr>
@@ -13354,7 +13553,7 @@
                         <h3>Gem Pieces</h3>
                         <div class="subtle">${ingredientGroups.gems.length} names</div>
                       </div>
-                      <div class="table-wrap">
+                      <div class="table-wrap" data-preserve-scroll="inventory-gem-pieces-table">
                         <table>
                           <thead>
                             <tr>
@@ -13381,7 +13580,7 @@
                         <h3>Potions</h3>
                         <div class="subtle">${potionNames.length} names</div>
                       </div>
-                      <div class="table-wrap">
+                      <div class="table-wrap" data-preserve-scroll="inventory-potions-table">
                         <table>
                           <thead>
                             <tr>
@@ -13400,7 +13599,7 @@
                         <h3>Gems</h3>
                         <div class="subtle">${gemNames.length} names</div>
                       </div>
-                      <div class="table-wrap">
+                      <div class="table-wrap" data-preserve-scroll="inventory-gems-table">
                         <table>
                           <thead>
                             <tr>
@@ -13421,7 +13620,7 @@
                     <h2>Equipment</h2>
                     <div class="subtle">${equipmentInstances.length} rows</div>
                   </div>
-                  <div class="table-wrap">
+                  <div class="table-wrap" data-preserve-scroll="inventory-equipment-table">
                     <table>
                       <thead>
                         <tr>
@@ -13479,7 +13678,7 @@
         const equipmentNames = getAllEquipmentDefinitionNames();
         const filter = ui.shopFilter.trim().toLowerCase();
         const ingredientGroups = splitIngredientNames(ingredientNames);
-        const renderSaleRows = (rowsData, emptyText) => {
+        const renderSaleRows = (rowsData, emptyText, preserveKey) => {
           const rows = rowsData
             .filter((row) => {
               if (!ui.showZeroShop && !row.sold) {
@@ -13513,7 +13712,7 @@
 
           return `
             <div class="subsection">
-              <div class="table-wrap">
+              <div class="table-wrap" data-preserve-scroll="${escapeHtml(preserveKey)}">
                 <table>
                   <thead>
                     <tr>
@@ -13598,35 +13797,35 @@
                       <h3>Herbs</h3>
                       <div class="subtle">${ingredientGroups.herbs.length} names</div>
                     </div>
-                    ${renderSaleRows(ingredientRowsFor(ingredientGroups.herbs), "No matching herb shop rows.")}
+                    ${renderSaleRows(ingredientRowsFor(ingredientGroups.herbs), "No matching herb shop rows.", "shop-herbs-table")}
                   </div>
                   <div class="subsection">
                     <div class="subsection-head">
                       <h3>Gem Pieces</h3>
                       <div class="subtle">${ingredientGroups.gems.length} names</div>
                     </div>
-                    ${renderSaleRows(ingredientRowsFor(ingredientGroups.gems), "No matching gem-piece shop rows.")}
+                    ${renderSaleRows(ingredientRowsFor(ingredientGroups.gems), "No matching gem-piece shop rows.", "shop-gem-pieces-table")}
                   </div>
                   <div class="subsection">
                     <div class="subsection-head">
                       <h3>Direct Buy Potions</h3>
                       <div class="subtle">${potionNames.length} names</div>
                     </div>
-                    ${renderSaleRows(outputRowsFor(potionNames), "No matching direct-buy potion rows.")}
+                    ${renderSaleRows(outputRowsFor(potionNames), "No matching direct-buy potion rows.", "shop-potions-table")}
                   </div>
                   <div class="subsection">
                     <div class="subsection-head">
                       <h3>Direct Buy Gems</h3>
                       <div class="subtle">${gemNames.length} names</div>
                     </div>
-                    ${renderSaleRows(outputRowsFor(gemNames), "No matching direct-buy gem rows.")}
+                    ${renderSaleRows(outputRowsFor(gemNames), "No matching direct-buy gem rows.", "shop-gems-table")}
                   </div>
                   <div class="subsection">
                     <div class="subsection-head">
                       <h3>Equipment</h3>
                       <div class="subtle">${equipmentNames.length} names</div>
                     </div>
-                    ${renderSaleRows(equipmentRowsFor(equipmentNames), "No matching equipment shop rows.")}
+                    ${renderSaleRows(equipmentRowsFor(equipmentNames), "No matching equipment shop rows.", "shop-equipment-table")}
                   </div>
                 </div>
               </div>
@@ -13945,7 +14144,7 @@
                   <h3>Ingredient Definitions</h3>
                   <div class="subtle">${getAllIngredientNames().length} names</div>
                 </div>
-                <div class="table-wrap">
+                <div class="table-wrap" data-preserve-scroll="recipe-ingredients-table">
                   <table>
                     <thead>
                       <tr>
@@ -14063,12 +14262,20 @@
         `;
       }
 
+      function getPreservedScrollContainers() {
+        return Array.from(document.querySelectorAll("[data-preserve-scroll]"))
+          .map((element, index) => ({
+            element,
+            key: element.dataset.preserveScroll || `scroll-${index}`
+          }));
+      }
+
       function getScrollSnapshot() {
         return {
           windowX: window.scrollX,
           windowY: window.scrollY,
-          containers: Array.from(document.querySelectorAll(".table-wrap, .grid-list, .inspector-scroll, .workbench-content")).map((element, index) => ({
-            index,
+          containers: getPreservedScrollContainers().map(({ element, key }) => ({
+            key,
             scrollTop: element.scrollTop,
             scrollLeft: element.scrollLeft
           }))
@@ -14157,9 +14364,11 @@
           return;
         }
         window.scrollTo(snapshot.windowX || 0, snapshot.windowY || 0);
-        const containers = document.querySelectorAll(".table-wrap, .grid-list, .inspector-scroll, .workbench-content");
+        const containers = new Map(
+          getPreservedScrollContainers().map(({ element, key }) => [key, element])
+        );
         (snapshot.containers || []).forEach((entry) => {
-          const target = containers[entry.index];
+          const target = containers.get(entry.key);
           if (!target) {
             return;
           }
@@ -14387,6 +14596,9 @@
             break;
           case "buy-equipment":
             buyEquipment(element.dataset.name);
+            break;
+          case "sell-stackable":
+            sellStackable(element.dataset.bucket, element.dataset.name);
             break;
           case "assemble-accessory":
             assembleAccessory(element.dataset.id);

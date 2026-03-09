@@ -14,6 +14,25 @@ def load_seed_scenario() -> dict:
     return json.loads((REPO_ROOT / "data/seed_scenario.json").read_text(encoding="utf-8"))
 
 
+def format_gold_amount(amount: float) -> str:
+    rounded = round(float(amount or 0), 2)
+    if rounded.is_integer():
+        return str(int(rounded))
+    return f"{rounded:.2f}".rstrip("0").rstrip(".")
+
+
+def recipe_by_name(scenario: dict, name: str) -> dict:
+    return next(recipe for recipe in scenario["recipes"]["recipes"] if recipe["name"] == name)
+
+
+def recipe_input_cost(scenario: dict, name: str) -> float:
+    recipe = recipe_by_name(scenario, name)
+    return sum(
+        scenario["ingredient_prices"][ingredient] * count
+        for ingredient, count in recipe["ingredients"].items()
+    )
+
+
 def stat_value(page, label: str) -> str:
     stat = page.locator(f'[data-run-stat="{label}"]')
     expect(stat).to_have_count(1)
@@ -56,6 +75,118 @@ def owned_accessory_card(page, equipment_id: str):
 
 def base_equipment_row(page, equipment_id: str):
     return page.locator(f'[data-base-equipment-row="{equipment_id}"]').first
+
+
+def set_scroll_position(locator, requested_position: int, *, axis: str = "y") -> int:
+    scroll_field = "scrollLeft" if axis == "x" else "scrollTop"
+    scroll_size = "scrollWidth" if axis == "x" else "scrollHeight"
+    client_size = "clientWidth" if axis == "x" else "clientHeight"
+    return locator.evaluate(
+        f"""(el, nextPosition) => {{
+            const maxPosition = Math.max(0, el.{scroll_size} - el.{client_size});
+            const clampedPosition = Math.min(maxPosition, nextPosition);
+            el.{scroll_field} = clampedPosition;
+            return Math.round(el.{scroll_field});
+        }}""",
+        requested_position,
+    )
+
+
+def assert_scroll_preserved(
+    page,
+    locator,
+    trigger_action,
+    *,
+    label: str,
+    requested_position: int = 240,
+    axis: str = "y",
+    tolerance: int = 4,
+) -> None:
+    metrics = locator.evaluate(
+        """(el) => ({
+            clientWidth: Math.round(el.clientWidth),
+            scrollWidth: Math.round(el.scrollWidth),
+            clientHeight: Math.round(el.clientHeight),
+            scrollHeight: Math.round(el.scrollHeight)
+        })"""
+    )
+    if axis == "x":
+        assert metrics["scrollWidth"] > metrics["clientWidth"], (
+            f"{label} should overflow horizontally during the smoke test "
+            f"(clientWidth={metrics['clientWidth']}, scrollWidth={metrics['scrollWidth']})"
+        )
+        before = set_scroll_position(locator, requested_position, axis=axis)
+        value_getter = "el => Math.round(el.scrollLeft)"
+        axis_name = "scrollLeft"
+    else:
+        assert metrics["scrollHeight"] > metrics["clientHeight"], (
+            f"{label} should overflow during the smoke test "
+            f"(clientHeight={metrics['clientHeight']}, scrollHeight={metrics['scrollHeight']})"
+        )
+        before = set_scroll_position(locator, requested_position, axis=axis)
+        value_getter = "el => Math.round(el.scrollTop)"
+        axis_name = "scrollTop"
+    assert before > 0, f"{label} should accept a nonzero {axis_name} position"
+    trigger_action()
+    page.wait_for_timeout(50)
+    after = locator.evaluate(value_getter)
+    assert abs(after - before) <= tolerance, (
+        f"{label} {axis_name} changed after rerender "
+        f"(before={before}, after={after}, tolerance={tolerance})"
+    )
+
+
+def set_window_scroll_y(page, requested_top: int) -> int:
+    return page.evaluate(
+        """(nextTop) => {
+            const maxTop = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+            const clampedTop = Math.min(maxTop, nextTop);
+            window.scrollTo(0, clampedTop);
+            return Math.round(window.scrollY);
+        }""",
+        requested_top,
+    )
+
+
+def assert_window_scroll_preserved(
+    page,
+    trigger_action,
+    *,
+    label: str,
+    requested_top: int = 900,
+    tolerance: int = 4,
+) -> None:
+    max_scroll = page.evaluate(
+        "Math.max(0, document.documentElement.scrollHeight - window.innerHeight)"
+    )
+    assert max_scroll > 0, f"{label} should have enough page height to scroll"
+    before = set_window_scroll_y(page, requested_top)
+    assert before > 0, f"{label} should accept a nonzero window scroll position"
+    trigger_action()
+    page.wait_for_timeout(50)
+    after = page.evaluate("Math.round(window.scrollY)")
+    assert abs(after - before) <= tolerance, (
+        f"{label} window.scrollY changed after rerender "
+        f"(before={before}, after={after}, tolerance={tolerance})"
+    )
+
+
+def increment_number_input(locator) -> None:
+    locator.evaluate(
+        """(el) => {
+            el.value = String(Number(el.value || 0) + 1);
+            el.dispatchEvent(new Event("change", { bubbles: true }));
+        }"""
+    )
+
+
+def toggle_checkbox(locator) -> None:
+    locator.evaluate(
+        """(el) => {
+            el.checked = !el.checked;
+            el.dispatchEvent(new Event("change", { bubbles: true }));
+        }"""
+    )
 
 
 def test_index_smoke() -> None:
@@ -123,21 +254,15 @@ def test_index_smoke() -> None:
 
         click_workbench_category(page, "potions")
         workbench_content = page.locator(".workbench-panel .workbench-content")
-        scroll_metrics = workbench_content.evaluate(
-            "(el) => ({ clientHeight: Math.round(el.clientHeight), scrollHeight: Math.round(el.scrollHeight) })"
+        assert_scroll_preserved(
+            page,
+            workbench_content,
+            lambda: page.locator(
+                '[data-recipe-card="Ancient medicine"] button[data-action="inspect-item"]'
+            ).dispatch_event("click"),
+            label="workbench content",
+            requested_position=280,
         )
-        assert scroll_metrics["scrollHeight"] > scroll_metrics["clientHeight"]
-        workbench_content.hover()
-        page.mouse.wheel(0, 900)
-        page.wait_for_timeout(50)
-        assert workbench_content.evaluate("el => Math.round(el.scrollTop)") > 0
-        scrolled_top = workbench_content.evaluate(
-            "(el) => { el.scrollTop = 280; return Math.round(el.scrollTop); }"
-        )
-        page.locator(
-            '[data-recipe-card="Ancient medicine"] button[data-action="inspect-item"]'
-        ).dispatch_event("click")
-        assert workbench_content.evaluate("el => Math.round(el.scrollTop)") == scrolled_top
 
         holdings_health_row = page.locator(".holdings-panel tr").filter(
             has=page.locator("td", has_text="Health potion")
@@ -564,6 +689,124 @@ def test_index_smoke() -> None:
         browser.close()
 
 
+def test_index_preserves_scroll_positions() -> None:
+    index_url = (REPO_ROOT / "index.html").resolve().as_uri()
+    scenario = load_seed_scenario()
+    modified_scenario = json.loads(json.dumps(scenario))
+    modified_scenario["equipment"]["definitions"]["Bronze ring"]["effects"].extend(
+        [f"Scroll filler effect {index}" for index in range(1, 19)]
+    )
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        context = browser.new_context(viewport={"width": 1440, "height": 810})
+        page = context.new_page()
+
+        page.goto(index_url, wait_until="domcontentloaded")
+        page.locator('button[data-action="switch-tab"][data-tab="data"]').click()
+        expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+        set_data_json(page, modified_scenario)
+        page.locator('button[data-action="import-scenario-json"]').click()
+
+        page.locator('button[data-action="switch-tab"][data-tab="workbench"]').click()
+        expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
+
+        click_workbench_category(page, "potions")
+        assert_scroll_preserved(
+            page,
+            page.locator(".workbench-panel .workbench-content"),
+            lambda: page.locator(
+                '[data-recipe-card="Ancient medicine"] button[data-action="inspect-item"]'
+            ).dispatch_event("click"),
+            label="workbench content",
+            requested_position=280,
+        )
+
+        assert_scroll_preserved(
+            page,
+            page.locator(".holdings-panel .holdings-scroll"),
+            lambda: page.locator(
+                'button[data-action="sell-stackable"][data-bucket="ingredients"][data-name="Alexandrite piece"]'
+            ).dispatch_event("click"),
+            label="holdings scroll",
+            requested_position=420,
+        )
+
+        click_workbench_category(page, "accessories")
+        ring_card = owned_accessory_card(page, "ring-bronze-1")
+        expect(ring_card).to_be_visible()
+        ring_card.get_by_role("button", name="Inspect").click()
+        expect(inspector_item(page, "equipment_instance:ring-bronze-1")).to_be_visible()
+        assert_scroll_preserved(
+            page,
+            page.locator(".inspector-panel .inspector-scroll"),
+            lambda: page.locator(
+                'button[data-action="sell-stackable"][data-bucket="ingredients"][data-name="Lune stone"]'
+            ).dispatch_event("click"),
+            label="inspector panel",
+            requested_position=280,
+        )
+
+        click_workbench_category(page, "herbs")
+        for _ in range(12):
+            page.locator(
+                'button[data-action="buy-ingredient"][data-name="Lune stone"]'
+            ).dispatch_event("click")
+        assert page.locator(".history-card").count() >= 12
+        assert_scroll_preserved(
+            page,
+            page.locator(".action-log-panel .grid-list"),
+            lambda: page.locator(".workbench-panel tr").filter(
+                has=page.locator("td", has_text="Lune stone")
+            ).first.get_by_role("button", name="Inspect").dispatch_event("click"),
+            label="action log",
+            requested_position=360,
+        )
+
+        page.locator('button[data-action="switch-tab"][data-tab="inventory"]').click()
+        expect(page.get_by_role("heading", name="Base Inventory")).to_be_visible()
+        assert_window_scroll_preserved(
+            page,
+            lambda: increment_number_input(
+                page.locator('input[data-action="set-base-ingredient"][data-name="Lune stone"]')
+            ),
+            label="inventory page",
+        )
+
+        page.locator('button[data-action="switch-tab"][data-tab="shop"]').click()
+        expect(page.get_by_role("heading", name="For Sale This Week")).to_be_visible()
+        page.locator('input[data-action="toggle-zero-shop"]').check()
+        assert_window_scroll_preserved(
+            page,
+            lambda: toggle_checkbox(
+                page.locator('input[data-action="set-equipment-sale"][data-name="Bronze ring"]')
+            ),
+            label="shop page",
+        )
+
+        page.set_viewport_size({"width": 430, "height": 932})
+        page.wait_for_timeout(50)
+        page.locator('button[data-action="switch-tab"][data-tab="workbench"]').click()
+        holdings_button = page.locator(
+            'button[data-action="set-workbench-mobile-section"][data-section="holdings"]'
+        )
+        expect(holdings_button).to_be_visible()
+        holdings_button.click()
+        holdings_gear_card(page, "ring-bronze-1").get_by_role("button", name="Inspect").click()
+        mobile_sheet = page.locator(".mobile-inspector-sheet")
+        expect(mobile_sheet).to_be_visible()
+        assert_scroll_preserved(
+            page,
+            mobile_sheet,
+            lambda: page.locator("#hero-mobile-toggle").dispatch_event("click"),
+            label="mobile inspector sheet",
+            requested_position=320,
+        )
+
+        context.close()
+        browser.close()
+
+
 def test_index_accessory_combo_assembly() -> None:
     index_url = (REPO_ROOT / "index.html").resolve().as_uri()
     scenario = load_seed_scenario()
@@ -731,6 +974,171 @@ def test_index_accessory_combo_assembly() -> None:
         assert float(stat_value(page, "Gold").removesuffix("g")) == gold_before_sell + expected_ring_combo_sell
         assert stat_value(page, "Equipment") == "4"
         expect(page.locator('[data-holdings-gear-card="ring-bronze-1"]')).to_have_count(0)
+
+        context.close()
+        browser.close()
+
+
+def test_index_stackable_sell_flows() -> None:
+    index_url = (REPO_ROOT / "index.html").resolve().as_uri()
+    scenario = load_seed_scenario()
+    modified_scenario = json.loads(json.dumps(scenario))
+    recipe_by_name(modified_scenario, "Health potion")["price"] = None
+    modified_scenario["inventory"]["gems"]["Agate"] = 1
+
+    markdown = modified_scenario["market"]["sell_markdown"]
+    blessed_sell = recipe_by_name(scenario, "Blessed medicine")["price"] * markdown
+    health_sell = recipe_input_cost(modified_scenario, "Health potion") * markdown
+    lune_sell = modified_scenario["ingredient_prices"]["Lune stone"] * markdown
+    alexandrite_sell = modified_scenario["ingredient_prices"]["Alexandrite piece"] * markdown
+    agate_sell = recipe_input_cost(modified_scenario, "Agate") * markdown
+    total_sell_gain = blessed_sell + health_sell + lune_sell + alexandrite_sell + agate_sell
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        context = browser.new_context()
+        page = context.new_page()
+        toast = page.locator('[data-role="toast"]')
+
+        page.goto(index_url, wait_until="domcontentloaded")
+        page.locator('button[data-action="switch-tab"][data-tab="data"]').click()
+        expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+        set_data_json(page, modified_scenario)
+        page.locator('button[data-action="import-scenario-json"]').click()
+
+        page.locator('button[data-action="switch-tab"][data-tab="workbench"]').click()
+        expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
+        assert stat_value(page, "Gold") == "339g"
+        assert stat_value(page, "Gems") == "1"
+
+        herb_holdings = page.locator(".holdings-panel .subsection").filter(
+            has=page.get_by_role("heading", name="Herbs")
+        ).first
+        gem_piece_holdings = page.locator(".holdings-panel .subsection").filter(
+            has=page.get_by_role("heading", name="Gem Pieces")
+        ).first
+        potion_holdings = page.locator(".holdings-panel .subsection").filter(
+            has=page.get_by_role("heading", name="Potions")
+        ).first
+        gem_holdings = page.locator(".holdings-panel .subsection").filter(
+            has=page.get_by_role("heading", name="Gems")
+        ).first
+
+        lune_row = herb_holdings.locator("tr").filter(
+            has=page.locator("td", has_text="Lune stone")
+        ).first
+        lune_row.get_by_role("button", name="Inspect").click()
+        lune_inspector = inspector_item(page, "ingredient:herb:Lune stone")
+        expect(lune_inspector).to_be_visible()
+        expect(lune_inspector).to_contain_text("Sell Value")
+        expect(lune_inspector).to_contain_text(f"{format_gold_amount(lune_sell)}g")
+
+        blessed_row = potion_holdings.locator("tr").filter(
+            has=page.locator("td", has_text="Blessed medicine")
+        ).first
+        blessed_row.get_by_role("button", name="Sell").click()
+        expect(toast).to_contain_text("Sold Blessed medicine")
+        expect(toast).to_contain_text(f"gain {format_gold_amount(blessed_sell)}g")
+        expect(page.locator(".history-card strong").first).to_contain_text("Sold Blessed medicine")
+        expect(page.locator(".history-card .pill", has_text="Potion").first).to_be_visible()
+        assert stat_value(page, "Gold") == f"{format_gold_amount(339 + blessed_sell)}g"
+        expect(
+            potion_holdings.locator("tr").filter(has=page.locator("td", has_text="Blessed medicine"))
+        ).to_have_count(0)
+        page.locator(".history-card").first.locator('button[data-action="inspect-item"]').first.click()
+        blessed_inspector = inspector_item(page, "output:potion:Blessed medicine")
+        expect(blessed_inspector).to_be_visible()
+        expect(blessed_inspector).to_contain_text("Sell Value")
+        expect(blessed_inspector).to_contain_text(f"{format_gold_amount(blessed_sell)}g")
+        assert "selected" in (page.locator(".history-card").first.get_attribute("class") or "")
+
+        health_row = potion_holdings.locator("tr").filter(
+            has=page.locator("td", has_text="Health potion")
+        ).first
+        health_row.get_by_role("button", name="Sell").click()
+        expect(toast).to_contain_text("Sold Health potion")
+        expect(toast).to_contain_text(f"gain {format_gold_amount(health_sell)}g")
+        expect(page.locator(".history-card strong").first).to_contain_text("Sold Health potion")
+        assert stat_value(page, "Gold") == f"{format_gold_amount(339 + blessed_sell + health_sell)}g"
+        expect(
+            potion_holdings.locator("tr").filter(has=page.locator("td", has_text="Health potion"))
+        ).to_have_count(0)
+        page.locator(".history-card").first.locator('button[data-action="inspect-item"]').first.click()
+        health_inspector = inspector_item(page, "output:potion:Health potion")
+        expect(health_inspector).to_be_visible()
+        expect(health_inspector).to_contain_text("Recipe only")
+        expect(health_inspector).to_contain_text(f"{format_gold_amount(health_sell)}g")
+        assert "selected" in (page.locator(".history-card").first.get_attribute("class") or "")
+
+        lune_row = herb_holdings.locator("tr").filter(
+            has=page.locator("td", has_text="Lune stone")
+        ).first
+        lune_row.get_by_role("button", name="Sell").click()
+        expect(toast).to_contain_text("Sold Lune stone")
+        expect(toast).to_contain_text(f"gain {format_gold_amount(lune_sell)}g")
+        expect(page.locator(".history-card strong").first).to_contain_text("Sold Lune stone")
+        expect(page.locator(".history-card .pill", has_text="Ingredient").first).to_be_visible()
+        assert stat_value(page, "Gold") == f"{format_gold_amount(339 + blessed_sell + health_sell + lune_sell)}g"
+        expect(
+            herb_holdings.locator("tr").filter(has=page.locator("td", has_text="Lune stone")).first.locator("td").nth(1)
+        ).to_have_text("17")
+
+        alexandrite_row = gem_piece_holdings.locator("tr").filter(
+            has=page.locator("td", has_text="Alexandrite piece")
+        ).first
+        alexandrite_row.get_by_role("button", name="Sell").click()
+        expect(toast).to_contain_text("Sold Alexandrite piece")
+        expect(toast).to_contain_text(f"gain {format_gold_amount(alexandrite_sell)}g")
+        expect(page.locator(".history-card strong").first).to_contain_text("Sold Alexandrite piece")
+        assert stat_value(page, "Gold") == f"{format_gold_amount(339 + blessed_sell + health_sell + lune_sell + alexandrite_sell)}g"
+        expect(
+            gem_piece_holdings.locator("tr").filter(
+                has=page.locator("td", has_text="Alexandrite piece")
+            ).first.locator("td").nth(1)
+        ).to_have_text("5")
+
+        agate_row = gem_holdings.locator("tr").filter(
+            has=page.locator("td", has_text="Agate")
+        ).first
+        agate_row.get_by_role("button", name="Sell").click()
+        expect(toast).to_contain_text("Sold Agate")
+        expect(toast).to_contain_text(f"gain {format_gold_amount(agate_sell)}g")
+        expect(page.locator(".history-card strong").first).to_contain_text("Sold Agate")
+        expect(page.locator(".history-card .pill", has_text="Gem").first).to_be_visible()
+        assert stat_value(page, "Gold") == f"{format_gold_amount(339 + total_sell_gain)}g"
+        expect(gem_holdings.locator("tr").filter(has=page.locator("td", has_text="Agate"))).to_have_count(0)
+        page.locator(".history-card").first.locator('button[data-action="inspect-item"]').first.click()
+        agate_inspector = inspector_item(page, "output:gem:Agate")
+        expect(agate_inspector).to_be_visible()
+        expect(agate_inspector).to_contain_text("Sell Value")
+        expect(agate_inspector).to_contain_text(f"{format_gold_amount(agate_sell)}g")
+        assert "selected" in (page.locator(".history-card").first.get_attribute("class") or "")
+        assert stat_value(page, "Steps") == "5"
+
+        page.locator('button[data-action="undo-action"]').click()
+        expect(toast).to_contain_text("Undid Sold Agate")
+        assert stat_value(page, "Gold") == (
+            f"{format_gold_amount(339 + blessed_sell + health_sell + lune_sell + alexandrite_sell)}g"
+        )
+        assert stat_value(page, "Gems") == "1"
+        expect(gem_holdings.locator("tr").filter(has=page.locator("td", has_text="Agate"))).to_have_count(1)
+
+        page.locator('button[data-action="redo-action"]').click()
+        expect(toast).to_contain_text("Redid Sold Agate")
+        assert stat_value(page, "Gold") == f"{format_gold_amount(339 + total_sell_gain)}g"
+        assert stat_value(page, "Gems") == "0"
+        expect(gem_holdings.locator("tr").filter(has=page.locator("td", has_text="Agate"))).to_have_count(0)
+
+        page.reload(wait_until="domcontentloaded")
+        expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
+        assert stat_value(page, "Gold") == f"{format_gold_amount(339 + total_sell_gain)}g"
+        assert stat_value(page, "Steps") == "5"
+        expect(page.locator(".history-card strong").first).to_contain_text("Sold Agate")
+        expect(
+            page.locator(".holdings-panel .subsection").filter(
+                has=page.get_by_role("heading", name="Gems")
+            ).first.locator("tr").filter(has=page.locator("td", has_text="Agate"))
+        ).to_have_count(0)
 
         context.close()
         browser.close()
