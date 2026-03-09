@@ -179,7 +179,7 @@ def build_equipment_definition(
         "name": collapse_space(name),
         "family": family,
         "source_sheet": source_sheet.strip(),
-        "rank": collapse_space(rank),
+        "rank": normalize_tier(rank) if collapse_space(rank) else "",
         "buy_price": buy_price,
         "max_hp": max_hp,
         "stats": stats,

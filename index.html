@@ -829,6 +829,70 @@
       font-size: 0.82rem;
     }
 
+    .gear-card-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .gear-card {
+      display: grid;
+      gap: 0.75rem;
+      border-radius: 18px;
+      border: 1px solid rgba(93, 73, 53, 0.13);
+      background: rgba(255, 255, 255, 0.68);
+      padding: 0.95rem;
+      min-width: 0;
+    }
+
+    .gear-card.selected {
+      border-color: rgba(54, 80, 60, 0.24);
+      background: rgba(247, 252, 248, 0.92);
+    }
+
+    .gear-card-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: start;
+      gap: 0.75rem;
+    }
+
+    .gear-card-title {
+      display: grid;
+      gap: 0.35rem;
+      min-width: 0;
+    }
+
+    .gear-card-title h4 {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    .gear-card-value {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      white-space: nowrap;
+    }
+
+    .gear-card-fields {
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .gear-slot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.55rem;
+    }
+
+    .gear-card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      align-items: center;
+    }
+
     .inspect-button {
       box-shadow: none;
       white-space: nowrap;
@@ -1997,7 +2061,7 @@
         "name": "Ape",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 5,
         "stats": {
@@ -2024,7 +2088,7 @@
         "name": "Apprentice's Hat",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 4,
         "stats": {
@@ -2041,7 +2105,7 @@
         "name": "Aqua walkers",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 8,
         "stats": {
@@ -2062,7 +2126,7 @@
         "name": "Basic Iron Shield",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 7,
         "stats": {},
@@ -2078,7 +2142,7 @@
         "name": "Basic Legs",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 10,
         "stats": {
@@ -2095,7 +2159,7 @@
         "name": "Basic Silver Shield",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 90,
         "max_hp": 11,
         "stats": {},
@@ -2110,7 +2174,7 @@
         "name": "Basic Steel Shield",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 60,
         "max_hp": 7,
         "stats": {},
@@ -2126,7 +2190,7 @@
         "name": "Basic Turban",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 8,
         "stats": {
@@ -2142,7 +2206,7 @@
         "name": "Basic Work Hat",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 6,
         "stats": {
@@ -2158,7 +2222,7 @@
         "name": "Bear",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 9,
         "stats": {
@@ -2189,7 +2253,7 @@
         "name": "Bear Hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 20,
         "stats": {
@@ -2205,7 +2269,7 @@
         "name": "Bear Hide Shoes",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 10,
         "stats": {
@@ -2225,7 +2289,7 @@
         "name": "Beetle Scale Mask",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 4,
         "stats": {
@@ -2242,7 +2306,7 @@
         "name": "Bishop Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 12,
         "stats": {
@@ -2258,7 +2322,7 @@
         "name": "Black Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -2277,7 +2341,7 @@
         "name": "Blaze Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -2296,7 +2360,7 @@
         "name": "Blaze walkers",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 10,
         "stats": {
@@ -2317,7 +2381,7 @@
         "name": "Blessed Silver Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 160,
         "max_hp": null,
         "stats": {},
@@ -2331,7 +2395,7 @@
         "name": "Blue Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
         "stats": {
@@ -2350,7 +2414,7 @@
         "name": "Boar Hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 16,
         "stats": {
@@ -2364,7 +2428,7 @@
         "name": "Bone mail Helm",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
         "stats": {
@@ -2380,7 +2444,7 @@
         "name": "Bone Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 130,
         "max_hp": null,
         "stats": {},
@@ -2393,7 +2457,7 @@
         "name": "Brain Carapace",
         "family": "golem_armor",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
         "stats": {
@@ -2411,7 +2475,7 @@
         "name": "Brain Core",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 4,
         "stats": {
@@ -2428,7 +2492,7 @@
         "name": "Bronze necklace",
         "family": "necklace",
         "source_sheet": "Accessories",
-        "rank": "A 3/4",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": null,
         "stats": {},
@@ -2447,7 +2511,7 @@
         "name": "Bronze Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -2467,7 +2531,7 @@
         "name": "Bronze ring",
         "family": "ring",
         "source_sheet": "Accessories",
-        "rank": "A 3/4",
+        "rank": "A",
         "buy_price": 40,
         "max_hp": null,
         "stats": {},
@@ -2486,7 +2550,7 @@
         "name": "Brown Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -2506,7 +2570,7 @@
         "name": "Cat",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 3,
         "stats": {
@@ -2532,7 +2596,7 @@
         "name": "Charmer's Turban",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 8,
         "stats": {
@@ -2549,7 +2613,7 @@
         "name": "Clay Legs",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 11,
         "stats": {
@@ -2568,7 +2632,7 @@
         "name": "Clear Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -2588,7 +2652,7 @@
         "name": "Clergy Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 4,
         "stats": {
@@ -2604,7 +2668,7 @@
         "name": "Cloud walkers",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 12,
         "stats": {
@@ -2622,7 +2686,7 @@
         "name": "Common Carapace",
         "family": "golem_armor",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
         "stats": {
@@ -2640,7 +2704,7 @@
         "name": "Common Chassis",
         "family": "golem_armor",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 12,
         "stats": {
@@ -2658,7 +2722,7 @@
         "name": "Common Core",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
         "stats": {
@@ -2673,7 +2737,7 @@
         "name": "Common eye",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 4,
         "stats": {
@@ -2688,7 +2752,7 @@
         "name": "Common head",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 4,
         "stats": {
@@ -2704,7 +2768,7 @@
         "name": "Common shell",
         "family": "golem_armor",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 8,
         "stats": {
@@ -2722,7 +2786,7 @@
         "name": "Coon Hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 8,
         "stats": {
@@ -2736,7 +2800,7 @@
         "name": "Cord-Rigged Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 10,
         "stats": {
@@ -2754,7 +2818,7 @@
         "name": "Cougar Hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 12,
         "stats": {
@@ -2771,7 +2835,7 @@
         "name": "Crocodile",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 6,
         "stats": {
@@ -2799,7 +2863,7 @@
         "name": "Crystal Legs",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 7,
         "stats": {
@@ -2819,7 +2883,7 @@
         "name": "Crystal Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -2839,7 +2903,7 @@
         "name": "Dew Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
         "stats": {
@@ -2857,7 +2921,7 @@
         "name": "Dragon Bone Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 160,
         "max_hp": null,
         "stats": {},
@@ -2871,7 +2935,7 @@
         "name": "Dragon Scale Mail",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
         "stats": {
@@ -2888,7 +2952,7 @@
         "name": "Dragon Scale mask",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
         "stats": {
@@ -2903,7 +2967,7 @@
         "name": "Eagle",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 5,
         "stats": {
@@ -2932,7 +2996,7 @@
         "name": "Echanted Leather Shoes",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 11,
         "stats": {
@@ -2948,7 +3012,7 @@
         "name": "Elder Composite Bow",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
         "stats": {
@@ -2965,7 +3029,7 @@
         "name": "Elder Glaive",
         "family": "spear",
         "source_sheet": "Axes&Spears",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -2982,7 +3046,7 @@
         "name": "Elder Mirror Shield",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 90,
         "max_hp": 10,
         "stats": {},
@@ -2998,7 +3062,7 @@
         "name": "Elder Nun-chuks",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -3018,7 +3082,7 @@
         "name": "Elder Orbed Staff",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
         "stats": {
@@ -3038,7 +3102,7 @@
         "name": "Elder Snow Shoes",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 12,
         "stats": {
@@ -3056,7 +3120,7 @@
         "name": "Elder Staff",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -3074,7 +3138,7 @@
         "name": "Elder Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 130,
         "max_hp": null,
         "stats": {},
@@ -3087,7 +3151,7 @@
         "name": "Elder Wand",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 14,
         "stats": {
@@ -3107,7 +3171,7 @@
         "name": "Elegant Hat",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 2,
         "stats": {
@@ -3122,7 +3186,7 @@
         "name": "Ember Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
         "stats": {
@@ -3139,7 +3203,7 @@
         "name": "Enchanted Crystal Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 190,
         "max_hp": null,
         "stats": {},
@@ -3154,7 +3218,7 @@
         "name": "Enchanted Hat",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 6,
         "stats": {
@@ -3170,7 +3234,7 @@
         "name": "Enchanted Leather Armor",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 14,
         "stats": {
@@ -3186,7 +3250,7 @@
         "name": "Enchanted Leather Buckler",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 90,
         "max_hp": 14,
         "stats": {},
@@ -3201,7 +3265,7 @@
         "name": "Enchanted Leather Cap",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 6,
         "stats": {
@@ -3217,7 +3281,7 @@
         "name": "Enchanted Leather Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 13,
         "stats": {
@@ -3235,7 +3299,7 @@
         "name": "Enchanted Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 10,
         "stats": {
@@ -3252,7 +3316,7 @@
         "name": "Enchanted Silver Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 190,
         "max_hp": null,
         "stats": {},
@@ -3267,7 +3331,7 @@
         "name": "Enchanter's Turban",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
         "stats": {
@@ -3285,7 +3349,7 @@
         "name": "Engineer Carapace",
         "family": "golem_armor",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
         "stats": {
@@ -3302,7 +3366,7 @@
         "name": "Engineer Core",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
         "stats": {
@@ -3318,7 +3382,7 @@
         "name": "Engineer eye",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 4,
         "stats": {
@@ -3334,7 +3398,7 @@
         "name": "Engineer head",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 4,
         "stats": {
@@ -3349,7 +3413,7 @@
         "name": "Engineer shell",
         "family": "golem_armor",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 8,
         "stats": {
@@ -3365,7 +3429,7 @@
         "name": "Explorer Carapace",
         "family": "golem_armor",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
         "stats": {
@@ -3382,7 +3446,7 @@
         "name": "Explorer Chassis",
         "family": "golem_armor",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 14,
         "stats": {
@@ -3399,7 +3463,7 @@
         "name": "Explorer Core",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
         "stats": {
@@ -3414,7 +3478,7 @@
         "name": "Explorer head",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 8,
         "stats": {
@@ -3429,7 +3493,7 @@
         "name": "Extravagant Hat",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
         "stats": {
@@ -3445,7 +3509,7 @@
         "name": "Extravagant Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "A 1/3",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 12,
         "stats": {
@@ -3462,7 +3526,7 @@
         "name": "Flame Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -3480,7 +3544,7 @@
         "name": "Focus Band",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 6,
         "stats": {
@@ -3496,7 +3560,7 @@
         "name": "Fox Hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 8,
         "stats": {
@@ -3513,7 +3577,7 @@
         "name": "FulI Iron Helm",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 8,
         "stats": {
@@ -3529,7 +3593,7 @@
         "name": "Full Plate Helm",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
         "stats": {
@@ -3544,7 +3608,7 @@
         "name": "Full Runed Helm",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 16,
         "stats": {
@@ -3560,7 +3624,7 @@
         "name": "Full Silver Helm",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 16,
         "stats": {
@@ -3576,7 +3640,7 @@
         "name": "Full Steel Helm",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 12,
         "stats": {
@@ -3592,7 +3656,7 @@
         "name": "Full Studded Helm",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 8,
         "stats": {
@@ -3607,7 +3671,7 @@
         "name": "Gilded Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 14,
         "stats": {
@@ -3624,7 +3688,7 @@
         "name": "Glow Legs",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 9,
         "stats": {
@@ -3644,7 +3708,7 @@
         "name": "Goat Hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 12,
         "stats": {
@@ -3658,7 +3722,7 @@
         "name": "Gold necklace",
         "family": "necklace",
         "source_sheet": "Accessories",
-        "rank": "A 3/4",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": null,
         "stats": {},
@@ -3677,7 +3741,7 @@
         "name": "Gold Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -3697,7 +3761,7 @@
         "name": "Gold ring",
         "family": "ring",
         "source_sheet": "Accessories",
-        "rank": "A 3/4",
+        "rank": "A",
         "buy_price": 40,
         "max_hp": null,
         "stats": {},
@@ -3716,7 +3780,7 @@
         "name": "Green Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -3736,7 +3800,7 @@
         "name": "Griffin hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
         "stats": {
@@ -3754,7 +3818,7 @@
         "name": "Hare Hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 4,
         "stats": {
@@ -3770,7 +3834,7 @@
         "name": "Hare Hide Shoes",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 4,
         "stats": {
@@ -3784,7 +3848,7 @@
         "name": "Hawk",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 3,
         "stats": {
@@ -3809,7 +3873,7 @@
         "name": "Heavy Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 14,
         "stats": {
@@ -3826,7 +3890,7 @@
         "name": "Holy Silver Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 190,
         "max_hp": null,
         "stats": {},
@@ -3841,7 +3905,7 @@
         "name": "Hooded Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 10,
         "stats": {
@@ -3857,7 +3921,7 @@
         "name": "Hooked Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 4,
         "stats": {
@@ -3873,7 +3937,7 @@
         "name": "Human Skull Mask",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 10,
         "stats": {
@@ -3890,7 +3954,7 @@
         "name": "Indigo Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -3909,7 +3973,7 @@
         "name": "Insulated Muck Boots",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 9,
         "stats": {
@@ -3926,7 +3990,7 @@
         "name": "Insulated Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
         "stats": {
@@ -3943,7 +4007,7 @@
         "name": "Iron Axe",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
         "stats": {
@@ -3958,7 +4022,7 @@
         "name": "Iron Battle Helm",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 12,
         "stats": {
@@ -3973,7 +4037,7 @@
         "name": "Iron Chain Helm",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 8,
         "stats": {
@@ -3988,7 +4052,7 @@
         "name": "Iron Chain Mail",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 8,
         "stats": {
@@ -4002,7 +4066,7 @@
         "name": "Iron Coat of Arms",
         "family": "heavy_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 12,
         "stats": {
@@ -4018,7 +4082,7 @@
         "name": "Iron Knife",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 4,
         "stats": {
@@ -4036,7 +4100,7 @@
         "name": "Iron Mace",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 12,
         "stats": {
@@ -4053,7 +4117,7 @@
         "name": "Iron Partisan",
         "family": "spear",
         "source_sheet": "Axes&Spears",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 4,
         "stats": {
@@ -4070,7 +4134,7 @@
         "name": "Iron Pike",
         "family": "spear",
         "source_sheet": "Axes&Spears",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
         "stats": {
@@ -4085,7 +4149,7 @@
         "name": "Iron Plate Armor",
         "family": "heavy_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 12,
         "stats": {
@@ -4099,7 +4163,7 @@
         "name": "Iron Plate Mail",
         "family": "heavy_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 12,
         "stats": {
@@ -4115,7 +4179,7 @@
         "name": "Iron Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
         "stats": {
@@ -4132,7 +4196,7 @@
         "name": "Iron Scale Mail",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 12,
         "stats": {
@@ -4148,7 +4212,7 @@
         "name": "Iron Scimitar",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
         "stats": {
@@ -4165,7 +4229,7 @@
         "name": "Iron Scythe",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
         "stats": {
@@ -4182,7 +4246,7 @@
         "name": "Iron Short Sword",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 12,
         "stats": {
@@ -4197,7 +4261,7 @@
         "name": "Iron Spear",
         "family": "spear",
         "source_sheet": "Axes&Spears",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 4,
         "stats": {
@@ -4212,7 +4276,7 @@
         "name": "Leather Buckler",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 6,
         "stats": {},
@@ -4227,7 +4291,7 @@
         "name": "Leather Cap",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 4,
         "stats": {
@@ -4240,7 +4304,7 @@
         "name": "Leather Cuirass",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 12,
         "stats": {
@@ -4256,7 +4320,7 @@
         "name": "Leather Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 6,
         "stats": {
@@ -4273,7 +4337,7 @@
         "name": "Leather Shoes",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 7,
         "stats": {
@@ -4289,7 +4353,7 @@
         "name": "Leather Treads",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 6,
         "stats": {
@@ -4305,7 +4369,7 @@
         "name": "Lightning Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -4325,7 +4389,7 @@
         "name": "Lightning walkers",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 9,
         "stats": {
@@ -4343,7 +4407,7 @@
         "name": "Magma walkers",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 11,
         "stats": {
@@ -4362,7 +4426,7 @@
         "name": "Merchant Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
         "stats": {
@@ -4378,7 +4442,7 @@
         "name": "Metal walkers",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 14,
         "stats": {
@@ -4396,7 +4460,7 @@
         "name": "Mind Band",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 10,
         "stats": {
@@ -4413,7 +4477,7 @@
         "name": "Mirror plate mask",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
         "stats": {
@@ -4430,7 +4494,7 @@
         "name": "Monks Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 12,
         "stats": {
@@ -4446,7 +4510,7 @@
         "name": "Moon Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 20,
         "stats": {
@@ -4465,7 +4529,7 @@
         "name": "Moose Hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
         "stats": {
@@ -4482,7 +4546,7 @@
         "name": "Moth",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 3,
         "stats": {
@@ -4514,7 +4578,7 @@
         "name": "Mountain Elder Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 160,
         "max_hp": null,
         "stats": {},
@@ -4528,7 +4592,7 @@
         "name": "Null Carapace",
         "family": "golem_armor",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
         "stats": {
@@ -4542,7 +4606,7 @@
         "name": "Null Chassis",
         "family": "golem_armor",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 12,
         "stats": {
@@ -4556,7 +4620,7 @@
         "name": "Null Core",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
         "stats": {
@@ -4571,7 +4635,7 @@
         "name": "Null eye",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 4,
         "stats": {
@@ -4586,7 +4650,7 @@
         "name": "Null head",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 8,
         "stats": {
@@ -4601,7 +4665,7 @@
         "name": "Null shell",
         "family": "golem_armor",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 8,
         "stats": {
@@ -4615,7 +4679,7 @@
         "name": "Oaken Long Bow",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
         "stats": {
@@ -4630,7 +4694,7 @@
         "name": "Oaken Shield",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 4,
         "stats": {},
@@ -4644,7 +4708,7 @@
         "name": "Oaken Short Bow",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
         "stats": {
@@ -4659,7 +4723,7 @@
         "name": "Oaken Sling",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 12,
         "stats": {
@@ -4676,7 +4740,7 @@
         "name": "Oaken Staff",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 10,
         "stats": {
@@ -4693,7 +4757,7 @@
         "name": "Oaken Wand",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
         "stats": {
@@ -4712,7 +4776,7 @@
         "name": "Octopod",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "A 1/3",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 4,
         "stats": {
@@ -4745,7 +4809,7 @@
         "name": "Orange Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -4764,7 +4828,7 @@
         "name": "Orbed Bone Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 190,
         "max_hp": null,
         "stats": {},
@@ -4779,7 +4843,7 @@
         "name": "Orbed Elder Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 190,
         "max_hp": null,
         "stats": {},
@@ -4794,7 +4858,7 @@
         "name": "Owl",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 4,
         "stats": {
@@ -4818,7 +4882,7 @@
         "name": "Ox hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 20,
         "stats": {
@@ -4832,7 +4896,7 @@
         "name": "Padded Leather Cap",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 8,
         "stats": {
@@ -4847,7 +4911,7 @@
         "name": "Pilgrim Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 12,
         "stats": {
@@ -4863,7 +4927,7 @@
         "name": "Plated Chain mail",
         "family": "heavy_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
         "stats": {
@@ -4879,7 +4943,7 @@
         "name": "Plated Hiking Treads",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 11,
         "stats": {
@@ -4896,7 +4960,7 @@
         "name": "Plated Leather Buckler",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 90,
         "max_hp": 14,
         "stats": {},
@@ -4911,7 +4975,7 @@
         "name": "Plated Leather Cap",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
         "stats": {
@@ -4924,7 +4988,7 @@
         "name": "Plated Leather Cuirass",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 20,
         "stats": {
@@ -4940,7 +5004,7 @@
         "name": "Plated Leather Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 12,
         "stats": {
@@ -4957,7 +5021,7 @@
         "name": "Plated Leather Treads",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 10,
         "stats": {
@@ -4973,7 +5037,7 @@
         "name": "Plated Work Hat",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 10,
         "stats": {
@@ -4988,7 +5052,7 @@
         "name": "Poplar Composite Bow",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 8,
         "stats": {
@@ -5005,7 +5069,7 @@
         "name": "Poplar Long Bow",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -5020,7 +5084,7 @@
         "name": "Poplar Orbed Staff",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 8,
         "stats": {
@@ -5040,7 +5104,7 @@
         "name": "Poplar Short Bow",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -5055,7 +5119,7 @@
         "name": "Poplar Sling",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 16,
         "stats": {
@@ -5072,7 +5136,7 @@
         "name": "Poplar Snow Shoes",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 8,
         "stats": {
@@ -5089,7 +5153,7 @@
         "name": "Poplar Staff",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -5107,7 +5171,7 @@
         "name": "Poplar Target Shield",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 60,
         "max_hp": 4,
         "stats": {},
@@ -5121,7 +5185,7 @@
         "name": "Poplar Wand",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 10,
         "stats": {
@@ -5141,7 +5205,7 @@
         "name": "Priest Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 8,
         "stats": {
@@ -5157,7 +5221,7 @@
         "name": "Prized Camel",
         "family": "mount",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 9,
         "stats": {
@@ -5183,7 +5247,7 @@
         "name": "Prized Stallion",
         "family": "mount",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 8,
         "stats": {
@@ -5206,7 +5270,7 @@
         "name": "Purple Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -5225,7 +5289,7 @@
         "name": "Rain Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -5243,7 +5307,7 @@
         "name": "Raptor hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 14,
         "stats": {
@@ -5261,7 +5325,7 @@
         "name": "Red Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
         "stats": {
@@ -5279,7 +5343,7 @@
         "name": "Reinforced Coat of arms",
         "family": "heavy_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "A 1/3",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 22,
         "stats": {
@@ -5297,7 +5361,7 @@
         "name": "Reinforced Leather Cap",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
         "stats": {
@@ -5312,7 +5376,7 @@
         "name": "Reinforced Leather Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 8,
         "stats": {
@@ -5329,7 +5393,7 @@
         "name": "Reinforced Leather Shoes",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 7,
         "stats": {
@@ -5345,7 +5409,7 @@
         "name": "Reinforced Muck Boots",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 13,
         "stats": {
@@ -5363,7 +5427,7 @@
         "name": "Reinforced Tower Shield",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 90,
         "max_hp": 13,
         "stats": {},
@@ -5380,7 +5444,7 @@
         "name": "Reinforced Under Cuirass",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 14,
         "stats": {
@@ -5396,7 +5460,7 @@
         "name": "Reinforced Work Hat",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 6,
         "stats": {
@@ -5411,7 +5475,7 @@
         "name": "Rune Studded Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 9,
         "stats": {
@@ -5429,7 +5493,7 @@
         "name": "Runed bone Mail",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 12,
         "stats": {
@@ -5445,7 +5509,7 @@
         "name": "Runed Chain Mail",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
         "stats": {
@@ -5461,7 +5525,7 @@
         "name": "Runed Cloth slippers",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 9,
         "stats": {
@@ -5479,7 +5543,7 @@
         "name": "Runed Crown",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
         "stats": {
@@ -5495,7 +5559,7 @@
         "name": "Runed Elder Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 190,
         "max_hp": null,
         "stats": {},
@@ -5510,7 +5574,7 @@
         "name": "Runed Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 5,
         "stats": {
@@ -5527,7 +5591,7 @@
         "name": "Runed Leather Armor",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
         "stats": {
@@ -5543,7 +5607,7 @@
         "name": "Runed Leather Boots",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 10,
         "stats": {
@@ -5560,7 +5624,7 @@
         "name": "Runed Leather Buckler",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 60,
         "max_hp": 6,
         "stats": {},
@@ -5575,7 +5639,7 @@
         "name": "Runed Leather Cap",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 10,
         "stats": {
@@ -5591,7 +5655,7 @@
         "name": "Runed Leather Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 9,
         "stats": {
@@ -5609,7 +5673,7 @@
         "name": "Salamander",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
         "stats": {
@@ -5639,7 +5703,7 @@
         "name": "Sand Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 8,
         "stats": {
@@ -5658,7 +5722,7 @@
         "name": "sasquad",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 7,
         "stats": {
@@ -5687,7 +5751,7 @@
         "name": "Sea Crystal Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 160,
         "max_hp": null,
         "stats": {},
@@ -5701,7 +5765,7 @@
         "name": "Sea Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -5719,7 +5783,7 @@
         "name": "Seal Hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 14,
         "stats": {
@@ -5736,7 +5800,7 @@
         "name": "Seal Hide Slippers",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 8,
         "stats": {
@@ -5752,7 +5816,7 @@
         "name": "Sentinel Jets",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "C 4/4",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 4,
         "stats": {
@@ -5769,7 +5833,7 @@
         "name": "Serpent",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 6,
         "stats": {
@@ -5800,7 +5864,7 @@
         "name": "Shadow legs",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 8,
         "stats": {
@@ -5818,7 +5882,7 @@
         "name": "Shamanic Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
         "stats": {
@@ -5834,7 +5898,7 @@
         "name": "Shell Mask",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 4,
         "stats": {
@@ -5851,7 +5915,7 @@
         "name": "Silver Axe",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -5866,7 +5930,7 @@
         "name": "Silver Battle Helm",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
         "stats": {
@@ -5881,7 +5945,7 @@
         "name": "Silver Battle Shield",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 90,
         "max_hp": 12,
         "stats": {},
@@ -5897,7 +5961,7 @@
         "name": "Silver Battle Staff",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 18,
         "stats": {
@@ -5914,7 +5978,7 @@
         "name": "Silver Bladed Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 7,
         "stats": {
@@ -5932,7 +5996,7 @@
         "name": "Silver Broad Sword",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 20,
         "stats": {
@@ -5947,7 +6011,7 @@
         "name": "Silver Chain Boots",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 13,
         "stats": {
@@ -5964,7 +6028,7 @@
         "name": "Silver Chain Helm",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 16,
         "stats": {
@@ -5979,7 +6043,7 @@
         "name": "Silver Chain Mail",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
         "stats": {
@@ -5993,7 +6057,7 @@
         "name": "Silver Coat of Arms",
         "family": "heavy_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 20,
         "stats": {
@@ -6009,7 +6073,7 @@
         "name": "Silver Cross Bow",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -6024,7 +6088,7 @@
         "name": "Silver Flail",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
         "stats": {
@@ -6041,7 +6105,7 @@
         "name": "Silver Halberd",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -6056,7 +6120,7 @@
         "name": "Silver Hand Cannon",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -6073,7 +6137,7 @@
         "name": "Silver Heavy Boots",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 11,
         "stats": {
@@ -6092,7 +6156,7 @@
         "name": "Silver Hooked Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 8,
         "stats": {
@@ -6110,7 +6174,7 @@
         "name": "Silver Javelin",
         "family": "spear",
         "source_sheet": "Axes&Spears",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
         "stats": {
@@ -6125,7 +6189,7 @@
         "name": "Silver Knife",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
         "stats": {
@@ -6143,7 +6207,7 @@
         "name": "Silver Lance",
         "family": "spear",
         "source_sheet": "Axes&Spears",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
         "stats": {
@@ -6158,7 +6222,7 @@
         "name": "Silver Mace",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 20,
         "stats": {
@@ -6175,7 +6239,7 @@
         "name": "Silver Morning star",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
         "stats": {
@@ -6192,7 +6256,7 @@
         "name": "Silver necklace",
         "family": "necklace",
         "source_sheet": "Accessories",
-        "rank": "A 3/4",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": null,
         "stats": {},
@@ -6208,7 +6272,7 @@
         "name": "Silver Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -6228,7 +6292,7 @@
         "name": "Silver Orbed Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 11,
         "stats": {
@@ -6246,7 +6310,7 @@
         "name": "Silver Partisan",
         "family": "spear",
         "source_sheet": "Axes&Spears",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
         "stats": {
@@ -6263,7 +6327,7 @@
         "name": "Silver Pike",
         "family": "spear",
         "source_sheet": "Axes&Spears",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -6278,7 +6342,7 @@
         "name": "Silver Plate Armor",
         "family": "heavy_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 20,
         "stats": {
@@ -6292,7 +6356,7 @@
         "name": "Silver Plate Mail",
         "family": "heavy_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 20,
         "stats": {
@@ -6308,7 +6372,7 @@
         "name": "Silver Rapier",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
         "stats": {
@@ -6325,7 +6389,7 @@
         "name": "Silver ring",
         "family": "ring",
         "source_sheet": "Accessories",
-        "rank": "A 3/4",
+        "rank": "A",
         "buy_price": 40,
         "max_hp": null,
         "stats": {},
@@ -6341,7 +6405,7 @@
         "name": "Silver Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -6358,7 +6422,7 @@
         "name": "Silver Runed Plate",
         "family": "heavy_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
         "stats": {
@@ -6375,7 +6439,7 @@
         "name": "Silver Saber",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -6392,7 +6456,7 @@
         "name": "Silver Scale Armor",
         "family": "heavy_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
         "stats": {
@@ -6409,7 +6473,7 @@
         "name": "Silver Scale Helm",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 12,
         "stats": {
@@ -6425,7 +6489,7 @@
         "name": "Silver Scale Mail",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 20,
         "stats": {
@@ -6441,7 +6505,7 @@
         "name": "Silver Scepter",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 14,
         "stats": {
@@ -6460,7 +6524,7 @@
         "name": "Silver Scimitar",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -6477,7 +6541,7 @@
         "name": "Silver Scythe",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -6494,7 +6558,7 @@
         "name": "Silver Short Sword",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 20,
         "stats": {
@@ -6509,7 +6573,7 @@
         "name": "Silver Shuriken",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -6527,7 +6591,7 @@
         "name": "Silver Spear",
         "family": "spear",
         "source_sheet": "Axes&Spears",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
         "stats": {
@@ -6542,7 +6606,7 @@
         "name": "Silver Spiked Treads",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 10,
         "stats": {
@@ -6559,7 +6623,7 @@
         "name": "Silver Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 130,
         "max_hp": null,
         "stats": {},
@@ -6572,7 +6636,7 @@
         "name": "Silver Tomahawk",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -6587,7 +6651,7 @@
         "name": "Silver Trident",
         "family": "spear",
         "source_sheet": "Axes&Spears",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 8,
         "stats": {
@@ -6604,7 +6668,7 @@
         "name": "Silver War Boots",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 12,
         "stats": {
@@ -6618,7 +6682,7 @@
         "name": "Silver War Hammer",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 20,
         "stats": {
@@ -6635,7 +6699,7 @@
         "name": "Soldier Carapace",
         "family": "golem_armor",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
         "stats": {
@@ -6653,7 +6717,7 @@
         "name": "Soldier Chassis",
         "family": "golem_armor",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 14,
         "stats": {
@@ -6671,7 +6735,7 @@
         "name": "Soldier Core",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
         "stats": {
@@ -6688,7 +6752,7 @@
         "name": "Soldier head",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 4,
         "stats": {
@@ -6705,7 +6769,7 @@
         "name": "Sorceror's Hat",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 4,
         "stats": {
@@ -6721,7 +6785,7 @@
         "name": "Spell Band",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 6,
         "stats": {
@@ -6737,7 +6801,7 @@
         "name": "Spellbinder's Turban",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 8,
         "stats": {
@@ -6754,7 +6818,7 @@
         "name": "Spider",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 2,
         "stats": {
@@ -6782,7 +6846,7 @@
         "name": "Spiked Elder Club",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 10,
         "stats": {
@@ -6799,7 +6863,7 @@
         "name": "Spiked Oaken Club",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
         "stats": {
@@ -6814,7 +6878,7 @@
         "name": "Spiked Yew Treads",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 13,
         "stats": {
@@ -6830,7 +6894,7 @@
         "name": "Spirit Band",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 10,
         "stats": {
@@ -6847,7 +6911,7 @@
         "name": "Spirit Carapace",
         "family": "golem_armor",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 16,
         "stats": {
@@ -6865,7 +6929,7 @@
         "name": "Spirit Core",
         "family": "golem_head",
         "source_sheet": "Headware",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 130,
         "max_hp": 4,
         "stats": {
@@ -6881,7 +6945,7 @@
         "name": "Stag Hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 12,
         "stats": {
@@ -6897,7 +6961,7 @@
         "name": "Steel Axe",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -6912,7 +6976,7 @@
         "name": "Steel Battle Helm",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 12,
         "stats": {
@@ -6927,7 +6991,7 @@
         "name": "Steel Battle Shield",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 60,
         "max_hp": 8,
         "stats": {},
@@ -6942,7 +7006,7 @@
         "name": "Steel Battle Staff",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 14,
         "stats": {
@@ -6959,7 +7023,7 @@
         "name": "Steel Broad Sword",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 16,
         "stats": {
@@ -6974,7 +7038,7 @@
         "name": "Steel Chain Boots",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 10,
         "stats": {
@@ -6990,7 +7054,7 @@
         "name": "Steel Chain Helm",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 12,
         "stats": {
@@ -7005,7 +7069,7 @@
         "name": "Steel Chain Mail",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 12,
         "stats": {
@@ -7019,7 +7083,7 @@
         "name": "Steel Coat of Arms",
         "family": "heavy_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 16,
         "stats": {
@@ -7035,7 +7099,7 @@
         "name": "Steel Cross Bow",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -7050,7 +7114,7 @@
         "name": "Steel Halberd",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -7065,7 +7129,7 @@
         "name": "Steel Heavy Boots",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 7,
         "stats": {
@@ -7084,7 +7148,7 @@
         "name": "Steel Hooked Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 5,
         "stats": {
@@ -7101,7 +7165,7 @@
         "name": "Steel Knife",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 8,
         "stats": {
@@ -7119,7 +7183,7 @@
         "name": "Steel Mace",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 16,
         "stats": {
@@ -7136,7 +7200,7 @@
         "name": "Steel Orbed Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 7,
         "stats": {
@@ -7154,7 +7218,7 @@
         "name": "Steel Plate Armor",
         "family": "heavy_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 16,
         "stats": {
@@ -7168,7 +7232,7 @@
         "name": "Steel Plate Mail",
         "family": "heavy_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 16,
         "stats": {
@@ -7184,7 +7248,7 @@
         "name": "Steel Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -7201,7 +7265,7 @@
         "name": "Steel Saber",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -7218,7 +7282,7 @@
         "name": "Steel Scale Armor",
         "family": "heavy_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 14,
         "stats": {
@@ -7235,7 +7299,7 @@
         "name": "Steel Scale Helm",
         "family": "heavy_helm",
         "source_sheet": "Headware",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 8,
         "stats": {
@@ -7251,7 +7315,7 @@
         "name": "Steel Scale Mail",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 16,
         "stats": {
@@ -7267,7 +7331,7 @@
         "name": "Steel Scimitar",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -7284,7 +7348,7 @@
         "name": "Steel Scythe",
         "family": "staff_orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -7301,7 +7365,7 @@
         "name": "Steel Short Sword",
         "family": "sword",
         "source_sheet": "Swords&Bows",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 16,
         "stats": {
@@ -7316,7 +7380,7 @@
         "name": "Steel Studded Gauntlets",
         "family": "gauntlet",
         "source_sheet": "Golem&Gauntlet",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 6,
         "stats": {
@@ -7333,7 +7397,7 @@
         "name": "Steel War Boots",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 8,
         "stats": {
@@ -7347,7 +7411,7 @@
         "name": "Steel War Hammer",
         "family": "axe",
         "source_sheet": "Axes&Spears",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 16,
         "stats": {
@@ -7364,7 +7428,7 @@
         "name": "Stone Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
         "stats": {
@@ -7383,7 +7447,7 @@
         "name": "Stone walkers",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 13,
         "stats": {
@@ -7401,7 +7465,7 @@
         "name": "Studded Hiking Treads",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 7,
         "stats": {
@@ -7418,7 +7482,7 @@
         "name": "Studded Leather Buckler",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 60,
         "max_hp": 6,
         "stats": {},
@@ -7433,7 +7497,7 @@
         "name": "Studded Leather Cap",
         "family": "light_helm",
         "source_sheet": "Headware",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 8,
         "stats": {
@@ -7446,7 +7510,7 @@
         "name": "Studded Leather Cuirass",
         "family": "light_armor",
         "source_sheet": "Light&Heavy",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 16,
         "stats": {
@@ -7462,7 +7526,7 @@
         "name": "Studded Leather Treads",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 6,
         "stats": {
@@ -7478,7 +7542,7 @@
         "name": "Sun Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "A 1/3",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 20,
         "stats": {
@@ -7498,7 +7562,7 @@
         "name": "Swamp Elder Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 160,
         "max_hp": null,
         "stats": {},
@@ -7512,7 +7576,7 @@
         "name": "Toad",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 40,
         "max_hp": 2,
         "stats": {
@@ -7543,7 +7607,7 @@
         "name": "Trained Camel",
         "family": "mount",
         "source_sheet": "Mounts&Legs",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 9,
         "stats": {
@@ -7569,7 +7633,7 @@
         "name": "Trained Donkey",
         "family": "mount",
         "source_sheet": "Mounts&Legs",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 7,
         "stats": {
@@ -7594,7 +7658,7 @@
         "name": "Trained Griffin",
         "family": "mount",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 7,
         "stats": {
@@ -7618,7 +7682,7 @@
         "name": "Trained Horse",
         "family": "mount",
         "source_sheet": "Mounts&Legs",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 8,
         "stats": {
@@ -7641,7 +7705,7 @@
         "name": "Trained Mule",
         "family": "mount",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 9,
         "stats": {
@@ -7666,7 +7730,7 @@
         "name": "Trained Raptor",
         "family": "mount",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 8,
         "stats": {
@@ -7691,7 +7755,7 @@
         "name": "Traveling Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 50,
         "max_hp": 8,
         "stats": {
@@ -7707,7 +7771,7 @@
         "name": "Tundra walkers",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 9,
         "stats": {
@@ -7728,7 +7792,7 @@
         "name": "Unholy Bone Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 190,
         "max_hp": null,
         "stats": {},
@@ -7743,7 +7807,7 @@
         "name": "Veiled Robe",
         "family": "robe_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 14,
         "stats": {
@@ -7762,7 +7826,7 @@
         "name": "Walrus hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": 18,
         "stats": {
@@ -7779,7 +7843,7 @@
         "name": "Walrus Hide Slippers",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 8,
         "stats": {
@@ -7796,7 +7860,7 @@
         "name": "War Elephant",
         "family": "mount",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 10,
         "stats": {
@@ -7823,7 +7887,7 @@
         "name": "War Horse",
         "family": "mount",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 8,
         "stats": {
@@ -7846,7 +7910,7 @@
         "name": "White Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -7865,7 +7929,7 @@
         "name": "Wild Elephant",
         "family": "mount",
         "source_sheet": "Mounts&Legs",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 10,
         "stats": {
@@ -7892,7 +7956,7 @@
         "name": "Wild Stallion",
         "family": "mount",
         "source_sheet": "Mounts&Legs",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 8,
         "stats": {
@@ -7915,7 +7979,7 @@
         "name": "Wind Rune",
         "family": "runestone",
         "source_sheet": "Runestones",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 70,
         "max_hp": 12,
         "stats": {
@@ -7934,7 +7998,7 @@
         "name": "Wizard's Hat",
         "family": "mage_helm",
         "source_sheet": "Headware",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 4,
         "stats": {
@@ -7951,7 +8015,7 @@
         "name": "Wolf",
         "family": "familiar",
         "source_sheet": "Familiars",
-        "rank": "B 3/3",
+        "rank": "B",
         "buy_price": 80,
         "max_hp": 4,
         "stats": {
@@ -7978,7 +8042,7 @@
         "name": "Wolf Hide",
         "family": "hide_armor",
         "source_sheet": "Robe&Hide",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 100,
         "max_hp": 16,
         "stats": {
@@ -7994,7 +8058,7 @@
         "name": "Wolf Hide Shoes",
         "family": "footwear",
         "source_sheet": "Footwear",
-        "rank": "B 2/2",
+        "rank": "B",
         "buy_price": 90,
         "max_hp": 6,
         "stats": {
@@ -8011,7 +8075,7 @@
         "name": "Wood walkers",
         "family": "golem_legs",
         "source_sheet": "Mounts&Legs",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 140,
         "max_hp": 12,
         "stats": {
@@ -8031,7 +8095,7 @@
         "name": "Yellow Orb",
         "family": "orb",
         "source_sheet": "Staves&Orbs",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 8,
         "stats": {
@@ -8050,7 +8114,7 @@
         "name": "Yew Long Bow",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -8065,7 +8129,7 @@
         "name": "Yew Recurve Bow",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "A 2/3",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 12,
         "stats": {
@@ -8080,7 +8144,7 @@
         "name": "Yew Short Bow",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 16,
         "stats": {
@@ -8095,7 +8159,7 @@
         "name": "Yew Sling",
         "family": "bow",
         "source_sheet": "Swords&Bows",
-        "rank": "A 0/2",
+        "rank": "A",
         "buy_price": 110,
         "max_hp": 20,
         "stats": {
@@ -8112,7 +8176,7 @@
         "name": "Yew Target Shield",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "A 1/2",
+        "rank": "A",
         "buy_price": 90,
         "max_hp": 8,
         "stats": {},
@@ -9990,9 +10054,9 @@
       function equipmentInstanceSearchText(instance) {
         const definition = getEquipmentDefinitionByName(instance?.base_name);
         return [
-          instance?.id,
           instance?.base_name,
           definition?.family,
+          definition?.rank,
           ...socketedGemList(instance),
           ...(definition?.effects || [])
         ]
@@ -10065,6 +10129,36 @@
       function formatSocketedGems(gemNames = []) {
         const names = gemNames.filter(Boolean);
         return names.length ? names.join(", ") : "None";
+      }
+
+      function visibleEquipmentSummaryParts(instance, definition, options = {}) {
+        const {
+          includeFamily = false,
+          includeRank = true,
+          includeHp = true,
+          includeSockets = true
+        } = options;
+        const parts = [];
+        if (includeRank && definition?.rank) {
+          parts.push(`Rank ${definition.rank}`);
+        }
+        if (includeFamily && definition?.family) {
+          parts.push(definition.family);
+        }
+        if (includeHp && definition?.max_hp !== null && instance) {
+          parts.push(formatEquipmentHp(instance, definition));
+        }
+        if (includeSockets && socketedGemList(instance).length) {
+          parts.push(`Sockets: ${formatSocketedGems(socketedGemList(instance))}`);
+        }
+        return parts;
+      }
+
+      function renderPillRow(parts = []) {
+        return parts
+          .filter(Boolean)
+          .map((part) => `<span class="pill">${escapeHtml(part)}</span>`)
+          .join("");
       }
 
       function getBaseEquipmentSellValue(instance, definition = getEquipmentDefinitionByName(instance?.base_name)) {
@@ -10569,75 +10663,16 @@
         `;
       }
 
-      function renderAccessoryComboSection(instance, definition) {
+      function renderAccessorySocketStateSection(instance, definition) {
         if (!isSocketableDefinition(definition)) {
           return "";
         }
-        const policy = definition.socket_policy;
         const currentGems = socketedGemList(instance);
-        const draft = comboDraftForInstance(instance);
-        const assessment = assessAccessoryAssembly(instance);
-        const slotRows = Array.from({ length: policy.max_gems }, (_, slotIndex) => `
-          <label class="field">
-            <span>Gem ${slotIndex + 1}</span>
-            <select data-action="set-accessory-combo-slot" data-id="${escapeHtml(instance.id)}" data-slot="${slotIndex}">
-              <option value="">Empty</option>
-              ${ownedGemEntries().map(([name, count]) => `
-                <option value="${escapeHtml(name)}" ${draft[slotIndex] === name ? "selected" : ""}>${escapeHtml(`${name} (${count})`)}</option>
-              `).join("")}
-            </select>
-          </label>
-        `).join("");
         return `
           <div class="inspector-section">
             <div class="label">Current Sockets</div>
             <div class="chip-stack">${renderSocketedGemChips(currentGems)}</div>
           </div>
-          <div class="inspector-section">
-            <div class="label">Available Owned Gems</div>
-            <div class="chip-stack">${renderOwnedGemChips()}</div>
-          </div>
-          <div class="inspector-section">
-            <div class="label">Combo Actions</div>
-            <div class="inspector-grid">
-              <div class="inspector-field">
-                <span class="label">Assembly Rule</span>
-                <div>${escapeHtml(`1-${policy.max_gems} gems`)}</div>
-              </div>
-              <div class="inspector-field">
-                <span class="label">Imbue Fee</span>
-                <div>${escapeHtml(`${formatGoldAmount(policy.imbue_fee)}g`)}</div>
-              </div>
-            </div>
-            ${currentGems.length
-              ? `
-                <div class="tiny" style="margin-top:0.75rem;">Disassemble this combo before changing its gems.</div>
-                <div class="toolbar" style="margin-top:0.75rem;">
-                  <button class="button-secondary" data-action="disassemble-accessory" data-id="${escapeHtml(instance.id)}">Disassemble Combo</button>
-                </div>
-              `
-              : `
-                <div class="stack" style="gap:0.5rem; margin-top:0.75rem;">
-                  ${slotRows}
-                </div>
-                <div class="toolbar" style="margin-top:0.75rem;">
-                  <button
-                    class="button-primary"
-                    data-action="assemble-accessory"
-                    data-id="${escapeHtml(instance.id)}"
-                    ${assessment.possible ? "" : "disabled"}
-                  >
-                    Assemble Combo
-                  </button>
-                </div>
-                <div class="tiny" style="margin-top:0.5rem;">${escapeHtml(
-                  assessment.possible
-                    ? `Spend ${formatGoldAmount(assessment.fee)}g to socket ${assessment.selected_gems.length} gem${assessment.selected_gems.length === 1 ? "" : "s"}.`
-                    : assessment.reason
-                )}</div>
-              `}
-          </div>
-          ${renderEquipmentSellBreakdownSection(instance)}
         `;
       }
 
@@ -10698,11 +10733,13 @@
           const metaPills = [
             item.isAccessory ? "Accessory" : "Equipment",
             definition.family,
-            definition.rank || "No rank",
+            ...(definition.rank ? [`Rank ${definition.rank}`] : []),
             `${formatGoldAmount(definition.buy_price)}g`
           ];
           if (instance) {
-            metaPills.push(instance.id);
+            if (definition.max_hp !== null) {
+              metaPills.push(formatEquipmentHp(instance, definition));
+            }
             if (currentGems.length) {
               metaPills.push(`${currentGems.length} gem${currentGems.length === 1 ? "" : "s"} socketed`);
             }
@@ -10714,11 +10751,17 @@
                   ${compact ? "" : `<div class="label">Selected Item</div>`}
                   <h3>${escapeHtml(definition.name)}</h3>
                   <div class="pill-row" style="margin-top:0.5rem;">
-                    ${metaPills.map((part) => `<span class="pill">${escapeHtml(part)}</span>`).join("")}
+                    ${renderPillRow(metaPills)}
                   </div>
                 </div>
               </div>
               <div class="inspector-grid">
+                ${definition.rank ? `
+                  <div class="inspector-field">
+                    <span class="label">Rank</span>
+                    <div>${escapeHtml(definition.rank)}</div>
+                  </div>
+                ` : ""}
                 <div class="inspector-field">
                   <span class="label">Family</span>
                   <div>${escapeHtml(definition.family)}</div>
@@ -10731,30 +10774,33 @@
                   <span class="label">Buy Price</span>
                   <div>${escapeHtml(`${formatGoldAmount(definition.buy_price)}g`)}</div>
                 </div>
-                <div class="inspector-field">
-                  <span class="label">Max HP</span>
-                  <div>${escapeHtml(definition.max_hp === null ? "N/A" : String(definition.max_hp))}</div>
-                </div>
-                <div class="inspector-field">
-                  <span class="label">Socket Policy</span>
-                  <div>${escapeHtml(formatSocketPolicy(definition.socket_policy || null))}</div>
-                </div>
+                ${definition.max_hp !== null ? `
+                  <div class="inspector-field">
+                    <span class="label">Max HP</span>
+                    <div>${escapeHtml(String(definition.max_hp))}</div>
+                  </div>
+                ` : ""}
+                ${definition.socket_policy ? `
+                  <div class="inspector-field">
+                    <span class="label">Socket Policy</span>
+                    <div>${escapeHtml(formatSocketPolicy(definition.socket_policy))}</div>
+                  </div>
+                ` : ""}
                 ${instance ? `
-                  <div class="inspector-field">
-                    <span class="label">Current HP</span>
-                    <div>${escapeHtml(formatEquipmentHp(instance, definition))}</div>
-                  </div>
-                  <div class="inspector-field">
-                    <span class="label">Instance ID</span>
-                    <div>${escapeHtml(instance.id)}</div>
-                  </div>
+                  ${definition.max_hp !== null ? `
+                    <div class="inspector-field">
+                      <span class="label">Current HP</span>
+                      <div>${escapeHtml(formatEquipmentHp(instance, definition))}</div>
+                    </div>
+                  ` : ""}
                   <div class="inspector-field">
                     <span class="label">Sell Value</span>
                     <div>${escapeHtml(sellValue === null ? "N/A" : `${formatGoldAmount(sellValue)}g`)}</div>
                   </div>
                 ` : ""}
               </div>
-              ${instance ? renderAccessoryComboSection(instance, definition) : ""}
+              ${instance ? renderAccessorySocketStateSection(instance, definition) : ""}
+              ${instance && item.isAccessory ? renderEquipmentSellBreakdownSection(instance) : ""}
               ${renderEquipmentDetailSections(definition)}
             </article>
           `;
@@ -12338,55 +12384,150 @@
         `;
       }
 
-      function formatEquipmentHoldingSummary(instance, definition) {
-        const parts = [instance.id];
-        parts.push(definition?.max_hp === null ? "No HP" : formatEquipmentHp(instance, definition));
-        if (socketedGemList(instance).length) {
-          parts.push(`Sockets: ${formatSocketedGems(socketedGemList(instance))}`);
-        }
-        return parts.join(" · ");
-      }
-
-      function renderEquipmentHoldingsTable(instances, emptyText) {
+      function renderEquipmentHoldingsCards(instances, emptyText) {
         const filter = ui.holdingsFilter.trim().toLowerCase();
-        const rows = sortedEquipmentInstances(instances)
+        const cards = sortedEquipmentInstances(instances)
           .filter((instance) => !filter || equipmentInstanceSearchText(instance).includes(filter))
           .map((instance) => {
             const definition = getEquipmentDefinitionByName(instance.base_name);
             const sellValue = getEquipmentSellValue(instance);
             const selection = makeEquipmentInstanceDetailSelection(instance);
+            const summaryParts = visibleEquipmentSummaryParts(instance, definition, {
+              includeFamily: false,
+              includeRank: true,
+              includeHp: true,
+              includeSockets: true
+            });
             return `
-              <tr class="${selectionMatches(selection) ? "selected-row" : ""}">
-                <td>${escapeHtml(instance.base_name)}</td>
-                <td>${escapeHtml(formatEquipmentHoldingSummary(instance, definition))}</td>
-                <td>${renderInspectButton(selection, "Inspect")}</td>
-                <td>${escapeHtml(sellValue === null ? "N/A" : `${formatGoldAmount(sellValue)}g`)}</td>
-                <td>
+              <article
+                class="gear-card ${selectionMatches(selection) ? "selected" : ""}"
+                data-holdings-gear-card="${escapeHtml(instance.id)}"
+              >
+                <div class="gear-card-head">
+                  <div class="gear-card-title">
+                    <h4>${escapeHtml(instance.base_name)}</h4>
+                    ${summaryParts.length ? `<div class="pill-row">${renderPillRow(summaryParts)}</div>` : ""}
+                  </div>
+                  <div class="gear-card-value">${escapeHtml(sellValue === null ? "N/A" : `${formatGoldAmount(sellValue)}g`)}</div>
+                </div>
+                <div class="gear-card-actions">
+                  ${renderInspectButton(selection, "Inspect")}
                   <button class="button-secondary" data-action="sell-equipment" data-id="${escapeHtml(instance.id)}" ${sellValue === null ? "disabled" : ""}>Sell</button>
-                </td>
-              </tr>
+                </div>
+              </article>
             `;
           })
           .join("");
 
-        return `
-          <div class="table-wrap">
-            <table class="holdings-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Instance</th>
-                  <th class="inspect-column">Inspect</th>
-                  <th>Sell Value</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${rows || `<tr><td colspan="5" class="subtle">${escapeHtml(emptyText)}</td></tr>`}
-              </tbody>
-            </table>
-          </div>
-        `;
+        return cards
+          ? `<div class="gear-card-list">${cards}</div>`
+          : `<div class="muted-box">${escapeHtml(emptyText)}</div>`;
+      }
+
+      function renderOwnedAccessoryCards(instances, emptyText) {
+        const filter = ui.potionFilter.trim().toLowerCase();
+        const cards = sortedEquipmentInstances(instances)
+          .filter((instance) => !filter || equipmentInstanceSearchText(instance).includes(filter))
+          .map((instance) => {
+            const definition = getEquipmentDefinitionByName(instance.base_name);
+            if (!definition || !isSocketableDefinition(definition)) {
+              return "";
+            }
+            const sellValue = getEquipmentSellValue(instance);
+            const selection = makeEquipmentInstanceDetailSelection(instance);
+            const currentGems = socketedGemList(instance);
+            const draft = comboDraftForInstance(instance);
+            const assessment = assessAccessoryAssembly(instance);
+            const slotValues = currentGems.length ? currentGems : draft;
+            const ownedGemMap = new Map(ownedGemEntries().map(([name, count]) => [name, count]));
+            const gemOptions = Array.from(new Set([
+              ...slotValues.filter(Boolean),
+              ...ownedGemMap.keys()
+            ]));
+            const summaryParts = visibleEquipmentSummaryParts(instance, definition, {
+              includeFamily: false,
+              includeRank: true,
+              includeHp: true,
+              includeSockets: true
+            });
+            const slotRows = Array.from({ length: definition.socket_policy.max_gems }, (_, slotIndex) => `
+              <label class="field">
+                <span>Gem ${slotIndex + 1}</span>
+                <select
+                  data-action="set-accessory-combo-slot"
+                  data-id="${escapeHtml(instance.id)}"
+                  data-slot="${slotIndex}"
+                  ${currentGems.length ? "disabled" : ""}
+                >
+                  <option value="">Empty</option>
+                  ${gemOptions.map((name) => `
+                    <option value="${escapeHtml(name)}" ${slotValues[slotIndex] === name ? "selected" : ""}>${escapeHtml(
+                      ownedGemMap.has(name) ? `${name} (${ownedGemMap.get(name)})` : name
+                    )}</option>
+                  `).join("")}
+                </select>
+              </label>
+            `).join("");
+            return `
+              <article
+                class="gear-card ${selectionMatches(selection) ? "selected" : ""}"
+                data-owned-accessory-card="${escapeHtml(instance.id)}"
+              >
+                <div class="gear-card-head">
+                  <div class="gear-card-title">
+                    <h4>${escapeHtml(instance.base_name)}</h4>
+                    ${summaryParts.length ? `<div class="pill-row">${renderPillRow(summaryParts)}</div>` : ""}
+                  </div>
+                  <div class="gear-card-value">${escapeHtml(sellValue === null ? "N/A" : `${formatGoldAmount(sellValue)}g`)}</div>
+                </div>
+                <div class="gear-card-fields">
+                  <div>
+                    <div class="label">Current Sockets</div>
+                    <div class="chip-stack" style="margin-top:0.45rem;">${renderSocketedGemChips(currentGems)}</div>
+                  </div>
+                  <div class="gear-slot-grid">
+                    ${slotRows}
+                  </div>
+                  <div class="pill-row">
+                    <span class="pill">${escapeHtml(formatSocketPolicy(definition.socket_policy))}</span>
+                    <span class="pill">${escapeHtml(`Imbue Fee ${formatGoldAmount(definition.socket_policy.imbue_fee)}g`)}</span>
+                  </div>
+                  <div class="tiny">${escapeHtml(
+                    currentGems.length
+                      ? "Disassemble the current combo before changing its gems."
+                      : (assessment.possible
+                        ? `Spend ${formatGoldAmount(assessment.fee)}g to socket ${assessment.selected_gems.length} gem${assessment.selected_gems.length === 1 ? "" : "s"}.`
+                        : assessment.reason)
+                  )}</div>
+                </div>
+                <div class="gear-card-actions">
+                  ${renderInspectButton(selection, "Inspect")}
+                  <button
+                    class="button-primary"
+                    data-action="assemble-accessory"
+                    data-id="${escapeHtml(instance.id)}"
+                    ${assessment.possible ? "" : "disabled"}
+                  >
+                    Assemble Combo
+                  </button>
+                  <button
+                    class="button-secondary"
+                    data-action="disassemble-accessory"
+                    data-id="${escapeHtml(instance.id)}"
+                    ${currentGems.length ? "" : "disabled"}
+                  >
+                    Disassemble Combo
+                  </button>
+                </div>
+              </article>
+            `;
+          })
+          .filter(Boolean)
+          .join("");
+
+        return cards
+          ? `<div class="gear-card-list">${cards}</div>`
+          : `<div class="muted-box">${escapeHtml(emptyText)}</div>`;
       }
 
       function renderEquipmentMarketTable(definitions, emptyText) {
@@ -12494,14 +12635,14 @@
               <h3>Equipment</h3>
               <div class="subtle">${equipment.length} rows</div>
             </div>
-            ${renderEquipmentHoldingsTable(equipment, "No matching equipment.")}
+            ${renderEquipmentHoldingsCards(equipment, "No matching equipment.")}
           </div>
           <div class="subsection">
             <div class="subsection-head">
               <h3>Accessories</h3>
               <div class="subtle">${accessories.length} rows</div>
             </div>
-            ${renderEquipmentHoldingsTable(accessories, "No matching accessories.")}
+            ${renderEquipmentHoldingsCards(accessories, "No matching accessories.")}
           </div>
           <div class="subsection">
             <div class="subsection-head">
@@ -12603,7 +12744,7 @@
           case "equipment":
             return "Buy weekly equipment listings and inspect full definition details in the side panel.";
           case "accessories":
-            return "Buy weekly accessory listings and inspect their definition details in the side panel.";
+            return "Socket owned rings and necklaces here, then buy additional accessory listings sold this week.";
           default:
             return "";
         }
@@ -12909,13 +13050,30 @@
             </div>
           `;
         }
+        const accessoryFilter = ui.potionFilter.trim().toLowerCase();
+        const ownedAccessories = sortedEquipmentInstances(state.workbench.equipment || [])
+          .filter((instance) => {
+            const definition = getEquipmentDefinitionByName(instance.base_name);
+            return definition && isSocketableDefinition(definition);
+          });
+        const visibleOwnedAccessories = ownedAccessories
+          .filter((instance) => !accessoryFilter || equipmentInstanceSearchText(instance).includes(accessoryFilter));
         return `
-          <div class="subsection workbench-market">
-            <div class="subsection-head">
-              <h3>Accessories</h3>
-              <div class="subtle">${viewState.accessoryDefinitions.length} listings</div>
+          <div class="stack">
+            <div class="subsection workbench-market">
+              <div class="subsection-head">
+                <h3>Owned Accessories</h3>
+                <div class="subtle">${visibleOwnedAccessories.length} shown</div>
+              </div>
+              ${renderOwnedAccessoryCards(ownedAccessories, "No owned socketable accessories match the current filter.")}
             </div>
-            ${renderEquipmentMarketTable(viewState.accessoryDefinitions, "No accessories match the current filter or weekly sale list.")}
+            <div class="subsection workbench-market">
+              <div class="subsection-head">
+                <h3>Weekly Listings</h3>
+                <div class="subtle">${viewState.accessoryDefinitions.length} listings</div>
+              </div>
+              ${renderEquipmentMarketTable(viewState.accessoryDefinitions, "No accessories match the current filter or weekly sale list.")}
+            </div>
           </div>
         `;
       }
@@ -13082,7 +13240,7 @@
             const definition = getEquipmentDefinitionByName(instance.base_name);
             const maxHp = definition?.max_hp ?? null;
             return `
-              <tr>
+              <tr data-base-equipment-row="${escapeHtml(instance.id)}">
                 <td>
                   <input
                     type="text"
@@ -13095,7 +13253,7 @@
                 <td>${escapeHtml(definition?.family || "Unknown")}</td>
                 <td>
                   ${maxHp === null
-                    ? `<span class="subtle">N/A</span>`
+                    ? ``
                     : `
                       <div class="inline-fields" style="gap:0.5rem; align-items:center;">
                         <input
@@ -13111,7 +13269,6 @@
                       </div>
                     `}
                 </td>
-                <td><code>${escapeHtml(instance.id)}</code></td>
                 <td>
                   <button class="button-danger" data-action="delete-base-equipment" data-id="${escapeHtml(instance.id)}">Remove</button>
                 </td>
@@ -13259,16 +13416,14 @@
                           <th>Definition</th>
                           <th>Family</th>
                           <th>HP</th>
-                          <th>ID</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        ${equipmentRows || `<tr><td colspan="5" class="subtle">No matching equipment instances.</td></tr>`}
+                        ${equipmentRows || `<tr><td colspan="4" class="subtle">No matching equipment instances.</td></tr>`}
                       </tbody>
                     </table>
                   </div>
-                  <div class="tiny">IDs are generated automatically and remain read-only in the browser editor.</div>
                 </div>
                 <div class="panel">
                   <div class="section-head">
@@ -13538,9 +13693,9 @@
                   <strong>${escapeHtml(definition.name)}</strong>
                   <div class="pill-row">
                     <span class="pill">${escapeHtml(definition.family)}</span>
-                    <span class="pill">${escapeHtml(definition.rank || "No rank")}</span>
+                    ${definition.rank ? `<span class="pill">${escapeHtml(`Rank ${definition.rank}`)}</span>` : ""}
                     <span class="pill">${escapeHtml(`${definition.buy_price}g`)}</span>
-                    <span class="pill">${escapeHtml(definition.max_hp === null ? "No HP" : `${definition.max_hp} HP`)}</span>
+                    ${definition.max_hp === null ? "" : `<span class="pill">${escapeHtml(`${definition.max_hp} HP`)}</span>`}
                     ${definition.socket_policy ? `<span class="pill">${escapeHtml(formatSocketPolicy(definition.socket_policy))}</span>` : ""}
                   </div>
                 </summary>
@@ -13554,10 +13709,12 @@
                       <label>Family</label>
                       <input type="text" value="${escapeHtml(definition.family)}" readonly>
                     </div>
-                    <div class="field">
-                      <label>Rank</label>
-                      <input type="text" value="${escapeHtml(definition.rank || "")}" readonly>
-                    </div>
+                    ${definition.rank ? `
+                      <div class="field">
+                        <label>Rank</label>
+                        <input type="text" value="${escapeHtml(definition.rank)}" readonly>
+                      </div>
+                    ` : ""}
                     <div class="field">
                       <label>Source Sheet</label>
                       <input type="text" value="${escapeHtml(definition.source_sheet)}" readonly>
@@ -13566,14 +13723,18 @@
                       <label>Buy Price</label>
                       <input type="text" value="${escapeHtml(`${definition.buy_price}g`)}" readonly>
                     </div>
-                    <div class="field">
-                      <label>Max HP</label>
-                      <input type="text" value="${escapeHtml(definition.max_hp === null ? "N/A" : String(definition.max_hp))}" readonly>
-                    </div>
-                    <div class="field">
-                      <label>Socket Policy</label>
-                      <input type="text" value="${escapeHtml(formatSocketPolicy(definition.socket_policy || null))}" readonly>
-                    </div>
+                    ${definition.max_hp === null ? "" : `
+                      <div class="field">
+                        <label>Max HP</label>
+                        <input type="text" value="${escapeHtml(String(definition.max_hp))}" readonly>
+                      </div>
+                    `}
+                    ${definition.socket_policy ? `
+                      <div class="field">
+                        <label>Socket Policy</label>
+                        <input type="text" value="${escapeHtml(formatSocketPolicy(definition.socket_policy))}" readonly>
+                      </div>
+                    ` : ""}
                     <label class="pill">
                       <input
                         type="checkbox"

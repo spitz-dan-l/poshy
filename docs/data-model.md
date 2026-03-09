@@ -348,7 +348,7 @@ The importer currently normalizes every equipment definition to:
   "name": "Bronze ring",
   "family": "ring",
   "source_sheet": "Accessories",
-  "rank": "A 3/4",
+  "rank": "A",
   "buy_price": 40,
   "max_hp": null,
   "stats": {},
@@ -366,7 +366,7 @@ Conventions already enforced by the importer and runtime validator:
 
 - `name` must match the definition-map key.
 - `source_sheet` is trimmed workbook tab text.
-- `rank` is preserved as workbook rank text, not reduced to one letter.
+- `rank` is normalized to the leading workbook tier letter.
 - `buy_price` and `max_hp` are numeric in canonical JSON.
 - `max_hp` is `null` for items such as rings, necklaces, and talismans.
 - `stats` is a lossless string map keyed by canonical snake_case labels derived from workbook headers.
@@ -423,7 +423,7 @@ Representative fragment from the current generated seed:
         "name": "Bronze ring",
         "family": "ring",
         "source_sheet": "Accessories",
-        "rank": "A 3/4",
+        "rank": "A",
         "buy_price": 40,
         "max_hp": null,
         "stats": {},
@@ -439,7 +439,7 @@ Representative fragment from the current generated seed:
         "name": "Basic Iron Shield",
         "family": "shield",
         "source_sheet": "Accessories",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 30,
         "max_hp": 7,
         "stats": {},
@@ -528,12 +528,12 @@ The single-file browser app now exposes runtime state in these places:
 - Workbench recipe tabs: potion and gem cards still use the shared craft/buy simulator and focus-chip filtering.
 - Workbench ingredient tabs: weekly sold herbs and gem pieces can be bought directly into the live run.
 - Workbench equipment tabs: equipment and accessory listings are split by `source_sheet`, with accessories defined as every catalog entry imported from the workbook `Accessories` sheet.
-- Workbench holdings: standalone gear is split into `Equipment` and `Accessories`, with compact per-instance rows, socket summaries for assembled combos, and sell actions that include socketed gem value.
+- Workbench holdings: standalone gear is split into `Equipment` and `Accessories`, rendered as compact cards without visible instance ids, with socket summaries for assembled combos and sell actions that include socketed gem value.
 - Item inspector: outputs, ingredients, equipment definitions, and owned equipment instances can all be inspected from the workbench, holdings, and action log.
-- Accessory inspector: owned rings and necklaces can assemble or disassemble combos, view current sockets, review available owned gems, and inspect sell-value breakdowns.
+- Workbench accessory cards: owned rings and necklaces can assemble or disassemble combos directly in the `Accessories` tab, while the inspector remains read-only for current sockets and sell-value breakdowns.
 - Action log: transaction history exposes inspect links for outputs, ingredients, and equipment definitions, including accessory combo `equipment update` actions.
 - Run summary stats: equipment count is shown alongside gold, ingredients, potions, and gems.
-- Base Inventory tab: add, edit, remove standalone equipment instances.
+- Base Inventory tab: add, edit, remove standalone equipment instances without exposing generated instance ids.
 - Shop tab: toggle weekly `for_sale.equipment` availability.
 - Catalog tab: read-only equipment definition details with editable `optimizer_auto_sell`.
 

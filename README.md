@@ -9,8 +9,9 @@ This README is written primarily for coding agents working in this repo.
 - Phase 1 is complete: shared simulator, strict scenario validation, workbench/history plumbing, and equipment-aware state all ship.
 - Phase 2 is complete: workbook-driven equipment import, seed regeneration, Base Inventory equipment editing, workbench equipment visibility, and Catalog equipment definitions with `optimizer_auto_sell`.
 - Phase 3 is complete: manual equipment market actions, Shop equipment sale toggles, and HP-aware equipment sell flows now ship.
-- The March 8, 2026 UI pass is also shipped: the Workbench now has category tabs, the inspector covers every item class, and herbs/gem pieces can be bought directly from the Workbench.
-- Phase 4 and later are still future work: combo assembly, broader selling, and planner/optimization.
+- Phase 4 is complete: ring and necklace combo assembly/disassembly ship, persist through scenario state, and are driven from the `Accessories` workbench tab.
+- The March 9, 2026 equipment UI cleanup is also shipped: holdings gear now renders as readable cards, equipment ids stay internal, and workbook ranks are normalized to single-letter tiers.
+- Phase 5 and later are still future work: broader selling and planner/optimization.
 
 The live baseline is:
 
@@ -133,7 +134,7 @@ This is the current high-signal suite:
 - Equipment definitions come from workbook import.
 - Standalone equipment instances come from `data/starting_resources.toml` or runtime editing.
 - The shipped Workbench supports manual buys for herbs, gem pieces, potion direct buys, and sold equipment/accessories, plus manual sells for standalone equipment instances.
-- No combo instances or socket editing ship yet.
+- Ring and necklace socketing ships in the `Accessories` workbench tab; the inspector is read-only for combo details.
 
 ## How Dan Likes To Work
 
@@ -168,9 +169,7 @@ Do not accidentally implement future roadmap work without saying so.
 
 Still out of scope today:
 
-- ring/necklace combo assembly or disassembly
 - manual ingredient, potion, or gem sell actions
-- socket editing
 - planner/optimization tab
 
 If a requested change crosses one of those boundaries, check the roadmap first and either:

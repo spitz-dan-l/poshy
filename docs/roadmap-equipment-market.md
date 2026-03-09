@@ -2,7 +2,7 @@
 
 ## Summary
 
-This roadmap now reflects shipped work through phase 4 as of March 8, 2026.
+This roadmap now reflects shipped work through phase 4 as of March 9, 2026.
 
 Recommended delivery order remains:
 
@@ -18,7 +18,7 @@ Current status:
 - Phase 1 is implemented.
 - Phase 2 is implemented.
 - Phase 3 is implemented.
-- The post-phase-3 UI pass is implemented.
+- The post-phase-3 UI passes are implemented.
 - Phase 4 is implemented.
 - Phases 5 and 6 are still future work.
 
@@ -82,6 +82,7 @@ Shipped scope:
   - `effects`
   - `optimizer_auto_sell`
   - optional `socket_policy`
+- Normalize imported equipment `rank` values to the leading workbook tier letter.
 - Default `optimizer_auto_sell` to `false` for every imported definition.
 - Emit `socket_policy` only for rings and necklaces.
 - Extend `data/starting_resources.toml` so it can author:
@@ -114,7 +115,7 @@ Done means:
 
 Status:
 
-- Implemented on March 8, 2026.
+- Implemented on March 9, 2026.
 
 Goal:
 
@@ -182,13 +183,15 @@ Goal:
 Shipped scope:
 
 - model assembled accessories as runtime `EquipmentInstance` values with `socketed_gems`,
-- add inspector-driven assemble and disassemble actions for owned rings and necklaces,
+- add workbench-driven assemble and disassemble actions for owned rings and necklaces in the `Accessories` tab,
 - consume owned gem outputs when assembling and return them on disassembly,
 - charge the imported `imbue_fee` on assembly and never refund it,
 - preserve the same accessory instance `id`, `base_name`, and `current_hp` across combo updates,
 - compute assembled sell value as `sell(base accessory) + sell(each socketed gem)`,
 - tighten runtime validation so `socketed_gems` is only valid on items with `socket_policy` and must contain `1..max_gems`,
-- surface combo state in holdings summaries, item inspector details, history inspect links, and undo/redo.
+- surface combo state in holdings cards, item inspector details, history inspect links, and undo/redo,
+- remove visible equipment ids from shipped browser surfaces and keep them internal-only,
+- keep the inspector read-only for accessories while still showing current sockets and sell breakdowns.
 
 Done means:
 
@@ -248,16 +251,16 @@ Future work should assume these facts are already true:
 - `inventory.equipment` and `for_sale.equipment` already exist in canonical scenario JSON.
 - standalone equipment instances are already editable in Base Inventory.
 - Workbench uses category tabs for outputs, ingredients, equipment, and accessories.
-- Workbench holdings split standalone gear into `Equipment` and `Accessories`.
+- Workbench holdings split standalone gear into `Equipment` and `Accessories` using compact cards without visible instance ids.
 - Workbench exposes manual herb and gem-piece buys plus the existing manual equipment market driven by `for_sale.equipment`.
 - workbench holdings expose per-instance sell controls and summary stats expose equipment counts.
 - Shop exposes weekly equipment sale toggles.
 - Catalog already exposes imported equipment definitions and the `optimizer_auto_sell` toggle.
 - rings and necklaces already exist as base definitions with socket policy metadata.
-- ring and necklace combos can be assembled and disassembled in the inspector using owned gems.
+- ring and necklace combos can be assembled and disassembled in the `Accessories` workbench tab using owned gems.
 - `socketed_gems` can now appear on persisted ring and necklace instances, including base state copied from the workbench.
 - holdings and history already understand equipment `update` transactions for combo lifecycle actions.
-- Base Inventory still does not provide a dedicated socket editor.
+- Base Inventory still does not provide a dedicated socket editor and no longer shows visible instance ids.
 
 ## Public Interfaces Already Shipped
 

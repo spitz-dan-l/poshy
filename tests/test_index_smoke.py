@@ -46,6 +46,18 @@ def accessory_holdings_section(page):
     ).first
 
 
+def holdings_gear_card(page, equipment_id: str):
+    return page.locator(f'[data-holdings-gear-card="{equipment_id}"]').first
+
+
+def owned_accessory_card(page, equipment_id: str):
+    return page.locator(f'[data-owned-accessory-card="{equipment_id}"]').first
+
+
+def base_equipment_row(page, equipment_id: str):
+    return page.locator(f'[data-base-equipment-row="{equipment_id}"]').first
+
+
 def test_index_smoke() -> None:
     index_url = (REPO_ROOT / "index.html").resolve().as_uri()
 
@@ -150,11 +162,13 @@ def test_index_smoke() -> None:
         accessories_holdings = page.locator(".holdings-panel .subsection").filter(
             has=page.get_by_role("heading", name="Accessories")
         ).first
-        accessories_holdings.locator("tr").filter(
-            has=page.locator("td", has_text="Bronze ring")
-        ).first.get_by_role("button", name="Inspect").click()
+        bronze_ring_holdings = holdings_gear_card(page, "ring-bronze-1")
+        expect(bronze_ring_holdings).to_be_visible()
+        expect(bronze_ring_holdings).not_to_contain_text("ring-bronze-1")
+        bronze_ring_holdings.get_by_role("button", name="Inspect").click()
         expect(inspector_item(page, "equipment_instance:ring-bronze-1")).to_be_visible()
         expect(inspector_item(page, "equipment_instance:ring-bronze-1")).to_contain_text("0-1 gems @ 50g")
+        expect(inspector_item(page, "equipment_instance:ring-bronze-1")).not_to_contain_text("ring-bronze-1")
 
         ancient_card = page.locator('[data-recipe-card="Ancient medicine"]')
         expect(ancient_card).to_be_visible()
@@ -168,7 +182,9 @@ def test_index_smoke() -> None:
         expect(page.locator(".workbench-panel").get_by_role("heading", name="Equipment")).to_be_visible()
         expect(page.locator('button[data-action="buy-equipment"][data-name="Leather Shoes"]')).to_be_visible()
         click_workbench_category(page, "accessories")
-        expect(page.locator(".workbench-panel").get_by_role("heading", name="Accessories")).to_be_visible()
+        expect(page.locator(".workbench-panel").get_by_role("heading", name="Owned Accessories")).to_be_visible()
+        expect(page.locator(".workbench-panel").get_by_role("heading", name="Weekly Listings")).to_be_visible()
+        expect(owned_accessory_card(page, "ring-bronze-1")).to_be_visible()
         expect(page.locator('button[data-action="buy-equipment"][data-name="Bronze ring"]')).to_be_visible()
         expect(page.locator('button[data-action="buy-equipment"][data-name="Bronze necklace"]')).to_have_count(0)
         page.locator(".workbench-panel tr").filter(
@@ -326,13 +342,12 @@ def test_index_smoke() -> None:
             }""",
             "Bronze necklace",
         )
-        added_equipment_row = inventory_panel.locator("tr").filter(
-            has=page.locator('code', has_text="ape-1")
-        )
+        added_equipment_row = base_equipment_row(inventory_panel, "ape-1")
         expect(
             inventory_panel.locator('input[data-action="set-base-equipment-name"][data-id="ape-1"]')
         ).to_have_value("Bronze necklace")
-        expect(added_equipment_row).to_contain_text("N/A")
+        expect(added_equipment_row).not_to_contain_text("ape-1")
+        expect(added_equipment_row).not_to_contain_text("N/A")
         added_equipment_row.get_by_role("button", name="Remove").click()
         expect(inventory_panel.locator('input[data-action="set-base-equipment-name"]')).to_have_count(4)
 
@@ -340,11 +355,10 @@ def test_index_smoke() -> None:
         page.locator('button[data-action="switch-tab"][data-tab="workbench"]').click()
         expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
         assert stat_value(page, "Gold") == f"{updated_gold}g"
-        leather_shoes_row = page.locator(".holdings-panel tr").filter(
-            has=page.locator("td", has_text="Leather Shoes")
-        ).first
+        leather_shoes_row = holdings_gear_card(page, "boots-leather-1")
         expect(leather_shoes_row).to_contain_text("5/7")
         expect(leather_shoes_row).to_contain_text("17.86g")
+        expect(leather_shoes_row).not_to_contain_text("boots-leather-1")
         click_workbench_category(page, "accessories")
         expect(page.locator('button[data-action="buy-equipment"][data-name="Bronze necklace"]')).to_be_visible()
 
@@ -355,35 +369,28 @@ def test_index_smoke() -> None:
         expect(page.locator(".history-card .pill", has_text="Equipment").first).to_be_visible()
         assert stat_value(page, "Equipment") == "5"
         assert stat_value(page, "Gold") == "306g"
-        bought_ring_row = page.locator(".holdings-panel tr").filter(
-            has=page.locator("td", has_text="bronze-ring-1")
-        ).first
+        bought_ring_row = holdings_gear_card(page, "bronze-ring-1")
         expect(bought_ring_row).to_contain_text("Bronze ring")
+        expect(bought_ring_row).not_to_contain_text("bronze-ring-1")
 
         page.locator('button[data-action="undo-action"]').click()
         expect(page.locator('[data-role="toast"]')).to_contain_text("Undid Bought Bronze ring")
         assert stat_value(page, "Equipment") == "4"
         assert stat_value(page, "Gold") == f"{updated_gold}g"
-        expect(
-            page.locator(".holdings-panel tr").filter(has=page.locator("td", has_text="bronze-ring-1"))
-        ).to_have_count(0)
+        expect(page.locator('[data-holdings-gear-card="bronze-ring-1"]')).to_have_count(0)
 
         page.locator('button[data-action="redo-action"]').click()
         expect(page.locator('[data-role="toast"]')).to_contain_text("Redid Bought Bronze ring")
         assert stat_value(page, "Equipment") == "5"
         assert stat_value(page, "Gold") == "306g"
-        bought_ring_row = page.locator(".holdings-panel tr").filter(
-            has=page.locator("td", has_text="bronze-ring-1")
-        ).first
+        bought_ring_row = holdings_gear_card(page, "bronze-ring-1")
         expect(bought_ring_row).to_contain_text("Bronze ring")
 
         page.reload(wait_until="domcontentloaded")
         expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
         assert stat_value(page, "Equipment") == "5"
         assert stat_value(page, "Gold") == "306g"
-        bought_ring_row = page.locator(".holdings-panel tr").filter(
-            has=page.locator("td", has_text="bronze-ring-1")
-        ).first
+        bought_ring_row = holdings_gear_card(page, "bronze-ring-1")
         expect(bought_ring_row).to_contain_text("Bronze ring")
 
         bought_ring_row.get_by_role("button", name="Sell").click()
@@ -392,39 +399,29 @@ def test_index_smoke() -> None:
         expect(page.locator(".history-card strong").first).to_contain_text("Sold Bronze ring")
         assert stat_value(page, "Equipment") == "4"
         assert stat_value(page, "Gold") == "326g"
-        expect(
-            page.locator(".holdings-panel tr").filter(has=page.locator("td", has_text="bronze-ring-1"))
-        ).to_have_count(0)
+        expect(page.locator('[data-holdings-gear-card="bronze-ring-1"]')).to_have_count(0)
 
         page.locator('button[data-action="undo-action"]').click()
         expect(page.locator('[data-role="toast"]')).to_contain_text("Undid Sold Bronze ring")
         assert stat_value(page, "Equipment") == "5"
         assert stat_value(page, "Gold") == "306g"
-        bought_ring_row = page.locator(".holdings-panel tr").filter(
-            has=page.locator("td", has_text="bronze-ring-1")
-        ).first
+        bought_ring_row = holdings_gear_card(page, "bronze-ring-1")
         expect(bought_ring_row).to_contain_text("Bronze ring")
 
         page.locator('button[data-action="redo-action"]').click()
         expect(page.locator('[data-role="toast"]')).to_contain_text("Redid Sold Bronze ring")
         assert stat_value(page, "Equipment") == "4"
         assert stat_value(page, "Gold") == "326g"
-        expect(
-            page.locator(".holdings-panel tr").filter(has=page.locator("td", has_text="bronze-ring-1"))
-        ).to_have_count(0)
+        expect(page.locator('[data-holdings-gear-card="bronze-ring-1"]')).to_have_count(0)
 
-        leather_shoes_row = page.locator(".holdings-panel tr").filter(
-            has=page.locator("td", has_text="Leather Shoes")
-        ).first
+        leather_shoes_row = holdings_gear_card(page, "boots-leather-1")
         leather_shoes_row.get_by_role("button", name="Sell").click()
         expect(page.locator('[data-role="toast"]')).to_contain_text("Sold Leather Shoes")
         expect(page.locator('[data-role="toast"]')).to_contain_text("gain 17.86g")
         expect(page.locator(".history-card strong").first).to_contain_text("Sold Leather Shoes")
         assert stat_value(page, "Equipment") == "3"
         assert stat_value(page, "Gold") == "343.86g"
-        expect(
-            page.locator(".holdings-panel tr").filter(has=page.locator("td", has_text="Leather Shoes"))
-        ).to_have_count(0)
+        expect(page.locator('[data-holdings-gear-card="boots-leather-1"]')).to_have_count(0)
 
         page.locator('button[data-action="switch-tab"][data-tab="recipes"]').click()
         expect(page.get_by_role("heading", name="Catalog")).to_be_visible()
@@ -473,9 +470,7 @@ def test_index_smoke() -> None:
         page.reload(wait_until="domcontentloaded")
         expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
         assert stat_value(page, "Gold") == "343.86g"
-        expect(
-            page.locator(".holdings-panel tr").filter(has=page.locator("td", has_text="Leather Shoes"))
-        ).to_have_count(0)
+        expect(page.locator('[data-holdings-gear-card="boots-leather-1"]')).to_have_count(0)
         page.locator('button[data-action="switch-tab"][data-tab="recipes"]').click()
         bronze_ring_definition = page.locator("details.recipe-card").filter(
             has=page.locator("summary strong", has_text="Bronze ring")
@@ -529,9 +524,7 @@ def test_index_smoke() -> None:
 
         mobile_workbench_button.click()
         mobile_holdings_button.click()
-        mobile.locator(".holdings-panel tr").filter(
-            has=mobile.locator("td", has_text="Leather Shoes")
-        ).first.get_by_role("button", name="Inspect").click()
+        holdings_gear_card(mobile, "boots-leather-1").get_by_role("button", name="Inspect").click()
         mobile_sheet = mobile.locator('[data-role="mobile-inspector"]')
         expect(mobile_sheet).to_be_visible()
         expect(mobile.get_by_role("heading", name="Current Holdings")).to_be_visible()
@@ -539,6 +532,7 @@ def test_index_smoke() -> None:
         expect(mobile_sheet.locator('[data-inspector-item="equipment_instance:boots-leather-1"]')).to_contain_text(
             "7/7"
         )
+        expect(mobile_sheet).not_to_contain_text("boots-leather-1")
         mobile_sheet.get_by_role("button", name="Close", exact=True).click()
         expect(mobile.locator('[data-role="mobile-inspector"]')).to_have_count(0)
 
@@ -591,20 +585,24 @@ def test_index_accessory_combo_assembly() -> None:
             expect(toast).to_contain_text(f"Crafted {gem_name}")
         assert stat_value(page, "Gems") == "3"
 
+        click_workbench_category(page, "accessories")
         accessories = accessory_holdings_section(page)
-        ring_row = accessories.locator("tr").filter(
-            has=page.locator("td", has_text="ring-bronze-1")
-        ).first
-        ring_row.get_by_role("button", name="Inspect").click()
+        ring_card = owned_accessory_card(page, "ring-bronze-1")
+        expect(ring_card).to_be_visible()
+        expect(ring_card).not_to_contain_text("ring-bronze-1")
+        ring_card.get_by_role("button", name="Inspect").click()
         ring_inspector = inspector_item(page, "equipment_instance:ring-bronze-1")
         expect(ring_inspector).to_be_visible()
         expect(ring_inspector).to_contain_text("Current Sockets")
-        expect(ring_inspector).to_contain_text("Available Owned Gems")
-        assemble_ring_button = ring_inspector.locator(
+        expect(ring_inspector).not_to_contain_text("Available Owned Gems")
+        expect(ring_inspector.locator(
+            'button[data-action="assemble-accessory"][data-id="ring-bronze-1"]'
+        )).to_have_count(0)
+        assemble_ring_button = ring_card.locator(
             'button[data-action="assemble-accessory"][data-id="ring-bronze-1"]'
         )
         expect(assemble_ring_button).to_be_disabled()
-        ring_inspector.locator(
+        ring_card.locator(
             'select[data-action="set-accessory-combo-slot"][data-id="ring-bronze-1"][data-slot="0"]'
         ).select_option("Sapphire")
         expect(assemble_ring_button).to_be_enabled()
@@ -614,11 +612,9 @@ def test_index_accessory_combo_assembly() -> None:
         expect(toast).to_contain_text("spend 50g")
         assert stat_value(page, "Gold") == "139g"
         assert stat_value(page, "Gems") == "2"
-        ring_row = accessories.locator("tr").filter(
-            has=page.locator("td", has_text="ring-bronze-1")
-        ).first
-        expect(ring_row).to_contain_text("Sockets: Sapphire")
-        expect(ring_row).to_contain_text("70g")
+        ring_holdings = holdings_gear_card(page, "ring-bronze-1")
+        expect(ring_holdings).to_contain_text("Sockets: Sapphire")
+        expect(ring_holdings).to_contain_text("70g")
         expect(ring_inspector).to_contain_text("Sell Breakdown")
         expect(ring_inspector).to_contain_text("Sapphire")
         expect(ring_inspector).to_contain_text("Total")
@@ -628,65 +624,60 @@ def test_index_accessory_combo_assembly() -> None:
         expect(toast).to_contain_text("Undid Assembled Bronze ring")
         assert stat_value(page, "Gold") == "189g"
         assert stat_value(page, "Gems") == "3"
-        ring_row = accessories.locator("tr").filter(
-            has=page.locator("td", has_text="ring-bronze-1")
-        ).first
-        expect(ring_row).not_to_contain_text("Sockets: Sapphire")
-        expect(ring_row).to_contain_text("20g")
+        ring_holdings = holdings_gear_card(page, "ring-bronze-1")
+        expect(ring_holdings).not_to_contain_text("Sockets: Sapphire")
+        expect(ring_holdings).to_contain_text("20g")
 
         page.locator('button[data-action="redo-action"]').click()
         expect(toast).to_contain_text("Redid Assembled Bronze ring")
         assert stat_value(page, "Gold") == "139g"
         assert stat_value(page, "Gems") == "2"
-        ring_row = accessories.locator("tr").filter(
-            has=page.locator("td", has_text="ring-bronze-1")
-        ).first
-        expect(ring_row).to_contain_text("Sockets: Sapphire")
-        expect(ring_row).to_contain_text("70g")
+        ring_holdings = holdings_gear_card(page, "ring-bronze-1")
+        expect(ring_holdings).to_contain_text("Sockets: Sapphire")
+        expect(ring_holdings).to_contain_text("70g")
 
-        necklace_row = accessories.locator("tr").filter(
-            has=page.locator("td", has_text="bronze-necklace-1")
-        ).first
-        necklace_row.get_by_role("button", name="Inspect").click()
+        necklace_card = owned_accessory_card(page, "bronze-necklace-1")
+        expect(necklace_card).to_be_visible()
+        necklace_card.get_by_role("button", name="Inspect").click()
         necklace_inspector = inspector_item(page, "equipment_instance:bronze-necklace-1")
         expect(necklace_inspector).to_be_visible()
-        necklace_inspector.locator(
+        expect(necklace_inspector.locator(
+            'button[data-action="disassemble-accessory"][data-id="bronze-necklace-1"]'
+        )).to_have_count(0)
+        necklace_card.locator(
             'select[data-action="set-accessory-combo-slot"][data-id="bronze-necklace-1"][data-slot="0"]'
         ).select_option("Ruby")
-        necklace_inspector.locator(
+        necklace_card.locator(
             'select[data-action="set-accessory-combo-slot"][data-id="bronze-necklace-1"][data-slot="1"]'
         ).select_option("Garnet")
-        necklace_inspector.locator(
+        necklace_card.locator(
             'button[data-action="assemble-accessory"][data-id="bronze-necklace-1"]'
         ).click()
         expect(toast).to_contain_text("Assembled Bronze necklace")
         expect(toast).to_contain_text("spend 50g")
         assert stat_value(page, "Gold") == "89g"
         assert stat_value(page, "Gems") == "0"
-        necklace_row = accessories.locator("tr").filter(
-            has=page.locator("td", has_text="bronze-necklace-1")
-        ).first
-        expect(necklace_row).to_contain_text("Sockets: Ruby, Garnet")
-        expect(necklace_row).to_contain_text("175g")
+        necklace_holdings = holdings_gear_card(page, "bronze-necklace-1")
+        expect(necklace_holdings).to_contain_text("Sockets: Ruby, Garnet")
+        expect(necklace_holdings).to_contain_text("175g")
 
-        necklace_inspector.locator(
+        necklace_card = owned_accessory_card(page, "bronze-necklace-1")
+        necklace_card.locator(
             'button[data-action="disassemble-accessory"][data-id="bronze-necklace-1"]'
         ).click()
         expect(toast).to_contain_text("Disassembled Bronze necklace")
         assert stat_value(page, "Gold") == "89g"
         assert stat_value(page, "Gems") == "2"
-        necklace_row = accessories.locator("tr").filter(
-            has=page.locator("td", has_text="bronze-necklace-1")
-        ).first
-        expect(necklace_row).not_to_contain_text("Sockets: Ruby, Garnet")
-        expect(necklace_row).to_contain_text("75g")
+        necklace_holdings = holdings_gear_card(page, "bronze-necklace-1")
+        expect(necklace_holdings).not_to_contain_text("Sockets: Ruby, Garnet")
+        expect(necklace_holdings).to_contain_text("75g")
         expect(
-            necklace_inspector.locator(
+            owned_accessory_card(page, "bronze-necklace-1").locator(
                 'select[data-action="set-accessory-combo-slot"][data-id="bronze-necklace-1"][data-slot="0"]'
             )
         ).to_have_value("Ruby")
         expect(
-            necklace_inspector.locator(
+            owned_accessory_card(page, "bronze-necklace-1").locator(
                 'select[data-action="set-accessory-combo-slot"][data-id="bronze-necklace-1"][data-slot="1"]'
             )
         ).to_have_value("Garnet")
@@ -694,34 +685,26 @@ def test_index_accessory_combo_assembly() -> None:
         page.locator('button[data-action="undo-action"]').click()
         expect(toast).to_contain_text("Undid Disassembled Bronze necklace")
         assert stat_value(page, "Gems") == "0"
-        necklace_row = accessories.locator("tr").filter(
-            has=page.locator("td", has_text="bronze-necklace-1")
-        ).first
-        expect(necklace_row).to_contain_text("Sockets: Ruby, Garnet")
-        expect(necklace_row).to_contain_text("175g")
+        necklace_holdings = holdings_gear_card(page, "bronze-necklace-1")
+        expect(necklace_holdings).to_contain_text("Sockets: Ruby, Garnet")
+        expect(necklace_holdings).to_contain_text("175g")
 
         page.locator('button[data-action="redo-action"]').click()
         expect(toast).to_contain_text("Redid Disassembled Bronze necklace")
         assert stat_value(page, "Gems") == "2"
-        necklace_row = accessories.locator("tr").filter(
-            has=page.locator("td", has_text="bronze-necklace-1")
-        ).first
-        expect(necklace_row).not_to_contain_text("Sockets: Ruby, Garnet")
-        expect(necklace_row).to_contain_text("75g")
+        necklace_holdings = holdings_gear_card(page, "bronze-necklace-1")
+        expect(necklace_holdings).not_to_contain_text("Sockets: Ruby, Garnet")
+        expect(necklace_holdings).to_contain_text("75g")
 
         gold_before_sell = float(stat_value(page, "Gold").removesuffix("g"))
-        ring_row = accessories.locator("tr").filter(
-            has=page.locator("td", has_text="ring-bronze-1")
-        ).first
-        expect(ring_row).to_contain_text(f"{int(expected_ring_combo_sell)}g")
-        ring_row.get_by_role("button", name="Sell").click()
+        ring_holdings = holdings_gear_card(page, "ring-bronze-1")
+        expect(ring_holdings).to_contain_text(f"{int(expected_ring_combo_sell)}g")
+        ring_holdings.get_by_role("button", name="Sell").click()
         expect(toast).to_contain_text("Sold Bronze ring")
         expect(toast).to_contain_text(f"gain {int(expected_ring_combo_sell)}g")
         assert float(stat_value(page, "Gold").removesuffix("g")) == gold_before_sell + expected_ring_combo_sell
         assert stat_value(page, "Equipment") == "4"
-        expect(
-            accessories.locator("tr").filter(has=page.locator("td", has_text="ring-bronze-1"))
-        ).to_have_count(0)
+        expect(page.locator('[data-holdings-gear-card="ring-bronze-1"]')).to_have_count(0)
 
         context.close()
         browser.close()

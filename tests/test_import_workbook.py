@@ -115,6 +115,8 @@ def test_import_workbook_generates_expected_schema(tmp_path: Path) -> None:
     assert equipment["Prized Camel"]["family"] == "mount"
     assert equipment["Basic Legs"]["family"] == "golem_legs"
     assert equipment["Leather Gauntlets"]["family"] == "gauntlet"
+    assert equipment["Ape"]["rank"] == "B"
+    assert equipment["Eagle"]["rank"] == "A"
 
     assert equipment["Ape"]["family"] == "familiar"
     assert equipment["Ape"]["effects"] == [
@@ -128,7 +130,7 @@ def test_import_workbook_generates_expected_schema(tmp_path: Path) -> None:
         "name": "Bronze ring",
         "family": "ring",
         "source_sheet": "Accessories",
-        "rank": "A 3/4",
+        "rank": "A",
         "buy_price": 40,
         "max_hp": None,
         "stats": {},
@@ -144,7 +146,7 @@ def test_import_workbook_generates_expected_schema(tmp_path: Path) -> None:
         "name": "Bronze necklace",
         "family": "necklace",
         "source_sheet": "Accessories",
-        "rank": "A 3/4",
+        "rank": "A",
         "buy_price": 150,
         "max_hp": None,
         "stats": {},
@@ -163,7 +165,7 @@ def test_import_workbook_generates_expected_schema(tmp_path: Path) -> None:
         "name": "Silver Talisman",
         "family": "talisman",
         "source_sheet": "Accessories",
-        "rank": "C 3/3",
+        "rank": "C",
         "buy_price": 130,
         "max_hp": None,
         "stats": {},
