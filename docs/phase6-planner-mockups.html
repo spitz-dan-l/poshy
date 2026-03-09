@@ -1,0 +1,2266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poshy Lab Phase 6 Planner Mockups</title>
+  <style>
+    :root {
+      --ink: #1f1a16;
+      --muted: #6f655e;
+      --paper: rgba(255, 248, 232, 0.9);
+      --paper-strong: #fff7ea;
+      --edge: rgba(93, 73, 53, 0.2);
+      --shadow: 0 18px 45px rgba(41, 26, 8, 0.16);
+      --ember: #be5a2c;
+      --ember-deep: #8f3211;
+      --moss: #36503c;
+      --moss-soft: #58725e;
+      --gold: #d8a447;
+      --sky: #e7efe8;
+      --bg-a: #f8e7ca;
+      --bg-b: #d8e4d3;
+      --bg-c: #f7d2bc;
+      --danger: #a13a2f;
+      --danger-soft: rgba(161, 58, 47, 0.12);
+      --good-soft: rgba(54, 80, 60, 0.12);
+      --review-soft: rgba(216, 164, 71, 0.16);
+      --sans: "Avenir Next", "Trebuchet MS", "Gill Sans", sans-serif;
+      --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      color-scheme: light;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.75), transparent 32rem),
+        radial-gradient(circle at 80% 12%, rgba(255, 237, 202, 0.85), transparent 28rem),
+        linear-gradient(135deg, var(--bg-a), var(--bg-b) 50%, var(--bg-c));
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.55;
+      background:
+        linear-gradient(90deg, rgba(190, 90, 44, 0.05) 0, rgba(190, 90, 44, 0.05) 1px, transparent 1px, transparent 64px),
+        linear-gradient(rgba(54, 80, 60, 0.04) 0, rgba(54, 80, 60, 0.04) 1px, transparent 1px, transparent 64px);
+      mask: linear-gradient(rgba(0, 0, 0, 0.9), transparent 95%);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    code {
+      font-family: var(--mono);
+      font-size: 0.92em;
+    }
+
+    .app-shell {
+      width: min(1500px, calc(100vw - 2rem));
+      margin: 1rem auto 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero,
+    .panel,
+    .mock-browser,
+    .phone-frame {
+      background: var(--paper);
+      border: 1px solid var(--edge);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero {
+      padding: 1.5rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -10% -30% auto;
+      width: 22rem;
+      height: 22rem;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(216, 164, 71, 0.28), transparent 70%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .eyebrow,
+    .pill,
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      line-height: 1.35;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow {
+      background: rgba(54, 80, 60, 0.1);
+      color: var(--moss);
+    }
+
+    .pill {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(93, 73, 53, 0.12);
+      color: var(--moss);
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 0.38rem 0.7rem;
+    }
+
+    .status-pill.review {
+      background: var(--review-soft);
+      color: var(--ember-deep);
+    }
+
+    .status-pill.good {
+      background: var(--good-soft);
+      color: var(--moss);
+    }
+
+    .status-pill.bad {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0;
+      line-height: 1.08;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 5vw, 4.3rem);
+      margin-top: 0.85rem;
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-copy p,
+    .subtle,
+    .section-meta,
+    .tiny,
+    .label,
+    td,
+    th,
+    button,
+    input,
+    select {
+      font-size: 0.96rem;
+      line-height: 1.45;
+    }
+
+    .hero-copy p,
+    .subtle,
+    .section-meta,
+    .tiny {
+      color: var(--muted);
+    }
+
+    .hero-copy {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .hero-copy p {
+      max-width: 52rem;
+      margin: 0;
+    }
+
+    .hero-mini-list,
+    .pill-row,
+    .jump-links,
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .hero-mini {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      border-radius: 999px;
+      padding: 0.45rem 0.75rem;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(93, 73, 53, 0.12);
+      color: var(--moss);
+      font-size: 0.84rem;
+      line-height: 1.35;
+    }
+
+    .status-stack,
+    .stack {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .status-card,
+    .note-card,
+    .run-stat,
+    .summary-stat,
+    .plan-note,
+    .goal-line,
+    .history-card,
+    .holding-card,
+    .catalog-card,
+    .legend-card {
+      padding: 1rem 1.05rem;
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(255, 250, 242, 0.9), rgba(244, 233, 215, 0.92));
+      border: 1px solid rgba(93, 73, 53, 0.14);
+    }
+
+    .status-card strong,
+    .note-card strong,
+    .run-stat strong,
+    .summary-stat strong,
+    .legend-card strong {
+      display: block;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--moss);
+      margin-bottom: 0.35rem;
+    }
+
+    .status-card span,
+    .note-card span {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.55rem;
+    }
+
+    .panel {
+      padding: 1.1rem;
+    }
+
+    .review-nav {
+      position: sticky;
+      top: 0.75rem;
+      z-index: 3;
+      margin: 1rem 0;
+    }
+
+    .review-nav .panel {
+      padding: 0.9rem 1rem;
+    }
+
+    .review-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .jump-links a {
+      text-decoration: none;
+    }
+
+    .review-section {
+      display: grid;
+      gap: 0.85rem;
+      margin-top: 1.5rem;
+    }
+
+    .review-section:first-of-type {
+      margin-top: 0;
+    }
+
+    .section-head {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .section-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.7rem;
+      justify-content: space-between;
+    }
+
+    .section-title-row h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3vw, 2.3rem);
+    }
+
+    .section-copy {
+      max-width: 58rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .mock-browser {
+      padding: 1rem;
+      overflow: hidden;
+    }
+
+    .mock-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: center;
+      padding: 0.5rem 0.2rem 1rem;
+    }
+
+    .mock-title {
+      display: grid;
+      gap: 0.25rem;
+    }
+
+    .mock-title strong {
+      font-size: 0.98rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--moss);
+    }
+
+    .mock-title span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .nav-shell {
+      display: grid;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .tabs {
+      padding: 0.1rem;
+    }
+
+    .tab-button {
+      background: rgba(255, 255, 255, 0.54);
+      color: var(--ink);
+      border: 1px solid transparent;
+      padding: 0.8rem 1rem;
+      border-radius: 14px;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    .tab-button.active {
+      background: rgba(54, 80, 60, 0.14);
+      color: var(--moss);
+      border-color: rgba(54, 80, 60, 0.16);
+    }
+
+    .run-bar-panel {
+      padding: 1rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.56);
+      border: 1px solid rgba(93, 73, 53, 0.12);
+      display: grid;
+      gap: 1rem;
+    }
+
+    .run-summary-grid,
+    .summary-grid,
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .run-stat span,
+    .summary-stat span {
+      font-size: 1.2rem;
+      font-family: var(--serif);
+      display: block;
+    }
+
+    .planner-layout {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.95fr) minmax(380px, 1.45fr) minmax(260px, 0.85fr);
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .planner-layout .panel,
+    .workbench-layout .panel,
+    .catalog-layout .panel {
+      height: 100%;
+    }
+
+    .compact-head,
+    .planner-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: start;
+      margin-bottom: 0.85rem;
+    }
+
+    .compact-head h3,
+    .planner-head h3,
+    .phone-shell h3 {
+      font-size: 1.15rem;
+    }
+
+    .section-meta {
+      margin-top: 0.1rem;
+    }
+
+    .goal-line {
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .goal-line-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.65rem;
+      align-items: center;
+    }
+
+    .goal-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.32rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(54, 80, 60, 0.1);
+      color: var(--moss);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+    }
+
+    .goal-line strong,
+    .plan-step strong,
+    .history-card strong,
+    .catalog-card strong,
+    .holding-card strong {
+      display: block;
+      font-size: 1rem;
+    }
+
+    .goal-grid,
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem;
+    }
+
+    .mini-field {
+      padding: 0.7rem 0.75rem;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(93, 73, 53, 0.11);
+    }
+
+    .mini-field .label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.18rem;
+    }
+
+    .status-banner {
+      display: grid;
+      gap: 0.35rem;
+      padding: 0.95rem 1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(93, 73, 53, 0.14);
+      margin-bottom: 0.85rem;
+    }
+
+    .status-banner.good {
+      background: linear-gradient(145deg, rgba(233, 245, 236, 0.96), rgba(242, 235, 219, 0.96));
+    }
+
+    .status-banner.bad {
+      background: linear-gradient(145deg, rgba(255, 238, 234, 0.96), rgba(243, 231, 220, 0.96));
+    }
+
+    .status-banner.review {
+      background: linear-gradient(145deg, rgba(255, 246, 226, 0.98), rgba(243, 231, 220, 0.96));
+    }
+
+    .status-banner strong {
+      font-size: 0.96rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .status-banner.good strong {
+      color: var(--moss);
+    }
+
+    .status-banner.bad strong {
+      color: var(--danger);
+    }
+
+    .status-banner.review strong {
+      color: var(--ember-deep);
+    }
+
+    .plan-steps {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .plan-step {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.75rem;
+      align-items: start;
+      padding: 0.9rem 0.95rem;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(93, 73, 53, 0.12);
+    }
+
+    .step-index {
+      width: 2rem;
+      height: 2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: rgba(54, 80, 60, 0.12);
+      color: var(--moss);
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+
+    .delta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 4.9rem;
+      padding: 0.4rem 0.65rem;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      letter-spacing: 0.02em;
+    }
+
+    .delta.negative {
+      background: rgba(190, 90, 44, 0.14);
+      color: var(--ember-deep);
+    }
+
+    .delta.zero {
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--muted);
+    }
+
+    .delta.positive {
+      background: rgba(54, 80, 60, 0.14);
+      color: var(--moss);
+    }
+
+    .plan-step p,
+    .plan-note p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1rem;
+    }
+
+    .button-primary,
+    .button-secondary,
+    .button-soft {
+      border: 1px solid transparent;
+      border-radius: 14px;
+      padding: 0.8rem 1rem;
+      font-weight: 700;
+      font-family: inherit;
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, var(--ember), var(--ember-deep));
+      color: #fff7f2;
+      box-shadow: 0 10px 18px rgba(143, 50, 17, 0.18);
+    }
+
+    .button-secondary {
+      background: rgba(54, 80, 60, 0.12);
+      color: var(--moss);
+      border-color: rgba(54, 80, 60, 0.16);
+    }
+
+    .button-soft {
+      background: rgba(255, 255, 255, 0.66);
+      color: var(--ink);
+      border-color: rgba(93, 73, 53, 0.15);
+    }
+
+    .note-stack {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .plan-note strong,
+    .history-card .tiny strong,
+    .holding-card .tiny strong,
+    .catalog-card .tiny strong {
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--moss);
+    }
+
+    .legend-card {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .chip-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.34rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(93, 73, 53, 0.11);
+      font-size: 0.8rem;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+
+    .catalog-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .catalog-card {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.8rem 0.9rem;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid rgba(93, 73, 53, 0.1);
+    }
+
+    .toggle {
+      width: 3rem;
+      height: 1.8rem;
+      border-radius: 999px;
+      background: rgba(54, 80, 60, 0.2);
+      position: relative;
+      border: 1px solid rgba(54, 80, 60, 0.2);
+    }
+
+    .toggle::after {
+      content: "";
+      position: absolute;
+      top: 0.16rem;
+      left: 1.36rem;
+      width: 1.1rem;
+      height: 1.1rem;
+      border-radius: 999px;
+      background: var(--moss);
+      box-shadow: 0 6px 10px rgba(54, 80, 60, 0.16);
+    }
+
+    .workbench-layout {
+      display: grid;
+      grid-template-columns: minmax(270px, 0.8fr) minmax(340px, 1.2fr) minmax(270px, 0.8fr);
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .holding-list,
+    .history-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .holding-card-head,
+    .history-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.7rem;
+      align-items: start;
+    }
+
+    .holding-card-value {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+    }
+
+    .history-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.45rem;
+    }
+
+    .warning-list {
+      display: grid;
+      gap: 0.6rem;
+      margin-top: 0.75rem;
+    }
+
+    .warning-row {
+      padding: 0.9rem;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(161, 58, 47, 0.14);
+    }
+
+    .phone-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .phone-frame {
+      width: min(430px, 100%);
+      padding: 0.8rem;
+      margin: 0 auto;
+      background: linear-gradient(180deg, rgba(255, 248, 232, 0.95), rgba(244, 233, 215, 0.95));
+      position: relative;
+    }
+
+    .phone-shell {
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.48);
+      border: 1px solid rgba(93, 73, 53, 0.1);
+      padding: 0.85rem;
+      display: grid;
+      gap: 0.85rem;
+      overflow: hidden;
+    }
+
+    .phone-topbar {
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .phone-topbar .tabs {
+      gap: 0.45rem;
+    }
+
+    .phone-topbar .tab-button {
+      flex: 1 1 calc(33.333% - 0.45rem);
+      min-height: 2.7rem;
+      padding: 0.7rem 0.75rem;
+      white-space: normal;
+      font-size: 0.88rem;
+    }
+
+    .mobile-section-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.55rem;
+    }
+
+    .mobile-section-button {
+      display: grid;
+      gap: 0.2rem;
+      padding: 0.72rem 0.7rem;
+      border-radius: 16px;
+      border: 1px solid rgba(93, 73, 53, 0.12);
+      background: rgba(255, 255, 255, 0.66);
+      text-align: left;
+    }
+
+    .mobile-section-button.active {
+      background: rgba(54, 80, 60, 0.12);
+      border-color: rgba(54, 80, 60, 0.16);
+      color: var(--moss);
+    }
+
+    .phone-card {
+      padding: 0.85rem 0.9rem;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(93, 73, 53, 0.1);
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .phone-step {
+      display: grid;
+      gap: 0.4rem;
+      padding: 0.8rem 0.85rem;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(93, 73, 53, 0.1);
+    }
+
+    .mobile-sheet {
+      position: absolute;
+      inset: auto 0.8rem 0.8rem;
+      border-radius: 22px;
+      background: rgba(255, 248, 232, 0.98);
+      border: 1px solid rgba(93, 73, 53, 0.14);
+      box-shadow: 0 20px 40px rgba(41, 26, 8, 0.2);
+      padding: 1rem;
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .mobile-sheet-handle {
+      width: 4rem;
+      height: 0.34rem;
+      border-radius: 999px;
+      background: rgba(93, 73, 53, 0.18);
+      margin: 0 auto 0.2rem;
+    }
+
+    .review-footer {
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 1120px) {
+      .planner-layout,
+      .workbench-layout,
+      .catalog-layout,
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .planner-layout .panel,
+      .workbench-layout .panel,
+      .catalog-layout .panel {
+        height: auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .app-shell {
+        width: min(100vw - 1rem, 100%);
+        margin: 0.5rem auto 1.5rem;
+      }
+
+      .hero,
+      .mock-browser,
+      .panel,
+      .phone-frame {
+        border-radius: 20px;
+      }
+
+      .hero,
+      .mock-browser,
+      .panel {
+        padding: 1rem;
+      }
+
+      .tab-button {
+        flex: 1 1 calc(33.333% - 0.55rem);
+        min-height: 2.7rem;
+        white-space: normal;
+      }
+
+      .goal-grid,
+      .meta-grid,
+      .catalog-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .plan-step {
+        grid-template-columns: auto 1fr;
+      }
+
+      .plan-step .delta {
+        grid-column: 2;
+        justify-self: start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Phase 6 Review Package</span>
+          <div>
+            <h1>Planner Mockups</h1>
+            <p>Static review screens for the future planner tab, built to match the shipped Poshy shell without changing <code>index.html</code>. Every visible price, sell value, and socket rule comes from the current seed data. The only curated deviations are planner-local review states that demonstrate sell rules and ingredient reserves.</p>
+          </div>
+          <div class="hero-mini-list">
+            <span class="hero-mini">New top-level tab order: Workbench, Planner, Inventory, For Sale, Catalog, Data Studio</span>
+            <span class="hero-mini">Request lines: stackable, equipment, combo</span>
+            <span class="hero-mini">Planner rules own liquidation permissions and ingredient reserves</span>
+            <span class="hero-mini">Planner output stays deterministic and maps back to normal simulator history</span>
+          </div>
+        </div>
+        <div class="status-stack">
+          <div class="status-card">
+            <strong>Seed Start</strong>
+            <span>339g</span>
+            <div class="tiny">Current seed workbench gold used as the baseline for the mockups.</div>
+          </div>
+          <div class="status-card">
+            <strong>Seed Facts Used</strong>
+            <div class="tiny">Bronze ring buy 40g, sell 20g, imbue fee 50g, 1 socket. Bronze necklace buy 150g, 3 sockets, not sold this week.</div>
+          </div>
+          <div class="status-card">
+            <strong>Review Guardrail</strong>
+            <div class="tiny">The mixed plan uses a late-run workbench state where <code>Basic Iron Shield</code> is no longer held. That keeps the requested rebuy preview internally consistent while staying within current seed economics.</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="review-nav">
+      <div class="panel">
+        <div class="compact-head">
+          <div>
+            <h3>Jump To Mock State</h3>
+            <div class="section-meta">Ten anchored screens: eight desktop and two mobile.</div>
+          </div>
+          <span class="status-pill review">Static Review Only</span>
+        </div>
+        <div class="jump-links">
+          <a class="pill" href="#desktop-overview">Desktop 1</a>
+          <a class="pill" href="#desktop-stackable-plan">Desktop 2</a>
+          <a class="pill" href="#desktop-combo-plan">Desktop 3</a>
+          <a class="pill" href="#desktop-rules">Desktop 4</a>
+          <a class="pill" href="#desktop-mixed-plan">Desktop 5</a>
+          <a class="pill" href="#desktop-liquidation-plan">Desktop 6</a>
+          <a class="pill" href="#desktop-applied-plan">Desktop 7</a>
+          <a class="pill" href="#desktop-blocked-plan">Desktop 8</a>
+          <a class="pill" href="#mobile-overview">Mobile 1</a>
+          <a class="pill" href="#mobile-detail">Mobile 2</a>
+        </div>
+      </div>
+    </div>
+
+    <main class="review-grid">
+      <section class="review-section" id="desktop-overview">
+        <div class="section-head">
+          <div class="section-title-row">
+            <h2>Desktop 1: Planner Overview</h2>
+            <span class="status-pill review">Planner Tab Inserted After Workbench</span>
+          </div>
+          <p class="section-copy">Empty review state for the new tab. It introduces the request builder, planner summary cards, and the rule that planning always starts from the current workbench state, not from the base scenario editor.</p>
+        </div>
+        <div class="mock-browser">
+          <div class="mock-head">
+            <div class="mock-title">
+              <strong>Poshy Lab</strong>
+              <span>Standalone review mockup - no simulator logic attached</span>
+            </div>
+            <div class="pill-row">
+              <span class="pill">Current workbench state is the planner baseline</span>
+              <span class="pill">Apply plan expands back into normal history entries</span>
+            </div>
+          </div>
+          <div class="nav-shell">
+            <div class="tabs">
+              <span class="tab-button">Workbench</span>
+              <span class="tab-button active">Planner</span>
+              <span class="tab-button">Inventory</span>
+              <span class="tab-button">For Sale</span>
+              <span class="tab-button">Catalog</span>
+              <span class="tab-button">Data Studio</span>
+            </div>
+            <div class="run-bar-panel">
+              <div class="run-summary-grid">
+                <div class="run-stat"><strong>Gold</strong><span>339g</span></div>
+                <div class="run-stat"><strong>Potions</strong><span>3</span></div>
+                <div class="run-stat"><strong>Gems</strong><span>0</span></div>
+                <div class="run-stat"><strong>Equipment</strong><span>4</span></div>
+                <div class="run-stat"><strong>Planner Lines</strong><span>0</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="planner-layout">
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Goal Builder</h3>
+                  <div class="section-meta">Compose exact end-state requests from stackables, standalone gear, and combo lines.</div>
+                </div>
+                <span class="status-pill review">Draft</span>
+              </div>
+              <div class="stack">
+                <div class="goal-line">
+                  <div class="goal-line-head">
+                    <span class="goal-type">Stackable</span>
+                    <span class="tiny">Example line</span>
+                  </div>
+                  <strong>Select any output</strong>
+                  <div class="goal-grid">
+                    <div class="mini-field"><span class="label">Output</span>Blessed medicine</div>
+                    <div class="mini-field"><span class="label">Quantity</span>3</div>
+                  </div>
+                </div>
+                <div class="goal-line">
+                  <div class="goal-line-head">
+                    <span class="goal-type">Equipment</span>
+                    <span class="tiny">Example line</span>
+                  </div>
+                  <strong>Select standalone equipment</strong>
+                  <div class="goal-grid">
+                    <div class="mini-field"><span class="label">Definition</span>Basic Iron Shield</div>
+                    <div class="mini-field"><span class="label">Quantity</span>1</div>
+                  </div>
+                </div>
+                <div class="goal-line">
+                  <div class="goal-line-head">
+                    <span class="goal-type">Combo</span>
+                    <span class="tiny">Example line</span>
+                  </div>
+                  <strong>Select accessory plus socketed gems</strong>
+                  <div class="goal-grid">
+                    <div class="mini-field"><span class="label">Accessory</span>Bronze ring</div>
+                    <div class="mini-field"><span class="label">Socket 1</span>Sapphire</div>
+                  </div>
+                </div>
+              </div>
+              <div class="button-row">
+                <button class="button-soft">Add Stackable Line</button>
+                <button class="button-soft">Add Equipment Line</button>
+                <button class="button-soft">Add Combo Line</button>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Plan Preview</h3>
+                  <div class="section-meta">Deterministic output only. No speculative text, no hidden branch choices.</div>
+                </div>
+                <span class="status-pill review">Awaiting Request Lines</span>
+              </div>
+              <div class="status-banner review">
+                <strong>No plan yet</strong>
+                <div>Start by adding one or more request lines. The planner evaluates the current workbench, player-owned sell permissions, keep floors, and pinned reserves before previewing a sequence.</div>
+              </div>
+              <div class="summary-grid">
+                <div class="summary-stat"><strong>Gross Spend</strong><span>0g</span></div>
+                <div class="summary-stat"><strong>Liquidation Recovered</strong><span>0g</span></div>
+                <div class="summary-stat"><strong>Net Gold Delta</strong><span>0g</span></div>
+                <div class="summary-stat"><strong>Steps</strong><span>0</span></div>
+              </div>
+              <div class="button-row">
+                <button class="button-primary">Preview Plan</button>
+                <button class="button-secondary">Clear Lines</button>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Planner Rules</h3>
+                  <div class="section-meta">Player-owned liquidation controls live in Planner, not in Catalog.</div>
+                </div>
+                <span class="status-pill good">Per Run</span>
+              </div>
+              <div class="note-stack">
+                <div class="plan-note">
+                  <strong>Equipment sell permissions</strong>
+                  <p>Owned gear can be marked <code>Allow planner to sell</code> or <code>Protect from planner</code> without changing Catalog definitions.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>Ingredient reserves</strong>
+                  <p>Keep floors and pinned reserve outputs leave enough herbs and gem pieces on hand for future crafts.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>Preview contract</strong>
+                  <p>Preview rows stay normalized and readable, while <code>Apply Plan</code> expands back into ordinary craft, buy, sell, and assemble actions in history.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="review-section" id="desktop-stackable-plan">
+        <div class="section-head">
+          <div class="section-title-row">
+            <h2>Desktop 2: Solved Stackable Plan</h2>
+            <span class="status-pill good">Blessed medicine x3</span>
+          </div>
+          <p class="section-copy">Review state for the simplest craft-vs-buy planner story. The seed already owns <code>Runic bone x4</code>, so the preview buys only the missing <code>Holy water</code> and crafts twice instead of spending 200g on direct buys.</p>
+        </div>
+        <div class="mock-browser">
+          <div class="mock-head">
+            <div class="mock-title">
+              <strong>Planner Focus</strong>
+              <span>Craft-vs-buy should read immediately from the step list and summary cards.</span>
+            </div>
+            <div class="pill-row">
+              <span class="pill">1 Blessed medicine already owned</span>
+              <span class="pill">Holy water sold this week at 20g</span>
+              <span class="pill">Runic bone already owned and not sold this week</span>
+            </div>
+          </div>
+          <div class="nav-shell">
+            <div class="tabs">
+              <span class="tab-button">Workbench</span>
+              <span class="tab-button active">Planner</span>
+              <span class="tab-button">Inventory</span>
+              <span class="tab-button">For Sale</span>
+              <span class="tab-button">Catalog</span>
+              <span class="tab-button">Data Studio</span>
+            </div>
+          </div>
+          <div class="planner-layout">
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Goal Builder</h3>
+                  <div class="section-meta">One stackable line, target end-state quantity of three.</div>
+                </div>
+                <span class="status-pill good">1 Line</span>
+              </div>
+              <div class="goal-line">
+                <div class="goal-line-head">
+                  <span class="goal-type">Stackable</span>
+                  <span class="tiny">Need +2</span>
+                </div>
+                <strong>Blessed medicine</strong>
+                <div class="goal-grid">
+                  <div class="mini-field"><span class="label">Target Quantity</span>3</div>
+                  <div class="mini-field"><span class="label">Currently Owned</span>1</div>
+                </div>
+                <div class="meta-grid">
+                  <div class="mini-field"><span class="label">Direct Buy Price</span>100g each</div>
+                  <div class="mini-field"><span class="label">Craft Inputs</span>Holy water x3, Runic bone x1</div>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="status-banner good">
+                <strong>Solution found</strong>
+                <div>Two crafts beat two direct buys because only <code>Holy water</code> is missing. The seed already covers the <code>Runic bone</code> requirement.</div>
+              </div>
+              <div class="summary-grid">
+                <div class="summary-stat"><strong>Gross Spend</strong><span>120g</span></div>
+                <div class="summary-stat"><strong>Liquidation Recovered</strong><span>0g</span></div>
+                <div class="summary-stat"><strong>Net Gold Delta</strong><span>-120g</span></div>
+                <div class="summary-stat"><strong>Final Gold</strong><span>219g</span></div>
+                <div class="summary-stat"><strong>Steps</strong><span>3</span></div>
+                <div class="summary-stat"><strong>Direct Buy Alt</strong><span>200g</span></div>
+              </div>
+              <div class="plan-steps">
+                <div class="plan-step">
+                  <span class="step-index">1</span>
+                  <div>
+                    <strong>Buy Holy water x6</strong>
+                    <p>Two crafts need six total. <code>Holy water</code> is sold this week at 20g each.</p>
+                  </div>
+                  <span class="delta negative">-120g</span>
+                </div>
+                <div class="plan-step">
+                  <span class="step-index">2</span>
+                  <div>
+                    <strong>Craft Blessed medicine</strong>
+                    <p>Consumes <code>Holy water x3</code> plus one owned <code>Runic bone</code>.</p>
+                  </div>
+                  <span class="delta zero">0g</span>
+                </div>
+                <div class="plan-step">
+                  <span class="step-index">3</span>
+                  <div>
+                    <strong>Craft Blessed medicine</strong>
+                    <p>Repeats the same conversion for the third copy and keeps 219g on hand.</p>
+                  </div>
+                  <span class="delta zero">0g</span>
+                </div>
+              </div>
+              <div class="button-row">
+                <button class="button-primary">Apply Plan To Workbench</button>
+                <button class="button-secondary">Inspect Blessed medicine</button>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Why This Review State Matters</h3>
+                  <div class="section-meta">The preview must read like an exact economic choice, not like a recipe browser.</div>
+                </div>
+              </div>
+              <div class="note-stack">
+                <div class="plan-note">
+                  <strong>Cheaper path</strong>
+                  <p>Buying two finished copies costs 200g. Buying six <code>Holy water</code> and using owned <code>Runic bone</code> costs 120g.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>Seed alignment</strong>
+                  <p>The seed starts with <code>Blessed medicine x1</code>, <code>Holy water x0</code>, and <code>Runic bone x4</code>.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>Apply behavior</strong>
+                  <p>On apply, the preview should become ordinary buy and craft history entries instead of a special planner log.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="review-section" id="desktop-combo-plan">
+        <div class="section-head">
+          <div class="section-title-row">
+            <h2>Desktop 3: Solved Combo Plan</h2>
+            <span class="status-pill good">Bronze ring + Sapphire</span>
+          </div>
+          <p class="section-copy">Review state for combo acquisition. The ring base already exists in the seed, <code>Sapphire piece x9</code> already exists in the seed, and the only new spend is the fixed 50g imbue fee for assembling the socketed ring.</p>
+        </div>
+        <div class="mock-browser">
+          <div class="mock-head">
+            <div class="mock-title">
+              <strong>Accessory Planning</strong>
+              <span>Planner output should combine gem acquisition with accessory assembly in one deterministic preview.</span>
+            </div>
+            <div class="pill-row">
+              <span class="pill">Bronze ring owned</span>
+              <span class="pill">Sapphire piece x9 owned</span>
+              <span class="pill">Bronze ring imbue fee 50g</span>
+            </div>
+          </div>
+          <div class="nav-shell">
+            <div class="tabs">
+              <span class="tab-button">Workbench</span>
+              <span class="tab-button active">Planner</span>
+              <span class="tab-button">Inventory</span>
+              <span class="tab-button">For Sale</span>
+              <span class="tab-button">Catalog</span>
+              <span class="tab-button">Data Studio</span>
+            </div>
+          </div>
+          <div class="planner-layout">
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Goal Builder</h3>
+                  <div class="section-meta">Single combo line with one explicit socket.</div>
+                </div>
+                <span class="status-pill good">1 Line</span>
+              </div>
+              <div class="goal-line">
+                <div class="goal-line-head">
+                  <span class="goal-type">Combo</span>
+                  <span class="tiny">Bronze ring supports 1 socket</span>
+                </div>
+                <strong>Bronze ring</strong>
+                <div class="goal-grid">
+                  <div class="mini-field"><span class="label">Socket 1</span>Sapphire</div>
+                  <div class="mini-field"><span class="label">Current Base</span>Owned</div>
+                </div>
+                <div class="meta-grid">
+                  <div class="mini-field"><span class="label">Gem Craft Path</span>Sapphire piece x5</div>
+                  <div class="mini-field"><span class="label">Projected Sell Value</span>70g total</div>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="status-banner good">
+                <strong>Solution found</strong>
+                <div>The base ring is already held, the gem can be crafted from owned pieces, and only the fixed 50g assembly fee changes gold.</div>
+              </div>
+              <div class="summary-grid">
+                <div class="summary-stat"><strong>Gross Spend</strong><span>50g</span></div>
+                <div class="summary-stat"><strong>Liquidation Recovered</strong><span>0g</span></div>
+                <div class="summary-stat"><strong>Net Gold Delta</strong><span>-50g</span></div>
+                <div class="summary-stat"><strong>Final Gold</strong><span>289g</span></div>
+                <div class="summary-stat"><strong>Steps</strong><span>2</span></div>
+                <div class="summary-stat"><strong>Combo Sell Value</strong><span>70g</span></div>
+              </div>
+              <div class="plan-steps">
+                <div class="plan-step">
+                  <span class="step-index">1</span>
+                  <div>
+                    <strong>Craft Sapphire</strong>
+                    <p>Consumes <code>Sapphire piece x5</code> already owned in the current workbench. No new gold spend is required.</p>
+                  </div>
+                  <span class="delta zero">0g</span>
+                </div>
+                <div class="plan-step">
+                  <span class="step-index">2</span>
+                  <div>
+                    <strong>Assemble Bronze ring with Sapphire</strong>
+                    <p>Uses the owned base ring, inserts the crafted gem, and pays the 50g imbue fee defined on the accessory.</p>
+                  </div>
+                  <span class="delta negative">-50g</span>
+                </div>
+              </div>
+              <div class="button-row">
+                <button class="button-primary">Apply Plan To Workbench</button>
+                <button class="button-secondary">Inspect Bronze ring</button>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Combo Review Notes</h3>
+                  <div class="section-meta">This screen proves the planner can bridge existing phase 4 assembly flows.</div>
+                </div>
+              </div>
+              <div class="note-stack">
+                <div class="plan-note">
+                  <strong>Socket rule</strong>
+                  <p><code>Bronze ring</code> has a socket policy of <code>max_gems = 1</code> and <code>imbue_fee = 50</code>.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>Sell-value framing</strong>
+                  <p>The review copy surfaces the combined sell value: 20g for the base ring plus 50g for the socketed <code>Sapphire</code>.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>Flow tie-in</strong>
+                  <p>The follow-up applied state for a combo should still appear in normal holdings cards and normal action log rows.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="review-section" id="desktop-rules">
+        <div class="section-head">
+          <div class="section-title-row">
+            <h2>Desktop 4: Planner Rules</h2>
+            <span class="status-pill review">Player-Owned Controls</span>
+          </div>
+          <p class="section-copy">Dedicated planner-local rules surface for liquidation permissions and ingredient reserves. This keeps GM/admin catalog data read-only while giving the player a place to decide what the planner may sell and what it must preserve.</p>
+        </div>
+        <div class="mock-browser">
+          <div class="mock-head">
+            <div class="mock-title">
+              <strong>Planner Rules Surface</strong>
+              <span>Liquidation policy is configured per run, inside Planner.</span>
+            </div>
+            <div class="pill-row">
+              <span class="pill">Leather Shoes sell 25g at current 0.5 markdown</span>
+              <span class="pill">Moonstone reserve protects Moonstone piece x5</span>
+              <span class="pill">Batta berry keep floor leaves 5 on hand</span>
+            </div>
+          </div>
+          <div class="nav-shell">
+            <div class="tabs">
+              <span class="tab-button">Workbench</span>
+              <span class="tab-button active">Planner</span>
+              <span class="tab-button">Inventory</span>
+              <span class="tab-button">For Sale</span>
+              <span class="tab-button">Catalog</span>
+              <span class="tab-button">Data Studio</span>
+            </div>
+          </div>
+          <div class="planner-layout">
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Equipment Sell Permissions</h3>
+                  <div class="section-meta">Per-owned-instance rules for what the planner may liquidate.</div>
+                </div>
+                <span class="status-pill review">Rules</span>
+              </div>
+              <div class="catalog-card">
+                <div class="holding-card-head">
+                  <div>
+                    <strong>Leather Shoes</strong>
+                    <div class="chip-stack" style="margin-top:0.45rem;">
+                      <span class="chip">Owned</span>
+                      <span class="chip">Footwear</span>
+                      <span class="chip">Sell 25g</span>
+                    </div>
+                  </div>
+                  <span class="status-pill good">Allow Planner To Sell</span>
+                </div>
+                <div class="tiny">Used by the mixed plan when the workbench is otherwise short by 11g.</div>
+              </div>
+              <div class="catalog-card" style="margin-top:1rem;">
+                <div class="holding-card-head">
+                  <div>
+                    <strong>Silver Talisman</strong>
+                    <div class="chip-stack" style="margin-top:0.45rem;">
+                      <span class="chip">Owned</span>
+                      <span class="chip">Accessory</span>
+                      <span class="chip">Sell 65g</span>
+                    </div>
+                  </div>
+                  <span class="status-pill review">Protected</span>
+                </div>
+                <div class="tiny">Higher sell value, but intentionally protected so the planner cannot liquidate it for convenience.</div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Ingredient Reserves</h3>
+                  <div class="section-meta">Keep floors plus pinned reserve outputs guard against selling away future craft options.</div>
+                </div>
+                <span class="status-pill good">3 Active</span>
+              </div>
+              <div class="note-stack">
+                <div class="plan-note">
+                  <strong>Keep floor: Batta berry</strong>
+                  <p>Keep at least <code>5</code> on hand. The planner may only liquidate the surplus above that floor.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>Pinned reserve: Moonstone x1</strong>
+                  <p>Protects <code>Moonstone piece x5</code>, so the ingredient-funding example never sells those pieces even though they are valuable.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>Pinned reserve: Blessed medicine x1</strong>
+                  <p>Protects one <code>Runic bone</code> from liquidation so the player keeps open a future craft path.</p>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Review Notes</h3>
+                  <div class="section-meta">Carry this model into phase 6 instead of reviving catalog-owned optimizer metadata.</div>
+                </div>
+              </div>
+              <div class="note-stack">
+                <div class="plan-note">
+                  <strong>Why this lives here</strong>
+                  <p>The player experiences planning from the workbench side, so liquidation policy belongs with goals and preview output, not in GM/admin setup tabs.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>How later screens use it</strong>
+                  <p>The mixed plan consumes the approved <code>Leather Shoes</code> sale. The ingredient-funding example consumes only the surplus left above keep floors and pinned reserves.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>Persistence model</strong>
+                  <p>These rules are per-run planner state. They should reset with <code>Reset Run</code> and <code>Seed From Base</code>, and they should not create history entries.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="review-section" id="desktop-mixed-plan">
+        <div class="section-head">
+          <div class="section-title-row">
+            <h2>Desktop 5: Mixed Cross-System Plan</h2>
+            <span class="status-pill review">Curated Late-Run Workbench State</span>
+          </div>
+          <p class="section-copy">Main integrated review screen. This mock uses a later run state where <code>Bronze ring</code> and <code>Leather Shoes</code> are still held, <code>Basic Iron Shield</code> is no longer held, and planner rules explicitly allow the shoes to be liquidated. That keeps the requested preview internally consistent and leaves exactly 14g after applying the shown sequence.</p>
+        </div>
+        <div class="mock-browser">
+          <div class="mock-head">
+            <div class="mock-title">
+              <strong>Integrated Planner Review</strong>
+              <span>Stackables, standalone equipment, combo assembly, and planner-owned funding rules all surface in one plan.</span>
+            </div>
+            <div class="pill-row">
+              <span class="pill">Late-run workbench: Basic Iron Shield not currently owned</span>
+              <span class="pill">Moonstone piece x5 owned</span>
+              <span class="pill">Without approved liquidation the plan is short by 11g</span>
+            </div>
+          </div>
+          <div class="nav-shell">
+            <div class="tabs">
+              <span class="tab-button">Workbench</span>
+              <span class="tab-button active">Planner</span>
+              <span class="tab-button">Inventory</span>
+              <span class="tab-button">For Sale</span>
+              <span class="tab-button">Catalog</span>
+              <span class="tab-button">Data Studio</span>
+            </div>
+          </div>
+          <div class="planner-layout">
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Goal Builder</h3>
+                  <div class="section-meta">Three request lines across two existing systems and one combo workflow.</div>
+                </div>
+                <span class="status-pill good">3 Lines</span>
+              </div>
+              <div class="stack">
+                <div class="goal-line">
+                  <div class="goal-line-head">
+                    <span class="goal-type">Equipment</span>
+                    <span class="tiny">Need 1</span>
+                  </div>
+                  <strong>Basic Iron Shield</strong>
+                  <div class="goal-grid">
+                    <div class="mini-field"><span class="label">Target Quantity</span>1</div>
+                    <div class="mini-field"><span class="label">Currently Owned</span>0</div>
+                  </div>
+                </div>
+                <div class="goal-line">
+                  <div class="goal-line-head">
+                    <span class="goal-type">Stackable</span>
+                    <span class="tiny">Need 2</span>
+                  </div>
+                  <strong>Super potion</strong>
+                  <div class="goal-grid">
+                    <div class="mini-field"><span class="label">Target Quantity</span>2</div>
+                    <div class="mini-field"><span class="label">Currently Owned</span>0</div>
+                  </div>
+                </div>
+                <div class="goal-line">
+                  <div class="goal-line-head">
+                    <span class="goal-type">Combo</span>
+                    <span class="tiny">Base already owned</span>
+                  </div>
+                  <strong>Bronze ring</strong>
+                  <div class="goal-grid">
+                    <div class="mini-field"><span class="label">Socket 1</span>Moonstone</div>
+                    <div class="mini-field"><span class="label">Current Base</span>Owned</div>
+                  </div>
+                </div>
+              </div>
+              <div class="note-stack" style="margin-top:1rem;">
+                <div class="plan-note">
+                  <strong>Current review-state holdings</strong>
+                  <p><code>Bronze ring</code>, <code>Leather Shoes</code>, and <code>Silver Talisman</code> are still present. <code>Basic Iron Shield</code> is not.</p>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="status-banner good">
+                <strong>Solution found</strong>
+                <div>The planner buys two finished <code>Super potions</code>, buys one <code>Basic Iron Shield</code>, crafts <code>Moonstone</code> from owned pieces, and only becomes feasible after liquidating the player-approved <code>Leather Shoes</code> for 25g.</div>
+              </div>
+              <div class="summary-grid">
+                <div class="summary-stat"><strong>Gross Spend</strong><span>350g</span></div>
+                <div class="summary-stat"><strong>Liquidation Recovered</strong><span>25g</span></div>
+                <div class="summary-stat"><strong>Net Gold Delta</strong><span>-325g</span></div>
+                <div class="summary-stat"><strong>Final Gold</strong><span>14g</span></div>
+                <div class="summary-stat"><strong>Steps</strong><span>5</span></div>
+                <div class="summary-stat"><strong>Feasibility Margin</strong><span>+14g</span></div>
+              </div>
+              <div class="warning-list" style="margin-bottom:1rem;">
+                <div class="warning-row">
+                  <strong>Funding</strong>
+                  <div class="tiny">Planner rules allow exactly one owned equipment liquidation here: <code>Leather Shoes (+25g)</code>. <code>Silver Talisman</code> remains protected.</div>
+                </div>
+              </div>
+              <div class="plan-steps">
+                <div class="plan-step">
+                  <span class="step-index">1</span>
+                  <div>
+                    <strong>Sell Leather Shoes</strong>
+                    <p>Allowed only because planner rules mark the owned pair as sellable. Current sell value is 25g.</p>
+                  </div>
+                  <span class="delta positive">+25g</span>
+                </div>
+                <div class="plan-step">
+                  <span class="step-index">2</span>
+                  <div>
+                    <strong>Buy Super potion x2</strong>
+                    <p>Both copies are sold this week at 135g each. The preview groups the pair into one normalized buy row.</p>
+                  </div>
+                  <span class="delta negative">-270g</span>
+                </div>
+                <div class="plan-step">
+                  <span class="step-index">3</span>
+                  <div>
+                    <strong>Buy Basic Iron Shield</strong>
+                    <p>The curated workbench snapshot no longer holds a shield, so the planner must buy one standalone copy at the weekly 30g listing.</p>
+                  </div>
+                  <span class="delta negative">-30g</span>
+                </div>
+                <div class="plan-step">
+                  <span class="step-index">4</span>
+                  <div>
+                    <strong>Craft Moonstone</strong>
+                    <p>Consumes <code>Moonstone piece x5</code> already held in the seed. No direct gold spend is required for the gem itself.</p>
+                  </div>
+                  <span class="delta zero">0g</span>
+                </div>
+                <div class="plan-step">
+                  <span class="step-index">5</span>
+                  <div>
+                    <strong>Assemble Bronze ring with Moonstone</strong>
+                    <p>Reuses the owned base ring, adds the crafted gem, and pays the accessory imbue fee of 50g.</p>
+                  </div>
+                  <span class="delta negative">-50g</span>
+                </div>
+              </div>
+              <div class="button-row">
+                <button class="button-primary">Apply Plan To Workbench</button>
+                <button class="button-secondary">Inspect Mixed Goal</button>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Review Notes</h3>
+                  <div class="section-meta">This is the main example for the walkthrough doc.</div>
+                </div>
+              </div>
+              <div class="note-stack">
+                <div class="plan-note">
+                  <strong>Why buy instead of craft</strong>
+                  <p>The mixed review state assumes zero <code>Super potion</code> on hand. The preview keeps the example simple by buying both finished copies at 135g each.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>Why the shield is rebought</strong>
+                  <p>This screen is intentionally a later run snapshot. The seeded shield existed earlier, but the review state no longer holds it, so rebuying one is consistent.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>Why the planner matters</strong>
+                  <p>The preview exposes a planner-rules dependency: the solution only works because the player approved one owned equipment sale while keeping the higher-value <code>Silver Talisman</code> protected.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="review-section" id="desktop-liquidation-plan">
+        <div class="section-head">
+          <div class="section-title-row">
+            <h2>Desktop 6: Ingredient Liquidation Plan</h2>
+            <span class="status-pill review">Curated Funding State</span>
+          </div>
+          <p class="section-copy">Focused review state for the common “sell surplus ingredients to buy non-craftable gear” story. The planner uses keep floors and pinned reserve outputs to decide what is safe to liquidate before buying a <code>Silver Talisman</code>.</p>
+        </div>
+        <div class="mock-browser">
+          <div class="mock-head">
+            <div class="mock-title">
+              <strong>Ingredient-Funded Purchase</strong>
+              <span>Liquidation should be explainable, not just numerically optimal.</span>
+            </div>
+            <div class="pill-row">
+              <span class="pill">Curated late-run gold: 82g</span>
+              <span class="pill">Aquamarine piece x5 owned</span>
+              <span class="pill">Batta berry keep floor: 5</span>
+              <span class="pill">Moonstone x1 reserve protects Moonstone piece x5</span>
+            </div>
+          </div>
+          <div class="nav-shell">
+            <div class="tabs">
+              <span class="tab-button">Workbench</span>
+              <span class="tab-button active">Planner</span>
+              <span class="tab-button">Inventory</span>
+              <span class="tab-button">For Sale</span>
+              <span class="tab-button">Catalog</span>
+              <span class="tab-button">Data Studio</span>
+            </div>
+          </div>
+          <div class="planner-layout">
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Goal Builder</h3>
+                  <div class="section-meta">Single non-craftable equipment target with planner-owned funding rules active.</div>
+                </div>
+                <span class="status-pill good">1 Line</span>
+              </div>
+              <div class="goal-line">
+                <div class="goal-line-head">
+                  <span class="goal-type">Equipment</span>
+                  <span class="tiny">Need 1</span>
+                </div>
+                <strong>Silver Talisman</strong>
+                <div class="goal-grid">
+                  <div class="mini-field"><span class="label">Target Quantity</span>1</div>
+                  <div class="mini-field"><span class="label">Currently Owned</span>0</div>
+                </div>
+                <div class="meta-grid">
+                  <div class="mini-field"><span class="label">Buy Price</span>130g</div>
+                  <div class="mini-field"><span class="label">Current Gold</span>82g</div>
+                </div>
+              </div>
+              <div class="note-stack" style="margin-top:1rem;">
+                <div class="plan-note">
+                  <strong>Relevant reserves</strong>
+                  <p><code>Batta berry</code> floor stays at <code>5</code>. Pinned reserves protect <code>Moonstone piece x5</code> and one <code>Runic bone</code>.</p>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="status-banner good">
+                <strong>Solution found</strong>
+                <div>The planner covers a 48g shortfall by selling only the safest surplus ingredients: first low-fanout <code>Aquamarine piece</code>, then the smallest needed slice of <code>Batta berry</code> above its keep floor.</div>
+              </div>
+              <div class="warning-list" style="margin-bottom:1rem;">
+                <div class="warning-row">
+                  <strong>Funding</strong>
+                  <div class="tiny"><code>Aquamarine piece</code> sits four above protection and has recipe fan-out 2. <code>Batta berry</code> sits two above its floor but has wider recipe fan-out, so it is used second.</div>
+                </div>
+              </div>
+              <div class="summary-grid">
+                <div class="summary-stat"><strong>Gross Spend</strong><span>130g</span></div>
+                <div class="summary-stat"><strong>Liquidation Recovered</strong><span>55g</span></div>
+                <div class="summary-stat"><strong>Net Gold Delta</strong><span>-75g</span></div>
+                <div class="summary-stat"><strong>Final Gold</strong><span>7g</span></div>
+                <div class="summary-stat"><strong>Steps</strong><span>3</span></div>
+                <div class="summary-stat"><strong>Shortfall Covered</strong><span>48g -> 55g</span></div>
+              </div>
+              <div class="plan-steps">
+                <div class="plan-step">
+                  <span class="step-index">1</span>
+                  <div>
+                    <strong>Sell Aquamarine piece x4</strong>
+                    <p>Sells the full safe surplus above protection. Each piece sells for 10g at the current markdown.</p>
+                  </div>
+                  <span class="delta positive">+40g</span>
+                </div>
+                <div class="plan-step">
+                  <span class="step-index">2</span>
+                  <div>
+                    <strong>Sell Batta berry x2</strong>
+                    <p>Covers the remaining gap without crossing the keep floor of five. Each berry sells for 7.5g.</p>
+                  </div>
+                  <span class="delta positive">+15g</span>
+                </div>
+                <div class="plan-step">
+                  <span class="step-index">3</span>
+                  <div>
+                    <strong>Buy Silver Talisman</strong>
+                    <p>Non-craftable accessory purchase at the weekly 130g listing.</p>
+                  </div>
+                  <span class="delta negative">-130g</span>
+                </div>
+              </div>
+              <div class="button-row">
+                <button class="button-primary">Apply Plan To Workbench</button>
+                <button class="button-secondary">Inspect Funding Rules</button>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Protected Inventory</h3>
+                  <div class="section-meta">The preview should make non-sells as visible as sells.</div>
+                </div>
+              </div>
+              <div class="note-stack">
+                <div class="plan-note">
+                  <strong>Moonstone reserve</strong>
+                  <p><code>Moonstone piece x5</code> is fully protected because the player pinned <code>Moonstone x1</code> in rules.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>Blessed medicine reserve</strong>
+                  <p>One <code>Runic bone</code> stays protected to preserve a future <code>Blessed medicine x1</code> craft path.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>Why not sell more</strong>
+                  <p>The plan stops once the shortfall is covered. Remaining protected and unprotected ingredients stay untouched because extra liquidation is outside the planner contract.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="review-section" id="desktop-applied-plan">
+        <div class="section-head">
+          <div class="section-title-row">
+            <h2>Desktop 7: Applied Plan Lands In Workbench</h2>
+            <span class="status-pill good">Ordinary History, Not Planner-Only History</span>
+          </div>
+          <p class="section-copy">Follow-up state showing the mixed plan after apply. The planner disappears as a special abstraction and the resulting work shows up as ordinary holdings changes and ordinary action-log rows.</p>
+        </div>
+        <div class="mock-browser">
+          <div class="mock-head">
+            <div class="mock-title">
+              <strong>Workbench After Apply</strong>
+              <span>Continuation of the mixed review state after expanding the normalized preview into regular simulator actions.</span>
+            </div>
+            <div class="pill-row">
+              <span class="pill">Gold now 14g</span>
+              <span class="pill">Bronze ring now socketed with Moonstone</span>
+              <span class="pill">Leather Shoes removed by planner liquidation</span>
+            </div>
+          </div>
+          <div class="nav-shell">
+            <div class="tabs">
+              <span class="tab-button active">Workbench</span>
+              <span class="tab-button">Planner</span>
+              <span class="tab-button">Inventory</span>
+              <span class="tab-button">For Sale</span>
+              <span class="tab-button">Catalog</span>
+              <span class="tab-button">Data Studio</span>
+            </div>
+            <div class="run-bar-panel">
+              <div class="run-summary-grid">
+                <div class="run-stat"><strong>Gold</strong><span>14g</span></div>
+                <div class="run-stat"><strong>Potions</strong><span>5</span></div>
+                <div class="run-stat"><strong>Gems</strong><span>0</span></div>
+                <div class="run-stat"><strong>Equipment</strong><span>3</span></div>
+                <div class="run-stat"><strong>Steps</strong><span>6</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="workbench-layout">
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Current Holdings</h3>
+                  <div class="section-meta">Relevant holdings after the applied mixed plan.</div>
+                </div>
+              </div>
+              <div class="holding-list">
+                <div class="holding-card">
+                  <div class="holding-card-head">
+                    <div>
+                      <strong>Basic Iron Shield</strong>
+                      <div class="chip-stack" style="margin-top:0.45rem;">
+                        <span class="chip">Equipment</span>
+                        <span class="chip">Rank C</span>
+                        <span class="chip">7 / 7 HP</span>
+                      </div>
+                    </div>
+                    <div class="holding-card-value">15g</div>
+                  </div>
+                  <div class="tiny">Bought during the applied plan and now present as a regular standalone equipment instance.</div>
+                </div>
+                <div class="holding-card">
+                  <div class="holding-card-head">
+                    <div>
+                      <strong>Bronze ring + Moonstone</strong>
+                      <div class="chip-stack" style="margin-top:0.45rem;">
+                        <span class="chip">Accessory</span>
+                        <span class="chip">Socketed: Moonstone</span>
+                        <span class="chip">Sell 70g</span>
+                      </div>
+                    </div>
+                    <div class="holding-card-value">70g</div>
+                  </div>
+                  <div class="tiny">Assembled combo value reflects 20g base-ring sell value plus 50g Moonstone sell value.</div>
+                </div>
+                <div class="holding-card">
+                  <div class="holding-card-head">
+                    <div>
+                      <strong>Silver Talisman</strong>
+                      <div class="chip-stack" style="margin-top:0.45rem;">
+                        <span class="chip">Accessory</span>
+                        <span class="chip">Sell 65g</span>
+                      </div>
+                    </div>
+                    <div class="holding-card-value">65g</div>
+                  </div>
+                  <div class="tiny">Still owned and untouched by the plan because planner rules protected it while allowing only <code>Leather Shoes</code> to be liquidated.</div>
+                </div>
+                <div class="holding-card">
+                  <div class="holding-card-head">
+                    <div>
+                      <strong>Super potion</strong>
+                      <div class="chip-stack" style="margin-top:0.45rem;">
+                        <span class="chip">Potion</span>
+                        <span class="chip">Count 2</span>
+                        <span class="chip">Buy 135g each</span>
+                      </div>
+                    </div>
+                    <div class="holding-card-value">2 owned</div>
+                  </div>
+                  <div class="tiny">Added through two ordinary buy actions after the plan was applied.</div>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Item Details</h3>
+                  <div class="section-meta">Example inspector target after planner apply.</div>
+                </div>
+                <span class="status-pill good">Selected</span>
+              </div>
+              <div class="catalog-card">
+                <strong>Bronze ring</strong>
+                <div class="chip-stack">
+                  <span class="chip">Accessory</span>
+                  <span class="chip">Rank A</span>
+                  <span class="chip">Socket rule: up to 1 gem</span>
+                </div>
+                <div class="catalog-grid">
+                  <div class="mini-field"><span class="label">Socketed Gem</span>Moonstone</div>
+                  <div class="mini-field"><span class="label">Imbue Fee</span>50g sunk cost</div>
+                  <div class="mini-field"><span class="label">Base Sell</span>20g</div>
+                  <div class="mini-field"><span class="label">Gem Sell</span>50g</div>
+                </div>
+                <div class="tiny">The applied state uses the same read-only combo detail pattern already shipped in phase 4 holdings and inspector surfaces.</div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Action Log</h3>
+                  <div class="section-meta">The planner does not introduce a special log format.</div>
+                </div>
+              </div>
+              <div class="history-list">
+                <div class="history-card">
+                  <strong>Sold Leather Shoes</strong>
+                  <div class="history-meta">
+                    <span class="chip">Equipment</span>
+                    <span class="chip">+25g</span>
+                  </div>
+                  <div class="tiny">Planner liquidation recovered 25g from the player-approved owned pair.</div>
+                </div>
+                <div class="history-card">
+                  <strong>Bought Super potion</strong>
+                  <div class="history-meta">
+                    <span class="chip">Potion</span>
+                    <span class="chip">-135g</span>
+                  </div>
+                  <div class="tiny">First direct-buy potion added to holdings.</div>
+                </div>
+                <div class="history-card">
+                  <strong>Bought Super potion</strong>
+                  <div class="history-meta">
+                    <span class="chip">Potion</span>
+                    <span class="chip">-135g</span>
+                  </div>
+                  <div class="tiny">Second direct-buy potion added to holdings.</div>
+                </div>
+                <div class="history-card">
+                  <strong>Bought Basic Iron Shield</strong>
+                  <div class="history-meta">
+                    <span class="chip">Equipment</span>
+                    <span class="chip">-30g</span>
+                  </div>
+                  <div class="tiny">Regular standalone equipment purchase.</div>
+                </div>
+                <div class="history-card">
+                  <strong>Crafted Moonstone</strong>
+                  <div class="history-meta">
+                    <span class="chip">Gem</span>
+                    <span class="chip">0g</span>
+                  </div>
+                  <div class="tiny">Consumes owned <code>Moonstone piece x5</code>.</div>
+                </div>
+                <div class="history-card">
+                  <strong>Assembled Bronze ring</strong>
+                  <div class="history-meta">
+                    <span class="chip">Equipment</span>
+                    <span class="chip">-50g</span>
+                  </div>
+                  <div class="tiny">Reuses the owned ring instance and records a normal combo update transaction.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="review-section" id="desktop-blocked-plan">
+        <div class="section-head">
+          <div class="section-title-row">
+            <h2>Desktop 8: Blocked Plan State</h2>
+            <span class="status-pill bad">Bronze necklace + Ruby + Sapphire + Moonstone</span>
+          </div>
+          <p class="section-copy">Failure state for an unreachable combo request. The exact blocker shown here is intentional: the planner stops immediately because <code>Bronze necklace</code> is neither owned nor sold this week, so there is no valid base accessory to acquire before gem planning even begins.</p>
+        </div>
+        <div class="mock-browser">
+          <div class="mock-head">
+            <div class="mock-title">
+              <strong>Blocked Planner Output</strong>
+              <span>No fallback prose - the preview names the hard blocker directly.</span>
+            </div>
+            <div class="pill-row">
+              <span class="pill">Bronze necklace buy 150g</span>
+              <span class="pill">Socket rule: 1 to 3 gems</span>
+              <span class="pill">Current weekly sale flag: false</span>
+            </div>
+          </div>
+          <div class="nav-shell">
+            <div class="tabs">
+              <span class="tab-button">Workbench</span>
+              <span class="tab-button active">Planner</span>
+              <span class="tab-button">Inventory</span>
+              <span class="tab-button">For Sale</span>
+              <span class="tab-button">Catalog</span>
+              <span class="tab-button">Data Studio</span>
+            </div>
+          </div>
+          <div class="planner-layout">
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Goal Builder</h3>
+                  <div class="section-meta">One combo line with all three requested gems.</div>
+                </div>
+                <span class="status-pill bad">Blocked</span>
+              </div>
+              <div class="goal-line">
+                <div class="goal-line-head">
+                  <span class="goal-type">Combo</span>
+                  <span class="tiny">Needs a necklace base first</span>
+                </div>
+                <strong>Bronze necklace</strong>
+                <div class="goal-grid">
+                  <div class="mini-field"><span class="label">Socket 1</span>Ruby</div>
+                  <div class="mini-field"><span class="label">Socket 2</span>Sapphire</div>
+                  <div class="mini-field"><span class="label">Socket 3</span>Moonstone</div>
+                  <div class="mini-field"><span class="label">Currently Owned</span>0</div>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="status-banner bad">
+                <strong>No solution</strong>
+                <div><code>Bronze necklace</code> is neither owned nor sold this week. The planner cannot build this combo request because no legal base accessory exists in the current workbench state.</div>
+              </div>
+              <div class="summary-grid">
+                <div class="summary-stat"><strong>Gross Spend</strong><span>N/A</span></div>
+                <div class="summary-stat"><strong>Liquidation Recovered</strong><span>0g</span></div>
+                <div class="summary-stat"><strong>Net Gold Delta</strong><span>N/A</span></div>
+                <div class="summary-stat"><strong>Steps</strong><span>0</span></div>
+              </div>
+              <div class="warning-list">
+                <div class="warning-row">
+                  <strong>Primary blocker</strong>
+                  <div class="tiny">Base accessory unavailable: <code>Bronze necklace</code> is absent from holdings and absent from this week's equipment sale flags.</div>
+                </div>
+                <div class="warning-row">
+                  <strong>Planner behavior</strong>
+                  <div class="tiny">The failure screen should stop here instead of cascading into secondary gem-sourcing noise.</div>
+                </div>
+              </div>
+              <div class="button-row">
+                <button class="button-secondary">Back To Builder</button>
+                <button class="button-soft">Inspect Bronze necklace Definition</button>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="planner-head">
+                <div>
+                  <h3>Why This Matters</h3>
+                  <div class="section-meta">The planner needs a crisp impossible-state language, not generic failure text.</div>
+                </div>
+              </div>
+              <div class="note-stack">
+                <div class="plan-note">
+                  <strong>Exact blocker</strong>
+                  <p>This screen deliberately cites the unavailable base accessory, because that is the first impossible condition in the request.</p>
+                </div>
+                <div class="plan-note">
+                  <strong>Seed alignment</strong>
+                  <p>The current seed defines <code>Bronze necklace</code> with buy price 150g and a three-socket policy, but does not sell it this week and does not start with one in holdings.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="review-section" id="mobile-overview">
+        <div class="section-head">
+          <div class="section-title-row">
+            <h2>Mobile 1: Planner Overview</h2>
+            <span class="status-pill review">Planner-Specific Mobile Sections</span>
+          </div>
+          <p class="section-copy">Mobile mock showing the new tab wrapping cleanly in the existing tab language and introducing planner-specific section buttons for <code>Goals</code>, <code>Plan</code>, and <code>Rules</code>.</p>
+        </div>
+        <div class="phone-grid">
+          <div class="phone-frame">
+            <div class="phone-shell">
+              <div class="phone-topbar">
+                <div class="tabs">
+                  <span class="tab-button">Workbench</span>
+                  <span class="tab-button active">Planner</span>
+                  <span class="tab-button">Inventory</span>
+                  <span class="tab-button">For Sale</span>
+                  <span class="tab-button">Catalog</span>
+                  <span class="tab-button">Data Studio</span>
+                </div>
+                <div class="mobile-section-nav">
+                  <div class="mobile-section-button active">
+                    <strong>Goals</strong>
+                    <span class="tiny">3 line types</span>
+                  </div>
+                  <div class="mobile-section-button">
+                    <strong>Plan</strong>
+                    <span class="tiny">No preview yet</span>
+                  </div>
+                  <div class="mobile-section-button">
+                    <strong>Rules</strong>
+                    <span class="tiny">Sell permissions</span>
+                  </div>
+                </div>
+              </div>
+              <div class="phone-card">
+                <strong>Current workbench baseline</strong>
+                <div class="chip-stack">
+                  <span class="chip">Gold 339g</span>
+                  <span class="chip">Potions 3</span>
+                  <span class="chip">Equipment 4</span>
+                </div>
+                <div class="tiny">Planner starts from the current run, not from the base editor.</div>
+              </div>
+              <div class="phone-card">
+                <strong>Request lines</strong>
+                <div class="chip-stack">
+                  <span class="chip">Stackable: Blessed medicine x3</span>
+                  <span class="chip">Equipment: Basic Iron Shield x1</span>
+                  <span class="chip">Combo: Bronze ring + Sapphire</span>
+                </div>
+                <div class="button-row">
+                  <button class="button-soft">Add Line</button>
+                  <button class="button-primary">Preview</button>
+                </div>
+              </div>
+              <div class="phone-card">
+                <strong>Rules snapshot</strong>
+                <div class="chip-stack">
+                  <span class="chip">Leather Shoes: sellable</span>
+                  <span class="chip">Batta berry floor: 5</span>
+                  <span class="chip">Pinned: Moonstone x1</span>
+                </div>
+                <div class="tiny">Mobile keeps the same deterministic output, but swaps the workbench nav for planner-specific section buttons and bottom-sheet details.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="review-section" id="mobile-detail">
+        <div class="section-head">
+          <div class="section-title-row">
+            <h2>Mobile 2: Planner Step Detail Sheet</h2>
+            <span class="status-pill good">Bottom Sheet Reuses Existing Idiom</span>
+          </div>
+          <p class="section-copy">Selected-step mobile mock using the current bottom-sheet idea instead of inventing a new planner detail pattern. The focused example is the ingredient-funding plan's first liquidation step.</p>
+        </div>
+        <div class="phone-grid">
+          <div class="phone-frame">
+            <div class="phone-shell">
+              <div class="phone-topbar">
+                <div class="tabs">
+                  <span class="tab-button">Workbench</span>
+                  <span class="tab-button active">Planner</span>
+                  <span class="tab-button">Inventory</span>
+                  <span class="tab-button">For Sale</span>
+                  <span class="tab-button">Catalog</span>
+                  <span class="tab-button">Data Studio</span>
+                </div>
+                <div class="mobile-section-nav">
+                  <div class="mobile-section-button">
+                    <strong>Goals</strong>
+                    <span class="tiny">Mixed plan</span>
+                  </div>
+                  <div class="mobile-section-button active">
+                    <strong>Plan</strong>
+                    <span class="tiny">3 steps</span>
+                  </div>
+                  <div class="mobile-section-button">
+                    <strong>Rules</strong>
+                    <span class="tiny">Floors + reserves</span>
+                  </div>
+                </div>
+              </div>
+              <div class="phone-card">
+                <strong>Solution found</strong>
+                <div class="chip-stack">
+                  <span class="chip">Gross 130g</span>
+                  <span class="chip">Recovered 55g</span>
+                  <span class="chip">Final 7g</span>
+                </div>
+              </div>
+              <div class="phone-step">
+                <strong>1. Sell Aquamarine piece x4</strong>
+                <div class="tiny">+40g from the largest safe surplus.</div>
+              </div>
+              <div class="phone-step">
+                <strong>2. Sell Batta berry x2</strong>
+                <div class="tiny">+15g without crossing the keep floor.</div>
+              </div>
+              <div class="phone-step">
+                <strong>3. Buy Silver Talisman</strong>
+                <div class="tiny">-130g once the funding gap is covered.</div>
+              </div>
+              <div class="mobile-sheet">
+                <div class="mobile-sheet-handle"></div>
+                <strong>Step 1: Sell Aquamarine piece x4</strong>
+                <div class="chip-stack">
+                  <span class="chip">Delta +40g</span>
+                  <span class="chip">4 above protection</span>
+                  <span class="chip">Recipe fan-out 2</span>
+                </div>
+                <div class="tiny">This sheet mirrors the current mobile inspector pattern. In the real feature it would explain why this ingredient was safer to liquidate than <code>Batta berry</code>, <code>Moonstone piece</code>, or <code>Runic bone</code>, and it would link back to the active rules that produced that ranking.</div>
+                <div class="button-row">
+                  <button class="button-primary">Apply Plan</button>
+                  <button class="button-secondary">View Rules</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="review-footer">
+      <div class="panel">
+        <div class="planner-head">
+          <div>
+            <h3>Review Checklist</h3>
+            <div class="section-meta">Use this page with the walkthrough doc before implementing planner logic.</div>
+          </div>
+          <span class="status-pill review">Docs Artifact</span>
+        </div>
+        <div class="legend-grid">
+          <div class="legend-card">
+            <strong>Seed Accurate</strong>
+            <div class="tiny">Displayed item names, prices, sell values, and socket rules match <code>data/seed_scenario.json</code>.</div>
+          </div>
+          <div class="legend-card">
+            <strong>Curated Review States</strong>
+            <div class="tiny">The mixed and ingredient-funding examples intentionally use late-run workbench snapshots so planner rules, protected reserves, and shortfalls stay legible during review.</div>
+          </div>
+          <div class="legend-card">
+            <strong>No Live Behavior Change</strong>
+            <div class="tiny">This page is intentionally separate from the shipping single-file app. It does not mutate scenario data or run the simulator.</div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

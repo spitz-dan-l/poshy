@@ -191,7 +191,6 @@ def build_equipment_definition(
         "max_hp": max_hp,
         "stats": stats,
         "effects": normalize_effects(effects),
-        "optimizer_auto_sell": False,
     }
     if socket_policy is not None:
         definition["socket_policy"] = socket_policy

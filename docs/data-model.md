@@ -278,7 +278,6 @@ interface EquipmentDefinition {
   max_hp: number | null;
   stats: Record<string, string>;
   effects: string[];
-  optimizer_auto_sell: boolean;
   socket_policy?: EquipmentSocketPolicy;
 }
 
@@ -353,7 +352,6 @@ The importer currently normalizes every equipment definition to:
   "max_hp": null,
   "stats": {},
   "effects": ["+1 STR cap", "-1 SKI cap"],
-  "optimizer_auto_sell": false,
   "socket_policy": {
     "min_gems": 0,
     "max_gems": 1,
@@ -371,7 +369,6 @@ Conventions already enforced by the importer and runtime validator:
 - `max_hp` is `null` for items such as rings, necklaces, and talismans.
 - `stats` is a lossless string map keyed by canonical snake_case labels derived from workbook headers.
 - `effects` is an ordered list of non-empty trimmed strings.
-- `optimizer_auto_sell` defaults to `false` for every imported equipment definition.
 - `socket_policy` exists only for rings and necklaces.
 
 Current socket policy conventions:
@@ -428,7 +425,6 @@ Representative fragment from the current generated seed:
         "max_hp": null,
         "stats": {},
         "effects": ["+1 STR cap", "-1 SKI cap"],
-        "optimizer_auto_sell": false,
         "socket_policy": {
           "min_gems": 0,
           "max_gems": 1,
@@ -448,8 +444,7 @@ Representative fragment from the current generated seed:
           "Increases shield by 1",
           "-2 climb cap",
           "Opponents accuracy increased by 2"
-        ],
-        "optimizer_auto_sell": false
+        ]
       }
     }
   },
@@ -536,7 +531,7 @@ The single-file browser app now exposes runtime state in these places:
 - Run summary stats: equipment count is shown alongside gold, ingredients, potions, and gems.
 - Base Inventory tab: add, edit, remove standalone equipment instances without exposing generated instance ids.
 - Shop tab: toggle weekly `for_sale.equipment` availability.
-- Catalog tab: read-only equipment definition details with editable `optimizer_auto_sell`.
+- Catalog tab: read-only equipment definition details.
 
 This shipped UI still does not yet expose:
 

@@ -7,7 +7,7 @@ from playwright.sync_api import expect, sync_playwright
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-STORAGE_KEY = "poshy.single-file.lab.v1"
+STORAGE_KEY = "poshy.single-file.lab.v2"
 
 
 def load_seed_scenario() -> dict:
@@ -604,12 +604,7 @@ def test_index_smoke() -> None:
         ).first
         bronze_ring_definition.locator("summary").click()
         expect(bronze_ring_definition).to_contain_text("0-1 gems @ 50g")
-        auto_sell_toggle = bronze_ring_definition.locator(
-            'input[data-action="set-equipment-auto-sell"][data-name="Bronze ring"]'
-        )
-        expect(auto_sell_toggle).not_to_be_checked()
-        auto_sell_toggle.check()
-        expect(auto_sell_toggle).to_be_checked()
+        expect(bronze_ring_definition).not_to_contain_text("Auto-sell in optimizer")
 
         page.reload(wait_until="domcontentloaded")
         expect(page.get_by_role("heading", name="Alchemy Workbench")).to_be_visible()
@@ -620,11 +615,7 @@ def test_index_smoke() -> None:
             has=page.locator("summary strong", has_text="Bronze ring")
         ).first
         bronze_ring_definition.locator("summary").click()
-        expect(
-            bronze_ring_definition.locator(
-                'input[data-action="set-equipment-auto-sell"][data-name="Bronze ring"]'
-            )
-        ).to_be_checked()
+        expect(bronze_ring_definition).not_to_contain_text("Auto-sell in optimizer")
 
         mobile_context = browser.new_context(
             viewport={"width": 430, "height": 932},
@@ -1168,6 +1159,9 @@ def test_index_rejects_invalid_import_json() -> None:
         "effects": [],
     }
 
+    obsolete_optimizer_payload = load_seed_scenario()
+    obsolete_optimizer_payload["equipment"]["definitions"]["Bronze ring"]["optimizer_auto_sell"] = True
+
     bad_inventory_equipment_payload = load_seed_scenario()
     bad_inventory_equipment_payload["equipment"]["definitions"]["Traveler ring"] = {
         "name": "Traveler ring",
@@ -1178,7 +1172,6 @@ def test_index_rejects_invalid_import_json() -> None:
         "max_hp": None,
         "stats": {},
         "effects": [],
-        "optimizer_auto_sell": False,
     }
     bad_inventory_equipment_payload["inventory"]["equipment"] = [
         {
@@ -1247,6 +1240,11 @@ def test_index_rejects_invalid_import_json() -> None:
         set_data_json(page, bad_equipment_payload)
         page.locator('button[data-action="import-scenario-json"]').click()
         assert 'missing "category"' in dialog_messages[-1]
+        expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
+
+        set_data_json(page, obsolete_optimizer_payload)
+        page.locator('button[data-action="import-scenario-json"]').click()
+        assert 'unknown key "optimizer_auto_sell"' in dialog_messages[-1]
         expect(page.get_by_role("heading", name="Data Studio")).to_be_visible()
 
         set_data_json(page, bad_inventory_equipment_payload)

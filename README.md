@@ -7,7 +7,7 @@ This README is written primarily for coding agents working in this repo.
 ## Current Status
 
 - Phase 1 is complete: shared simulator, strict scenario validation, workbench/history plumbing, and equipment-aware state all ship.
-- Phase 2 is complete: workbook-driven equipment import, seed regeneration, Base Inventory equipment editing, workbench equipment visibility, and Catalog equipment definitions with `optimizer_auto_sell`.
+- Phase 2 is complete: workbook-driven equipment import, seed regeneration, Base Inventory equipment editing, workbench equipment visibility, and Catalog equipment definitions.
 - Phase 3 is complete: manual equipment market actions, Shop equipment sale toggles, and HP-aware equipment sell flows now ship.
 - Phase 4 is complete: ring and necklace combo assembly/disassembly ship, persist through scenario state, and are driven from the `Accessories` workbench tab.
 - Phase 5 is complete: manual per-unit sells for ingredients, potions, and gems now ship from `Current Holdings`, including sell-value inspector details and undo/redo-safe history.
@@ -57,7 +57,7 @@ Use these first:
 
 ```bash
 git status --short
-rg -n "phase 3|equipment|optimizer_auto_sell|for_sale.equipment" docs index.html scripts tests
+rg -n "phase 3|equipment|for_sale.equipment|planner" docs index.html scripts tests
 ```
 
 Do not assume docs are current. Check them.

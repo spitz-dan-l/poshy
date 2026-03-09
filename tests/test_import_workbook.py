@@ -135,7 +135,6 @@ def test_import_workbook_generates_expected_schema(tmp_path: Path) -> None:
         "max_hp": None,
         "stats": {},
         "effects": ["+1 STR cap", "-1 SKI cap"],
-        "optimizer_auto_sell": False,
         "socket_policy": {
             "min_gems": 0,
             "max_gems": 1,
@@ -151,7 +150,6 @@ def test_import_workbook_generates_expected_schema(tmp_path: Path) -> None:
         "max_hp": None,
         "stats": {},
         "effects": ["+1 SKI cap", "-1 WIS cap"],
-        "optimizer_auto_sell": False,
         "socket_policy": {
             "min_gems": 1,
             "max_gems": 3,
@@ -171,7 +169,6 @@ def test_import_workbook_generates_expected_schema(tmp_path: Path) -> None:
         "max_hp": None,
         "stats": {},
         "effects": ["1/6 chance of preventiing damage"],
-        "optimizer_auto_sell": False,
     }
     assert "source_sheet" not in equipment["Bronze ring"]
     assert "source_sheet" not in equipment["Basic Iron Shield"]

@@ -81,10 +81,8 @@ Shipped scope:
   - `max_hp`
   - `stats`
   - `effects`
-  - `optimizer_auto_sell`
   - optional `socket_policy`
 - Normalize imported equipment `rank` values to the leading workbook tier letter.
-- Default `optimizer_auto_sell` to `false` for every imported definition.
 - Emit `socket_policy` only for rings and necklaces.
 - Extend `data/starting_resources.toml` so it can author:
   - `[[inventory.equipment]]`
@@ -94,8 +92,7 @@ Shipped scope:
   - read-only workbench holdings visibility,
   - equipment counts in run summary stats,
   - editable Base Inventory equipment instances,
-  - Catalog visibility for imported equipment definitions,
-  - editable `optimizer_auto_sell` in Catalog.
+  - Catalog visibility for imported equipment definitions.
 
 Actual shipped constraints:
 
@@ -109,7 +106,7 @@ Done means:
 - workbook-derived equipment exists in canonical scenario data without manual JSON patching,
 - base inventory can author standalone equipment instances,
 - workbench visibly carries equipment state,
-- catalog exposes imported equipment definitions and optimizer flags,
+- catalog exposes imported equipment definitions,
 - docs, seed JSON, embedded seed JSON, and tests all match the shipped phase-2 behavior.
 
 ### Phase 3: Manual Equipment Market
@@ -244,16 +241,85 @@ Status:
 
 Goal:
 
-- Add a planner surface that computes exact minimum-net-cost sequences over the manual action set.
+- Add a player-owned planner surface that computes exact minimum-net-cost sequences over the shipped manual action set.
 
 Planned scope:
 
-- request lines for stackables, standalone equipment, and combo actions,
-- deterministic solver over normalized simulator state,
-- craft-vs-buy choice for outputs,
-- gem acquisition for combo assembly,
-- auto-sell only for equipment tagged `optimizer_auto_sell`,
+- request lines for:
+  - `Stackable`: target output plus quantity,
+  - `Equipment`: target standalone equipment plus quantity,
+  - `Combo`: one socketable accessory plus explicit gem slots;
+- a dedicated `Planner Rules` surface inside the planner tab, not in Catalog;
+- deterministic solver over normalized simulator state for buy, sell, craft, assemble, and disassemble actions;
+- craft-vs-buy choice for outputs and gem acquisition for combo assembly;
+- liquidation only as a fallback funding mechanism when a valid plan is otherwise short on gold;
 - plan preview and plan apply through the same simulator path as manual actions.
+
+Planner UX:
+
+- Insert `Planner` immediately after `Workbench` in the top-level tab row.
+- Desktop planner layout should expose three areas:
+  - goal builder,
+  - plan preview,
+  - `Rules`.
+- Mobile planner layout should expose planner-specific section buttons:
+  - `Goals`,
+  - `Plan`,
+  - `Rules`.
+- Plan preview should stay deterministic and auditable:
+  - status banner,
+  - ordered step list,
+  - funding section when liquidation is used,
+  - summary metrics for gross spend, liquidation recovered, net gold delta, and steps.
+- `Apply Plan` should expand the normalized preview back into ordinary simulator transactions and ordinary action-log rows. Planner rule edits themselves are not history entries.
+
+Planner Rules:
+
+- Delete the obsolete `optimizer_auto_sell` field from the canonical equipment definition schema and do not support it in scenario import JSON.
+- Sell permissions are player-owned per-run planner state, not scenario/admin metadata.
+- Rules should be split into two explicit groups:
+  - `Equipment Sell Permissions`: allow or protect owned equipment instances from planner liquidation;
+  - `Ingredient Reserves`: keep floors for herbs and gem pieces plus pinned output reserves such as “keep enough for Blessed medicine x1”.
+- The planner should surface liquidation reasons in player language:
+  - needed for this plan,
+  - reserved for pinned crafts,
+  - kept because of your floor.
+
+Persistence:
+
+- Add planner state outside `Scenario`, stored alongside `workbench`, `history`, and `redo`.
+- Minimum planner state shape:
+  - `sellable_equipment_ids: Record<string, true>`
+  - `ingredient_keep_counts: Record<string, number>`
+  - `pinned_output_reserves: Record<string, number>`
+- Planner state persists with the current run, resets with `Reset Run` and `Seed From Base`, and is ignored by undo/redo.
+- When phase 6 lands, bump the browser storage key so old local saved runs are ignored instead of failing to load against the stricter schema.
+
+Liquidation Policy:
+
+- The planner should first solve without liquidation.
+- Only enter liquidation mode when the best non-liquidation plan has a gold shortfall.
+- V1 automatic liquidation candidates:
+  - owned equipment instances explicitly approved in planner rules,
+  - herbs and gem pieces above their protected counts.
+- V1 non-candidates:
+  - potion outputs,
+  - gem outputs,
+  - any ingredient units protected by current-goal needs, pinned reserves, or keep floors.
+- Protected ingredient count should cover:
+  - current planner goals,
+  - pinned output reserves,
+  - explicit player keep floors.
+- Candidate selection must be deterministic and reviewable. Prefer:
+  - larger surplus above protection,
+  - lower recipe fan-out,
+  - higher immediate gold value,
+  - alphabetical tie-breaker.
+- The planner should sell only enough allowed inventory to cover the shortfall.
+- If funding still fails, the blocked state should report:
+  - remaining shortfall,
+  - which protection rule prevented more selling,
+  - the highest-value remaining protected candidates when that helps explain the failure.
 
 ## Current Baseline For Future Phases
 
@@ -267,7 +333,7 @@ Future work should assume these facts are already true:
 - Workbench exposes manual herb and gem-piece buys plus the existing manual equipment market driven by `for_sale.equipment`.
 - workbench holdings expose per-unit stackable sell controls, per-instance equipment sell controls, and summary stats expose equipment counts.
 - Shop exposes weekly equipment sale toggles.
-- Catalog already exposes imported equipment definitions and the `optimizer_auto_sell` toggle.
+- Catalog already exposes imported equipment definitions as read-only reference data.
 - rings and necklaces already exist as base definitions with socket policy metadata.
 - ring and necklace combos can be assembled and disassembled in the `Accessories` workbench tab using owned gems.
 - `socketed_gems` can now appear on persisted ring and necklace instances, including base state copied from the workbench.
@@ -287,7 +353,20 @@ Future work should assume these facts are already true:
 
 Future phases should extend the current shipped coverage with:
 
-- planner tests over mixed stackable/equipment/combo requests.
+- schema and import tests that reject the removed `optimizer_auto_sell` field;
+- planner-state persistence tests for defaulting, reset, and storage-key rollover;
+- planner-rule tests covering:
+  - approved equipment liquidation,
+  - protected equipment,
+  - herb and gem-piece keep floors,
+  - pinned output reserves,
+  - current-goal inputs never being sold away;
+- funding behavior tests covering:
+  - liquidation only after a non-liquidation shortfall,
+  - deterministic ingredient candidate ranking,
+  - selling only enough allowed inventory to cover the gap,
+  - blocked plans that report the remaining shortfall and the limiting rules;
+- planner tests over mixed stackable, equipment, and combo requests.
 
 ## Assumptions
 
@@ -295,5 +374,7 @@ Future phases should extend the current shipped coverage with:
 - Duplicate gems inside one combo are allowed.
 - Assembled combos are created from components, not imported as separate shop stock.
 - Imbue fees remain sunk costs and are not recovered on resale.
-- `optimizer_auto_sell` stays catalog-owned metadata, not per-instance state.
+- No backward compatibility is planned for `optimizer_auto_sell` in scenario/import data.
+- Planner sell permissions are player-owned and persist per run.
+- V1 automatic liquidation covers approved equipment plus herbs and gem pieces only.
 - Manual herb and gem-piece buys shipped before the rest of the stackable sell-side phase.
